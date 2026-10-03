@@ -2414,8 +2414,16 @@ const HKH_SAY = {
   chen: ['Tránh ra tránh ra, Hoài Kim Huynh đói rồi, cho tui ngồi trước!', 'Xếp hàng gì, tui là khách quen mà!'],
   xin: ['Chủ quán cho tui ăn chịu bữa nay nha, mai tui trả gấp đôi, thề!', 'Hôm nay kẹt tiền quá, cho tui xin 1 phần đi mà…'],
   review: ['Ăn xong tui sẽ lên mạng review cho cả thành phố biết quán này dở cỡ nào! Trừ khi… 😏'],
+  pha: ['Ê ê quán gì mà đồ đạc ọp ẹp vậy, tui dựa nhẹ cái là sụm luôn! 😏 (RẦM)', 'Ủa tui đâu có cố ý, tại cái này nó yếu quá… 🤷 (RẮC)', 'Hôm nay tui buồn, tui quậy chút cho vui! (đạp ghế, xô bàn)'],
   nice: ['Thôi tui thua quán này rồi, đối xử với tui tử tế quá. Từ nay tui dắt bạn bè tới ủng hộ! 🙏'],
 };
+const HKH_BREAK = ['tables','chair','ac','fryer','stove','sign','tea','music','hood','canopy','sink','pot','fridge'];
+function hkhBreakTarget(){
+  const ok = HKH_BREAK.filter(k => CFG.upgrades[k] && (S.upg[k] || 0) >= 1);
+  if(!ok.length) return null;
+  const k = pick(ok), lv = S.upg[k], u = CFG.upgrades[k];
+  return { k, lv, u, cur:u.levels[lv], prev:u.levels[lv - 1], fix: Math.max(30000, Math.round((u.levels[lv].cost || 100000) * .35 / 5000) * 5000) };
+}
 function hkhState(){ S.hkh = S.hkh || { n:0, kind:0, mean:0, debt:0, good:false }; return S.hkh; }
 
 /* ========================= NGÔI SAO GHÉ QUÁN (nhân vật hư cấu, sưu tầm) ========================= */
@@ -2690,7 +2698,7 @@ function hkhTick(){
   R.hkhT = 1e9;
   const h = hkhState(); h.n++;
   const i = R.cust.findIndex((c,j) => !c && !(incOn('roof') && R.inc.roof.i === j));
-  const types = h.good ? ['good'] : i < 0 ? ['chen'] : ['quyt', 'quyt', 'che', 'xin', 'review'];
+  const types = h.good ? ['good'] : i < 0 ? ['chen'] : ['quyt', 'quyt', 'che', 'xin', 'review', ...(S.day >= 3 ? ['pha', 'pha'] : [])];
   const type = pick(types);
   const c = makeCustomer();
   Object.assign(c, { name:HKH_NAME, title:'', face:'😏', vip:false, foreign:null, alien:false, hkh:type, items:[{ id:pickDish().id, done:false }] });
@@ -2712,9 +2720,16 @@ function hkhModal(c, type){
     xin:    [['a', `📒 Cho ăn chịu, ghi sổ nợ (${fmtK(cost)})`], ['b', '🙅 Không bán chịu']],
     review: [['a', '🍵 Mời ly trà, nói chuyện phải quấy (50k)'], ['b', '😤 "Muốn review gì thì review!"']],
     chen:   [['a', '🙇 Cho ổng chen lên trước'], ['b', '☝️ Bắt xếp hàng như mọi người']],
-  }[type];
+    pha:    null,
+  }[type] || (() => {
+    c.brk = c.brk || hkhBreakTarget();
+    const t = c.brk;
+    return t ? [['a', `🔧 Gọi thợ sửa ngay (${fmtK(t.fix)})`], ['b', '😤 Bắt ổng đền tiền'], ['c', `🙈 Kệ, để hư đó (${t.u.n} tụt về "${t.prev.n}")`]]
+             : [['a', '🧹 Dọn dẹp, mua chén mới (30k)'], ['b', '😤 Bắt ổng đền tiền']];
+  })();
   showModal(`<h2>😏 Hoài Kim Huynh tới quậy!</h2>
     <div class="nbbox"><span class="nbf">😏</span><div><b>Hoài Kim Huynh</b><p>"${esc(pick(HKH_SAY[type]))}"</p></div></div>
+    ${type === 'pha' ? `<div class="warn">💥 ${c.brk ? `Ổng làm hư <b>${c.brk.u.e} ${esc(c.brk.u.n)}: ${esc(c.brk.cur.n)}</b>! Không sửa thì phải nâng cấp lại từ đầu.` : 'Ổng làm bể cả chồng chén bát!'}</div>` : ''}
     ${hkhState().n > 1 ? `<p class="note">Lần thứ ${hkhState().n} ổng tới quán${hkhState().debt ? ` · đang nợ quán ${fmtK(hkhState().debt)}` : ''}.</p>` : ''}
     ${opts.map(([k,t], j) => `<button class="big${j ? ' alt' : ''}" data-hk="${k}">${t}</button>`).join('')}`);
   $('#card').querySelectorAll('[data-hk]').forEach(b => b.onclick = () => hkhChoose(c, type, b.dataset.hk));
@@ -2737,6 +2752,18 @@ function hkhChoose(c, type, ch){
   } else if(type === 'review'){
     if(ch === 'a'){ if(S.money >= 50000){ S.money -= 50000; led('Trà nước Hoài Kim Huynh', -50000); } h.kind++; msg = 'Uống trà nói chuyện một hồi, ổng hứa không review bậy nữa ☕'; }
     else { h.mean++; c.bad = true; msg = 'Ổng cười khẩy… chắc tối nay có review 1★ rồi.'; }
+  } else if(type === 'pha'){
+    const t = c.brk;
+    const down = () => { if(t){ S.upg[t.k] = Math.max(0, (S.upg[t.k] || 0) - 1); if(t.k === 'fryer' && R.fry.length > fryerCount()) R.fry.length = fryerCount(); if(t.k === 'tables' && R.cust.length > seats()){ const extra = R.cust.splice(seats()); extra.forEach(x => { if(x && !x.coin) R.queue.unshift({ t:R.t, face:'😠' }); }); } } };
+    if(ch === 'a'){
+      const cost = t ? t.fix : 30000;
+      if(S.money >= cost){ S.money -= cost; led(t ? `Sửa ${t.u.n} (Hoài Kim Huynh phá)` : 'Mua chén bát mới', -cost); h.kind++; msg = t ? `Thợ tới sửa xong ${t.u.n}, mất ${fmtK(cost)}. Ổng cười hề hề… 😑` : 'Mua chồng chén mới, coi như xui.'; }
+      else { down(); h.mean++; msg = `Két không đủ ${fmtK(cost)} để sửa… ${t ? t.u.n + ' tụt cấp, phải nâng cấp lại!' : ''}`; }
+    } else if(ch === 'b'){
+      if(Math.random() < .45){ const pay = t ? t.fix : 30000; S.money += pay; led('Hoài Kim Huynh đền tiền', pay); if(t){ S.money -= pay; led(`Sửa ${t.u.n}`, -pay); } h.mean++; msg = `Ổng lầm bầm móc ví đền ${fmtK(pay)}, đủ tiền sửa. Lần này ổng hết đường cãi! 💪`; }
+      else { down(); kick(); h.mean++; if(Math.random() < .6) bad(); msg = `Ổng chối bay chối biến rồi bỏ chạy!${t ? ` ${t.u.n} hư tụt cấp, phải nâng cấp lại.` : ''} 😤`; }
+    } else { down(); msg = `${t.u.n} hư rồi, tụt về "${t.prev.n}". Vào tab Nâng cấp để sửa lại nha. 🔧`; }
+    renderStreet(); renderFryer && renderFryer();
   } else if(type === 'chen'){
     if(ch === 'a'){ const q = R.queue.shift(); h.kind++; msg = 'Người đang xếp hàng tức quá bỏ về.'; if(q) R.stats.queueLeft++; }
     else { others(.12); h.mean++; msg = 'Ổng làu bàu đứng chờ, cả quán căng thẳng.'; }
@@ -3396,7 +3423,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-23h45';
+const GAME_VER = '2026.10.03-23h55';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
