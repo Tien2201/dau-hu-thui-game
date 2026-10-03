@@ -845,6 +845,13 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 #vQuay .tbl .tn{background:rgba(255,248,230,.85);border-radius:6px;padding:0 4px}
 #vQuay .tbl small{background:rgba(255,248,230,.8);border-radius:6px;padding:0 4px}
 #vQuay .tbl.empty{opacity:.75}
+.tbl.hkh .tav{--rc:#7b1fa2;box-shadow:0 0 0 3px #ce93d8}
+.tbl.hkh .tn{color:#6a1b9a!important;font-weight:900}
+.tbl.hkh .tn::after{content:" 😈"}
+.tbl.run{animation:runaway .4s ease-in-out infinite}
+.tbl.run .tav{background:#ff5252!important}
+.tbl.run .tn{background:#ff5252!important;color:#fff!important}
+@keyframes runaway{50%{transform:translateX(6px) rotate(4deg)}}
 @media (prefers-reduced-motion:reduce){.lan{animation:none}*{animation-duration:.01ms!important}}
 
 .guide .gtop{display:flex;align-items:center;gap:12px;margin-bottom:6px}
@@ -1845,8 +1852,10 @@ function renderStreet(){
     if(c.leaving) cls.push('leave');
     if(c.vip) cls.push('vip');
     if(R.sel === c.uid) cls.push('sel');
+    if(c.hkh) cls.push('hkh');
+    if(c.running) return `<button class="tbl hkh run" data-run="${i}"><span class="tav"><i>🏃</i></span><small class="tn">Bắt ổng lại!</small><span class="td">💨💨</span></button>`;
     return `<button class="${cls.join(' ')}" data-i="${i}" data-uid="${c.uid}"><span class="tav"><i>${c.face}</i></span>
-      <small class="tn">${esc(c.vip ? 'Quan lớn' : c.title + ' ' + c.name)}</small>
+      <small class="tn">${esc(c.vip ? 'Quan lớn' : (c.title ? c.title + ' ' : '') + c.name)}</small>
       <span class="td">${c.items.map(x => x.done ? '✅' : x.claimed ? '🏃' : esc(getR(x.id).e)).join('')}</span></button>`;
   }).join('');
   if(!R.walkHtml || R.walkDay !== S.day){ R.walkHtml = walkersHtml(); R.walkDay = S.day; }
@@ -1885,7 +1894,7 @@ function renderOrder(){
     return;
   }
   const it = t.items.find(x => !x.done) || t.items[0], r = getR(it.id);
-  const who = t.online ? `${t.app.e} Đơn #${t.uid} · app ${t.app.n}` : `${t.face} ${t.vip ? 'Quan lớn vi hành' : t.title + ' ' + t.name}`;
+  const who = t.online ? `${t.app.e} Đơn #${t.uid} · app ${t.app.n}` : `${t.face} ${t.vip ? 'Quan lớn vi hành' : (t.title ? t.title + ' ' : '') + t.name}${t.hkh ? ' 😈' : ''}`;
   let line = t.online ? `1 phần ${r.n}${it.mod ? ` (ghi chú: ${modTxt(it)})` : ''}${t.items.length > 1 ? `, ${t.items.length} món tất cả` : ''}, làm xong giao shipper nha!` : t.line;
   let html = esc(line);
   t.items.forEach(x => { const n = esc(getR(x.id).n); html = html.split(n).join(`<em>${n}</em>`); });
@@ -2182,11 +2191,13 @@ function angry(i){
   R.crew.forEach(w => { if(w.st === 'on' && TRAITS[w.s.trait].hot) w.mood -= 22; });
   if(c.vip || Math.random() < .55) addReview({ kind:'left', cu:c, dish:getR(c.items[0].id), ratio:0, vip:c.vip });
   SFX.bad();
-  toast(c.vip ? 'Quan lớn phất tay áo bỏ đi… chắc sắp có review xấu 😱' : `${c.title} ${c.name} chờ lâu quá, bỏ về 😤`);
+  toast(c.vip ? 'Quan lớn phất tay áo bỏ đi… chắc sắp có review xấu 😱' : `${(c.title ? c.title + ' ' : '') + c.name} chờ lâu quá, bỏ về 😤`);
   renderStreet(); renderOrder(); renderHud(); removeLater(i, c);
 }
 function pay(i){
   const c = R.cust[i];
+  if(c.hkh === 'quyt' && !c.running){ c.hkh = 'quytRun'; return hkhRun(i); }
+  if(c.running) return;
   const el = document.querySelector(`.tbl[data-uid="${c.uid}"]`);
   const base = c.items.reduce((s,x) => s + priceOf(getR(x.id)), 0);
   const ratio = clamp(c.pat / c.patMax, 0, 1);
@@ -2195,6 +2206,9 @@ function pay(i){
   if(c.tea) tip += 2000;
   if((S.upg.pay || 0) >= 2) tip += Math.round(base * .1 / 1000) * 1000;
   if(c.vip) tip *= 2;
+  if(c.bonus) tip += c.bonus;
+  if(c.free){ c.cash = 0; R.stats.served++; c.leaving = true; c.face = '😌'; if(R.sel === c.uid) R.sel = null; toast(`${HKH_NAME} ăn xong đi về (không trả tiền)`); renderStreet(); renderOrder(); removeLater(i, c); return; }
+  if(c.hkh === 'review' && c.bad){ c.leaving = true; c.face = '😏'; const i2 = i; setTimeout(() => { const a = randAuthor(); pushReview({ id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:curDay(), stars:1, text:'Quán dở tệ, đậu thúi như cống, chủ quán còn lên mặt. 1 sao cũng là nhiều!', dish:null, sub:null, name:HKH_NAME, meta:'Local Guide · 3 bài đánh giá (toàn 1 sao)', col:'#4a148c' }, true); toast('😏 Hoài Kim Huynh vừa đăng review 1★'); }, 900); }
   const t = activeStaff('thungan');
   if(t){
     const tr = TRAITS[t.s.trait];
@@ -2217,6 +2231,112 @@ function pay(i){
   renderStreet(); renderOrder(); renderHud(); removeLater(i, c);
 }
 
+
+/* ========================= HAI KIM HUYNH — KHÁCH QUẬY THƯỜNG XUYÊN ========================= */
+const HKH_NAME = 'Hoài Kim Huynh';
+const HKH_SAY = {
+  enter: ['Ê chủ quán! Hoài Kim Huynh tới rồi nè, dọn bàn đẹp nhất ra coi!', 'Lại là tui đây, quán này thiếu tui là buồn lắm đó nha 😏', 'Nghe nói dạo này quán đông lắm hả? Để Hoài Kim Huynh kiểm tra coi!'],
+  quyt: ['Ăn xong rồi… ủa ví tui đâu ta? 🏃💨', 'Ghi sổ nha chủ quán, mai tui trả! (chạy)', 'Tiền hả? Tiền là gì? 😜'],
+  che: ['TRỜI ƠI THÚI QUÁ! Ai mà ăn nổi cái này! (la lớn cho cả quán nghe)', 'Đậu gì mà mềm xèo, nước lèo nhạt toẹt, bà con đừng ăn!', 'Ăn chỗ khác ngon hơn nhiều, quán này dở ẹc!'],
+  chen: ['Tránh ra tránh ra, Hoài Kim Huynh đói rồi, cho tui ngồi trước!', 'Xếp hàng gì, tui là khách quen mà!'],
+  xin: ['Chủ quán cho tui ăn chịu bữa nay nha, mai tui trả gấp đôi, thề!', 'Hôm nay kẹt tiền quá, cho tui xin 1 phần đi mà…'],
+  review: ['Ăn xong tui sẽ lên mạng review cho cả thành phố biết quán này dở cỡ nào! Trừ khi… 😏'],
+  nice: ['Thôi tui thua quán này rồi, đối xử với tui tử tế quá. Từ nay tui dắt bạn bè tới ủng hộ! 🙏'],
+};
+function hkhState(){ S.hkh = S.hkh || { n:0, kind:0, mean:0, debt:0, good:false }; return S.hkh; }
+function hkhSchedule(){
+  const h = hkhState();
+  R.hkhT = 1e9;
+  if(S.day < 2) return;
+  const p = h.good ? .12 : (S.day % 3 === 0 ? .75 : .35);
+  if(Math.random() < p) R.hkhT = rnd(25, CFG.dayLength - 45);
+}
+function hkhTick(){
+  if(R.t < R.hkhT || R.t >= CFG.dayLength) return;
+  R.hkhT = 1e9;
+  const h = hkhState(); h.n++;
+  const i = R.cust.findIndex((c,j) => !c && !(incOn('roof') && R.inc.roof.i === j));
+  const types = h.good ? ['good'] : i < 0 ? ['chen'] : ['quyt', 'quyt', 'che', 'xin', 'review'];
+  const type = pick(types);
+  const c = makeCustomer();
+  Object.assign(c, { name:HKH_NAME, title:'', face:'😏', vip:false, hkh:type, items:[{ id:pickDish().id, done:false }] });
+  c.line = `${pick(HKH_SAY.enter)} Cho 1 phần ${getR(c.items[0].id).n}!`;
+  c.pat = c.patMax = c.patMax * 1.2;
+  if(i >= 0) R.cust[i] = c;
+  else { const k = R.cust.findIndex(x => x && !x.coin && !x.leaving); if(k >= 0){ R.queue.unshift({ t:R.t, face:R.cust[k].face }); } }
+  renderStreet(); renderOrder();
+  if(type === 'good'){ toast('😇 Hoài Kim Huynh dắt bạn bè tới ủng hộ quán!'); R.spawnMul *= .8; return; }
+  if(type === 'quyt'){ mascotPop('Coi chừng! Hoài Kim Huynh tới, thằng cha này hay ăn quỵt lắm. Ăn xong mà chạy thì chạm vào bắt lại liền nha! 🏃', 'bad', 'm2', 3600); return; }
+  if(type === 'chen' && i < 0){ return hkhModal(c, 'chen'); }
+  hkhModal(c, type);
+}
+function hkhModal(c, type){
+  R.paused = true; SFX.bad();
+  const dish = getR(c.items[0].id), cost = priceOf(dish);
+  const opts = {
+    che:    [['a', `🍢 Mời 1 phần miễn phí cho êm (mất ${fmtK(cost)})`], ['b', '🙉 Mặc kệ ổng la'], ['c', '🚪 Mời ra khỏi quán']],
+    xin:    [['a', `📒 Cho ăn chịu, ghi sổ nợ (${fmtK(cost)})`], ['b', '🙅 Không bán chịu']],
+    review: [['a', '🍵 Mời ly trà, nói chuyện phải quấy (50k)'], ['b', '😤 "Muốn review gì thì review!"']],
+    chen:   [['a', '🙇 Cho ổng chen lên trước'], ['b', '☝️ Bắt xếp hàng như mọi người']],
+  }[type];
+  showModal(`<h2>😏 Hoài Kim Huynh tới quậy!</h2>
+    <div class="nbbox"><span class="nbf">😏</span><div><b>Hoài Kim Huynh</b><p>"${esc(pick(HKH_SAY[type]))}"</p></div></div>
+    ${hkhState().n > 1 ? `<p class="note">Lần thứ ${hkhState().n} ổng tới quán${hkhState().debt ? ` · đang nợ quán ${fmtK(hkhState().debt)}` : ''}.</p>` : ''}
+    ${opts.map(([k,t], j) => `<button class="big${j ? ' alt' : ''}" data-hk="${k}">${t}</button>`).join('')}`);
+  $('#card').querySelectorAll('[data-hk]').forEach(b => b.onclick = () => hkhChoose(c, type, b.dataset.hk));
+}
+function hkhChoose(c, type, ch){
+  const h = hkhState(), dish = getR(c.items[0].id), cost = priceOf(dish);
+  let msg = '';
+  const others = f => R.cust.forEach(x => { if(x && x !== c && !x.coin && !x.leaving) x.pat = Math.max(1, x.pat - x.patMax * f); });
+  const kick = () => { const i = R.cust.indexOf(c); if(i >= 0){ c.leaving = true; c.face = '😤'; renderStreet(); removeLater(i, c); } };
+  const bad = () => { const a = randAuthor(); pushReview({ id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:curDay(), stars:1,
+      text:pick(['Quán dở ẹc, chủ quán thái độ, đậu thì thúi. Né gấp!', 'Tui ăn ở đây mà bị đuổi như đuổi tà, 1 sao!', 'Đồ ăn dở, phục vụ chậm, chủ quán khó ưa. Đừng ai ăn!']),
+      dish:null, sub:null, name:HKH_NAME, meta:'Khách quen… bất đắc dĩ', col:'#4a148c' }, true); };
+  if(type === 'che'){
+    if(ch === 'a'){ c.free = true; h.kind++; msg = 'Ổng ăn miễn phí xong im re, còn khen "cũng được"… 😑'; }
+    else if(ch === 'b'){ others(.25); h.mean++; msg = 'Ổng la cả buổi, khách khác ngồi nghe mà bực mình.'; if(Math.random() < .5) bad(); }
+    else { kick(); h.mean++; bad(); addHeat && addHeat(.6, false); msg = 'Ổng bị mời ra, đứng ngoài chửi rồi lên mạng chấm 1★.'; }
+  } else if(type === 'xin'){
+    if(ch === 'a'){ c.free = true; h.debt += cost; h.kind++; msg = `Ghi sổ nợ ${fmtK(cost)}. Không biết chừng nào ổng trả… 📒`; }
+    else { kick(); others(.1); h.mean++; msg = 'Ổng lầm bầm chửi rồi bỏ đi, khách khác ngại ngùng.'; if(Math.random() < .4) bad(); }
+  } else if(type === 'review'){
+    if(ch === 'a'){ if(S.money >= 50000){ S.money -= 50000; led('Trà nước Hoài Kim Huynh', -50000); } h.kind++; msg = 'Uống trà nói chuyện một hồi, ổng hứa không review bậy nữa ☕'; }
+    else { h.mean++; c.bad = true; msg = 'Ổng cười khẩy… chắc tối nay có review 1★ rồi.'; }
+  } else if(type === 'chen'){
+    if(ch === 'a'){ const q = R.queue.shift(); h.kind++; msg = 'Người đang xếp hàng tức quá bỏ về.'; if(q) R.stats.queueLeft++; }
+    else { others(.12); h.mean++; msg = 'Ổng làu bàu đứng chờ, cả quán căng thẳng.'; }
+  }
+  // trả nợ cũ khi được đối xử tử tế
+  if(h.debt && h.kind >= 2 && Math.random() < .5){ const pay = h.debt * 2; S.money += pay; led('Hoài Kim Huynh trả nợ (gấp đôi)', pay); h.debt = 0; msg += ` Bất ngờ: ổng trả nợ cũ gấp đôi ${fmtK(pay)}! 💰`; }
+  if(!h.good && h.kind >= 5){ h.good = true; msg += ' ' + HKH_SAY.nice[0]; }
+  hideModal(); R.paused = false; last = performance.now();
+  renderHud(); renderStreet(); save();
+  mascotPop(msg, '', 'm2', 3800);
+}
+function hkhRun(i){
+  const c = R.cust[i];
+  c.running = true; c.face = '🏃'; c.runT = R.t;
+  toast(`🏃 ${HKH_NAME} ăn xong định chuồn! Chạm vào bàn ổng để bắt lại!`); SFX.bad();
+  renderStreet();
+  setTimeout(() => {
+    if(!R || R.cust[i] !== c || !c.running) return;
+    c.running = false; R.cust[i] = null; hkhState().mean++;
+    const base = c.items.reduce((s,x) => s + priceOf(getR(x.id)), 0);
+    R.stats.lost = (R.stats.lost || 0) + base;
+    mascotPop(`Hoài Kim Huynh ăn quỵt ${fmtK(base)} rồi chạy mất tiêu! Lần sau canh kỹ nha 😤`, 'bad', 'm2', 3200);
+    renderStreet(); renderOrder();
+  }, 3800);
+}
+function hkhCatch(i){
+  const c = R.cust[i]; if(!c || !c.running) return;
+  c.running = false; c.hkh = 'caught'; c.face = '😅';
+  const base = c.items.reduce((s,x) => s + priceOf(getR(x.id)), 0);
+  hkhState().kind++;
+  mascotPop('Bắt được rồi! Hoài Kim Huynh cười trừ, trả tiền đủ còn bo thêm cho đỡ quê 😅', '', 'm1', 3000);
+  c.bonus = Math.round(base * .5 / 1000) * 1000;
+  pay(i);
+}
 /* ========================= ĐƠN APP ========================= */
 const APPS = [ { e:'🛵', n:'ShipNhanh' }, { e:'🥡', n:'GọiMón' }, { e:'🍱', n:'ĂnLiền' } ];
 const onlineOpen = () => S.day >= CFG.onlineFromDay;
@@ -2898,6 +3018,7 @@ function update(dt){
   prepTick(dt);
   if(R.t < CFG.dayLength) dramaTick(dt);
   incTick(dt); if(R.paused) return;
+  hkhTick(); if(R.paused) return;
   renderInc();
   petals(dt);
   if(open){
@@ -2955,7 +3076,7 @@ function startDay(){
   hideModal();
   last = performance.now();
   if(S.upg.canopy && (R.ev.id === 'rain' || R.ev.id === 'storm')) R.spawnMul = 1 + (R.spawnMul - 1) * .5;
-  incSchedule();
+  incSchedule(); hkhSchedule();
   R.dirt = 0; R.spots = [];
   setGTab('quay');
   renderAll();
@@ -3443,6 +3564,7 @@ const GUIDE = [
   { e:'🏘️', t:'Coi chừng hàng xóm', m:'m1', say:'Hàng xóm vui thì quán yên, biếu chút quà cũng đáng nha!',
     li:['Thỉnh thoảng có <b>biến</b>: đông xe, bốc mùi, khói, ồn, rác... Hàng xóm có thể <b>báo phường</b> và bị <b>phạt</b>.',
         'Đang bán có thể gặp <b>sự cố</b>: cúp điện, hết ga, chảo hư, mưa dột, nước ngập, máy lạnh hư… Bỏ tiền xử lý nhanh hoặc chịu chờ. Màn chuẩn bị có <b>🔮 dự báo</b> thời tiết, số khách và nguy cơ sự cố để nhập hàng cho vừa.',
+        'Coi chừng <b>Hoài Kim Huynh 😈</b>: khách quen chuyên tới quậy. Ổng hay <b>ăn quỵt</b> (ăn xong chạy thì chạm vào bàn ổng để bắt lại), chê ầm ĩ, xin ăn chịu, chen hàng, dọa review 1★. Đối xử tử tế đủ nhiều thì ổng sẽ… hoàn lương!',
         'Chọn cách xử: <b>biếu quà</b>, <b>hứa khắc phục</b> hoặc <b>cãi lại</b> (dễ bị phạt nặng hơn).',
         'Tab <b>🏘️ Hàng xóm</b> xem độ thân thiết. Nâng cấp máy hút mùi, bảo vệ giữ xe, thùng rác để ít bị phàn nàn.',
         'Mở lại hướng dẫn này bất cứ lúc nào ở nút <b>📖 Cách chơi</b>. Chúc quán đắt khách! 🎉'] },
@@ -4788,6 +4910,8 @@ function exportModal(){
 
 /* ========================= SỰ KIỆN ========================= */
 $('#street').addEventListener('pointerdown', e => {
+  const rn = e.target.closest('[data-run]');
+  if(rn && R && R.running && !R.paused){ e.preventDefault(); hkhCatch(+rn.dataset.run); return; }
   const cb = e.target.closest('.tbl.coin');
   if(cb && R && R.running && !R.paused){ e.preventDefault(); collectCoin(+cb.dataset.coin); }
 });
