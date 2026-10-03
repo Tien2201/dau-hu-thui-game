@@ -3253,7 +3253,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-20h05';
+const GAME_VER = '2026.10.03-20h15';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -4295,12 +4295,94 @@ const REPLY = {
 };
 let rvFilter = 'all', rvOpen = null;
 
+/* ---- mở rộng kho câu đánh giá: đa dạng hơn, ít lặp ---- */
+RV.dishNeg.push(
+  'Đậu chiên chưa tới, bên ngoài mềm oặt, bên trong còn lạnh.',
+  'Phần {dish} ít mà giá {price}, ăn chưa đã miệng đã hết.',
+  'Nước lèo nhạt thếch, như nước lã pha chút muối.',
+  'Đậu bị khét một mặt, ăn đắng nghét.',
+  'Rau chung héo úa, nhìn là biết để từ hôm qua.',
+  'Đồ chua chua gắt, át hết vị đậu.',
+  'Dầu chiên chắc xài lại nhiều lần, ăn ngấy và có mùi dầu cũ.',
+  'Sốt chấm ngọt lợ, không hợp với đậu thúi chút nào.',
+  'Món {dish} ra nguội ngắt, không còn chút hơi ấm.',
+  'Đậu thúi mà chẳng thơm, chỉ thấy hôi mùi dầu.',
+  'Miếng đậu nhỏ xíu, cắt mỏng như bánh tráng.',
+  'Ăn xong khát nước cả buổi, nêm mặn quá tay.'
+);
+RV.butNeg.push(
+  'nhưng nước chấm hơi mặn.', 'tiếc là đậu nguội nhanh quá.', 'mà rau hơi ít, xin thêm phải trả tiền.',
+  'chỉ có điều hộp đựng mỏng, cầm nóng tay.', 'nhưng chờ lâu nên mất hứng.', 'mà phần ăn hơi nhỏ so với giá.',
+  'có điều ghế đẩu thấp, ngồi mỏi lưng.', 'nhưng quán hơi nóng, đổ mồ hôi hột.'
+);
+RV.wait_slow.push(
+  'Gọi món xong ngồi đếm từng phút, gần {mins} phút mới có.', 'Bàn bên tới sau mà có món trước, không hiểu kiểu gì.',
+  'Chờ lâu tới mức muốn đứng dậy về luôn.', 'Ngồi chờ mà không ai báo bao lâu nữa có món.',
+  'Quán ít người mà làm chậm rì, chắc bếp chưa quen tay.', 'Đói run tay mà món mãi không ra.'
+);
+RV.mistake.push(
+  'Gọi một đằng lên một nẻo, phải đổi lại mất thời gian.', 'Dặn rõ ràng mà vẫn làm sai, chán.',
+  'Thiếu topping so với menu, nói mới bổ sung.', 'Lên nhầm món của bàn khác rồi lấy lại, kỳ cục.',
+  'Tính tiền dư món không gọi, may mà kiểm lại.'
+);
+RV.left.push(
+  'Ngồi chờ hoài không ai hỏi han, đứng dậy về luôn.', 'Chờ tới nguội cả bụng đói, bỏ đi ăn chỗ khác.',
+  'Hết kiên nhẫn nổi, quán phục vụ quá chậm.', 'Đi ăn trưa mà chờ hết giờ nghỉ, đành nhịn.'
+);
+RV.closeNeg.push(
+  'Chắc không quay lại.', 'Một lần cho biết thôi.', 'Tiền mất tật mang.', 'Không recommend nha mọi người.',
+  'Cần cải thiện nhiều.', 'Thất vọng thật sự.', 'Tiếc tiền ghê.', 'Mong quán sửa đổi.'
+);
+RV.priceNeg.push(
+  'Giá {price} một phần là chát so với đồ ăn đường phố.', 'Ăn hai người hết gần trăm rưỡi, không đáng.',
+  'Giá ngang nhà hàng mà ngồi lề đường.', 'Tăng giá mà chất lượng không tăng.'
+);
+RV.cramped.push('Bàn sát nhau, ngồi đụng cùi chỏ người bên cạnh.', 'Không có chỗ để xe, phải gửi xa đi bộ vô.');
+RV.noAcHot.push('Nóng như cái lò, ăn đậu chiên xong ướt hết áo.', 'Quạt quay một chiều, bàn trong cùng nóng hầm hập.');
+RV.misc = [
+  'Bàn còn dính dầu mỡ của khách trước.', 'Hỏi xin khăn giấy ba lần mới có.', 'Muỗng đũa để trong ống bám bụi.',
+  'Nhạc mở to quá, nói chuyện không nghe.', 'Khói chiên bay thẳng vô chỗ ngồi, ám mùi hết tóc.',
+  'Không có chỗ rửa tay sau khi ăn.', 'Trà đá nhạt, đá tan hết còn nước lã.', 'Ruồi bay vo ve quanh bàn.',
+  'Thùng rác đầy tràn ngay cạnh bàn ăn.', 'Không nhận chuyển khoản, phải chạy đi rút tiền.',
+  'Menu không ghi giá rõ ràng, tính tiền mới biết.', 'Ghế nhựa lung lay, ngồi sợ gãy.'
+];
+RV.queue.push('Chờ xếp hàng không ai phát số, người tới sau chen lên trước.', 'Xếp hàng dưới nắng mà quán không có mái che.');
+RV.onSlow.push('Shipper chờ ở quán gần nửa tiếng, đồ tới tay nguội lạnh.', 'App báo quán đang làm mà cả buổi không xong.');
+RV.onLeft.push('Đơn bị huỷ ngang không lời giải thích.', 'Đặt hai lần đều bị huỷ, xoá app luôn.');
+/* ---- phàn nàn / khen nhân viên theo tính cách và theo việc họ làm ---- */
+RV.staff = {
+  vuive:   { pos:['Bạn {name} {rolel} dễ thương, cười suốt.', 'Em {name} tư vấn nhiệt tình, chỉ món nào hợp người mới.', 'Nhân viên tên {name} vui vẻ, nói chuyện duyên.', '{role} {name} hay pha trò, ăn mà cười không ngớt.', 'Gặp bạn {name} là thấy vui, năng lượng tích cực ghê.'],
+             neg:['Bạn {name} vui thì vui mà mải nói chuyện với bạn, quên luôn bàn tui.', '{role} {name} cười giỡn ồn quá, hơi thiếu chuyên nghiệp.'] },
+  chamchi: { pos:['Bạn {name} {rolel} làm luôn tay luôn chân, nhìn mà thương.', '{role} tên {name} nhanh nhẹn, chu đáo.', 'Thấy bạn {name} chạy tới chạy lui không nghỉ, đáng khen.', '{role} {name} siêng năng, quán nên tăng lương cho bạn.'],
+             neg:['Bạn {name} làm nhiều quá nên mặt mày bơ phờ, quán nên thuê thêm người.'] },
+  cantham: { pos:['Bạn {name} {rolel} làm kỹ, món ra đúng y như gọi.', '{role} {name} cẩn thận, hỏi lại khách từng chút.', 'Dặn không hành là {name} nhớ liền, không sai miếng nào.'],
+             neg:['{role} {name} cẩn thận quá mức, làm chậm như rùa.', 'Bạn {name} kiểm tra tới lui hoài, chờ sốt ruột.'] },
+  nong:    { pos:['Bạn {name} làm nhanh như gió, hơi ít nói nhưng được việc.'],
+             neg:['{role} tên {name} hơi cọc, hỏi hai lần là nhăn mặt.', 'Bạn {name} {rolel} thái độ hơi khó chịu, nói chuyện cộc lốc.', 'Hỏi bạn {name} món nào ngon thì bị trả lời "ăn đi rồi biết".', '{role} {name} quát nhân viên khác ngay trước mặt khách, ngại ghê.', 'Quán đông là bạn {name} nổi quạu, đập chén đĩa rầm rầm.', 'Nhắc bạn {name} lên món thì bị liếc một cái sắc lẹm.'] },
+  luoi:    { pos:['Bạn {name} nhìn hiền, nói chuyện nhỏ nhẹ.'],
+             neg:['Thấy bạn {name} đứng bấm điện thoại trong khi khách chờ.', '{role} {name} làm việc uể oải, gọi mãi mới tới.', 'Bạn {name} vừa làm vừa ngáp, lâu lâu lại lướt TikTok.', 'Gọi "em ơi" ba lần, bạn {name} vẫn dán mắt vô điện thoại.', '{role} {name} ngồi núp sau quầy chơi game, bỏ mặc khách.'] },
+  haudau:  { pos:['{role} {name} hơi lóng ngóng nhưng nhiệt tình, xin lỗi rất dễ thương.'],
+             neg:['Bạn {name} {rolel} làm đổ nước lèo ra bàn, ướt hết quần.', '{role} {name} làm rớt đậu xuống đất rồi định nhặt lên bỏ vô hộp 😨', 'Bạn {name} vấp chân bàn, suýt hất cả khay vô người tui.', 'Bể ly ngay bàn bên cạnh, bạn {name} lóng ngóng dọn mãi không xong.'] },
+  hamtien: { pos:['{role} {name} khéo chào mời, lỡ gọi thêm một phần mà ngon thiệt.'],
+             neg:['Bạn {name} mời gọi thêm món hơi nhiều 😅', 'Bạn {name} cứ đứng cạnh nhắc tip, ngại muốn độn thổ.', '{role} {name} thối tiền chậm, như chờ mình nói "khỏi thối".', 'Bạn {name} ép mua thêm trà đá với khăn lạnh tính tiền riêng.'] },
+  ditre:   { pos:['Bạn {name} tới trễ nhưng làm bù rất hăng.'],
+             neg:['Tới sớm mà quán chưa đủ người, nghe nói bạn {name} kẹt xe.', 'Sáng quán mở mà chưa ai làm, bạn {name} tới trễ cả tiếng.', '{role} {name} vừa tới đã vội vàng, đồ lên lộn xộn.'] },
+};
+RV.staffRole = {
+  order:   { nong:'Bạn order {name} ghi món mà mặt hầm hầm như bị ép.', luoi:'Ngồi cả buổi không ai ra ghi order, bạn {name} còn đang lướt điện thoại.', haudau:'Bạn {name} ghi order sai tên món, tới khi lên mới phát hiện.', hamtien:'Vừa ngồi xuống bạn {name} đã mời combo đắt nhất.', ditre:'Không có ai đón khách vì bạn order {name} chưa tới ca.' },
+  bep:     { nong:'Nghe trong bếp bạn {name} la lối inh ỏi.', luoi:'Phụ bếp {name} để đậu chiên nguội rồi mới vớt.', haudau:'Phụ bếp {name} làm cháy nguyên rổ đậu, khói mù mịt.', hamtien:'Phụ bếp {name} hỏi có muốn thêm topping "có tính phí" không.', ditre:'Phụ bếp tới trễ nên đậu chưa chiên sẵn, chờ dài cổ.' },
+  thungan: { nong:'Thu ngân {name} tính tiền mà như đang gây gổ.', luoi:'Đợi tính tiền mãi, thu ngân {name} đang mải nhắn tin.', haudau:'Thu ngân {name} thối nhầm tiền, phải đếm lại hai lần.', hamtien:'Thu ngân {name} làm tròn tiền lên, không thối tiền lẻ.', ditre:'Lúc tính tiền không có ai, nghe nói thu ngân đi trễ.' },
+  phucvu:  { nong:'Bạn chạy bàn {name} đặt hộp xuống cái "cạch", mặt khó chịu.', luoi:'Bạn {name} chạy bàn lề mề, món ra tới nơi thì nguội.', haudau:'Bạn {name} bưng món làm đổ nước sốt lên áo khách.', hamtien:'Bạn {name} bưng món ra xong đứng chờ tip.', ditre:'Không có ai bưng món, chủ quán phải tự chạy.' },
+  chef:    { nong:'Siêu đầu bếp {name} quăng chảo rầm rầm, nghe mà giật mình.', luoi:'Đầu bếp {name} tiếng tăm mà làm món hời hợt, trình bày qua loa.', haudau:'Đầu bếp {name} rắc nhầm muối thành đường, ngọt lịm.', hamtien:'Nghe nói có đầu bếp xịn nên giá món tăng, ăn không thấy khác.', ditre:'Đầu bếp chính tới trễ, nửa buổi đầu món ra lộn xộn.' },
+  vesinh:  { nong:'Bạn tạp vụ {name} lau bàn mà đẩy ghế khách cái rầm.', luoi:'Bàn dơ cả buổi, bạn tạp vụ {name} ngồi một góc lướt điện thoại.', haudau:'Bạn {name} lau sàn để nước lênh láng, suýt té.', hamtien:'Bạn tạp vụ {name} đòi tiền giữ xe dù không có chỗ giữ xe.', ditre:'Sáng tới bàn ghế còn bừa bộn vì tạp vụ chưa tới.' },
+};
+
 function fresh(pool){
   const rec = S.rvRecent || (S.rvRecent = []);
   let c = pool.filter(t => !rec.includes(t));
   if(!c.length) c = pool;
   const t = pick(c);
-  rec.push(t); if(rec.length > 70) rec.shift();
+  rec.push(t); if(rec.length > 160) rec.shift();
   return t;
 }
 const noAccent = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
@@ -4383,14 +4465,18 @@ function addReview(ctx){
     else if(R && dirtLv() === 0 && sent === 'pos' && Math.random() < .12) ex.push(fill(fresh(RV.clean)));
     if(ctx.cheap) ex.push(fill(fresh(RV.pricePos)));
     if(!ctx.online){
-    const on = R.crew.filter(w => w.st !== 'late');
-    if(on.length && Math.random() < .45){
-      const w = pick(on), sp = RV.staff[w.s.trait];
-      if(sp && (sp.s === 'mix' || sp.s === sent || sent === 'mix')){
-        const role = CFG.roles[w.s.role];
-        ex.push(fill(fresh(sp.t)).replace(/\{name\}/g, w.s.name).replace(/\{role\}/g, role.rw).replace(/\{rolel\}/g, role.rl));
+    const crew = R.crew.filter(w => w.st !== 'out' || R.stats.walkouts.includes(w.s.name));
+    if(crew.length && Math.random() < (sent === 'pos' ? .4 : .6)){
+      const want = sent === 'pos' ? 'pos' : sent === 'neg' ? 'neg' : (Math.random() < .5 ? 'pos' : 'neg');
+      const okW = crew.filter(w => RV.staff[w.s.trait] && RV.staff[w.s.trait][want].length && (want === 'pos' ? !['nong','luoi','haudau'].includes(w.s.trait) || Math.random() < .15 : !['vuive','chamchi','cantham'].includes(w.s.trait) || Math.random() < .2));
+      const w = okW.length ? (okW.find(x => x.st === 'slack' || x.st === 'late') && want === 'neg' ? okW.find(x => x.st === 'slack' || x.st === 'late') : pick(okW)) : null;
+      if(w){
+        const role = CFG.roles[w.s.role], rr = RV.staffRole[w.s.role];
+        const line = want === 'neg' && rr && rr[w.s.trait] && Math.random() < .5 ? rr[w.s.trait] : fresh(RV.staff[w.s.trait][want]);
+        ex.push(fill(line).replace(/\{name\}/g, w.s.name).replace(/\{role\}/g, role.rw).replace(/\{rolel\}/g, role.rl));
       }
     }
+    if(sent !== 'pos' && Math.random() < .3) ex.push(fill(fresh(RV.misc)));
     if(R.stats.walkouts.length && Math.random() < .5) ex.push(fill(fresh(RV.walkout)));
     if(R.ev.id === 'hot') ex.push(fill(fresh(S.upg.ac ? RV.acHot : RV.noAcHot)));
     else if(S.upg.ac && sent !== 'neg' && Math.random() < .25) ex.push(fill(fresh(RV.ac)));
