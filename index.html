@@ -3285,7 +3285,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-20h25';
+const GAME_VER = '2026.10.03-20h50';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -3494,7 +3494,7 @@ function endDay(){
     led('Trả góp ngân hàng', -pay);
     if(S.loan.debt <= 0) S.loan = null;
   }
-  save();
+  save(); flushCloud();
   submitScore();
   if(S.fund <= 0) return bankruptModal(sm);
   byeAnim(sm, () => summaryModal(sm, ch));
@@ -4925,15 +4925,22 @@ function showGate(){
 }
 function hideGate(){ $('#gate').classList.remove('show'); $('#gbody').innerHTML = ''; }
 /* ---- Lưu tiến trình lên tài khoản ---- */
-let cloudT = null;
+// Tiết kiệm lượt ghi Firebase: đang bán thì tối đa ~1 lần/90 giây, ở màn chuẩn bị gom nhiều thao tác thành 1 lần ghi
+let cloudT = null, cloudLast = 0, cloudDirty = false, cloudWarned = false;
 function queueCloud(){
   if(!FB.ready || !FB.user) return;
-  clearTimeout(cloudT);
-  cloudT = setTimeout(pushCloud, 800);
+  cloudDirty = true;
+  if(cloudT) return;
+  const wait = R && R.running ? Math.max(5000, 90000 - (Date.now() - cloudLast)) : 4000;
+  cloudT = setTimeout(() => { cloudT = null; pushCloud(); }, wait);
 }
+function flushCloud(){ if(!cloudDirty) return; clearTimeout(cloudT); cloudT = null; pushCloud(); }
+document.addEventListener('visibilitychange', () => { if(document.hidden) flushCloud(); });
+window.addEventListener('pagehide', flushCloud);
 async function pushCloud(){
   const u = FB.user;
   if(!FB.ready || !u) return;
+  cloudDirty = false; cloudLast = Date.now();
   try{
     S.owner = u.uid;
     await FB.m.setDoc(FB.m.doc(FB.db, 'dht_saves', u.uid), {
@@ -4941,7 +4948,12 @@ async function pushCloud(){
       updatedAt: FB.m.serverTimestamp(),
     });
     try{ localStorage.setItem(SAVE_KEY, JSON.stringify(S)); }catch(e){}
-  }catch(e){ console.warn('Lưu cloud lỗi', e); }
+  }catch(e){ console.warn('Lưu cloud lỗi', e); cloudDirty = true; cloudBusy(e); }
+}
+function cloudBusy(e){
+  if(cloudWarned || !e || !/resource-exhausted|quota|unavailable/i.test(e.code || e.message || '')) return;
+  cloudWarned = true;
+  toast('☁️ Máy chủ đang quá tải, tiến trình vẫn được lưu trên máy này và sẽ đồng bộ sau');
 }
 async function pullCloud(u){
   if(R && R.running) return;
@@ -5110,7 +5122,7 @@ function fillUserBox(){
     box.innerHTML = `<div class="ubox">${u.photoURL ? `<img src="${esc(u.photoURL)}" referrerpolicy="no-referrer" alt="">` : '<span class="noav">👤</span>'}
       <div><b>${esc(uname(u))}</b><small>☁️ Tiến trình lưu vào tài khoản · Đã chơi ${fmtPlay(S.playSec || 0)}</small></div>
       <button id="outBtn">Đăng xuất</button></div>${accManageHtml(u)}`;
-    $('#outBtn').onclick = async () => { clearTimeout(cloudT); await pushCloud(); FB.m.signOut(FB.auth); };
+    $('#outBtn').onclick = async () => { clearTimeout(cloudT); cloudT = null; await pushCloud(); FB.m.signOut(FB.auth); };
     bindAccManage(u);
   } else {
     box.innerHTML = accFormHtml();
@@ -5118,26 +5130,21 @@ function fillUserBox(){
     box.querySelectorAll('[data-acc]').forEach(b => b.onclick = e => { e.preventDefault(); accMode = b.dataset.acc; fillUserBox(); const f = $('#accU'); if(f) f.focus(); });
   }
 }
+const LB = { t:0, rows:null }, LB_N = 20, LB_TTL = 5 * 60 * 1000;
 async function submitScore(){
   const u = FB.user;
   if(!FB.ready || !u) return;
   const score = Math.floor(S.earned || 0);
   const play = Math.floor(S.playSec || 0);
   if(play < 30) return;
-  if(S.submittedUid === u.uid && play <= (S.submittedPlay || 0) + 20) return;
+  if(S.submittedUid === u.uid && play <= (S.submittedPlay || 0) + 120) return;
   try{
-    const ref = FB.m.doc(FB.db, 'dht_leaderboard', u.uid);
-    const snap = await FB.m.getDoc(ref);
-    if(!snap.exists() || !(snap.data().play >= play)){
-      await FB.m.setDoc(ref, {
-        name: uname(u).slice(0, 40),
-        photo: (u.photoURL || '').slice(0, 500),
-        score, play, day: S.day, shop: (S.shopName || '').slice(0, 40),
-        updatedAt: FB.m.serverTimestamp(),
-      });
-    }
+    const row = { name: uname(u).slice(0, 40), photo: (u.photoURL || '').slice(0, 500),
+      score, play, day: S.day, shop: (S.shopName || '').slice(0, 40) };
+    await FB.m.setDoc(FB.m.doc(FB.db, 'dht_leaderboard', u.uid), { ...row, updatedAt: FB.m.serverTimestamp() });
+    if(LB.rows){ LB.rows = [...LB.rows.filter(r => r.id !== u.uid), { id:u.uid, ...row }].sort((a,b) => (b.play || 0) - (a.play || 0)).slice(0, LB_N); }
     S.submitted = score; S.submittedPlay = play; S.submittedUid = u.uid; save();
-  }catch(e){ console.warn('Gửi điểm lỗi', e); }
+  }catch(e){ console.warn('Gửi điểm lỗi', e); cloudBusy(e); }
 }
 function fmtPlay(sec){
   sec = Math.floor(sec || 0);
@@ -5146,7 +5153,7 @@ function fmtPlay(sec){
 }
 async function rankModal(back){
   showModal(`<h2>🏆 Bảng xếp hạng</h2>
-    <p class="note">Xếp theo tổng thời gian chơi (chỉ tính lúc quán đang mở, không tính lúc tạm dừng).</p>
+    <p class="note">Top ${LB_N} theo tổng thời gian chơi (chỉ tính lúc quán đang mở). Bảng cập nhật mỗi vài phút.</p>
     <div id="lb"><p class="note">Đang tải…</p></div>
     <div id="ubox"></div>
     <button class="big alt" id="lbBack">← Quay lại</button>`);
@@ -5155,10 +5162,14 @@ async function rankModal(back){
   if(!FB.ready){ $('#lb').innerHTML = '<div class="warn">Chưa kết nối được máy chủ xếp hạng.</div>'; return; }
   await submitScore();
   try{
-    const q = FB.m.query(FB.m.collection(FB.db, 'dht_leaderboard'), FB.m.orderBy('play', 'desc'), FB.m.limit(50));
-    const snap = await FB.m.getDocs(q);
-    const rows = [];
-    snap.forEach(d => rows.push({ id:d.id, ...d.data() }));
+    let rows = LB.rows;
+    if(!rows || Date.now() - LB.t > LB_TTL){
+      const q = FB.m.query(FB.m.collection(FB.db, 'dht_leaderboard'), FB.m.orderBy('play', 'desc'), FB.m.limit(LB_N));
+      const snap = await FB.m.getDocs(q);
+      rows = [];
+      snap.forEach(d => rows.push({ id:d.id, ...d.data() }));
+      LB.rows = rows; LB.t = Date.now();
+    }
     const box = $('#lb');
     if(!box) return;
     box.innerHTML = rows.length ? `<div class="lbscroll">${rows.map((r,i) => `
@@ -5172,7 +5183,7 @@ async function rankModal(back){
   }catch(e){
     console.warn(e);
     const box = $('#lb');
-    if(box) box.innerHTML = '<div class="warn">Không tải được bảng xếp hạng.</div>';
+    if(box) box.innerHTML = /resource-exhausted|quota/i.test(e.code || e.message || '') ? '<div class="warn">Máy chủ xếp hạng đang quá tải, quay lại sau nha.</div>' : '<div class="warn">Không tải được bảng xếp hạng.</div>';
   }
 }
 
