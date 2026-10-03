@@ -2923,7 +2923,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-17h25';
+const GAME_VER = '2026.10.03-17h55';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -3048,7 +3048,7 @@ function update(dt){
 let last = performance.now();
 function loop(now){
   const dt = Math.min(.1, (now - last) / 1000); last = now;
-  if(R && R.running && !R.paused){ update(dt); squeezeTick(dt); }
+  if(R && R.running && !R.paused){ update(dt); squeezeTick(dt); S.playSec = (S.playSec || 0) + dt; }
   requestAnimationFrame(loop);
 }
 
@@ -3181,7 +3181,7 @@ function bankruptModal(sm){
   });
   $('#reborn').onclick = () => {
     const name = S.shopName, owner = S.owner;
-    wipe(); S = newGame(); S.shopName = name; S.named = true; S.owner = owner; cart = {}; hubTab = 'kho';
+    { const ps = S.playSec || 0, sp = S.submittedPlay, su = S.submittedUid; wipe(); S = newGame(); S.playSec = ps; S.submittedPlay = sp; S.submittedUid = su; } S.shopName = name; S.named = true; S.owner = owner; cart = {}; hubTab = 'kho';
     applyAwning(); save(); hideModal(); openHub();
     mascotPop('Làm lại từ đầu! Nhập hàng vừa đủ, đừng thuê dư người nha 💪', '', 'm1', 3500);
   };
@@ -3624,7 +3624,7 @@ function settingsModal(){
   const mg = $('#mgBtn'); if(mg) mg.onclick = () => { mgTab = 'dish'; menuModal(); };
   $('#resetBtn').onclick = () => {
     if(!confirm('Xoá toàn bộ tiến trình và chơi lại từ đầu?')) return;
-    wipe(); S = newGame(); cart = {}; hubTab = 'kho'; save(); hideModal(); openHub(); renameModal(true);
+    { const ps = S.playSec || 0, sp = S.submittedPlay, su = S.submittedUid; wipe(); S = newGame(); S.playSec = ps; S.submittedPlay = sp; S.submittedUid = su; } cart = {}; hubTab = 'kho'; save(); hideModal(); openHub(); renameModal(true);
   };
   $('#setClose').onclick = hideModal;
   $('#guideSet').onclick = () => guideModal(0, settingsModal);
@@ -4641,7 +4641,7 @@ function fillUserBox(){
   const u = FB.user;
   if(u){
     box.innerHTML = `<div class="ubox">${u.photoURL ? `<img src="${esc(u.photoURL)}" referrerpolicy="no-referrer" alt="">` : '<span class="noav">👤</span>'}
-      <div><b>${esc(uname(u))}</b><small>☁️ Tiến trình lưu vào tài khoản · Kiếm được ${fmt(S.earned || 0)}</small></div>
+      <div><b>${esc(uname(u))}</b><small>☁️ Tiến trình lưu vào tài khoản · Đã chơi ${fmtPlay(S.playSec || 0)}</small></div>
       <button id="outBtn">Đăng xuất</button></div>${accManageHtml(u)}`;
     $('#outBtn').onclick = async () => { clearTimeout(cloudT); await pushCloud(); FB.m.signOut(FB.auth); };
     bindAccManage(u);
@@ -4655,25 +4655,31 @@ async function submitScore(){
   const u = FB.user;
   if(!FB.ready || !u) return;
   const score = Math.floor(S.earned || 0);
-  if(score <= 0) return;
-  if(S.submittedUid === u.uid && score <= (S.submitted || 0)) return;
+  const play = Math.floor(S.playSec || 0);
+  if(play < 30) return;
+  if(S.submittedUid === u.uid && play <= (S.submittedPlay || 0) + 20) return;
   try{
     const ref = FB.m.doc(FB.db, 'dht_leaderboard', u.uid);
     const snap = await FB.m.getDoc(ref);
-    if(!snap.exists() || snap.data().score < score){
+    if(!snap.exists() || !(snap.data().play >= play)){
       await FB.m.setDoc(ref, {
         name: uname(u).slice(0, 40),
         photo: (u.photoURL || '').slice(0, 500),
-        score, day: S.day, shop: (S.shopName || '').slice(0, 40),
+        score, play, day: S.day, shop: (S.shopName || '').slice(0, 40),
         updatedAt: FB.m.serverTimestamp(),
       });
     }
-    S.submitted = score; S.submittedUid = u.uid; save();
+    S.submitted = score; S.submittedPlay = play; S.submittedUid = u.uid; save();
   }catch(e){ console.warn('Gửi điểm lỗi', e); }
+}
+function fmtPlay(sec){
+  sec = Math.floor(sec || 0);
+  const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60);
+  return h ? `${h} giờ ${m} phút` : m ? `${m} phút` : `${sec} giây`;
 }
 async function rankModal(back){
   showModal(`<h2>🏆 Bảng xếp hạng</h2>
-    <p class="note">Xếp theo tổng tiền kiếm được trong một lần mở quán (tính từ Ngày 1).</p>
+    <p class="note">Xếp theo tổng thời gian chơi (chỉ tính lúc quán đang mở, không tính lúc tạm dừng).</p>
     <div id="lb"><p class="note">Đang tải…</p></div>
     <div id="ubox"></div>
     <button class="big alt" id="lbBack">← Quay lại</button>`);
@@ -4682,7 +4688,7 @@ async function rankModal(back){
   if(!FB.ready){ $('#lb').innerHTML = '<div class="warn">Chưa kết nối được máy chủ xếp hạng.</div>'; return; }
   await submitScore();
   try{
-    const q = FB.m.query(FB.m.collection(FB.db, 'dht_leaderboard'), FB.m.orderBy('score', 'desc'), FB.m.limit(50));
+    const q = FB.m.query(FB.m.collection(FB.db, 'dht_leaderboard'), FB.m.orderBy('play', 'desc'), FB.m.limit(50));
     const snap = await FB.m.getDocs(q);
     const rows = [];
     snap.forEach(d => rows.push({ id:d.id, ...d.data() }));
@@ -4693,7 +4699,7 @@ async function rankModal(back){
         <span class="lbrk">${i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</span>
         ${r.photo ? `<img src="${esc(r.photo)}" referrerpolicy="no-referrer" alt="">` : '<span class="noav">👤</span>'}
         <div class="lbnm"><b>${esc(r.shop || r.name)}</b><small>${r.shop ? esc(r.name) + ' · ' : ''}Ngày ${Number(r.day) || 1}</small></div>
-        <b class="lbv">${fmt(Number(r.score) || 0)}</b>
+        <b class="lbv">${fmtPlay(Number(r.play) || 0)}</b>
       </div>`).join('')}</div>`
       : '<p class="note">Chưa có ai trên bảng. Hãy là người đầu tiên! 🏮</p>';
   }catch(e){
