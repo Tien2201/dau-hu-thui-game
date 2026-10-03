@@ -989,7 +989,7 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 #hub .shopcard .xpt{font-size:10.5px}
 #hub .shopcard .chap{max-width:none;margin-top:5px;padding:5px 8px;font-size:11.5px;line-height:1.3;margin-right:64px}
 #hub .shopcard .smas{width:62px;bottom:10px;right:-2px;top:auto}
-#hub .shopcard .sbtns{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;max-width:none;margin-top:7px}
+#hub .shopcard .sbtns{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;max-width:none;margin-top:7px}
 #hub .shopcard .sbtns button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 2px;border-radius:10px;font-size:10px;line-height:1.1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 #hub .shopcard .sbtns button i{font-style:normal;font-size:17px;line-height:1}
 #hub .shopcard .sbtns button.don{background:linear-gradient(#FFE27A,#F5A623);color:#5A2E00;box-shadow:0 0 10px rgba(255,200,60,.7)}
@@ -1013,6 +1013,36 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 #hub .htabs button{font-size:9.5px;padding:4px 0;white-space:normal;line-height:1.05;min-height:42px;justify-content:center}
 #hub .htabs button i{font-size:17px}
 #hub .hpanel{min-height:calc(100% - 60px)}
+
+/* ==== Ngôi sao ghé quán ==== */
+.chibi{width:100%;height:100%;display:block}
+.chibi.sil{filter:brightness(0) opacity(.85)}
+.tbl.celeb .tav{box-shadow:0 0 0 3px #FFD54F,0 0 18px 4px rgba(255,213,79,.9);animation:cbglow 1.2s ease-in-out infinite}
+.tbl.celeb .tav i{background:radial-gradient(circle,#FFF8D6,#FFE082);overflow:hidden;padding:2px}
+.tbl.celeb .tn{color:#B8860B;font-weight:900}
+@keyframes cbglow{50%{box-shadow:0 0 0 3px #FFD54F,0 0 26px 8px rgba(255,213,79,1)}}
+.cbpop{position:absolute;left:50%;top:22%;transform:translateX(-50%);z-index:60;width:min(78vw,300px);padding:14px 12px 12px;border-radius:20px;text-align:center;overflow:hidden;
+  background:linear-gradient(#3a1d5c,#1b0f33);border:3px solid #FFD54F;box-shadow:0 10px 30px rgba(0,0,0,.6),0 0 30px rgba(255,213,79,.6);color:#fff;animation:cbin .5s cubic-bezier(.3,1.6,.5,1)}
+.cbpop .chibi{width:110px;height:110px;margin:0 auto;position:relative;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
+.cbpop b{display:block;font-size:20px;color:#FFE082;position:relative;margin-top:4px}
+.cbpop small{display:block;font-size:13px;opacity:.9;position:relative}
+.cbpop em{display:inline-block;margin-top:8px;font-style:normal;font-weight:800;font-size:12px;background:#FFD54F;color:#4a2a00;padding:4px 10px;border-radius:999px;position:relative}
+.cbrays{position:absolute;left:50%;top:70px;width:420px;height:420px;margin:-210px 0 0 -210px;background:repeating-conic-gradient(rgba(255,213,79,.18) 0 10deg,transparent 10deg 20deg);animation:spin 8s linear infinite}
+@keyframes cbin{from{transform:translateX(-50%) scale(.3);opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cbgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0 12px}
+.cbc{position:relative;background:linear-gradient(#fffaf0,#f3e3c3);border:2px solid #d9b26a;border-radius:14px;padding:6px 4px 7px;text-align:center;display:flex;flex-direction:column;align-items:center;min-width:0}
+.cbc .chibi{width:68px;height:68px}
+.cbc b{font-size:12px;line-height:1.15;margin-top:2px;word-break:break-word}
+.cbc small{font-size:10px;color:#6b4a2a;line-height:1.2}
+.cbc i{font-style:normal;font-size:9.5px;color:#8a6a3a;margin-top:2px}
+.cbc.r2{border-color:#9b59b6;background:linear-gradient(#fbf5ff,#ead9f5)}
+.cbc.r3{border-color:#e6a100;background:linear-gradient(#fff6d5,#ffe08a);box-shadow:0 0 10px rgba(230,161,0,.5)}
+.cbc.unk{background:linear-gradient(#5a4a3a,#3a2d22);border-color:#2a1d14;color:#ddd}
+.cbc.unk small,.cbc.unk i{color:#bfae8c}
+.cbq{position:absolute;top:18px;left:50%;transform:translateX(-50%);font-size:34px;font-weight:900;color:#FFD54F;text-shadow:0 2px 4px #000}
+.cbmini{display:inline-block;width:18px;height:18px;vertical-align:-4px}
+.cbc.lk{opacity:.55}.cbc i.cbr{color:#2E7D32;font-weight:800}.cbc.unk i.cbr{color:#8BE59A}.cbc.unk .cbq{font-size:30px}
 </style>
 </head>
 <body class="inhub">
@@ -1929,6 +1959,7 @@ function renderStreet(){
     if(c.vip) cls.push('vip');
     if(R.sel === c.uid) cls.push('sel');
     if(c.hkh) cls.push('hkh');
+    if(c.celeb) cls.push('celeb');
     if(c.running) return `<button class="tbl hkh run" data-run="${i}"><span class="tav"><i>🏃</i></span><small class="tn">Bắt ổng lại!</small><span class="td">💨💨</span></button>`;
     return `<button class="${cls.join(' ')}" data-i="${i}" data-uid="${c.uid}"><span class="tav"><i>${c.face}</i></span>
       <small class="tn">${esc(c.vip ? 'Quan lớn' : (c.title ? c.title + ' ' : '') + c.name)}</small>
@@ -1970,7 +2001,7 @@ function renderOrder(){
     return;
   }
   const it = t.items.find(x => !x.done) || t.items[0], r = getR(it.id);
-  const who = t.online ? `${t.app.e} Đơn #${t.uid} · app ${t.app.n}` : `${t.face} ${t.vip ? 'Quan lớn vi hành' : (t.title ? t.title + ' ' : '') + t.name}${t.hkh ? ' 😈' : ''}`;
+  const who = t.online ? `${t.app.e} Đơn #${t.uid} · app ${t.app.n}` : `${t.celeb ? '<span class="cbmini">' + t.face + '</span>' : t.face} ${t.vip ? 'Quan lớn vi hành' : (t.title ? t.title + ' ' : '') + t.name}${t.hkh ? ' 😈' : ''}`;
   let line = t.online ? `1 phần ${r.n}${it.mod ? ` (ghi chú: ${modTxt(it)})` : ''}${t.items.length > 1 ? `, ${t.items.length} món tất cả` : ''}, làm xong giao shipper nha!` : t.line;
   let html = esc(line);
   t.items.forEach(x => { const n = esc(getR(x.id).n); html = html.split(n).join(`<em>${n}</em>`); });
@@ -2191,7 +2222,7 @@ function walkersHtml(){
 const repMul = () => clamp(1 - (S.rep - 3.5) * 0.4, 0.45, 1.8);
 const demand = () => priceMul() * cuteMul() * ((S.upg.music || 0) >= 2 ? 1.06 : 1) / repMul();
 function nextSpawn(){
-  return Math.max(2.5, clamp(13 - S.level*0.6 - (S.upg.sign || 0)*0.8, 4, 14) / demand()) * (3 / seats()) * R.spawnMul * rnd(.7, 1.3);
+  return Math.max(2.5, clamp(13 - S.level*0.6 - (S.upg.sign || 0)*0.8, 4, 14) / demand()) * (3 / seats()) * R.spawnMul * rnd(.7, 1.3) * (celebRushOn() ? .38 : 1);
 }
 function crowdLabel(){
   const d = demand();
@@ -2240,6 +2271,7 @@ function makeCustomer(){
     else setMsg(o, `Chào ${c.title} ${c.name}`.trim());
   }
   if(vip) mascotPop('Có quan lớn vi hành ghé quán! Làm thật nhanh, thật chuẩn nhé! 👑');
+  else if(!c.online && Math.random() < foreignChance()) makeForeign(c);
   return c;
 }
 function removeLater(i, c){
@@ -2262,7 +2294,8 @@ function angry(i){
   const c = R.cust[i];
   burst(document.querySelector(`.tbl[data-uid="${c.uid}"]`), ['💢','😤','💨'], 7, 40);
   shakeApp();
-  c.leaving = true; c.face = '😡';
+  c.leaving = true; if(!c.celeb) c.face = '😡';
+  if(c.celeb) mascotPop(`${c.name} chờ lâu quá nên bỏ về… tiếc ghê! 😭`, 'bad', 'm2', 3000);
   R.stats.angry++;
   R.crew.forEach(w => { if(w.st === 'on' && TRAITS[w.s.trait].hot) w.mood -= 22; });
   if(c.vip || Math.random() < .55) addReview({ kind:'left', cu:c, dish:getR(c.items[0].id), ratio:0, vip:c.vip });
@@ -2282,6 +2315,7 @@ function pay(i){
   if(c.tea) tip += 2000;
   if((S.upg.pay || 0) >= 2) tip += Math.round(base * .1 / 1000) * 1000;
   if(c.vip) tip *= 2;
+  if(c.celeb) tip += base;
   if(c.bonus) tip += c.bonus;
   if(c.free){ c.cash = 0; R.stats.served++; c.leaving = true; c.face = '😌'; if(R.sel === c.uid) R.sel = null; toast(`${HKH_NAME} ăn xong đi về (không trả tiền)`); renderStreet(); renderOrder(); removeLater(i, c); return; }
   if(c.hkh === 'review' && c.bad){ c.leaving = true; c.face = '😏'; const i2 = i; setTimeout(() => { const a = randAuthor(); pushReview({ id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:curDay(), stars:1, text:'Quán dở tệ, đậu thúi như cống, chủ quán còn lên mặt. 1 sao cũng là nhiều!', dish:null, sub:null, name:HKH_NAME, meta:'Local Guide · 3 bài đánh giá (toàn 1 sao)', col:'#4a148c' }, true); toast('😏 Hoài Kim Huynh vừa đăng review 1★'); }, 900); }
@@ -2297,7 +2331,8 @@ function pay(i){
   }
   R.stats.served++; R.stats.revenue += base; R.stats.tips += tip; S.totalServed++;
   if(ratio > .55) misHit('fast');
-  c.leaving = true; c.face = c.vip ? '🤩' : '😋';
+  if(c.celeb) celebServed(c);
+  c.leaving = true; if(!c.celeb) c.face = c.vip ? '🤩' : '😋';
   c.cash = base + tip;
   burst(el, c.vip ? ['👑','✨','🎉','⭐'] : ['✨','⭐','💫','😋'], c.vip ? 14 : 8);
   SFX.done();
@@ -2320,6 +2355,186 @@ const HKH_SAY = {
   nice: ['Thôi tui thua quán này rồi, đối xử với tui tử tế quá. Từ nay tui dắt bạn bè tới ủng hộ! 🙏'],
 };
 function hkhState(){ S.hkh = S.hkh || { n:0, kind:0, mean:0, debt:0, good:false }; return S.hkh; }
+
+/* ========================= NGÔI SAO GHÉ QUÁN (nhân vật hư cấu, sưu tầm) ========================= */
+const CELEBS = [
+  { id:'idol', lv:1,   n:'Minh Khang',      job:'Ca sĩ thần tượng',     fl:'🇻🇳', rare:1, a:{ skin:'#F6D7BC', hair:'#EDEDED', hs:'spiky', shirt:'#1f1f2e', acc:'mic' },        say:'Đậu thơm quá, về viết bài hát tặng quán luôn nè! 🎤' },
+  { id:'hoahau', lv:1, n:'Ngọc Lan Anh',    job:'Hoa hậu',              fl:'🇻🇳', rare:1, a:{ skin:'#F7D9C4', hair:'#3b2416', hs:'long',  shirt:'#F2B8D6', acc:'crown' },      say:'Chị nghe fan khen quán hoài, nay ghé thử nè 👑' },
+  { id:'hai', lv:1,    n:'Bé Bự',           job:'Danh hài',             fl:'🇻🇳', rare:1, a:{ skin:'#EFC9A6', hair:'#141414', hs:'short', shirt:'#F39C12', acc:'roundglass' }, say:'Thúi mà ngon, giống tui: xấu mà duyên! 😂' },
+  { id:'rap', lv:2,    n:'MC Đậu',          job:'Rapper',               fl:'🇻🇳', rare:1, a:{ skin:'#E8BC97', hair:'#141414', hs:'cap',   shirt:'#111111', acc:'shades', cap:'#D32F2F' }, say:'Yo! Đậu giòn như flow của anh, cho phần đầy đủ! 🧢' },
+  { id:'stream', lv:2, n:'Gà Rán TV',       job:'Streamer game',        fl:'🇻🇳', rare:1, a:{ skin:'#F3D1B5', hair:'#7A3CFF', hs:'messy', shirt:'#2ECC71', acc:'phones' },     say:'Live cho 2 triệu người xem ăn đậu thúi nè anh em! 🎮' },
+  { id:'chef', lv:3,   n:'Chef Hắc Bếp',    job:'Đầu bếp truyền hình',  fl:'🇻🇳', rare:2, a:{ skin:'#EDC6A2', hair:'#555555', hs:'toque', shirt:'#FFFFFF', acc:'mustache' },   say:'Để xem tay nghề quán tới đâu. Làm chuẩn vào! 👨‍🍳' },
+  { id:'kpop', lv:4,   n:'Ji-woo',          job:'Idol K-pop',           fl:'🇰🇷', rare:2, a:{ skin:'#FBE3D3', hair:'#F7A8C8', hs:'bob',   shirt:'#FFFFFF', acc:'bow' },        say:'Annyeong! Món này đang hot trên TikTok Hàn đó 💕' },
+  { id:'holly', lv:4,  n:'Jake Thunder',    job:'Sao Hollywood',        fl:'🇺🇸', rare:2, a:{ skin:'#F5D0B5', hair:'#E2B04A', hs:'swoop', shirt:'#2C3E50', acc:'shades' },     say:'Stinky tofu? Let\'s go! Ngon hơn phim tui đóng 🎬' },
+  { id:'model', lv:5,  n:'Céline Rose',     job:'Siêu mẫu Pháp',        fl:'🇫🇷', rare:2, a:{ skin:'#F8DCCB', hair:'#B5562B', hs:'long',  shirt:'#111111', acc:'beret' },      say:'Bonjour! Ở Paris không có món nào thơm như vầy 🥖' },
+  { id:'ball', lv:5,   n:'Marco Volta',     job:'Siêu sao bóng đá',     fl:'🇮🇹', rare:2, a:{ skin:'#E3B48E', hair:'#2a1a10', hs:'short', shirt:'#1E5BD8', acc:'num' },        say:'Ăn xong đá trận chung kết là chắc thắng! ⚽' },
+  { id:'kungfu', lv:6, n:'Trương Hắc Phong',job:'Ngôi sao võ thuật',    fl:'🇭🇰', rare:3, a:{ skin:'#EAC29C', hair:'#141414', hs:'topknot', shirt:'#E8B51A', acc:'band' },    say:'Hây da! Đậu chiên giòn như cú đá của ta! 🥋' },
+  { id:'yumi', lv:6,   n:'Yumi Tabemono',   job:'Food blogger Nhật',    fl:'🇯🇵', rare:3, a:{ skin:'#FBE5D6', hair:'#1b1b1b', hs:'twin',  shirt:'#FF8FB1', acc:'camera' },     say:'Itadakimasu! Review cho 5 triệu follower nè 📸' },
+];
+const RARE_N = ['', 'Nổi tiếng', 'Siêu sao', 'Huyền thoại'];
+function chibiSvg(a, cls = ''){
+  const sk = a.skin, h = a.hair;
+  let back = '', front = '', top = '', acc = '';
+  switch(a.hs){
+    case 'long':   back = `<path d="M13 30c0-14 8-21 19-21s19 7 19 21v20c-4 3-9 4-12 2V30H25v22c-3 2-8 1-12-2z" fill="${h}"/>`;
+                   front = `<path d="M15 29c2-10 9-15 17-15s15 5 17 15c-6-2-11-6-13-10-3 5-10 9-21 10z" fill="${h}"/>`; break;
+    case 'bob':    back = `<path d="M12 31c0-14 9-21 20-21s20 7 20 21v9c-3 2-6 2-8 0V30H20v10c-2 2-5 2-8 0z" fill="${h}"/>`;
+                   front = `<path d="M15 28c2-9 9-14 17-14s15 5 17 14c-10 0-14-3-17-7-3 4-7 7-17 7z" fill="${h}"/>`; break;
+    case 'twin':   back = `<circle cx="11" cy="22" r="7" fill="${h}"/><circle cx="53" cy="22" r="7" fill="${h}"/><path d="M14 32c0-13 8-20 18-20s18 7 18 20v8H14z" fill="${h}"/>`;
+                   front = `<path d="M15 28c2-9 9-14 17-14s15 5 17 14c-5 1-12-1-17-6-5 5-12 7-17 6z" fill="${h}"/>`; break;
+    case 'spiky':  front = `<path d="M14 27l3-11 5 5 3-9 5 6 4-8 3 8 6-5 1 9 5-2-2 9c-5-3-11-5-17-5s-12 2-16 5z" fill="${h}"/>`; break;
+    case 'messy':  front = `<path d="M14 28c-1-9 6-17 18-17 11 0 19 7 18 17-3-3-6-3-8-1 0-3-3-5-6-4-1-3-5-3-7 0-3-2-7 0-7 3-3-1-6 0-8 2z" fill="${h}"/>`; break;
+    case 'swoop':  front = `<path d="M14 28c0-11 8-17 18-17 8 0 15 3 18 10-7-3-13-2-17 2 5 0 9 2 11 5-9-3-20-3-30 0z" fill="${h}"/>`; break;
+    case 'topknot':top = `<circle cx="32" cy="9" r="5" fill="${h}"/>`;
+                   front = `<path d="M15 27c1-9 8-14 17-14s16 5 17 14c-6-3-11-4-17-4s-11 1-17 4z" fill="${h}"/>`; break;
+    case 'cap':    front = `<path d="M14 27c0-10 8-15 18-15s18 5 18 15z" fill="${a.cap || '#c00'}"/><path d="M30 25h26c0 3-3 4-6 4H30z" fill="${a.cap || '#c00'}" opacity=".85"/>`; break;
+    case 'toque':  top = `<path d="M20 18c-6 0-7-9 0-10 1-6 10-7 12-2 3-4 11-3 12 3 6 1 5 9-1 9z" fill="#fff" stroke="#ddd"/><rect x="20" y="15" width="24" height="6" rx="2" fill="#fff" stroke="#ddd"/>`;
+                   front = `<path d="M16 27c1-5 4-7 6-7h20c2 0 5 2 6 7-6-2-11-3-16-3s-10 1-16 3z" fill="${h}"/>`; break;
+    default:       front = `<path d="M15 27c1-9 8-14 17-14s16 5 17 14c-5-2-9-6-11-9-4 4-12 7-23 9z" fill="${h}"/>`;
+  }
+  const eyes = a.acc === 'shades'
+    ? `<path d="M19 30h11v4c0 3-2 4-5 4s-6-1-6-4zM34 30h11v4c0 3-3 4-6 4s-5-1-5-4z" fill="#111"/><path d="M30 31h4" stroke="#111" stroke-width="1.5"/>`
+    : `<ellipse cx="25" cy="33" rx="2.6" ry="3.4" fill="#2b1a10"/><ellipse cx="39" cy="33" rx="2.6" ry="3.4" fill="#2b1a10"/><circle cx="26" cy="31.8" r="1" fill="#fff"/><circle cx="40" cy="31.8" r="1" fill="#fff"/>`;
+  switch(a.acc){
+    case 'mic':        acc = `<rect x="47" y="44" width="3" height="12" rx="1.5" fill="#333" transform="rotate(-25 48 50)"/><circle cx="51" cy="42" r="4" fill="#888"/>`; break;
+    case 'crown':      acc = `<path d="M22 13l3-7 4 5 3-7 3 7 4-5 3 7z" fill="#F4C430" stroke="#B8860B" stroke-width=".8"/><circle cx="32" cy="9" r="1.4" fill="#E91E63"/>`; break;
+    case 'roundglass': acc = `<circle cx="25" cy="33" r="5" fill="none" stroke="#222" stroke-width="1.6"/><circle cx="39" cy="33" r="5" fill="none" stroke="#222" stroke-width="1.6"/><path d="M30 33h4" stroke="#222" stroke-width="1.6"/>`; break;
+    case 'phones':     acc = `<path d="M13 32c0-13 8-20 19-20s19 7 19 20" fill="none" stroke="#222" stroke-width="3"/><rect x="10" y="29" width="6" height="10" rx="3" fill="#E74C3C"/><rect x="48" y="29" width="6" height="10" rx="3" fill="#E74C3C"/>`; break;
+    case 'mustache':   acc = `<path d="M24 41c3-3 6-2 8 0 2-2 5-3 8 0-3 2-6 2-8 0-2 2-5 2-8 0z" fill="#444"/>`; break;
+    case 'bow':        acc = `<path d="M40 15l7-5v10zM40 15l-7-5v10z" fill="#E91E63"/><circle cx="40" cy="15" r="2" fill="#C2185B"/>`; break;
+    case 'beret':      acc = `<ellipse cx="30" cy="14" rx="15" ry="5" fill="#C0392B"/><circle cx="30" cy="9" r="1.6" fill="#C0392B"/>`; break;
+    case 'band':       acc = `<rect x="15" y="22" width="34" height="4" fill="#D32F2F"/><path d="M48 23l7 3-6 3" fill="#D32F2F"/>`; break;
+    case 'camera':     acc = `<rect x="22" y="50" width="20" height="12" rx="3" fill="#333"/><circle cx="32" cy="56" r="4" fill="#6EC6FF" stroke="#111"/>`; break;
+    case 'num':        acc = `<text x="32" y="61" font-size="9" font-weight="900" text-anchor="middle" fill="#fff" font-family="sans-serif">10</text>`; break;
+  }
+  const mouth = a.acc === 'mustache' ? '' : `<path d="M28 41c2 2 6 2 8 0" stroke="#7a3b2a" stroke-width="1.6" fill="none" stroke-linecap="round"/>`;
+  return `<svg class="chibi ${cls}" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">${back}
+    <path d="M14 64c0-11 8-17 18-17s18 6 18 17z" fill="${a.shirt}"/>
+    <rect x="28" y="44" width="8" height="6" fill="${sk}"/>
+    <circle cx="32" cy="31" r="17" fill="${sk}"/>
+    <circle cx="15.5" cy="33" r="3" fill="${sk}"/><circle cx="48.5" cy="33" r="3" fill="${sk}"/>
+    ${top}${front}${eyes}
+    <ellipse cx="21" cy="38" rx="3" ry="1.6" fill="#FF8A80" opacity=".55"/><ellipse cx="43" cy="38" rx="3" ry="1.6" fill="#FF8A80" opacity=".55"/>
+    ${mouth}${acc}</svg>`;
+}
+const celebOf = id => CELEBS.find(c => c.id === id);
+function celebSchedule(){
+  R.celebT = 1e9; R.celebRush = 0;
+  if(S.day < 2) return;
+  const p = Math.min(.6, .1 + S.level * .04 + Math.max(0, (S.rep || 3) - 4) * .12);
+  if(Math.random() < p) R.celebT = rnd(30, CFG.dayLength - 60);
+}
+const INTL_LV = 4;
+const celebW = c => S.level < c.lv ? 0 : ((S.celebs || {})[c.id] ? 1 : 2) / (c.rare * c.rare);
+function celebRate(c){ const tot = CELEBS.reduce((a,x) => a + celebW(x), 0); return tot ? celebW(c) / tot : 0; }
+function pickCeleb(){
+  let tot = CELEBS.reduce((a,c) => a + celebW(c), 0), x = Math.random() * tot;
+  for(const c of CELEBS){ x -= celebW(c); if(celebW(c) && x <= 0) return c; }
+  return CELEBS[0];
+}
+function celebTick(){
+  if(R.t < R.celebT || R.t >= CFG.dayLength - 15) return;
+  const i = R.cust.findIndex((c,j) => !c && !(incOn('roof') && R.inc.roof.i === j));
+  if(i < 0){ R.celebT = R.t + 4; return; }
+  R.celebT = 1e9;
+  const cb = pickCeleb();
+  S.celebs = S.celebs || {};
+  const first = !S.celebs[cb.id];
+  S.celebs[cb.id] = (S.celebs[cb.id] || 0) + 1;
+  const c = makeCustomer();
+  Object.assign(c, { name:cb.n, title:'🌟', face:chibiSvg(cb.a), vip:false, celeb:cb.id, foreign:null });
+  c.line = cb.say + ` Cho 1 phần ${getR(c.items[0].id).n}${c.items[1] ? ' với 1 phần ' + getR(c.items[1].id).n : ''}!`;
+  c.pat = c.patMax = c.patMax * 1.25;
+  R.cust[i] = c;
+  R.celebRush = R.t + 45;
+  R.spawnT = Math.min(R.spawnT, 1.5); R.onT = Math.min(R.onT || 99, 3);
+  renderStreet(); renderOrder(); SFX.bell(); save();
+  celebPop(cb, first);
+}
+const celebRushOn = () => R && R.celebRush && R.t < R.celebRush;
+function celebPop(cb, first){
+  document.querySelectorAll('.cbpop').forEach(x => x.remove());
+  const d = document.createElement('div'); d.className = 'cbpop';
+  d.innerHTML = `<div class="cbrays"></div>${chibiSvg(cb.a)}<b>${cb.fl} ${esc(cb.n)}</b><small>${esc(cb.job)} ghé quán!</small><em>${first ? '✨ Mở khoá trong Sổ ngôi sao' : '🔥 Fan kéo tới đông nghịt!'}</em>`;
+  d.onclick = () => d.remove();
+  $('#app').appendChild(d);
+  setTimeout(() => d.remove(), 3600);
+}
+function celebServed(c){
+  const cb = celebOf(c.celeb); if(!cb) return;
+  S.celebServed = S.celebServed || {}; S.celebServed[cb.id] = (S.celebServed[cb.id] || 0) + 1;
+  addXP(40 * cb.rare);
+  setTimeout(() => {
+    pushReview({ id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:curDay(), stars:5,
+      text:pick([`${cb.say} Quán dễ thương, đồ ăn ngon, sẽ quay lại!`, 'Ghé ăn thử sau buổi diễn, đậu giòn rụm, nước lèo đậm đà. 10 điểm!', 'Bất ngờ với hương vị, ăn một lần là ghiền. Mọi người nhớ ghé nha!']),
+      dish:null, sub:null, name:cb.n, meta:`${cb.fl} ${cb.job} · ✔️ Tài khoản xác minh`, col:'#C59B08' }, true);
+    toast(`🌟 ${cb.n} vừa đăng review 5★ khen quán!`);
+  }, 800);
+}
+function celebModal(back){
+  const seen = S.celebs || {}, sv = S.celebServed || {};
+  const got = CELEBS.filter(c => seen[c.id]).length;
+  showModal(`<h2>🌟 Sổ ngôi sao ghé quán</h2>
+    <p class="note">Đã gặp <b>${got}/${CELEBS.length}</b> ngôi sao. Khi họ tới, fan kéo theo đông nghịt! Mỗi ngày có <b>${Math.round(Math.min(.6, .1 + S.level * .04 + Math.max(0, (S.rep || 3) - 4) * .12) * 100)}%</b> cơ hội có ngôi sao ghé: quán cấp càng cao, đánh giá càng tốt thì càng hay gặp. ${S.level < INTL_LV ? `Lên <b>cấp ${INTL_LV}</b> quán vươn tầm quốc tế, sao nước ngoài và khách du lịch mới tới.` : '🌏 Quán đã vươn tầm quốc tế!'}</p>
+    <div class="cbgrid">${CELEBS.map(c => seen[c.id]
+      ? `<div class="cbc r${c.rare}">${chibiSvg(c.a)}<b>${esc(c.n)}</b><small>${c.fl} ${esc(c.job)}</small><i>${RARE_N[c.rare]} · ghé ${seen[c.id]} lần</i><i class="cbr">Tỉ lệ ${Math.round(celebRate(c) * 100)}%</i></div>`
+      : `<div class="cbc unk${S.level < c.lv ? ' lk' : ''}">${chibiSvg(c.a, 'sil')}<span class="cbq">${S.level < c.lv ? '🔒' : '?'}</span><b>????</b><small>???</small><i>${S.level < c.lv ? `Mở khi quán cấp ${c.lv}` : RARE_N[c.rare]}</i>${S.level >= c.lv ? `<i class="cbr">Tỉ lệ ${Math.round(celebRate(c) * 100)}%</i>` : ''}</div>`).join('')}</div>
+    <button class="big alt" id="cbBack">${back ? '← Quay lại' : 'Đóng'}</button>`);
+  $('#cbBack').onclick = back || hideModal;
+}
+
+
+/* ========================= KHÁCH NƯỚC NGOÀI (khi quán vươn tầm quốc tế) ========================= */
+const FOREIGN = [
+  { k:'us', fl:'🇺🇸', nat:'Mỹ', f:['👱‍♂️','👩‍🦰','🧔'], names:['Mike','Jessica','Tyler','Ashley','Ryan','Emily'],
+    order:['Hello! One {dish}, please! 😊','Hi! Can I get one {dish}? Smells… interesting! 😅'],
+    pos:[['Smelled scary, tasted AMAZING. Crispy outside, soft inside. Must try in Saigon!','Mùi thì sợ mà ăn thì ĐỈNH. Ngoài giòn trong mềm. Tới Sài Gòn phải thử!'],['Best street food of my whole trip. Friendly owner, fair price!','Món đường phố ngon nhất cả chuyến đi. Chủ quán thân thiện, giá hợp lý!']],
+    mix:[['Interesting experience. Good taste but the smell is too strong for me.','Trải nghiệm thú vị. Vị ngon nhưng mùi hơi nặng với tôi.']],
+    neg:[['Waited forever and the order was wrong. Not coming back.','Chờ quá lâu mà còn lên sai món. Không quay lại.']] },
+  { k:'uk', fl:'🇬🇧', nat:'Anh', f:['👨','👩','👴'], names:['Oliver','Charlotte','Harry','Amelia'],
+    order:['Cheers! One {dish}, if you please.','Lovely! I\'ll have the {dish}, ta!'],
+    pos:[['Absolutely brilliant! Proper crunchy tofu and a cracking sauce.','Tuyệt cú mèo! Đậu giòn chuẩn, nước sốt hảo hạng.']],
+    mix:[['Quite nice, though a bit pricey for street food.','Khá ngon, nhưng hơi mắc so với đồ ăn đường phố.']],
+    neg:[['Rather disappointing. Cold tofu and a long queue.','Khá thất vọng. Đậu nguội mà xếp hàng lâu.']] },
+  { k:'kr', fl:'🇰🇷', nat:'Hàn Quốc', f:['👦','👧','👩'], names:['Min-jun','Seo-yeon','Ji-hoon','Ha-eun'],
+    order:['안녕하세요! {dish} 하나 주세요~','Xin chào! {dish} một phần ạ! 감사합니다!'],
+    pos:[['진짜 맛있어요! 겉바속촉 최고! 또 올게요 💕','Ngon thật sự! Ngoài giòn trong mềm đỉnh nhất! Sẽ quay lại 💕'],['사장님 친절하시고 가격도 착해요 👍','Chủ quán thân thiện, giá cũng dễ thương 👍']],
+    mix:[['맛은 괜찮은데 냄새가 좀 강해요 😅','Vị ổn nhưng mùi hơi mạnh 😅']],
+    neg:[['너무 오래 기다렸어요… 실망이에요 😢','Chờ lâu quá… thất vọng 😢']] },
+  { k:'jp', fl:'🇯🇵', nat:'Nhật Bản', f:['👨','👩','👵'], names:['Haruto','Yui','Sota','Aoi'],
+    order:['すみません、{dish}をひとつください！','Sumimasen! {dish} một phần ạ 🙇'],
+    pos:[['とても美味しかったです！カリカリで最高！また来たいです。','Rất ngon! Giòn rụm tuyệt vời! Muốn quay lại lần nữa.']],
+    mix:[['美味しいけど、匂いがちょっと強いです。','Ngon nhưng mùi hơi nồng.']],
+    neg:[['待ち時間が長すぎました。残念です。','Thời gian chờ quá lâu. Tiếc thật.']] },
+  { k:'tw', fl:'🇹🇼', nat:'Đài Loan', f:['👨','👩','👴'], names:['Wei-ting','Chia-hao','Yu-ting','Po-han'],
+    order:['你好！一份{dish}，謝謝！','Một phần {dish} nha! Để coi có giống quê tôi không 😏'],
+    pos:[['跟台灣夜市的一樣好吃！老闆很用心 👍','Ngon y như chợ đêm Đài Loan! Chủ quán rất có tâm 👍'],['臭豆腐炸得很酥，泡菜也很讚！','Đậu thúi chiên giòn, đồ chua cũng rất tuyệt!']],
+    mix:[['還不錯，但比台灣的貴一點。','Cũng được, nhưng mắc hơn bên Đài Loan chút.']],
+    neg:[['不夠臭，也不夠脆，失望。','Không đủ thúi, cũng không đủ giòn, thất vọng.']] },
+  { k:'fr', fl:'🇫🇷', nat:'Pháp', f:['🧔','👩','👱‍♀️'], names:['Louis','Camille','Hugo','Léa'],
+    order:['Bonjour ! Un {dish}, s\'il vous plaît !','Salut ! Je voudrais goûter le {dish} 😄'],
+    pos:[['Incroyable ! Ça sent fort comme un bon fromage, et c\'est délicieux !','Không thể tin nổi! Mùi nồng như phô mai xịn, và ngon tuyệt!']],
+    mix:[['Pas mal, mais un peu trop gras pour moi.','Không tệ, nhưng hơi nhiều dầu với tôi.']],
+    neg:[['Trop d\'attente, service lent. Dommage.','Chờ quá lâu, phục vụ chậm. Tiếc ghê.']] },
+  { k:'th', fl:'🇹🇭', nat:'Thái Lan', f:['👦','👩','👨'], names:['Somchai','Ploy','Nattapong','Mint'],
+    order:['สวัสดีครับ! ขอ {dish} หนึ่งที่ครับ','Sawasdee! Cho một {dish} nha ka 🙏'],
+    pos:[['อร่อยมาก! กรอบนอกนุ่มใน แนะนำเลย 😋','Ngon lắm! Giòn ngoài mềm trong, recommend luôn 😋']],
+    mix:[['รสชาติดี แต่รอนานไปหน่อย','Vị ngon nhưng chờ hơi lâu.']],
+    neg:[['รอนานมาก และอาหารเย็นชืด','Chờ rất lâu, đồ ăn còn nguội ngắt.']] },
+];
+const foreignChance = () => S.level < INTL_LV ? 0 : Math.min(.35, .1 + (S.level - INTL_LV) * .06);
+function makeForeign(c){
+  const F = pick(FOREIGN);
+  c.foreign = F.k; c.face = pick(F.f); c.title = F.fl; c.name = pick(F.names);
+  c.line = pick(F.order).replace(/\{dish\}/g, getR(c.items[0].id).n) + (c.items[1] ? ` + ${getR(c.items[1].id).n}` : '');
+  return c;
+}
+function foreignReview(cu, st){
+  const F = FOREIGN.find(x => x.k === cu.foreign); if(!F) return null;
+  const [orig, vi] = pick(st >= 4 ? F.pos : st === 3 ? F.mix : F.neg);
+  return { text:`${orig}\n— Dịch: ${vi}`, name:cu.name, meta:`${F.fl} Khách du lịch ${F.nat} · Đã dịch tự động`, col:pick(AVCOL) };
+}
+
 function hkhSchedule(){
   const h = hkhState();
   R.hkhT = 1e9;
@@ -2335,11 +2550,11 @@ function hkhTick(){
   const types = h.good ? ['good'] : i < 0 ? ['chen'] : ['quyt', 'quyt', 'che', 'xin', 'review'];
   const type = pick(types);
   const c = makeCustomer();
-  Object.assign(c, { name:HKH_NAME, title:'', face:'😏', vip:false, hkh:type, items:[{ id:pickDish().id, done:false }] });
+  Object.assign(c, { name:HKH_NAME, title:'', face:'😏', vip:false, foreign:null, hkh:type, items:[{ id:pickDish().id, done:false }] });
   c.line = `${pick(HKH_SAY.enter)} Cho 1 phần ${getR(c.items[0].id).n}!`;
   c.pat = c.patMax = c.patMax * 1.2;
   if(i >= 0) R.cust[i] = c;
-  else { const k = R.cust.findIndex(x => x && !x.coin && !x.leaving); if(k >= 0){ R.queue.unshift({ t:R.t, face:R.cust[k].face }); } }
+  else { const k = R.cust.findIndex(x => x && !x.coin && !x.leaving); if(k >= 0){ R.queue.unshift({ t:R.t, face:R.cust[k].celeb ? '⭐' : R.cust[k].face }); } }
   renderStreet(); renderOrder();
   if(type === 'good'){ toast('😇 Hoài Kim Huynh dắt bạn bè tới ủng hộ quán!'); R.spawnMul *= .8; return; }
   if(type === 'quyt'){ mascotPop('Coi chừng! Hoài Kim Huynh tới, thằng cha này hay ăn quỵt lắm. Ăn xong mà chạy thì chạm vào bắt lại liền nha! 🏃', 'bad', 'm2', 3600); return; }
@@ -2416,9 +2631,9 @@ function hkhCatch(i){
 /* ========================= ĐƠN APP ========================= */
 const APPS = [ { e:'🛵', n:'ShipNhanh' }, { e:'🥡', n:'GọiMón' }, { e:'🍱', n:'ĂnLiền' } ];
 const onlineOpen = () => S.day >= CFG.onlineFromDay;
-const onlineCap = () => clamp(Math.round(1 + (S.rep - 3) * 1.5), 1, 4) + ((S.upg.sign || 0) >= 3 ? 1 : 0) + (S.upg.app || 0);
+const onlineCap = () => clamp(Math.round(1 + (S.rep - 3) * 1.5), 1, 4) + ((S.upg.sign || 0) >= 3 ? 1 : 0) + (S.upg.app || 0) + (celebRushOn() ? 2 : 0);
 const appFeeNow = () => [CFG.appFee, .15, .1][S.upg.app || 0];
-const nextOnline = () => clamp(34 - (S.rep - 3) * 12, 9, 60) * rnd(.7, 1.3) * (R.buzzDay ? .7 : 1) * ((R.ev && R.ev.online) || 1);
+const nextOnline = () => clamp(34 - (S.rep - 3) * 12, 9, 60) * rnd(.7, 1.3) * (R.buzzDay ? .7 : 1) * ((R.ev && R.ev.online) || 1) * (celebRushOn() ? .35 : 1);
 function makeOnline(){
   const items = [rollMod({ id:pickDish().id, done:false })];
   if(Math.random() < .3) items.push(rollMod({ id:pickDish().id, done:false }));
@@ -3038,7 +3253,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-19h00';
+const GAME_VER = '2026.10.03-20h05';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -3147,6 +3362,7 @@ function update(dt){
   if(R.t < CFG.dayLength) dramaTick(dt);
   incTick(dt); if(R.paused) return;
   hkhTick(); if(R.paused) return;
+  celebTick();
   renderInc();
   petals(dt);
   if(open){
@@ -3204,7 +3420,7 @@ function startDay(){
   hideModal();
   last = performance.now();
   if(S.upg.canopy && (R.ev.id === 'rain' || R.ev.id === 'storm')) R.spawnMul = 1 + (R.spawnMul - 1) * .5;
-  incSchedule(); hkhSchedule();
+  incSchedule(); hkhSchedule(); celebSchedule();
   R.dirt = 0; R.spots = [];
   setGTab('quay');
   renderAll();
@@ -3392,7 +3608,7 @@ function renderHub(keep){
         <h1>${esc(S.shopName)}</h1><div class="lv">Cấp ${lv} · ${esc(levelTitle(lv))}</div></div></div>
         <div class="xpbar"><i style="width:${pct}%"></i></div><div class="xpt">${nx ? `${S.xp - base}/${nx - base} XP lên cấp ${lv + 1}` : 'Cấp tối đa'}</div>
         <div class="chap"><b>Chương ${Math.min(S.ch, CFG.chapters.length - 1) + 1} · ${esc(c.n)}</b><br>${esc(c.goal)}${c.type !== 'end' ? ` · ${c.type === 'earned' ? fmtK(cp.v) + '/' + fmtK(cp.t) : cp.v + '/' + cp.t}` : ''}${cp.extra ? `<br><small>${esc(cp.extra)}</small>` : ''}</div>
-        <div class="sbtns"><button id="donBtn" class="don"><i>☕</i>Ủng hộ</button><button id="guideBtn"><i>📖</i>Cách chơi</button><button id="renameBtn"><i>✏️</i>Đổi tên</button>${FIREBASE_CONFIG ? `<button id="accBtn"><i>👤</i>${FB.user ? esc(uname(FB.user)) : 'Đăng nhập'}</button><button id="rankBtn2"><i>🏆</i>Xếp hạng</button>` : ''}</div>
+        <div class="sbtns"><button id="donBtn" class="don"><i>☕</i>Ủng hộ</button><button id="guideBtn"><i>📖</i>Cách chơi</button><button id="renameBtn"><i>✏️</i>Đổi tên</button><button id="celebBtn"><i>🌟</i>Ngôi sao</button>${FIREBASE_CONFIG ? `<button id="accBtn"><i>👤</i>${FB.user ? esc(uname(FB.user)) : 'Đăng nhập'}</button><button id="rankBtn2"><i>🏆</i>Xếp hạng</button>` : ''}</div>
         <img class="smas" src="${IMG.m1}" alt=""></div>
       ${forecastHtml(S.fc && S.fc.day === S.day ? S.fc : makeForecast(), `🔮 Dự báo hôm nay · Ngày ${S.day}`)}
       ${missionsHtml()}
@@ -3562,6 +3778,7 @@ function hubClick(e){
   if(b.id === 'hubStars'){ hubTab = 'dg'; return re(); }
   if(b.id === 'renameBtn') return renameModal(false);
   if(b.id === 'guideBtn') return guideModal(0);
+  if(b.id === 'celebBtn') return celebModal();
   if(b.id === 'donBtn' || b.id === 'donCard') return donateModal();
   if(b.id === 'rankBtn2') return rankModal(() => hideModal());
   if(b.id === 'accBtn') return accountModal();
@@ -4202,6 +4419,8 @@ function addReview(ctx){
     const amb = clamp(3 + (S.upg.ac ? 1 : 0) + ((S.upg.tables || 0) >= 1 ? 1 : 0) - (R.ev.id === 'hot' && !S.upg.ac ? 1 : 0), 1, 5);
     sub = [food, svc, amb];
   }
+  const fr = cu.foreign && !ctx.vip ? foreignReview(cu, st) : null;
+  if(fr){ pushReview({ id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:S.day, stars:st, text:fr.text, dish:dish.n, sub:null, name:fr.name, meta:fr.meta, col:fr.col }, true); return; }
   const who = ctx.vip ? vipAuthor() : randAuthor();
   if(ctx.online){ who.meta = `Đặt qua app ${cu.app.n}` + (who.meta ? ' · ' + who.meta : ''); if(sub) sub[2] = null; }
   pushReview({ id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:S.day, stars:st, text, dish:dish.n, sub, ...who }, true);
