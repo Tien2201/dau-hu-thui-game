@@ -727,7 +727,7 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 @keyframes byfall{to{transform:translateY(110vh) rotate(360deg)}}
 
 /* ================= KHÓA KHUNG MÀN HÌNH + BẾP GỌN, KHU NGUYÊN LIỆU RỘNG ================= */
-#app{position:fixed!important;top:0;left:0;right:0;bottom:0;height:auto!important;height:var(--apph,auto)!important;margin:0 auto;padding-bottom:0!important}
+#app{position:fixed!important;top:0;left:0;right:0;bottom:0;height:auto!important;max-height:none!important;margin:0 auto;padding-bottom:0!important}
 .gtabs{padding-bottom:max(6px,env(safe-area-inset-bottom))!important}
 #vBep .order{padding:5px 8px 7px;grid-template-columns:34px 1fr;margin-top:4px}
 #vBep .order .obowl{width:34px;height:34px;font-size:18px}
@@ -973,10 +973,10 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 /* khay nguyên liệu giãn ra lấp hết chỗ trống tới thanh tab */
 #vBep .station{display:flex!important;flex-direction:column}
 #vBep .station .shelf{flex:0 0 auto}
-#vBep .station .sec{flex:1 1 auto;grid-auto-rows:minmax(40px,1fr);align-content:stretch}
+#vBep .station .sec{flex:1 1 auto;grid-auto-rows:minmax(34px,1fr);align-content:stretch;min-height:0}
 #vBep .station .sec-jar{flex-grow:.8}
 #vBep .station .sec-rau{flex-grow:2}
-#vBep .station .sec .ing{height:auto!important;min-height:40px}
+#vBep .station .sec .ing{height:auto!important;min-height:34px}
 #vBep .station .sec .ing .e svg.ico{width:clamp(20px,2.8vh,32px)!important;height:clamp(20px,2.8vh,32px)!important}
 #vBep .station .sec .ing .n{font-size:clamp(8.5px,1.05vh,11px)}
 </style>
@@ -2951,7 +2951,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-18h25';
+const GAME_VER = '2026.10.03-18h30';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -3645,7 +3645,7 @@ function settingsModal(){
     ${isAdmin ? '<button class="big alt" id="mgBtn">🛠️ Quản lý menu</button>' : ''}
     <button class="big alt" id="resetBtn">🔄 Chơi lại từ đầu</button>
     <button class="big" id="setClose">Đóng</button>
-    <p class="note" style="text-align:center;margin-top:8px">Phiên bản ${GAME_VER}</p>`);
+    <p class="note" style="text-align:center;margin-top:8px">Phiên bản ${GAME_VER}<br><small style="opacity:.6">${innerWidth}×${innerHeight} · ${document.documentElement.clientHeight} · ${$('#app').offsetHeight} · ${screen.height}${isStandalone() ? ' · app' : ''}</small></p>`);
   fillUserBox();
   bindSoundRows();
   const rk = $('#setRank'); if(rk) rk.onclick = () => rankModal(settingsModal);
