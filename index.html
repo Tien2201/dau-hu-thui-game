@@ -1061,6 +1061,7 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 #vQuay[data-sc="12"] .awning{--tile1:#12002b;--tile2:#1de9b6;height:28px;border-bottom:5px solid #b2ff59;box-shadow:0 0 14px #b2ff59}
 #vQuay[data-sc="12"] .street{border-left:10px solid #4a0e6b;border-right:10px solid #4a0e6b;box-shadow:inset 0 0 0 2px #1de9b6}
 #vQuay[data-sc="12"] .tbl::after{background:linear-gradient(#7c4dff,#4527a0);box-shadow:0 3px 0 #b2ff59,0 0 10px #b2ff59}
+.sk.s5{color:#00BCD4;text-shadow:0 0 6px #4DD0E1}.tchip.perf{background:linear-gradient(90deg,#E0F7FA,#B2EBF2);color:#006064;font-weight:800}
 </style>
 </head>
 <body class="inhub">
@@ -2162,7 +2163,7 @@ function updateBars(){
   if(R.crew) R.crew.forEach((w,i) => {
     const b = document.querySelector(`.worker[data-w="${i}"] .b div`);
     if(!b) return;
-    b.style.width = (TRAITS[w.s.trait].hot ? clamp(w.mood, 0, 100) : w.job ? clamp(w.prog, 0, 1)*100 : 0) + '%';
+    b.style.width = (trOf(w.s).hot ? clamp(w.mood, 0, 100) : w.job ? clamp(w.prog, 0, 1)*100 : 0) + '%';
   });
   updatePrep();
   updateTabBadges();
@@ -2314,6 +2315,7 @@ function makeCustomer(){
   if(S.upg.ac) pat *= 1.15;
   pat += (S.upg.tea ? 5 : 0); if(S.upg.music) pat *= 1.05;
   pat *= R.patMul;
+  if(R.crew && R.crew.some(w => w.st === 'on' && trOf(w.s).calm)) pat *= 1.08;
   if(vip) pat *= .85;
   const A = getR(items[0].id).n, B = items[1] && getR(items[1].id).n;
   const mA = modTxt(items[0]), mB = items[1] ? modTxt(items[1]) : '';
@@ -2324,7 +2326,7 @@ function makeCustomer(){
     line, vip, items, pat, patMax:pat, t0:R.t, mist:0, leaving:false, shown:false };
   const o = activeStaff('order');
   if(o){
-    const tr = TRAITS[o.s.trait];
+    const tr = trOf(o.s);
     c.patMax *= 1 + 0.07*o.s.skill + (tr.happy ? .08 : 0);
     c.pat = c.patMax;
     if(tr.clumsy && Math.random() < tr.clumsy){ c.mist++; setMsg(o, '🤕 Ghi nhầm order!'); }
@@ -2358,7 +2360,7 @@ function angry(i){
   c.leaving = true; if(!c.celeb) c.face = '😡';
   if(c.celeb) mascotPop(`${c.name} chờ lâu quá nên bỏ về… tiếc ghê! 😭`, 'bad', 'm2', 3000);
   R.stats.angry++;
-  R.crew.forEach(w => { if(w.st === 'on' && TRAITS[w.s.trait].hot) w.mood -= 22; });
+  R.crew.forEach(w => { if(w.st === 'on' && trOf(w.s).hot) w.mood -= 22; });
   if(c.vip || Math.random() < .55) addReview({ kind:'left', cu:c, dish:getR(c.items[0].id), ratio:0, vip:c.vip });
   SFX.bad();
   toast(c.vip ? 'Quan lớn phất tay áo bỏ đi… chắc sắp có review xấu 😱' : `${(c.title ? c.title + ' ' : '') + c.name} chờ lâu quá, bỏ về 😤`);
@@ -2384,7 +2386,7 @@ function pay(i){
   if(c.hkh === 'review' && c.bad){ c.leaving = true; c.face = '😏'; const i2 = i; setTimeout(() => { const a = randAuthor(); pushReview({ id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:curDay(), stars:1, text:'Quán dở tệ, đậu thúi như cống, chủ quán còn lên mặt. 1 sao cũng là nhiều!', dish:null, sub:null, name:HKH_NAME, meta:'Local Guide · 3 bài đánh giá (toàn 1 sao)', col:'#4a148c' }, true); toast('😏 Hoài Kim Huynh vừa đăng review 1★'); }, 900); }
   const t = activeStaff('thungan');
   if(t){
-    const tr = TRAITS[t.s.trait];
+    const tr = trOf(t.s);
     tip += Math.round(base * 0.04 * t.s.skill / 1000) * 1000;
     if(tr.clumsy && Math.random() < tr.clumsy){
       const lost = pick([5000, 10000, 20000]);
@@ -2958,7 +2960,7 @@ const DIRT_N = ['Sạch bóng ✨', 'Hơi bừa', 'Dơ rồi 😖', 'Dơ kinh kh
 function addDirt(n){
   if(!R || !R.running) return;
   const before = dirtLv();
-  R.dirt = clamp((R.dirt || 0) + n * [1, .65, .4][S.upg.sink || 0], 0, 100);
+  R.dirt = clamp((R.dirt || 0) + n * [1, .65, .4][S.upg.sink || 0] * (R.crew && R.crew.some(w => w.st === 'on' && trOf(w.s).clean) ? .7 : 1), 0, 100);
   syncSpots();
   const lv = dirtLv();
   if(lv > before && lv >= 2 && !R.crew.some(w => w.st === 'on' && w.s.role === 'vesinh'))
@@ -3151,7 +3153,7 @@ function tapFryer(i){
 }
 
 /* ========================= NHÂN VIÊN LÀM VIỆC ========================= */
-const spdOf = s => TRAITS[s.trait].spd * (0.8 + 0.2*s.skill);
+const spdOf = s => trOf(s).spd * (0.75 + 0.15*s.skill);
 function activeStaff(role){ return R && R.crew ? R.crew.find(w => w.s.role === role && w.st === 'on') : null; }
 function setMsg(w, m){ if(w.msg !== m){ w.msg = m; renderCrew(); } }
 function renderCrew(){
@@ -3159,7 +3161,7 @@ function renderCrew(){
   if(!R || !R.crew || !R.crew.length){ el.classList.remove('has'); el.innerHTML = ''; return; }
   el.classList.add('has');
   el.innerHTML = R.crew.map((w,i) => {
-    const role = CFG.roles[w.s.role], tr = TRAITS[w.s.trait];
+    const role = CFG.roles[w.s.role], tr = trOf(w.s);
     return `<div class="worker ${w.st}" data-w="${i}"><span class="f">${w.s.face}</span><div class="w">
       <div class="l"><b>${esc(w.s.name)}</b> ${role.e}${tr.e}</div><div class="l2">${esc(w.msg || '')}</div>
       <div class="b"><div class="${tr.hot ? 'mood' : ''}"></div></div></div></div>`;
@@ -3190,7 +3192,7 @@ function cookTick(w, dt){
   w.cd -= dt * spdOf(w.s);
   if(w.cd > 0) return;
   w.cd = 1.6;
-  const tr = TRAITS[w.s.trait];
+  const tr = trOf(w.s);
   const d = R.fry.find(f => f.st === 'done');
   if(d){
     if(tr.clumsy && Math.random() < tr.clumsy){
@@ -3209,7 +3211,7 @@ function cookTick(w, dt){
   if(startFry(e, k)){ setMsg(w, `Chiên ${itemDef(k).e} ${shortOf(k)}`); renderFryer(); }
 }
 function waiterTick(w, dt){
-  const tr = TRAITS[w.s.trait];
+  const tr = trOf(w.s);
   if(w.job){
     const j = w.job, cu = j.cu;
     const alive = cu.online ? R.online.includes(cu) : R.cust.includes(cu);
@@ -3307,7 +3309,7 @@ function staffTick(dt){
   const crowd = R.cust.filter(x => x && !x.leaving).length;
   const low = R.cust.some(x => x && !x.coin && !x.leaving && x.pat / x.patMax < .3);
   R.crew.forEach(w => {
-    const tr = TRAITS[w.s.trait];
+    const tr = trOf(w.s);
     if(w.st === 'out') return;
     if(w.st === 'late'){ w.t -= dt; if(w.t <= 0){ w.st = 'on'; setMsg(w, '⏰ Xin lỗi, kẹt xe!'); } return; }
     if(w.st === 'slack'){ w.t -= dt; if(w.t <= 0){ w.st = 'on'; setMsg(w, 'Quay lại làm'); } return; }
@@ -3424,7 +3426,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.04-00h15';
+const GAME_VER = '2026.10.04-00h30';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -3582,7 +3584,8 @@ function startDay(){
     running:true, ev, spawnT:1.2, spawnMul: ev.spawn || 1, patMul: (ev.id === 'hot' && S.upg.ac) ? 1 : (ev.pat || 1), forceVip: !!ev.vip,
     onT: rnd(6, 14), buzzDay: (S.buzz || 0) >= 1, nbT: rnd(20, 40), nbDone:0,
     crew: S.staff.map(s => {
-      const tr = TRAITS[s.trait], late = !!tr.late && Math.random() < tr.late;
+      if(TRAITS[s.trait] && TRAITS[s.trait].moody) s.daySpd = +rnd(.65, 1.45).toFixed(2);
+      const tr = trOf(s), late = !!tr.late && Math.random() < tr.late;
       return { s, st: late ? 'late' : 'on', t: rnd(15, 35), cd:1, msg: late ? '⏰ Chưa tới…' : 'Vào ca', mood:100, job:null, prog:0 };
     }),
   });
@@ -3613,6 +3616,9 @@ function endDay(){
   S.stock = {}; R.tray = []; R.box = false;
   const wages = S.staff.reduce((a,s) => a + Math.round(s.wage * (R.stats.walkouts.includes(s.name) ? .5 : 1)), 0);
   if(wages){ S.money -= wages; led('Lương nhân viên', -wages); }
+  const leftPerf = [];
+  S.staff.forEach(s => { if(s.skill >= 5){ s.days = (s.days ?? 1) - 1; if(s.days <= 0) leftPerf.push(s); } });
+  if(leftPerf.length){ S.staff = S.staff.filter(s => !leftPerf.includes(s)); setTimeout(() => toast(`👋 Hết hợp đồng thời vụ: ${leftPerf.map(s => s.name + ' 5★').join(', ')} đã nghỉ`), 600); }
   misEndOfDay();
   const lost = invExpire();
   const today = (S.led[S.day] || []).reduce((a,e) => a + e.v, 0);
@@ -3992,7 +3998,7 @@ function hubClick(e){
     const list = candidates()[role], c = list.find(x => x.id === d.hire);
     if(!c) return;
     S.staff.push(c); S.cands.byRole[role] = list.filter(x => x !== c);
-    SFX.pay(); save(); toast(`Đã thuê ${c.name} ${TRAITS[c.trait].e} ${TRAITS[c.trait].n}`); return re();
+    SFX.pay(); save(); toast(c.skill >= 5 ? `💎 Thuê được ${c.name} 5★ hoàn hảo! Chỉ làm ${c.days} ngày thôi nha` : `Đã thuê ${c.name} ${TRAITS[c.trait].e} ${TRAITS[c.trait].n}`); return re();
   }
   if(d.st){ staffSub = d.st; return re(); }
   if(b.id === 'hireAll'){
@@ -4295,8 +4301,23 @@ const TRAITS = {
   cantham: { e:'🧐', n:'Cẩn thận',   d:'Hơi chậm nhưng gần như không bao giờ sai.', spd:.9 },
   hamtien: { e:'🤑', n:'Ham tiền',   d:'Đòi lương cao, bù lại làm rất hăng.', spd:1.35, wage:1.4 },
   ditre:   { e:'⏰', n:'Hay đi trễ', d:'Nhiều hôm vào ca trễ vì "kẹt xe". Lương mềm.', spd:1, late:.4, wage:.85 },
+  maule:   { e:'⚡', n:'Nhanh như chớp', d:'Tay chân thoăn thoắt, làm cực nhanh. Đòi lương cao hơn chút.', spd:1.45, wage:1.2 },
+  haihuoc: { e:'🤡', n:'Hài hước',   d:'Pha trò suốt, khách cười nên dễ cho điểm cao. Hơi chậm vì mải giỡn.', spd:.92, happy:true },
+  sachse:  { e:'🧼', n:'Sạch sẽ',    d:'Làm tới đâu dọn tới đó: bếp ít dơ hơn hẳn.', spd:1, clean:true },
+  tamly:   { e:'🫶', n:'Tâm lý',     d:'Biết dỗ khách: khách chờ được lâu hơn một chút.', spd:1, calm:true },
+  nhutnhat:{ e:'🙈', n:'Nhút nhát',  d:'Hiền lành, ít nói, làm hơi chậm. Lương mềm.', spd:.9, wage:.85 },
+  ngugat:  { e:'😴', n:'Hay ngủ gật', d:'Thỉnh thoảng gục đầu ngủ giữa ca. Lương rẻ.', spd:.95, slack:true, wage:.75 },
+  damme:   { e:'🔥', n:'Đam mê nghề', d:'Yêu nghề, làm hăng say và kỹ lưỡng.', spd:1.25, wage:1.1 },
+  thatthuong:{ e:'🎲', n:'Thất thường', d:'Hôm làm như máy, hôm lờ đờ: tốc độ mỗi ngày mỗi khác.', spd:1, moody:true },
 };
 const TRAIT_KEYS = Object.keys(TRAITS);
+// 5★ = hoàn hảo: không dính tật xấu nào của tính cách, nhưng chỉ làm thời vụ vài ngày
+function trOf(s){
+  const t = TRAITS[s.trait] || TRAITS.chamchi;
+  const o = t.moody ? { ...t, spd: s.daySpd || 1 } : t;
+  return s.skill >= 5 ? { ...o, clumsy:0, slack:false, late:0, hot:false, spd: Math.max(1.1, o.spd) } : o;
+}
+const SKILL_MUL = [0, .8, 1, 1.25, 1.6, 2.2];
 const HO = ['Nguyễn','Trần','Lê','Phạm','Hoàng','Huỳnh','Võ','Vũ','Phan','Trương','Bùi','Đặng','Đỗ','Ngô','Hồ','Dương','Lý','Đinh','Mai','Lâm','Tạ','Châu','Lưu','Quách'];
 const DEM_F = ['Thị','Ngọc','Thanh','Minh','Bảo','Khánh','Phương','Mỹ','Thu','Hồng','Kim','Diệu','Gia','Tường','Hoài','Quỳnh'];
 const DEM_M = ['Văn','Minh','Quốc','Đức','Hoàng','Gia','Tuấn','Thành','Hữu','Công','Nhật','Bảo','Trọng','Anh'];
@@ -4309,10 +4330,11 @@ const AVCOL = ['#E8710A','#1A73E8','#D93025','#188038','#A142F4','#E37400','#12B
 function genCandidate(role){
   const female = Math.random() < .5;
   const trait = pick(TRAIT_KEYS);
-  const skill = Math.random() < .22 ? 3 : Math.random() < .55 ? 2 : 1;
-  const wage = Math.round(CFG.roles[role].wage * [0, .8, 1, 1.3][skill] * (TRAITS[trait].wage || 1) / 5000) * 5000;
+  const x = Math.random();
+  const skill = x < .04 + Math.min(.06, (S.level || 1) * .005) ? 5 : x < .17 ? 4 : x < .42 ? 3 : x < .72 ? 2 : 1;
+  const wage = Math.round(CFG.roles[role].wage * SKILL_MUL[skill] * (TRAITS[trait].wage || 1) / 5000) * 5000;
   const face = role === 'bep' ? (female ? '👩‍🍳' : '👨‍🍳') : pick(female ? ['👩','👧','👱‍♀️','👩‍🦱'] : ['👨','👦','👱','🧑‍🦱']);
-  return { id:'s' + Date.now().toString(36) + Math.floor(Math.random()*1e5), role, name:pick(female ? TEN_F : TEN_M), face, trait, skill, wage };
+  return { id:'s' + Date.now().toString(36) + Math.floor(Math.random()*1e5), role, name:pick(female ? TEN_F : TEN_M), face, trait, skill, wage, ...(skill >= 5 ? { days: Math.floor(rnd(2, 5)) } : {}) };
 }
 function candidates(){
   if(!S.cands || S.cands.day !== S.day) S.cands = { day:S.day, byRole:{} };
@@ -4536,6 +4558,14 @@ RV.staff = {
              neg:['Bạn {name} {rolel} làm đổ nước lèo ra bàn, ướt hết quần.', '{role} {name} làm rớt đậu xuống đất rồi định nhặt lên bỏ vô hộp 😨', 'Bạn {name} vấp chân bàn, suýt hất cả khay vô người tui.', 'Bể ly ngay bàn bên cạnh, bạn {name} lóng ngóng dọn mãi không xong.'] },
   hamtien: { pos:['{role} {name} khéo chào mời, lỡ gọi thêm một phần mà ngon thiệt.'],
              neg:['Bạn {name} mời gọi thêm món hơi nhiều 😅', 'Bạn {name} cứ đứng cạnh nhắc tip, ngại muốn độn thổ.', '{role} {name} thối tiền chậm, như chờ mình nói "khỏi thối".', 'Bạn {name} ép mua thêm trà đá với khăn lạnh tính tiền riêng.'] },
+  maule:   { pos:['Bạn {name} làm nhanh như chớp, chưa kịp ngồi ấm chỗ đã có món.', '{role} {name} thoăn thoắt, nhìn mà hoa mắt.'], neg:['Bạn {name} làm nhanh quá nên hơi ẩu, rơi vãi tùm lum.'] },
+  haihuoc: { pos:['Bạn {name} pha trò duyên quá, ăn mà cười đau bụng 🤣', '{role} {name} vui tính, kể chuyện tiếu lâm cả bàn cười.'], neg:['Bạn {name} giỡn hoài, gọi món ba lần mới nghe.'] },
+  sachse:  { pos:['Bếp sạch bong, thấy bạn {name} lau chùi liên tục.', '{role} {name} gọn gàng, bàn vừa đứng dậy là lau liền.'], neg:['Bạn {name} lau dọn kỹ quá, đứng chờ bạn lau xong mới được ngồi.'] },
+  tamly:   { pos:['Chờ hơi lâu nhưng bạn {name} hỏi han khéo nên không thấy bực.', '{role} {name} tâm lý ghê, thấy mình đói là mang trà ra liền.'], neg:['Bạn {name} nói chuyện ngọt nhưng món vẫn ra chậm.'] },
+  nhutnhat:{ pos:['Bạn {name} hiền khô, nói nhỏ nhẹ dễ thương.'], neg:['Hỏi gì bạn {name} cũng lí nhí, không nghe rõ.', '{role} {name} rụt rè quá, khách phải tự đi lấy đũa.'] },
+  ngugat:  { pos:['Bạn {name} nhìn hiền, làm cũng được.'], neg:['Thấy bạn {name} gục đầu ngủ ngon lành sau quầy 😴', '{role} {name} vừa làm vừa ngáp, ngủ gật luôn.'] },
+  damme:   { pos:['Thấy bạn {name} làm với cả đam mê, món nào cũng chỉn chu.', '{role} {name} nói về đậu thúi say sưa như nghệ nhân.'], neg:['Bạn {name} làm kỹ quá mức, chờ hơi lâu.'] },
+  thatthuong:{ pos:['Hôm nay bạn {name} làm nhanh như máy, ấn tượng!'], neg:['Bữa trước bạn {name} nhanh lắm, bữa nay lờ đờ hẳn.', '{role} {name} lúc nhanh lúc chậm, khó đoán ghê.'] },
   ditre:   { pos:['Bạn {name} tới trễ nhưng làm bù rất hăng.'],
              neg:['Tới sớm mà quán chưa đủ người, nghe nói bạn {name} kẹt xe.', 'Sáng quán mở mà chưa ai làm, bạn {name} tới trễ cả tiếng.', '{role} {name} vừa tới đã vội vàng, đồ lên lộn xộn.'] },
 };
@@ -4590,7 +4620,7 @@ function addReview(ctx){
     if(Math.random() < .17) st -= 1;                       // khách khó tính
     if(Math.random() < .12 + (S.upg.music || 0) * .05) st += 1;                       // khách dễ tính
     if(R.ev.id === 'hot' && !S.upg.ac && Math.random() < .5) st -= 1;
-    if(R.crew.some(w => w.st === 'on' && TRAITS[w.s.trait].happy) && Math.random() < .35) st += 1;
+    if(R.crew.some(w => w.st === 'on' && trOf(w.s).happy) && Math.random() < .35) st += 1;
     if(Math.random() < .06){ st = 2; ctx.smellHater = true; }
     else if(!ctx.online && Math.random() < .04){ ctx.carHater = true; }
     else if(Math.random() < .045 + Math.max(0, priceRatio(dish) - 1) * .3){ ctx.stingy = true; }
@@ -4979,7 +5009,7 @@ const roleMax = r => (CFG.roles[r].max || 1) + (SLOT_UP[r] || []).filter(l => (S
 const roleNextLv = r => (SLOT_UP[r] || []).find(l => (S.level || 1) < l);
 function staffCard(s, hired){
   const tr = TRAITS[s.trait];
-  return `<div class="scard"><span class="sf">${s.face}</span><div class="si"><b>${esc(s.name)}</b> <span class="sk">${'★'.repeat(s.skill)}${'☆'.repeat(3 - s.skill)}</span>
+  return `<div class="scard"><span class="sf">${s.face}</span><div class="si"><b>${esc(s.name)}</b> <span class="sk${s.skill >= 5 ? ' s5' : ''}">${'★'.repeat(s.skill)}${'☆'.repeat(Math.max(0, 5 - s.skill))}</span>${s.skill >= 5 ? `<div class="tchip perf">💎 Hoàn hảo · không tật xấu · ${hired ? `còn ${s.days ?? 0} ngày` : `chỉ làm ${s.days} ngày`}</div>` : ''}
     <div class="tchip">${tr.e} ${tr.n}</div><small>${tr.d}</small><small>Lương: <b>${fmt(s.wage)}</b>/ngày</small></div>
     ${hired ? `<button class="fire" data-fire="${s.id}">Cho nghỉ</button>` : `<button data-hire="${s.id}" data-role="${s.role}">Thuê</button>`}</div>`;
 }
