@@ -952,6 +952,23 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 .vrow{display:flex;align-items:center;gap:8px;padding:0 4px 8px}.vrow input{flex:1;accent-color:var(--red)}.vrow b{width:40px;text-align:right;font-size:13px}
 .accok{font-size:13px;color:#1E7A3C;font-weight:700;text-align:center;margin:4px 0}
 .accman .namein{margin:5px 0}.accman .how{margin:8px 0}
+
+/* ==== Bếp gọn: thấy đủ 4 ngăn (sốt chai, dầu ớt/muối, topping, rau) không phải cuộn ==== */
+#vBep .station .sec{grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin:3px 0 5px;padding:13px 4px 4px}
+#vBep .station .sech{font-size:9.5px;top:0}
+#vBep .station .sec .ing{margin-top:1px}
+#vBep .ing,#vBep .station .ing{height:44px}
+#vBep .ing .e{font-size:16px}
+#vBep .ing .e svg.ico{width:22px!important;height:22px!important}
+#vBep .ing .n{font-size:8.5px;line-height:1.05;-webkit-line-clamp:2;line-clamp:2}
+#vBep .ing .cnt{font-size:9px;line-height:13px;min-width:14px;padding:0 3px;top:-4px}
+#vBep .ing.combo .n{font-size:9.5px}
+#vBep .ing.combo .ci{font-size:9px}
+#vBep .shelf{min-height:58px!important;padding:8px 4px 3px!important;gap:4px}
+#vBep .bottle{flex:0 0 40px!important;height:50px!important}
+#vBep .bottle .lb{font-size:8px}
+#vBep .kright .plate{min-height:50px}
+@media (max-width:370px){#vBep .station .sec{grid-template-columns:repeat(7,minmax(0,1fr))}}
 </style>
 </head>
 <body class="inhub">
@@ -2924,7 +2941,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-18h05';
+const GAME_VER = '2026.10.03-18h12';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
