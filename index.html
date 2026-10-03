@@ -855,6 +855,7 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 .tbl .tn{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.15;text-align:center;max-width:none!important;word-break:keep-all}
 #vQuay .tbl .tn{font-size:11.5px}
 .tbl.hkh .tn{font-size:11px!important}
+#verbar{position:fixed;left:50%;transform:translateX(-50%);top:calc(10px + env(safe-area-inset-top));z-index:60;border:2px solid #fff;border-radius:999px;background:#2E7D32;color:#fff;font-weight:900;font-size:14px;padding:9px 16px;box-shadow:0 6px 18px rgba(0,0,0,.45);animation:bdg 1.4s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.lan{animation:none}*{animation-duration:.01ms!important}}
 
 .guide .gtop{display:flex;align-items:center;gap:12px;margin-bottom:6px}
@@ -2914,7 +2915,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-17h10';
+const GAME_VER = '2026.10.03-17h15';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -4960,6 +4961,22 @@ $('#order').addEventListener('click', e => {
   }
   if(gTab === 'bep' && R && R.running) setGTab('quay');
 });
+
+/* tự kiểm tra bản mới: máy còn giữ bản cũ thì hiện nút tải lại */
+(function checkVer(){
+  if(location.protocol === 'file:') return;
+  const go = () => fetch('version.txt?t=' + Date.now(), { cache:'no-store' }).then(r => r.ok ? r.text() : '').then(v => {
+    v = (v || '').trim();
+    if(v && v !== GAME_VER && !document.getElementById('verbar')){
+      const b = document.createElement('button'); b.id = 'verbar';
+      b.textContent = '🔄 Có bản game mới! Chạm để cập nhật';
+      b.onclick = () => { try{ save(); }catch(e){} location.replace(location.pathname + '?v=' + encodeURIComponent(v)); };
+      document.body.appendChild(b);
+    }
+  }).catch(() => {});
+  setTimeout(go, 2500); setInterval(go, 5 * 60 * 1000);
+  document.addEventListener('visibilitychange', () => { if(!document.hidden) go(); });
+})();
 document.addEventListener('gesturestart', e => e.preventDefault());
 $('#gDon').onclick = () => { $('#gate').style.zIndex = 15; donateModal(() => { hideModal(); $('#gate').style.zIndex = ''; }); };
 const fitApp = () => document.documentElement.style.setProperty('--apph', window.innerHeight + 'px');
