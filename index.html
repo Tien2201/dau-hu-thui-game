@@ -2914,6 +2914,7 @@ function renderInc(){
 }
 
 
+const GAME_VER = '2026.10.03-17h10';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -3606,7 +3607,8 @@ function settingsModal(){
     <button class="big alt" id="donSet">☕ Ủng hộ người làm game</button>
     ${isAdmin ? '<button class="big alt" id="mgBtn">🛠️ Quản lý menu</button>' : ''}
     <button class="big alt" id="resetBtn">🔄 Chơi lại từ đầu</button>
-    <button class="big" id="setClose">Đóng</button>`);
+    <button class="big" id="setClose">Đóng</button>
+    <p class="note" style="text-align:center;margin-top:8px">Phiên bản ${GAME_VER}</p>`);
   fillUserBox();
   bindSoundRows();
   const rk = $('#setRank'); if(rk) rk.onclick = () => rankModal(settingsModal);
