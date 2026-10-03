@@ -954,7 +954,7 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 .accman .namein{margin:5px 0}.accman .how{margin:8px 0}
 
 /* ==== Bếp gọn: thấy đủ 4 ngăn (sốt chai, dầu ớt/muối, topping, rau) không phải cuộn ==== */
-#vBep .station .sec{grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin:3px 0 5px;padding:13px 4px 4px}
+#vBep .station .sec{grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin:2px 0 3px;padding:13px 4px 4px}
 #vBep .station .sech{font-size:9.5px;top:0}
 #vBep .station .sec .ing{margin-top:1px}
 #vBep .ing,#vBep .station .ing{height:44px}
@@ -969,6 +969,16 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 #vBep .bottle .lb{font-size:8px}
 #vBep .kright .plate{min-height:50px}
 @media (max-width:370px){#vBep .station .sec{grid-template-columns:repeat(7,minmax(0,1fr))}}
+
+/* khay nguyên liệu giãn ra lấp hết chỗ trống tới thanh tab */
+#vBep .station{display:flex!important;flex-direction:column}
+#vBep .station .shelf{flex:0 0 auto}
+#vBep .station .sec{flex:1 1 auto;grid-auto-rows:minmax(40px,1fr);align-content:stretch}
+#vBep .station .sec-jar{flex-grow:.8}
+#vBep .station .sec-rau{flex-grow:2}
+#vBep .station .sec .ing{height:auto!important;min-height:40px}
+#vBep .station .sec .ing .e svg.ico{width:clamp(20px,2.8vh,32px)!important;height:clamp(20px,2.8vh,32px)!important}
+#vBep .station .sec .ing .n{font-size:clamp(8.5px,1.05vh,11px)}
 </style>
 </head>
 <body class="inhub">
@@ -2941,7 +2951,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-18h20';
+const GAME_VER = '2026.10.03-18h25';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
