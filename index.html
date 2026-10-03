@@ -1518,7 +1518,8 @@ function addXP(n){
     const newDishes = CFG.recipes.filter(r => r.unlock > old && r.unlock <= lv);
     S.newDish = [...(S.newDish || []), ...newDishes.map(r => r.id)];
     const newDecor = CFG.decor.filter(d => d.lv > old && d.lv <= lv);
-    const msg = `Lên cấp ${lv} · ${levelTitle(lv)}!` + (newDishes.length ? ` Mở món: ${newDishes.map(r => r.n).join(', ')}. Cách làm sẽ hiện khi đóng quán.` : '') + (newDecor.length ? ' Có đồ trang trí mới.' : '');
+    const newSlots = Object.keys(SLOT_UP).filter(r => SLOT_UP[r].some(l => l > old && l <= lv)).map(r => CFG.roles[r].n);
+    const msg = `Lên cấp ${lv} · ${levelTitle(lv)}!` + (newDishes.length ? ` Mở món: ${newDishes.map(r => r.n).join(', ')}. Cách làm sẽ hiện khi đóng quán.` : '') + (newDecor.length ? ' Có đồ trang trí mới.' : '') + (newSlots.length ? ` Mở thêm chỗ thuê: ${newSlots.join(', ')}.` : '');
     if(old < SPACE_LV && lv >= SPACE_LV) mascotPop('🚀 QUÁN ĐÃ PHÓNG LÊN VŨ TRỤ! Người ngoài hành tinh bắt đầu kéo tới ăn đậu thúi, nhớ chuẩn bị nhiều hàng! 👽🛸', '', 'm1', 5200);
     else if(old < INTL_LV && lv >= INTL_LV) mascotPop('🌏 Quán đã vươn tầm quốc tế! Khách du lịch nước ngoài bắt đầu ghé quán. ' + msg, '', 'm1', 4600);
     else mascotPop(msg + ' 🎉', '', 'm1', 3600);
@@ -3423,7 +3424,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.04-00h05';
+const GAME_VER = '2026.10.04-00h15';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -3986,7 +3987,7 @@ function hubClick(e){
   }
   if(d.hire){
     const role = d.role;
-    if(S.staff.filter(s => s.role === role).length >= (CFG.roles[role].max || 1)) return;
+    if(S.staff.filter(s => s.role === role).length >= roleMax(role)) return;
     if(CFG.roles[role].need && (S.earned || 0) < CFG.roles[role].need) return;
     const list = candidates()[role], c = list.find(x => x.id === d.hire);
     if(!c) return;
@@ -3998,7 +3999,7 @@ function hubClick(e){
     const hired = [];
     for(const [role, rd] of Object.entries(CFG.roles)){
       if(rd.noAuto) continue;
-      while(S.staff.filter(s => s.role === role).length < (rd.max || 1)){
+      while(S.staff.filter(s => s.role === role).length < roleMax(role)){
         const list = candidates()[role];
         const best = [...list].sort((a,b) => b.skill - a.skill || a.wage - b.wage)[0];
         S.staff.push(best); S.cands.byRole[role] = list.filter(x => x !== best); hired.push(best);
@@ -4972,6 +4973,10 @@ function upgTabHtml(){
   }
   return h;
 }
+// Thêm chỗ làm theo cấp quán: [cấp mở thêm 1 chỗ, ...]
+const SLOT_UP = { bep:[4,7,10], phucvu:[4,6,8,11], thungan:[6], vesinh:[5,9], chef:[8,12] };
+const roleMax = r => (CFG.roles[r].max || 1) + (SLOT_UP[r] || []).filter(l => (S.level || 1) >= l).length;
+const roleNextLv = r => (SLOT_UP[r] || []).find(l => (S.level || 1) < l);
 function staffCard(s, hired){
   const tr = TRAITS[s.trait];
   return `<div class="scard"><span class="sf">${s.face}</span><div class="si"><b>${esc(s.name)}</b> <span class="sk">${'★'.repeat(s.skill)}${'☆'.repeat(3 - s.skill)}</span>
@@ -4988,18 +4993,19 @@ function staffTabHtml(){
   const cands = candidates();
   if(staffSub !== 'all' && !CFG.roles[staffSub]) staffSub = 'all';
   const cnt = r => S.staff.filter(s => s.role === r).length;
-  const tabs = [['all', '👥 Tổng quan', `${S.staff.length}`], ...Object.entries(CFG.roles).map(([r,rd]) => [r, `${rd.e} ${rd.n}`, `${cnt(r)}/${rd.max || 1}`])];
+  const tabs = [['all', '👥 Tổng quan', `${S.staff.length}`], ...Object.entries(CFG.roles).map(([r,rd]) => [r, `${rd.e} ${rd.n}`, `${cnt(r)}/${roleMax(r)}`])];
   let h = `<div class="stabs">${tabs.map(([k,l,c]) => `<button data-st="${k}" class="${staffSub === k ? 'on' : ''}">${l}<small>${c}</small></button>`).join('')}</div>`;
   const wages = S.staff.reduce((a,s) => a + s.wage, 0);
   if(staffSub === 'all'){
-    const vac = Object.entries(CFG.roles).reduce((a,[r,rd]) => a + (rd.noAuto ? 0 : Math.max(0, (rd.max || 1) - cnt(r))), 0);
+    const vac = Object.entries(CFG.roles).reduce((a,[r,rd]) => a + (rd.noAuto ? 0 : Math.max(0, roleMax(r) - cnt(r))), 0);
     h += '<p class="note">Lương trả cuối mỗi ngày. Mỗi người một tính cách, ảnh hưởng tới cách làm việc và cả đánh giá của khách. Chọn từng tab công việc để xem ứng viên.</p>';
     if(vac) h += `<button class="big" id="hireAll">⚡ Thuê đủ người (còn ${vac} chỗ trống)</button><p class="note">Thuê đủ thì bạn chỉ việc ráp món: phụ bếp lo chiên và chuẩn bị nguyên liệu, phục vụ bưng món và rót trà cho khách, thu ngân tự thu tiền.</p>`;
-    h += `<div class="sgrid">${Object.entries(CFG.roles).map(([r,rd]) => `<button class="sgc" data-st="${r}"><span>${rd.e}</span><b>${rd.n}</b><small>${cnt(r)}/${rd.max || 1} người</small></button>`).join('')}</div>`;
+    h += `<div class="sgrid">${Object.entries(CFG.roles).map(([r,rd]) => `<button class="sgc" data-st="${r}"><span>${rd.e}</span><b>${rd.n}</b><small>${cnt(r)}/${roleMax(r)} người</small></button>`).join('')}</div>`;
     h += S.staff.length ? `<h3>Đang làm ở quán</h3>${S.staff.map(s => staffCard(s, true)).join('')}` : '<p class="note" style="text-align:center">Chưa thuê ai. Chọn một tab công việc ở trên để xem ứng viên.</p>';
   } else {
-    const rd = CFG.roles[staffSub], cur = S.staff.filter(s => s.role === staffSub), max = rd.max || 1;
+    const rd = CFG.roles[staffSub], cur = S.staff.filter(s => s.role === staffSub), max = roleMax(staffSub), nxl = roleNextLv(staffSub);
     h += `<div class="srole"><span>${rd.e}</span><div><b>${rd.n}</b> <small>(${cur.length}/${max} người · lương gốc ${fmtK(rd.wage)}/ngày)</small><p>${rd.d}</p></div></div>`;
+    if(nxl) h += `<p class="note">🔓 Lên <b>cấp ${nxl}</b> quán sẽ mở thêm 1 chỗ ${esc(rd.n)}.</p>`;
     if(cur.length) h += `<h3>Đang làm</h3>${cur.map(s => staffCard(s, true)).join('')}`;
     if(rd.need && (S.earned || 0) < rd.need && !cur.length){
       const p = clamp((S.earned || 0) / rd.need, 0, 1);
