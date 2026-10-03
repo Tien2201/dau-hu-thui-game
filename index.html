@@ -1157,7 +1157,7 @@ const CFG = {
     bep:     { e:'🧑‍🍳', n:'Phụ bếp', rw:'Bạn phụ bếp', rl:'phụ bếp', wage:55000, max:2, d:'Chỉ lo chuẩn bị nguyên liệu: tự chiên đậu, đậu hủ ky, rau quế, nhấc rổ khi chín, nấu thêm nước lèo, sơ chế rau, lấy thêm sốt và hộp trước khi hết. Không ráp món — chủ quán đứng bếp chính.' },
     thungan: { e:'💰', n:'Thu ngân', rw:'Bạn thu ngân',    rl:'thu ngân',   wage:50000,  max:1, d:'Tự đi thu tiền khách để trên bàn, khách vui nên tip nhiều hơn.' },
     phucvu:  { e:'🏃', n:'Phục vụ',  rw:'Bạn phục vụ',     rl:'chạy bàn',   wage:50000, max:3, d:'Bưng món chủ quán làm ra bàn (khách vui, tip nhiều hơn) và rót trà đá cho khách đang chờ để họ chờ được lâu hơn. Không ráp món.' },
-    chef:    { e:'👨‍🍳', n:'Master Chef', rw:'Siêu đầu bếp', rl:'đứng bếp chính', wage:400000, max:1, need:3000000, noAuto:true, d:'Đầu bếp chuyên nghiệp: tự ráp món theo phiếu của khách (làm đúng cả lời dặn riêng) rồi đưa phục vụ bưng ra. Chỉ dùng đồ đã chiên sẵn và nguyên liệu trong kho, không tự chiên. Lương cực cao.' },
+    chef:    { e:'👨‍🍳', n:'Master Chef', rw:'Siêu đầu bếp', rl:'đứng bếp chính', wage:200000, max:1, need:3000000, noAuto:true, d:'Đầu bếp chuyên nghiệp: tự ráp món theo phiếu của khách (làm đúng cả lời dặn riêng) rồi đưa phục vụ bưng ra. Chỉ dùng đồ đã chiên sẵn và nguyên liệu trong kho, không tự chiên. Lương cực cao.' },
     vesinh:  { e:'🧹', n:'Vệ sinh',  rw:'Bạn tạp vụ',      rl:'dọn dẹp',    wage:30000,  max:1, d:'Lương rẻ. Tự lau bếp, chùi bàn, dọn vết dơ trong ca. Không thuê thì chủ quán phải tự chạm từng vết dơ để lau, để dơ là bị khách chê quán dơ.' },
   },
   upgrades: {
@@ -1322,7 +1322,7 @@ let S, R = null, muted = false, uidSeq = 0, toastT;
 /* ========================= TRẠNG THÁI + LƯU ========================= */
 function newGame(){
   const s = {
-    day:1, money:CFG.startMoney, price30:true, wageCut:true, fund:CFG.capital, capGiven:true, capV2:true, xp:0, level:1, inv:{}, stock:{}, prices:{},
+    day:1, money:CFG.startMoney, price30:true, wageCut:true, chef200:true, fund:CFG.capital, capGiven:true, capV2:true, xp:0, level:1, inv:{}, stock:{}, prices:{},
     upg:{ stove:0, fryer:0, tables:0, ac:0, chair:0, sign:0, hood:0, parking:0, trash:0, pot:0, prep:0, fridge:0, sink:0, tea:0, music:0, pay:0, canopy:0, gen:0, app:0 },
     staff:[], reviews:[], rc:{1:0,2:0,3:0,4:0,5:0}, rvRecent:[], rep:3.5, buzz:0, nb:60, fineCount:0,
     totalServed:0, sold:0, onTotal:0, earned:0, profit:0, led:{}, hist:[], ch:0, mis:null,
@@ -1354,6 +1354,7 @@ function fixSave(s){
             pay: u.pay || 0, canopy: u.canopy || 0, gen: u.gen || 0, app: u.app || 0 };
   s.earned = s.earned || 0; s.totalServed = s.totalServed || 0;
   if(s.fund === undefined){ s.fund = Math.max(0, (s.money || 0) - CFG.dailyCash); s.money = CFG.dailyCash; }
+  if(!s.chef200){ s.chef200 = true; const h = w => { if(w.role === 'chef') w.wage = Math.max(100000, Math.round(w.wage * .5 / 5000) * 5000); }; (s.staff || []).forEach(h); if(s.cands && s.cands.byRole && s.cands.byRole.chef) s.cands.byRole.chef.forEach(h); }
   if(!s.wageCut){ s.wageCut = true; const cut = w => { w.wage = Math.max(15000, Math.round(w.wage * .7 / 5000) * 5000); }; (s.staff || []).forEach(cut); if(s.cands && s.cands.byRole) Object.values(s.cands.byRole).forEach(l => l.forEach(cut)); }
   if(!s.price30){ s.prices = {}; s.price30 = true; }
   if(!s.capGiven){ s.fund = (s.fund || 0) + CFG.capital; s.capGiven = true; s.capV2 = true; }
@@ -3037,7 +3038,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-18h55';
+const GAME_VER = '2026.10.03-19h00';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
