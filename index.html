@@ -799,8 +799,8 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 @keyframes dnwig{0%,80%,100%{transform:rotate(0) scale(1)}84%{transform:rotate(-6deg) scale(1.08)}88%{transform:rotate(6deg) scale(1.08)}92%{transform:rotate(-4deg) scale(1.05)}96%{transform:rotate(0) scale(1)}}
 #vQuay{position:relative}
 /* chừa khoảng trên cùng để thanh trạng thái / hiệu ứng mờ của Safari không đè lên chữ */
-.hud{padding-top:calc(8px + env(safe-area-inset-top,0px) + min(46px, calc(env(safe-area-inset-top,0px) * 100)))!important;
-  background:linear-gradient(#1c0505 0, #2a0a0a calc(env(safe-area-inset-top,0px) + min(46px, calc(env(safe-area-inset-top,0px) * 100))), #3a0d0d 100%)!important}
+.hud{padding-top:calc(8px + env(safe-area-inset-top,0px) + min(30px, calc(env(safe-area-inset-top,0px) * 100)))!important;
+  background:linear-gradient(#1c0505 0, #2a0a0a calc(env(safe-area-inset-top,0px) + min(30px, calc(env(safe-area-inset-top,0px) * 100))), #3a0d0d 100%)!important}
 #app{padding-top:0!important}
 
 /* ================= CẢNH QUÁN THEO CẤP ================= */
@@ -2924,7 +2924,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-17h58';
+const GAME_VER = '2026.10.03-18h05';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -4994,7 +4994,17 @@ $('#order').addEventListener('click', e => {
 })();
 document.addEventListener('gesturestart', e => e.preventDefault());
 $('#gDon').onclick = () => { $('#gate').style.zIndex = 15; donateModal(() => { hideModal(); $('#gate').style.zIndex = ''; }); };
-const fitApp = () => document.documentElement.style.setProperty('--apph', window.innerHeight + 'px');
+const isStandalone = () => !!(navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches));
+const fitApp = () => {
+  let h = window.innerHeight;
+  // App ngoài màn hình chính trên iPhone: innerHeight bị hụt đúng bằng thanh trạng thái -> dùng chiều cao màn hình thật
+  if(isStandalone() && /iPhone|iPad|iPod/.test(navigator.userAgent)){
+    const portrait = window.innerHeight >= window.innerWidth;
+    const sh = portrait ? Math.max(screen.height, screen.width) : Math.min(screen.height, screen.width);
+    if(sh > h && sh - h < 80) h = sh;
+  }
+  document.documentElement.style.setProperty('--apph', h + 'px');
+};
 fitApp(); window.addEventListener('resize', fitApp); window.addEventListener('orientationchange', () => setTimeout(fitApp, 300));
 if(window.visualViewport) visualViewport.addEventListener('resize', fitApp);
 document.addEventListener('dblclick', e => e.preventDefault(), { passive:false });
