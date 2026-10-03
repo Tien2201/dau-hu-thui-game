@@ -1012,6 +1012,7 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 #hub .htabs{grid-template-columns:repeat(8,minmax(0,1fr))!important;gap:3px}
 #hub .htabs button{font-size:9.5px;padding:4px 0;white-space:normal;line-height:1.05;min-height:42px;justify-content:center}
 #hub .htabs button i{font-size:17px}
+#hub .hpanel{min-height:calc(100% - 60px)}
 </style>
 </head>
 <body class="inhub">
@@ -2984,7 +2985,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-18h40';
+const GAME_VER = '2026.10.03-18h45';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -3516,7 +3517,18 @@ function hubClick(e){
   if(b.id === 'clearCart' || b.id === 'clearCart2'){ e.preventDefault(); cart = {}; return re(); }
   if(b.id === 'autoBtn'){ autoFill(); return re(); }
   if(b.id === 'hagBtn') return haggleModal();
-  if(d.ht){ hubTab = d.ht; rvDraft = null; return renderHub(false), ($('#hscroll').scrollTop = $('.htabs').offsetTop - 8); }
+  if(d.ht){
+    if(hubTab === d.ht) return;
+    hubTab = d.ht; rvDraft = null;
+    const hs = $('#hscroll'), tb = $('.htabs'), pn = $('#hpanel');
+    if(!hs || !tb || !pn) return renderHub(true);
+    tb.querySelectorAll('[data-ht]').forEach(x => x.classList.toggle('on', x.dataset.ht === hubTab));
+    const keepTop = hs.scrollTop, stuck = keepTop > tb.offsetTop - 8;
+    pn.innerHTML = hubPanel();
+    if(hubTab === 'dg') bindReviews(() => renderHub(true), pn);
+    hs.scrollTop = stuck ? tb.offsetTop - 8 : keepTop;
+    return;
+  }
   if(d.inc){ cart[d.inc] = (cart[d.inc] || 0) + packOf(d.inc); return re(); }
   if(d.dec){ cart[d.dec] = Math.max(0, (cart[d.dec] || 0) - packOf(d.dec)); if(!cart[d.dec]) delete cart[d.dec]; return re(); }
   if(d.pi || d.pd){
