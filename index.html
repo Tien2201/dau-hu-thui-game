@@ -979,6 +979,39 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 #vBep .station .sec .ing{height:auto!important;min-height:34px}
 #vBep .station .sec .ing .e svg.ico{width:clamp(20px,2.8vh,32px)!important;height:clamp(20px,2.8vh,32px)!important}
 #vBep .station .sec .ing .n{font-size:clamp(8.5px,1.05vh,11px)}
+
+/* ==== Màn chuẩn bị gọn ==== */
+#hub .shopcard{padding:10px 10px 14px}
+#hub .shopcard .slg{width:44px;height:44px;flex-basis:44px}
+#hub .shopcard h1{font-size:18px}
+#hub .shopcard .lv{font-size:12px}
+#hub .shopcard .xpbar{margin-top:6px}
+#hub .shopcard .xpt{font-size:10.5px}
+#hub .shopcard .chap{max-width:none;margin-top:5px;padding:5px 8px;font-size:11.5px;line-height:1.3;margin-right:64px}
+#hub .shopcard .smas{width:62px;bottom:10px;right:-2px;top:auto}
+#hub .shopcard .sbtns{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;max-width:none;margin-top:7px}
+#hub .shopcard .sbtns button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 2px;border-radius:10px;font-size:10px;line-height:1.1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+#hub .shopcard .sbtns button i{font-style:normal;font-size:17px;line-height:1}
+#hub .shopcard .sbtns button.don{background:linear-gradient(#FFE27A,#F5A623);color:#5A2E00;box-shadow:0 0 10px rgba(255,200,60,.7)}
+#hub .fcast{margin:8px 0;padding:7px 10px;border-radius:12px}
+#hub .fch{gap:8px}#hub .fcw{font-size:24px}#hub .fch b{font-size:13px}#hub .fch small{font-size:11px}
+#hub .fcg{margin:5px 0 4px;gap:5px}#hub .fcg div{padding:3px 4px;border-radius:8px}
+#hub .fcg small{font-size:9.5px}#hub .fcg b{font-size:13.5px}
+#hub .fct{font-size:11px}
+#hub .mis{margin-top:8px;padding:7px 10px;border-radius:12px}
+#hub .mis>b{font-size:13px}
+#hub .mrow2{padding:4px 0;font-size:12px;gap:8px}
+#hub .mrow2>div{display:flex;align-items:baseline;gap:6px;min-width:0;flex-wrap:wrap}
+#hub .mrow2 small{display:inline;font-size:10.5px}
+#hub .htabs{position:sticky;top:0;z-index:5;margin:8px -4px 6px;padding:5px 4px;gap:4px;background:#2a0a0a;box-shadow:0 4px 8px -4px rgba(0,0,0,.6)}
+#hub .htabs button i{font-style:normal;font-size:16px;line-height:1.1}
+#hub .htabs button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 1px;font-size:11px;border-radius:10px;font-family:inherit}
+#hub .shopcard .smas{display:none}
+#hub .shopcard .chap{margin-right:0}
+#hub .fch>div{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+#hub .htabs{grid-template-columns:repeat(8,minmax(0,1fr))!important;gap:3px}
+#hub .htabs button{font-size:9.5px;padding:4px 0;white-space:normal;line-height:1.05;min-height:42px;justify-content:center}
+#hub .htabs button i{font-size:17px}
 </style>
 </head>
 <body class="inhub">
@@ -1500,7 +1533,7 @@ function misEndOfDay(){
 function missionsHtml(){
   if(!S.mis) return '';
   return `<div class="mis"><b>🎯 Nhiệm vụ hôm nay</b>${S.mis.list.map(m => `<div class="mrow2${m.done ? ' ok' : ''}">
-    <div><span>${esc(m.text)}</span><small>Thưởng ${fmt(m.rw)} · +${m.xp} XP</small></div>
+    <div><span>${esc(m.text)}</span><small>+${fmtK(m.rw)} · +${m.xp} XP</small></div>
     <b>${m.done ? '✅' : m.end ? 'cuối ngày' : `${m.prog}/${m.target}`}</b></div>`).join('')}</div>`;
 }
 const cutePts = () => S.decor.owned.reduce((a,id) => a + ((CFG.decor.find(d => d.id === id) || {}).pts || 0), 0);
@@ -2951,7 +2984,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.03-18h30';
+const GAME_VER = '2026.10.03-18h40';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -3001,7 +3034,7 @@ function forecastHtml(f, title){
   const w = WX[f.ev] || WX.normal, ev = EVENTS.find(e => e.id === f.ev);
   const need = Math.round((f.lo + f.hi) / 2 + f.onl);
   return `<div class="fcast"><div class="fch"><span class="fcw">${w[0]}</span><div><b>${title}</b><small>${esc(w[1])}${ev && ev.spawn ? (ev.spawn < 1 ? ' · đông hơn thường' : ' · vắng hơn thường') : ''}</small></div></div>
-    <div class="fcg"><div><small>Khách tại quán</small><b>${f.lo}–${f.hi}</b></div><div><small>Đơn app</small><b>${f.onl ? '~' + f.onl : 'chưa mở'}</b></div><div><small>Nguy cơ sự cố</small><b class="${f.risk >= 60 ? 'neg' : ''}">${f.risk}%</b></div></div>
+    <div class="fcg"><div><small>👥 Khách</small><b>${f.lo}–${f.hi}</b></div><div><small>📱 Đơn app</small><b>${f.onl ? '~' + f.onl : 'chưa mở'}</b></div><div><small>⚠️ Sự cố</small><b class="${f.risk >= 60 ? 'neg' : ''}">${f.risk}%</b></div></div>
     <small class="fct">💡 Nên chuẩn bị khoảng <b>${need} phần</b>${f.ev === 'storm' ? ' · bão dễ cúp điện, dột mái, chuẩn bị tiền sửa' : f.ev === 'hot' ? ' · trời nóng, có máy lạnh khách đỡ quạu' : ''}.</small></div>`;
 }
 /* ========================= VÒNG LẶP ========================= */
@@ -3305,12 +3338,11 @@ function renderHub(keep){
         <h1>${esc(S.shopName)}</h1><div class="lv">Cấp ${lv} · ${esc(levelTitle(lv))}</div></div></div>
         <div class="xpbar"><i style="width:${pct}%"></i></div><div class="xpt">${nx ? `${S.xp - base}/${nx - base} XP lên cấp ${lv + 1}` : 'Cấp tối đa'}</div>
         <div class="chap"><b>Chương ${Math.min(S.ch, CFG.chapters.length - 1) + 1} · ${esc(c.n)}</b><br>${esc(c.goal)}${c.type !== 'end' ? ` · ${c.type === 'earned' ? fmtK(cp.v) + '/' + fmtK(cp.t) : cp.v + '/' + cp.t}` : ''}${cp.extra ? `<br><small>${esc(cp.extra)}</small>` : ''}</div>
-        <div class="sbtns"><button id="donBtn" class="don">☕ Ủng hộ</button><button id="guideBtn">📖 Cách chơi</button><button id="renameBtn">✏️ Đổi tên quán</button>${FIREBASE_CONFIG ? `<button id="accBtn">👤 ${FB.user ? esc(uname(FB.user)) : 'Đăng nhập'}</button><button id="rankBtn2">🏆 Bảng xếp hạng</button>` : ''}</div>
+        <div class="sbtns"><button id="donBtn" class="don"><i>☕</i>Ủng hộ</button><button id="guideBtn"><i>📖</i>Cách chơi</button><button id="renameBtn"><i>✏️</i>Đổi tên</button>${FIREBASE_CONFIG ? `<button id="accBtn"><i>👤</i>${FB.user ? esc(uname(FB.user)) : 'Đăng nhập'}</button><button id="rankBtn2"><i>🏆</i>Xếp hạng</button>` : ''}</div>
         <img class="smas" src="${IMG.m1}" alt=""></div>
-      <button class="dncard" id="donCard"><span class="dnc1">☕</span><span class="dnc2"><b>Thích game? Mời người làm game ly cà phê</b><small>Ủng hộ qua MoMo · tuỳ tâm</small></span><span class="dnc3">Ủng hộ ›</span></button>
       ${forecastHtml(S.fc && S.fc.day === S.day ? S.fc : makeForecast(), `🔮 Dự báo hôm nay · Ngày ${S.day}`)}
       ${missionsHtml()}
-      <div class="htabs">${HTABS.map(([k,l]) => `<button data-ht="${k}" class="${hubTab === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+      <div class="htabs">${HTABS.map(([k,l]) => { const i = l.indexOf(' '); return `<button data-ht="${k}" class="${hubTab === k ? 'on' : ''}"><i>${l.slice(0,i)}</i>${l.slice(i+1)}</button>`; }).join('')}</div>
       <div class="hpanel" id="hpanel">${hubPanel()}</div>
     </div>
     <div class="hfoot">${ct > 0 ? `<div class="cartbar"><span>Giỏ nhập hàng${discToday() ? ` (đã bớt ${discToday()}%)` : ''}</span><span>${fmtK(ct)}</span></div><button class="big" id="buyBtn">Nhập hàng · ${fmtK(ct)}</button><small>Hàng nhập vào kho ngay · <a href="#" id="clearCart" style="color:#F1D58A">bỏ giỏ</a></small>`
