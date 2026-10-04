@@ -1118,6 +1118,15 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 .tables.many .tbl .tn{font-size:10px}
 .tables.many .tbl .td{font-size:11px;min-height:12px}
 .tables.many .tbl::after{height:7px;margin-top:2px}
+
+#vQuay .tables.many .tbl .tav{width:44px;height:44px;padding:3px}
+#vQuay .tables.many .tbl .tav i{font-size:22px}
+#vQuay .tables.many .tbl .tn{font-size:10px}
+#vQuay .tables.many .tbl .td{font-size:11px;min-height:12px}
+#vQuay .tables.vmany .tbl .tav{width:38px;height:38px;padding:3px}
+#vQuay .tables.vmany .tbl .tav i{font-size:19px}
+#vQuay .tables.vmany .tbl .tn{font-size:9px}
+.tbl.empty.up .tav{opacity:.8}
 </style>
 </head>
 <body class="inhub">
@@ -1283,6 +1292,10 @@ const CFG = {
       { n:'6 bàn (thuê thêm mặt bằng)', d:'Thêm chỗ cho 1 khách nữa', cost:800000, need:1800000 },
       { n:'7 bàn', d:'Kê thêm 1 bàn ra hiên', cost:1500000, need:5000000 },
       { n:'8 bàn (mở thêm tầng lửng)', d:'Thêm 1 bàn nữa, quán rộng rãi hẳn', cost:2800000, need:12000000 } ] },
+    floor:  { g:'mb', e:'🏢', n:'Lên lầu', levels:[
+      { n:'Nhà trệt' },
+      { n:'Xây 1 lầu', d:'Thêm 2 bàn trên lầu, khách thích ngồi lầu ngắm phố (chờ lâu hơn chút)', cost:5000000, need:15000000 },
+      { n:'Xây 2 lầu', d:'Thêm 2 bàn nữa, quán thành nhà phố 3 tầng', cost:12000000, need:40000000 } ] },
     ac:     { g:'mb', e:'❄️', n:'Làm mát', levels:[
       { n:'Quạt máy' },
       { n:'Máy lạnh', d:'Khách kiên nhẫn hơn 15%, ngày nắng không bị ảnh hưởng', cost:450000, need:1000000 } ] },
@@ -1461,7 +1474,7 @@ function fixSave(s){
             ac: u.ac || 0, chair: Math.min(u.chair || 0, 2), sign: Math.min(u.sign || 0, 3),
             hood: u.hood || 0, parking: u.parking || 0, trash: u.trash || 0,
             pot: u.pot || 0, prep: u.prep || 0, fridge: u.fridge || 0, sink: u.sink || 0, tea: u.tea || 0, music: u.music || 0,
-            pay: u.pay || 0, canopy: u.canopy || 0, gen: u.gen || 0, app: u.app || 0 };
+            pay: u.pay || 0, canopy: u.canopy || 0, gen: u.gen || 0, app: u.app || 0, floor: u.floor || 0 };
   s.earned = s.earned || 0; s.totalServed = s.totalServed || 0;
   if(s.fund === undefined){ s.fund = Math.max(0, (s.money || 0) - CFG.dailyCash); s.money = CFG.dailyCash; }
   if(!s.wage2){ s.wage2 = true; s.chef200 = true; const c2 = w => { w.wage = Math.max(10000, Math.round(w.wage * .6 / 5000) * 5000); }; (s.staff || []).forEach(c2); if(s.cands && s.cands.byRole) Object.values(s.cands.byRole).forEach(l => l.forEach(c2)); if(s.mis && s.mis.list) s.mis.list.forEach(m => { if(!m.done) m.rw *= 4; }); }
@@ -1908,7 +1921,8 @@ function usedSet(){ const s = new Set(); unlocked().forEach(r => r.items.forEach
 const fryTime = () => CFG.fryTime * [1, .7, .5][S.upg.stove || 0];
 const autoFryer = () => (S.upg.stove || 0) >= 2;
 const fryerCount = () => 2 + (S.upg.fryer || 0);
-const seats = () => 4 + (S.upg.tables || 0);
+const seats = () => 4 + (S.upg.tables || 0) + (S.upg.floor || 0) * 2;
+const groundSeats = () => 4 + (S.upg.tables || 0);
 const isFry = k => !!(CFG.ingredients[k] && CFG.ingredients[k].fry);
 const stockOf = k => (S.stock && S.stock[k]) || 0;
 const fryables = () => { const u = usedSet(); return Object.keys(CFG.ingredients).filter(k => isFry(k) && (u.has(k) || k === 'tofu')); };
@@ -2091,7 +2105,7 @@ function renderStreet(){
     st.innerHTML = `<div class="closedmsg">🌙 Hết giờ bán, dọn quán thôi…</div>${decorHtml()}`; return;
   }
   const tables = R.cust.map((c,i) => {
-    if(!c) return incOn('roof') && R.inc.roof.i === i ? `<div class="tbl empty leak"><span class="tav">💧</span><small>Dột mái</small></div>` : `<div class="tbl empty"><span class="tav">🪑</span><small>Bàn trống</small></div>`;
+    if(!c) return incOn('roof') && R.inc.roof.i === i ? `<div class="tbl empty leak"><span class="tav">💧</span><small>Dột mái</small></div>` : `<div class="tbl empty${i >= groundSeats() ? ' up' : ''}"><span class="tav">🪑</span><small>${i >= groundSeats() ? '🏢 Bàn lầu' : 'Bàn trống'}</small></div>`;
     if(c.coin) return `<button class="tbl coin" data-coin="${i}"><span class="ce">💰</span><b>${fmtK(c.amt)}</b><small>Chạm thu</small></button>`;
     const cls = ['tbl'];
     if(!c.shown){ cls.push('in'); c.shown = true; }
@@ -2103,13 +2117,13 @@ function renderStreet(){
     if(c.alien) cls.push('alien');
     if(c.running) return `<button class="tbl hkh run" data-run="${i}"><span class="tav"><i>🏃</i></span><small class="tn">Bắt ổng lại!</small><span class="td">💨💨</span></button>`;
     return `<button class="${cls.join(' ')}" data-i="${i}" data-uid="${c.uid}"><span class="tav"><i>${c.face}</i></span>
-      <small class="tn">${esc(c.vip ? 'Quan lớn' : (c.title ? c.title + ' ' : '') + c.name)}</small>
+      <small class="tn">${i >= groundSeats() ? '🏢 ' : ''}${esc(c.vip ? 'Quan lớn' : (c.title ? c.title + ' ' : '') + c.name)}</small>
       <span class="td">${c.items.map(x => x.done ? '✅' : x.claimed ? '🏃' : esc(getR(x.id).e)).join('')}</span></button>`;
   }).join('');
   if(!R.walkHtml || R.walkDay !== S.day){ R.walkHtml = walkersHtml(); R.walkDay = S.day; }
   applyScene();
   st.innerHTML = sceneHtml() + R.walkHtml + (R.queue.length ? `<div class="qline">${R.queue.map((q,i) => `<span style="animation-delay:${(i * .15).toFixed(2)}s">${q.face}</span>`).join('')}<b>xếp hàng ${R.queue.length}</b></div>` : '')
-    + decorHtml() + `<div class="tables${n > 5 ? ' many' : ''}" style="grid-template-columns:repeat(${n > 5 ? Math.ceil(n / 2) : n},minmax(0,1fr))">${tables}</div>`;
+    + decorHtml() + `<div class="tables${n > 5 ? ' many' : ''}${n > 8 ? ' vmany' : ''}" style="grid-template-columns:repeat(${n > 5 ? Math.ceil(n / 2) : n},minmax(0,1fr))">${tables}</div>`;
   const sv = st.querySelector('.scbg'); if(sv && sv.setCurrentTime) try{ sv.setCurrentTime((performance.now() - SC_T0) / 1000); }catch(e){}
   renderQStats();
   updateBars();
@@ -2406,6 +2420,7 @@ function makeCustomer(){
   pat += (S.upg.tea ? 5 : 0); if(S.upg.music) pat *= 1.05;
   pat *= R.patMul;
   if(R.crew && R.crew.some(w => w.st === 'on' && trOf(w.s).calm)) pat *= 1.08;
+  pat *= 1 + (S.upg.floor || 0) * .04;
   if(vip) pat *= .85;
   const A = getR(items[0].id).n, B = items[1] && getR(items[1].id).n;
   const mA = modTxt(items[0]), mB = items[1] ? modTxt(items[1]) : '';
@@ -3533,7 +3548,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.05-03h10';
+const GAME_VER = '2026.10.05-03h20';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
