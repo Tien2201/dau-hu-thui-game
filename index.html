@@ -1275,6 +1275,7 @@ const CFG = {
     thungan: { e:'💰', n:'Thu ngân', rw:'Bạn thu ngân',    rl:'thu ngân',   wage:30000,  max:1, d:'Tự đi thu tiền khách để trên bàn, khách vui nên tip nhiều hơn.' },
     phucvu:  { e:'🏃', n:'Phục vụ',  rw:'Bạn phục vụ',     rl:'chạy bàn',   wage:30000, max:3, d:'Bưng món chủ quán làm ra bàn (khách vui, tip nhiều hơn) và rót trà đá cho khách đang chờ để họ chờ được lâu hơn. Không ráp món.' },
     chef:    { e:'👨‍🍳', n:'Master Chef', rw:'Siêu đầu bếp', rl:'đứng bếp chính', wage:120000, max:1, need:3000000, noAuto:true, d:'Đầu bếp chuyên nghiệp: tự ráp món theo phiếu của khách (làm đúng cả lời dặn riêng) rồi đưa phục vụ bưng ra. Chỉ dùng đồ đã chiên sẵn và nguyên liệu trong kho, không tự chiên. Lương cực cao.' },
+    page:    { e:'📱', n:'Quản lý page', rw:'Bạn quản lý page', rl:'trả lời đánh giá', wage:30000, max:1, d:'Tự trả lời đánh giá của khách trên mạng theo tính cách: hiền thì xin lỗi khéo, nóng tính có khi cãi tay đôi thành drama, hài hước thì pha trò. Khi quán bật AI thì trả lời như người thật.' },
     vesinh:  { e:'🧹', n:'Vệ sinh',  rw:'Bạn tạp vụ',      rl:'dọn dẹp',    wage:20000,  max:1, d:'Lương rẻ. Tự lau bếp, chùi bàn, dọn vết dơ trong ca. Không thuê thì chủ quán phải tự chạm từng vết dơ để lau, để dơ là bị khách chê quán dơ.' },
   },
   upgrades: {
@@ -3365,6 +3366,24 @@ function waiterTick(w, dt){
   }
   setMsg(w, R.t < CFG.dayLength ? 'Lau bàn, chờ bưng món' : 'Dọn dẹp');
 }
+function pageTick(w, dt){
+  w.cd -= dt * spdOf(w.s);
+  if(w.cd > 0 || w.busy) return;
+  w.cd = 10;
+  R.pageN = R.pageN || 0;
+  if(R.pageN >= 3 + w.s.skill * 2){ setMsg(w, 'Hết hạn mức trả lời hôm nay'); return; }
+  const tr = trOf(w.s);
+  const todo = S.reviews.filter(r => r.day >= S.day - 1 && !(r.thread || []).some(m => m.w === 'o')).sort((a,b) => a.stars - b.stars);
+  if(!todo.length){ setMsg(w, '📱 Lướt page, chưa có review mới'); return; }
+  if(tr.slack && Math.random() < .5){ setMsg(w, '📱 Lướt TikTok thay vì trả lời review…'); return; }
+  const r = todo[0];
+  const tone = tr.hot && Math.random() < .3 ? 'rude' : tr.happy && Math.random() < .5 ? 'funny' : r.stars >= 4 ? 'thanks' : 'sorry';
+  R.pageN++;
+  const go = text => { w.busy = false; sendReply(r, text, tone); setMsg(w, `${tone === 'rude' ? '😤 Cãi tay đôi với' : '💬 Đã trả lời'} ${r.name} (${r.stars}★)`); if(tone === 'rude') toast(`😱 ${w.s.name} (quản lý page) vừa cãi nhau với khách trên mạng!`); };
+  const tmpl = ownSuggest(r, tone);
+  if(aiOn()){ w.busy = true; setMsg(w, `✍️ Đang trả lời ${r.name}…`); aiCall('/owner', { shop:S.shopName, trait:`${tr.n}${tone === 'rude' ? ', đang bực bội, trả lời gay gắt' : tone === 'funny' ? ', pha trò' : ''}`, name:r.name, stars:r.stars, review:r.text }).then(t => go(t || tmpl)); }
+  else go(tmpl);
+}
 function chefTick(w, dt){
   if(w.job){
     const j = w.job, cu = j.cu;
@@ -3450,6 +3469,7 @@ function staffTick(dt){
     else if(w.s.role === 'thungan') cashierTick(w, dt);
     else if(w.s.role === 'vesinh') cleanerTick(w, dt);
     else if(w.s.role === 'chef') chefTick(w, dt);
+    else if(w.s.role === 'page') pageTick(w, dt);
   });
 }
 
@@ -3548,7 +3568,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.05-03h20';
+const GAME_VER = '2026.10.05-03h40';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -4836,10 +4856,16 @@ function addReview(ctx){
     sub = [food, svc, amb];
   }
   const fr = cu.foreign && !ctx.vip ? foreignReview(cu, st) : null;
-  if(fr){ pushReview({ id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:S.day, stars:st, text:fr.text, dish:dish.n, sub:null, name:fr.name, meta:fr.meta, col:fr.col }, true); return; }
+  if(fr){ const frv = { id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:S.day, stars:st, text:fr.text, dish:dish.n, sub:null, name:fr.name, meta:fr.meta, col:fr.col };
+    pushReview(frv, true);
+    if(aiOn()) aiCall('/review', { stars:st, dish:dish.n, mins, mist:!!cu.mist, online:false, persona: fr.name + ' — ' + fr.meta, lang: fr.meta }).then(t => { if(t){ frv.text = t; frv.ai = true; save(); } });
+    return; }
   const who = ctx.vip ? vipAuthor() : randAuthor();
   if(ctx.online){ who.meta = `Đặt qua app ${cu.app.n}` + (who.meta ? ' · ' + who.meta : ''); if(sub) sub[2] = null; }
-  pushReview({ id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:S.day, stars:st, text, dish:dish.n, sub, ...who }, true);
+  const rv = { id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:S.day, stars:st, text, dish:dish.n, sub, ...who };
+  pushReview(rv, true);
+  if(aiOn() && text) aiCall('/review', { stars:st, dish:dish.n, mins, mist:!!cu.mist, dirty:!!ctx.dirty, pricey:!!ctx.pricey, cheap:!!ctx.cheap, online:!!ctx.online,
+      weather: R && R.ev ? ((WX[R.ev.id] || [])[1] || R.ev.id) : '', staff: aiStaffLine(), persona: who.name }).then(t => { if(t){ rv.text = t; rv.ai = true; save(); } });
 }
 function ago(day){
   const cur = R && R.running ? S.day : S.day - 1;
@@ -4873,6 +4899,28 @@ function detectTone(text, fallback){
   if(score('rude') > 0 || (/[!]{3,}/.test(text) && /[A-ZĐ]{4,}/.test(text))) return 'rude';
   const order = ['sarc','funny','sorry','thanks'].map(k => [k, score(k)]).sort((a,b) => b[1] - a[1]);
   return order[0][1] > 0 ? order[0][0] : fallback;
+}
+/* ========================= AI (qua máy chủ trung gian Cloudflare Worker) ========================= */
+const AI_URL = '';   // dán link Worker vào đây, ví dụ 'https://dau-hu-ai.ten-ban.workers.dev'
+const AI_DAY_MAX = 40;
+function aiOn(){ return !!AI_URL && !S.aiOff; }
+async function aiCall(path, body){
+  if(!aiOn()) return null;
+  if(S.aiDay !== S.day){ S.aiDay = S.day; S.aiN = 0; }
+  if((S.aiN || 0) >= AI_DAY_MAX) return null;
+  S.aiN = (S.aiN || 0) + 1;
+  try{
+    const ac = new AbortController(); const tm = setTimeout(() => ac.abort(), 9000);
+    const r = await fetch(AI_URL.replace(/\/$/, '') + path, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body), signal: ac.signal });
+    clearTimeout(tm);
+    if(!r.ok) return null;
+    const j = await r.json();
+    return j && j.text ? String(j.text).slice(0, 600) : null;
+  }catch(e){ return null; }
+}
+function aiStaffLine(){
+  if(!R || !R.crew || !R.crew.length) return '';
+  return R.crew.slice(0, 4).map(w => `${w.s.name} (${CFG.roles[w.s.role].n}, ${(TRAITS[w.s.trait] || {}).n || ''})`).join('; ');
 }
 function pushReview(rv, counted){
   S.reviews.unshift(rv);
@@ -4961,8 +5009,9 @@ function netReview(good){
     text: fresh(good ? RV.netGood : RV.netBad), dish:null, sub:null, ...a, meta:'Đến từ bài drama trên mạng' }, false);
 }
 const curDay = () => R && R.running ? S.day : Math.max(1, S.day - 1);
-function sendReply(r, text, tone){
+function sendReply(r, text, tone, onUpd){
   r.thread = r.thread || [];
+  const startN = r.thread.length + 1;
   const lvl = r.thread.filter(m => m.w === 'o').length;
   r.thread.push({ w:'o', t:text, tone });
   const say = (pool, who) => r.thread.push(who ? { w:'x', n:who, t:fresh(pool), nw:1 } : { w:'c', t:fresh(pool), nw:1 });
@@ -5015,6 +5064,14 @@ function sendReply(r, text, tone){
   if(r.stars !== old) toast(`${r.name} đã sửa đánh giá: ${old}★ → ${r.stars}★ ${r.stars > old ? '🙏' : '😬'}`);
   else if(note) toast(note);
   save(); renderHud();
+  if(aiOn()){
+    const mine = r.thread.slice(startN).find(m => m.w === 'c');
+    aiCall('/reply', { name:r.name, stars:r.stars, review:r.text, tone, owner:text, thread:r.thread.slice(-7, -1).map(m => ({ w:m.w, t:m.t })) }).then(t => {
+      if(!t) return;
+      if(mine) mine.t = t; else r.thread.push({ w:'c', t, nw:1 });
+      save(); if(onUpd) onUpd();
+    });
+  }
 }
 function threadHtml(r){
   if(!r.thread || !r.thread.length) return '';
@@ -5091,7 +5148,7 @@ function bindReviews(rerender, root){
     const tone = detectTone(text, rvDraft.tone);
     rvDraft = null;
     clearNew();
-    sendReply(r, text, tone);
+    sendReply(r, text, tone, () => { if($('#modal').classList.contains('show') || hubTab === 'dg') rerender(); });
     rerender();
     const el = document.getElementById('rv-' + r.id); if(el) el.scrollIntoView({ block:'center' });
   });
