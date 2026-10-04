@@ -2795,7 +2795,7 @@ function hkhTick(){
   R.hkhT = 1e9;
   const h = hkhState(); h.n++;
   const i = R.cust.findIndex((c,j) => !c && !(incOn('roof') && R.inc.roof.i === j));
-  const types = h.good ? ['good'] : i < 0 ? ['chen'] : ['quyt', 'quyt', 'che', 'xin', 'review', ...(S.day >= 3 ? ['pha', 'pha'] : [])];
+  const types = h.good ? ['good'] : i < 0 ? ['pha', 'pha', 'pha', 'chen'] : ['quyt', 'che', 'xin', 'review', 'pha', 'pha', 'pha', 'pha'];
   const type = pick(types);
   const c = makeCustomer();
   Object.assign(c, { name:HKH_NAME, title:'', face:'😏', vip:false, foreign:null, alien:false, hkh:type, items:[{ id:pickDish().id, done:false }] });
@@ -2806,7 +2806,7 @@ function hkhTick(){
   renderStreet(); renderOrder();
   if(type === 'good'){ toast('😇 Hoài Kim Huynh dắt bạn bè tới ủng hộ quán!'); R.spawnMul *= .8; return; }
   if(type === 'quyt'){ mascotPop('Coi chừng! Hoài Kim Huynh tới, thằng cha này hay ăn quỵt lắm. Ăn xong mà chạy thì chạm vào bắt lại liền nha! 🏃', 'bad', 'm2', 3600); return; }
-  if(type === 'chen' && i < 0){ return hkhModal(c, 'chen'); }
+  if(i < 0){ return hkhModal(c, type); }
   hkhModal(c, type);
 }
 function hkhModal(c, type){
@@ -3520,7 +3520,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.04-20h30';
+const GAME_VER = '2026.10.05-02h45';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
