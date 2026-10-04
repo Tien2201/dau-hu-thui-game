@@ -989,7 +989,7 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 #hub .shopcard .xpt{font-size:10.5px}
 #hub .shopcard .chap{max-width:none;margin-top:5px;padding:5px 8px;font-size:11.5px;line-height:1.3;margin-right:64px}
 #hub .shopcard .smas{width:62px;bottom:10px;right:-2px;top:auto}
-#hub .shopcard .sbtns{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;max-width:none;margin-top:7px}
+#hub .shopcard .sbtns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;max-width:none;margin-top:7px}
 #hub .shopcard .sbtns button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 2px;border-radius:10px;font-size:10px;line-height:1.1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 #hub .shopcard .sbtns button i{font-style:normal;font-size:17px;line-height:1}
 #hub .shopcard .sbtns button.don{background:linear-gradient(#FFE27A,#F5A623);color:#5A2E00;box-shadow:0 0 10px rgba(255,200,60,.7)}
@@ -1127,6 +1127,16 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 #vQuay .tables.vmany .tbl .tav i{font-size:19px}
 #vQuay .tables.vmany .tbl .tn{font-size:9px}
 .tbl.empty.up .tav{opacity:.8}
+
+.fsp{margin:4px 0 2px;font-size:12px;background:rgba(255,213,79,.18);border-radius:8px;padding:4px 8px;color:#FFF3C4}
+.bdot{position:absolute;top:3px;right:6px;width:9px;height:9px;border-radius:50%;background:#FF5252;box-shadow:0 0 0 2px #fff}
+#hub .shopcard .sbtns button{position:relative}
+.lgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
+.lgd{border:2px solid #e2cfa4;border-radius:12px;padding:6px 2px;text-align:center;background:#fffaf0;display:flex;flex-direction:column;align-items:center}
+.lgd small{font-size:10px;color:#8a6a3a}.lgd span{font-size:22px}.lgd b{font-size:12.5px}.lgd i{font-style:normal;font-size:9.5px;color:#2E7D32}
+.lgd.got{opacity:.45}.lgd.cur{border-color:#E8710A;box-shadow:0 0 0 2px rgba(232,113,10,.3);background:#FFF3E0}
+.lgd:last-child{grid-column:span 2;background:linear-gradient(#FFF8E1,#FFE082)}
+.row.ach.ok .ri{filter:none}.row.ach:not(.ok){opacity:.7}
 </style>
 </head>
 <body class="inhub">
@@ -1295,8 +1305,14 @@ const CFG = {
       { n:'8 bàn (mở thêm tầng lửng)', d:'Thêm 1 bàn nữa, quán rộng rãi hẳn', cost:2800000, need:12000000 } ] },
     floor:  { g:'mb', e:'🏢', n:'Lên lầu', levels:[
       { n:'Nhà trệt' },
-      { n:'Xây 1 lầu', d:'Thêm 2 bàn trên lầu, khách thích ngồi lầu ngắm phố (chờ lâu hơn chút)', cost:5000000, need:15000000 },
-      { n:'Xây 2 lầu', d:'Thêm 2 bàn nữa, quán thành nhà phố 3 tầng', cost:12000000, need:40000000 } ] },
+      { n:'Xây 1 lầu', d:'Có chỗ kê 2 bàn trên lầu (phải mua bàn ghế riêng). Khách thích ngồi lầu ngắm phố', cost:5000000, need:15000000 },
+      { n:'Xây 2 lầu', d:'Có chỗ kê thêm 2 bàn nữa (mua bàn ghế riêng), quán thành nhà phố 3 tầng', cost:12000000, need:40000000 } ] },
+    uptab:  { g:'mb', e:'🛋️', n:'Bàn ghế trên lầu', levels:[
+      { n:'Chưa có' },
+      { n:'1 bộ bàn ghế', d:'Kê bàn đầu tiên trên lầu 1', cost:600000, floor:1 },
+      { n:'2 bộ bàn ghế', d:'Lầu 1 đủ 2 bàn', cost:700000, floor:1 },
+      { n:'3 bộ bàn ghế', d:'Kê bàn đầu tiên trên lầu 2', cost:900000, floor:2 },
+      { n:'4 bộ bàn ghế', d:'Lầu 2 đủ 2 bàn, kín chỗ', cost:1100000, floor:2 } ] },
     ac:     { g:'mb', e:'❄️', n:'Làm mát', levels:[
       { n:'Quạt máy' },
       { n:'Máy lạnh', d:'Khách kiên nhẫn hơn 15%, ngày nắng không bị ảnh hưởng', cost:450000, need:1000000 } ] },
@@ -1475,7 +1491,7 @@ function fixSave(s){
             ac: u.ac || 0, chair: Math.min(u.chair || 0, 2), sign: Math.min(u.sign || 0, 3),
             hood: u.hood || 0, parking: u.parking || 0, trash: u.trash || 0,
             pot: u.pot || 0, prep: u.prep || 0, fridge: u.fridge || 0, sink: u.sink || 0, tea: u.tea || 0, music: u.music || 0,
-            pay: u.pay || 0, canopy: u.canopy || 0, gen: u.gen || 0, app: u.app || 0, floor: u.floor || 0 };
+            pay: u.pay || 0, canopy: u.canopy || 0, gen: u.gen || 0, app: u.app || 0, floor: u.floor || 0, uptab: u.uptab ?? Math.min(4, (u.floor || 0) * 2) };
   s.earned = s.earned || 0; s.totalServed = s.totalServed || 0;
   if(s.fund === undefined){ s.fund = Math.max(0, (s.money || 0) - CFG.dailyCash); s.money = CFG.dailyCash; }
   if(!s.wage2){ s.wage2 = true; s.chef200 = true; const c2 = w => { w.wage = Math.max(10000, Math.round(w.wage * .6 / 5000) * 5000); }; (s.staff || []).forEach(c2); if(s.cands && s.cands.byRole) Object.values(s.cands.byRole).forEach(l => l.forEach(c2)); if(s.mis && s.mis.list) s.mis.list.forEach(m => { if(!m.done) m.rw *= 4; }); }
@@ -1623,6 +1639,78 @@ function tierRoad(){
   const cur = tierOf(S.level);
   return `<div class="troad">${TIERS.map(t => `<span class="${S.level >= t.lv ? 'got' : ''}${t === cur ? ' cur' : ''}" title="${esc(t.n)} (cấp ${t.lv})"><i>${t.e}</i><small>${esc(t.n)}</small></span>`).join('')}</div>`;
 }
+
+/* ========================= QUÀ ĐĂNG NHẬP MỖI NGÀY + THÀNH TỰU ========================= */
+const todayKey = () => { const d = new Date(); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; };
+const LOGIN_RW = [50000, 80000, 100000, 150000, 200000, 250000, 500000];
+function loginCheck(){
+  const L = S.login = S.login || { last:'', streak:0, claimed:'' };
+  const t = todayKey();
+  if(L.claimed === t) return false;
+  const y = new Date(); y.setDate(y.getDate() - 1);
+  const yk = `${y.getFullYear()}-${y.getMonth() + 1}-${y.getDate()}`;
+  L.streak = L.last === yk ? L.streak + 1 : 1; L.last = t;
+  return true;
+}
+function loginModal(force){
+  const L = S.login || {};
+  const t = todayKey();
+  const canClaim = L.claimed !== t;
+  const idx = ((L.streak || 1) - 1) % 7;
+  showModal(`<button class="mx" id="lgX" aria-label="Đóng">✕</button><h2>🎁 Quà mỗi ngày</h2>
+    <p class="note">Vào game mỗi ngày (ngày thật) để nhận quà. Liên tục 7 ngày nhận quà lớn, bỏ 1 ngày là đếm lại từ đầu.</p>
+    <div class="lgrid">${LOGIN_RW.map((v,i) => `<div class="lgd${i < idx || (i === idx && !canClaim) ? ' got' : ''}${i === idx ? ' cur' : ''}"><small>Ngày ${i + 1}</small><span>${i === 6 ? '💰' : '🪙'}</span><b>${fmtK(v)}</b>${i === 6 ? '<i>+ 100 XP</i>' : ''}</div>`).join('')}</div>
+    <p class="note" style="text-align:center">🔥 Chuỗi hiện tại: <b>${L.streak || 0} ngày</b></p>
+    ${canClaim ? `<button class="big" id="lgGet">Nhận ${fmtK(LOGIN_RW[idx])} 🎉</button>` : '<button class="big alt" disabled>Đã nhận hôm nay, mai quay lại nha!</button>'}`);
+  $('#lgX').onclick = hideModal;
+  const g = $('#lgGet');
+  if(g) g.onclick = () => {
+    const v = LOGIN_RW[idx];
+    S.login.claimed = t; S.money += v; led('Quà đăng nhập mỗi ngày', v, 'bonus');
+    if(idx === 6) addXP(100);
+    SFX.pay(); burst(g, ['🪙','🎉','✨'], 14, 80); save(); renderHud(); toast(`🎁 Nhận ${fmtK(v)} vào két!`);
+    setTimeout(() => { hideModal(); if(!R || !R.running) renderHub(true); }, 700);
+  };
+}
+const ACH = [
+  { id:'sell100',  e:'🍢', n:'Tay chiên mới vào nghề', d:'Bán 100 phần',            ok:() => (S.sold || 0) >= 100,   rw:200000 },
+  { id:'sell500',  e:'🔥', n:'Thánh chiên đậu',        d:'Bán 500 phần',            ok:() => (S.sold || 0) >= 500,   rw:600000 },
+  { id:'sell2000', e:'👑', n:'Vua đậu thúi',           d:'Bán 2.000 phần',          ok:() => (S.sold || 0) >= 2000,  rw:2000000 },
+  { id:'rv50',     e:'⭐', n:'Quán được yêu thích',    d:'50 đánh giá, trung bình từ 4,3★', ok:() => rcTotal() >= 50 && rcAvg() >= 4.3, rw:500000 },
+  { id:'cel5',     e:'🌟', n:'Fan cứng của sao',       d:'Gặp 5 ngôi sao khác nhau', ok:() => Object.keys(S.celebs || {}).length >= 5,  rw:300000 },
+  { id:'cel20',    e:'📸', n:'Tường ảnh người nổi tiếng', d:'Gặp 20 ngôi sao khác nhau', ok:() => Object.keys(S.celebs || {}).length >= 20, rw:1500000 },
+  { id:'staff6',   e:'👥', n:'Ông chủ thứ thiệt',      d:'Có 6 nhân viên cùng lúc', ok:() => (S.staff || []).length >= 6, rw:300000 },
+  { id:'perf',     e:'💎', n:'Săn nhân tài',            d:'Thuê được nhân viên 5★',  ok:() => (S.staff || []).some(x => x.skill >= 5), rw:400000 },
+  { id:'floor',    e:'🏢', n:'Lên nhà lầu',             d:'Xây lầu cho quán',        ok:() => (S.upg.floor || 0) >= 1, rw:800000 },
+  { id:'hkh',      e:'😇', n:'Cảm hoá Hoài Kim Huynh', d:'Biến Hoài Kim Huynh thành khách tốt', ok:() => !!(S.hkh && S.hkh.good), rw:500000 },
+  { id:'intl',     e:'✈️', n:'Vươn ra thế giới',       d:'Lên tầm Quốc tế',          ok:() => (S.level || 1) >= 9,  rw:1000000 },
+  { id:'frn',      e:'🌏', n:'Đại sứ ẩm thực',          d:'Phục vụ 30 khách nước ngoài', ok:() => (S.fServed || 0) >= 30, rw:800000 },
+  { id:'space',    e:'🚀', n:'Phóng lên vũ trụ',        d:'Lên tầm Vũ trụ',           ok:() => (S.level || 1) >= 13, rw:3000000 },
+  { id:'alien',    e:'👽', n:'Bạn của người ngoài hành tinh', d:'Phục vụ 20 khách ngoài hành tinh', ok:() => (S.aServed || 0) >= 20, rw:2000000 },
+  { id:'multi',    e:'🌀', n:'Đậu thúi đa vũ trụ',      d:'Lên tầm Đa vũ trụ',        ok:() => (S.level || 1) >= 16, rw:10000000 },
+  { id:'day30',    e:'📅', n:'Một tháng giữ lửa',       d:'Mở quán tới ngày 30',      ok:() => (S.day || 1) >= 30,   rw:1000000 },
+];
+function achCheck(){
+  S.ach = S.ach || {};
+  const got = ACH.filter(a => !S.ach[a.id] && a.ok());
+  got.forEach((a,i) => { S.ach[a.id] = 'new'; setTimeout(() => toast(`🏆 Thành tựu mới: ${a.e} ${a.n}! Vào 🏆 Thành tựu nhận ${fmtK(a.rw)}`), 900 + i * 1500); });
+  return got.length;
+}
+function achModal(){
+  S.ach = S.ach || {};
+  const done = ACH.filter(a => S.ach[a.id]).length;
+  showModal(`<button class="mx" id="acX" aria-label="Đóng">✕</button><h2>🏆 Thành tựu</h2>
+    <p class="note">Đã đạt <b>${done}/${ACH.length}</b>. Đạt thành tựu là có thưởng tiền vào két.</p>
+    ${ACH.map(a => { const st = S.ach[a.id]; return `<div class="row ach${st ? ' ok' : ''}"><span class="ri">${st ? a.e : '🔒'}</span><div><b>${esc(a.n)}</b><small>${esc(a.d)} · thưởng ${fmtK(a.rw)}</small></div>${st === 'new' ? `<button data-ach="${a.id}">Nhận</button>` : st ? '<button disabled>✅</button>' : '<button disabled>Chưa đạt</button>'}</div>`; }).join('')}
+    <button class="big alt" id="acBack">Đóng</button>`);
+  $('#acX').onclick = $('#acBack').onclick = hideModal;
+  $('#card').querySelectorAll('[data-ach]').forEach(b => b.onclick = () => {
+    const a = ACH.find(x => x.id === b.dataset.ach); if(!a || S.ach[a.id] !== 'new') return;
+    S.ach[a.id] = 'done'; S.money += a.rw; led(`Thành tựu: ${a.n}`, a.rw, 'bonus');
+    SFX.pay(); save(); renderHud(); toast(`🏆 +${fmtK(a.rw)}`); achModal();
+  });
+}
+
 function chapter(){ return CFG.chapters[Math.min(S.ch, CFG.chapters.length - 1)]; }
 function chProgress(c = chapter()){
   if(c.type === 'sold') return { v:S.sold, t:c.target };
@@ -1922,7 +2010,7 @@ function usedSet(){ const s = new Set(); unlocked().forEach(r => r.items.forEach
 const fryTime = () => CFG.fryTime * [1, .7, .5][S.upg.stove || 0];
 const autoFryer = () => (S.upg.stove || 0) >= 2;
 const fryerCount = () => 2 + (S.upg.fryer || 0);
-const seats = () => 4 + (S.upg.tables || 0) + (S.upg.floor || 0) * 2;
+const seats = () => 4 + (S.upg.tables || 0) + Math.min(S.upg.uptab || 0, (S.upg.floor || 0) * 2);
 const groundSeats = () => 4 + (S.upg.tables || 0);
 const isFry = k => !!(CFG.ingredients[k] && CFG.ingredients[k].fry);
 const stockOf = k => (S.stock && S.stock[k]) || 0;
@@ -2395,11 +2483,16 @@ function crowdLabel(){
   return d < .7 ? 'Vắng hoe 😢' : d < .95 ? 'Bình thường' : d < 1.2 ? 'Khá đông' : d < 1.5 ? 'Đông 🔥' : 'Cháy hàng 🔥🔥';
 }
 const queueMax = () => clamp(Math.round(S.rep), 2, 6);
+function specialId(){
+  if(!S.special || S.special.day !== S.day){ const rs = unlocked(); S.special = { day:S.day, id: rs.length > 1 ? pick(rs).id : (rs[0] || {}).id }; }
+  return S.special.id;
+}
 function pickDish(){
   const rs = unlocked();
   const ok = rs.filter(canMake);
   const pool = ok.length ? ok : rs;
-  const w = pool.map(r => clamp(Math.pow(1 / priceRatio(r), 2), .25, 2));
+  const sp = specialId();
+  const w = pool.map(r => clamp(Math.pow(1 / priceRatio(r), 2), .25, 2) * (r.id === sp ? 2.5 : 1));
   let x = Math.random() * w.reduce((a,b) => a + b, 0);
   for(let i = 0; i < pool.length; i++){ x -= w[i]; if(x <= 0) return pool[i]; }
   return pool[0];
@@ -2486,6 +2579,7 @@ function pay(i){
   if((S.upg.pay || 0) >= 2) tip += Math.round(base * .1 / 1000) * 1000;
   if(c.vip) tip *= 2;
   if(c.celeb) tip += base;
+  { const sp = specialId(); c.items.forEach(x => { if(x.id === sp) tip += Math.round(priceOf(getR(x.id)) * .25 / 1000) * 1000; }); }
   if(c.alien) tip += Math.round(base * .5 / 1000) * 1000;
   if(c.foreign){ if(c.alien) S.aServed = (S.aServed || 0) + 1; else S.fServed = (S.fServed || 0) + 1; }
   if(c.bonus) tip += c.bonus;
@@ -3568,7 +3662,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.05-03h40';
+const GAME_VER = '2026.10.05-04h10';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -3619,6 +3713,7 @@ function forecastHtml(f, title){
   const need = Math.round((f.lo + f.hi) / 2 + f.onl);
   return `<div class="fcast"><div class="fch"><span class="fcw">${w[0]}</span><div><b>${title}</b><small>${esc(w[1])}${ev && ev.spawn ? (ev.spawn < 1 ? ' · đông hơn thường' : ' · vắng hơn thường') : ''}</small></div></div>
     <div class="fcg"><div><small>👥 Khách</small><b>${f.lo}–${f.hi}</b></div><div><small>📱 Đơn app</small><b>${f.onl ? '~' + f.onl : 'chưa mở'}</b></div><div><small>⚠️ Sự cố</small><b class="${f.risk >= 60 ? 'neg' : ''}">${f.risk}%</b></div></div>
+    ${(() => { const r = getR(specialId()); return r ? `<div class="fsp">⭐ Món đặc biệt hôm nay: <b>${esc(r.e)} ${esc(r.n)}</b> · khách gọi nhiều gấp đôi, mỗi phần thêm 25% tiền</div>` : ''; })()}
     <small class="fct">💡 Nên chuẩn bị khoảng <b>${need} phần</b>${f.ev === 'storm' ? ' · bão dễ cúp điện, dột mái, chuẩn bị tiền sửa' : f.ev === 'hot' ? ' · trời nóng, có máy lạnh khách đỡ quạu' : ''}.</small></div>`;
 }
 /* ========================= VÒNG LẶP ========================= */
@@ -3906,9 +4001,12 @@ function openHub(){
   document.querySelectorAll('.mpop2').forEach(x => x.remove());
   document.body.classList.add('inhub');
   ensureMissions();
+  achCheck();
+  const newLogin = loginCheck();
   renderHud();
   renderHub();
   if(S.newDish && S.newDish.length && !$('#modal').classList.contains('show')) setTimeout(showNewDishes, 300);
+  else if(newLogin && S.named && !$('#modal').classList.contains('show')) setTimeout(() => { if(!$('#modal').classList.contains('show')) loginModal(); }, 600);
 }
 function renderHub(keep){
   const sc = keep ? $('#hscroll') && $('#hscroll').scrollTop : 0;
@@ -3927,7 +4025,7 @@ function renderHub(keep){
         <h1>${esc(S.shopName)}</h1><div class="lv">Cấp ${lv} · ${esc(levelTitle(lv))}</div></div></div>
         <div class="xpbar"><i style="width:${pct}%"></i></div><div class="xpt">${nx ? `${S.xp - base}/${nx - base} XP lên cấp ${lv + 1}` : 'Cấp tối đa'}</div>${tierRoad()}
         <div class="chap"><b>Chương ${Math.min(S.ch, CFG.chapters.length - 1) + 1} · ${esc(c.n)}</b><br>${esc(c.goal)}${c.type !== 'end' ? ` · ${c.type === 'earned' ? fmtK(cp.v) + '/' + fmtK(cp.t) : cp.v + '/' + cp.t}` : ''}${cp.extra ? `<br><small>${esc(cp.extra)}</small>` : ''}</div>
-        <div class="sbtns"><button id="donBtn" class="don"><i>☕</i>Ủng hộ</button><button id="guideBtn"><i>📖</i>Cách chơi</button><button id="renameBtn"><i>✏️</i>Đổi tên</button><button id="celebBtn"><i>🌟</i>Ngôi sao</button>${FIREBASE_CONFIG ? `<button id="accBtn"><i>👤</i>${FB.user ? esc(uname(FB.user)) : 'Đăng nhập'}</button><button id="rankBtn2"><i>🏆</i>Xếp hạng</button>` : ''}</div>
+        <div class="sbtns"><button id="donBtn" class="don"><i>☕</i>Ủng hộ</button><button id="guideBtn"><i>📖</i>Cách chơi</button><button id="renameBtn"><i>✏️</i>Đổi tên</button><button id="celebBtn"><i>🌟</i>Ngôi sao</button><button id="achBtn"><i>🏆</i>Thành tựu${Object.values(S.ach || {}).includes('new') ? '<b class="bdot"></b>' : ''}</button><button id="loginBtn"><i>🎁</i>Quà ngày${(S.login || {}).claimed !== todayKey() ? '<b class="bdot"></b>' : ''}</button>${FIREBASE_CONFIG ? `<button id="accBtn"><i>👤</i>${FB.user ? esc(uname(FB.user)) : 'Đăng nhập'}</button><button id="rankBtn2"><i>📊</i>Xếp hạng</button>` : ''}</div>
         <img class="smas" src="${IMG.m1}" alt=""></div>
       ${forecastHtml(S.fc && S.fc.day === S.day ? S.fc : makeForecast(), `🔮 Dự báo hôm nay · Ngày ${S.day}`)}
       ${missionsHtml()}
@@ -4098,6 +4196,8 @@ function hubClick(e){
   if(b.id === 'renameBtn') return renameModal(false);
   if(b.id === 'guideBtn') return guideModal(0);
   if(b.id === 'celebBtn') return celebModal();
+  if(b.id === 'achBtn') return achModal();
+  if(b.id === 'loginBtn') return loginModal();
   if(b.id === 'donBtn' || b.id === 'donCard') return donateModal();
   if(b.id === 'rankBtn2') return rankModal(() => hideModal());
   if(b.id === 'accBtn') return accountModal();
@@ -4128,7 +4228,7 @@ function hubClick(e){
   }
   if(d.u){
     const k = d.u, u = CFG.upgrades[k], nx = u.levels[(S.upg[k] || 0) + 1];
-    if(!nx || bigMoney() < nx.cost || (nx.need || 0) > (S.earned || 0)) return;
+    if(!nx || bigMoney() < nx.cost || (nx.need || 0) > (S.earned || 0) || (nx.floor && (S.upg.floor || 0) < nx.floor)) return;
     spendBig(nx.cost); S.upg[k] = (S.upg[k] || 0) + 1; led(`Nâng cấp: ${nx.n}`, -nx.cost, 'invest');
     SFX.pay(); save(); renderHud(); toast(`Đã nâng cấp: ${u.n} → ${nx.n} ✅`); re();
     burst($('#hpanel'), ['🎉','✨','🎊','⭐'], 16, 90); return;
@@ -5182,6 +5282,7 @@ function upgTabHtml(){
       const lv = S.upg[k] || 0, cur = u.levels[lv], nx = u.levels[lv + 1];
       let btn, sub;
       if(!nx){ btn = '<button disabled>Tối đa</button>'; sub = cur.d || 'Đã nâng cấp tối đa'; }
+      else if(nx.floor && (S.upg.floor || 0) < nx.floor){ btn = '<button disabled>🔒</button>'; sub = `Lên <b>${nx.n}</b>: ${nx.d || ''}<br>🔒 Cần xây ${nx.floor} lầu trước`; }
       else if((nx.need || 0) > (S.earned || 0)){ btn = '<button disabled>🔒</button>'; sub = `Lên <b>${nx.n}</b>: ${nx.d || ''}<br>🔒 Cần doanh thu tích lũy ${fmt(nx.need)}`; }
       else { btn = `<button data-u="${k}" ${bigMoney() < nx.cost ? 'disabled' : ''}>${fmt(nx.cost)}</button>`; sub = `Lên <b>${nx.n}</b>: ${nx.d || ''}`; }
       h += `<div class="row"><span class="ri">${u.e}</span><div><b>${u.n}: ${cur.n}</b><small>${sub}</small></div>${btn}</div>`;
