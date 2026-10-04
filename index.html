@@ -3662,7 +3662,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.05-04h10';
+const GAME_VER = '2026.10.05-04h25';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -5001,14 +5001,56 @@ function detectTone(text, fallback){
   return order[0][1] > 0 ? order[0][0] : fallback;
 }
 /* ========================= AI (qua máy chủ trung gian Cloudflare Worker) ========================= */
-const AI_URL = '';   // dán link Worker vào đây, ví dụ 'https://dau-hu-ai.ten-ban.workers.dev'
+const AI_URL = '';   // (tuỳ chọn) link Cloudflare Worker riêng; để trống thì dùng AI miễn phí Pollinations
+const AI_FREE = 'https://text.pollinations.ai/';
 const AI_DAY_MAX = 40;
-function aiOn(){ return !!AI_URL && !S.aiOff; }
+function aiOn(){ return !S.aiOff; }
+const clipT = (x, n) => String(x || '').slice(0, n);
+const AI_SYS = 'Bạn đóng vai người thật trong game quán đậu hủ thúi "Nhà Họ La" ở Sài Gòn. Viết tiếng Việt tự nhiên như bình luận Google Maps/Facebook, ngắn, có cảm xúc, có thể dùng emoji. Không nhắc mình là AI, không tục tĩu, không nội dung người lớn.';
+function aiPrompt(path, b){
+  if(path === '/review'){
+    const f = [`${b.stars}/5 sao`, `món ${clipT(b.dish, 30)}`, b.mins ? `chờ ${b.mins} phút` : '', b.mist ? 'quán làm sai món' : '', b.dirty ? 'quán hơi dơ' : '',
+      b.pricey ? 'thấy giá mắc' : '', b.cheap ? 'thấy giá rẻ' : '', b.online ? 'đặt qua app' : 'ăn tại quán', b.weather ? `trời ${clipT(b.weather, 20)}` : '',
+      b.staff ? `nhân viên: ${clipT(b.staff, 90)}` : '', b.persona ? `người viết: ${clipT(b.persona, 50)}` : ''].filter(Boolean).join('; ');
+    const lang = b.lang ? ` Viết bằng tiếng của khách (${clipT(b.lang, 40)}), xuống dòng rồi ghi "— Dịch: " kèm bản tiếng Việt.` : '';
+    return `Viết 1 đánh giá (1-3 câu, dưới 250 ký tự) đúng số sao, dựa trên: ${f}.${lang} Chỉ trả về nội dung đánh giá.`;
+  }
+  if(path === '/reply'){
+    const th = (b.thread || []).slice(-4).map(m => `${m.w === 'o' ? 'Chủ quán' : m.w === 'c' ? 'Khách' : 'Người khác'}: ${clipT(m.t, 120)}`).join(' | ');
+    return `Bạn là khách ${clipT(b.name, 30)}, đã đánh giá ${b.stars} sao: "${clipT(b.review, 200)}". ${th ? 'Trước đó: ' + th + '. ' : ''}Chủ quán vừa trả lời (giọng ${b.tone}): "${clipT(b.owner, 200)}". Trả lời lại chủ quán 1 câu dưới 180 ký tự: lịch sự thì dịu lại, hỗn thì phản pháo gay gắt nhưng không tục. Chỉ trả về câu trả lời.`;
+  }
+  if(path === '/owner') return `Bạn là nhân viên quản lý page quán "${clipT(b.shop, 30)}", tính cách ${clipT(b.trait, 50)}. Khách ${clipT(b.name, 30)} đánh giá ${b.stars} sao: "${clipT(b.review, 200)}". Viết 1 câu trả lời thay quán dưới 180 ký tự, đúng tính cách. Chỉ trả về câu trả lời.`;
+  return '';
+}
+// AI miễn phí bị giới hạn ~1 lượt/15 giây mỗi máy: xếp hàng, đông quá thì bỏ (game dùng câu có sẵn)
+let aiQ = Promise.resolve(), aiWait = 0, aiLast = 0;
+function aiFree(path, b){
+  if(aiWait >= 3) return Promise.resolve(null);
+  aiWait++;
+  const job = aiQ.then(async () => {
+    const gap = 16000 - (Date.now() - aiLast);
+    if(gap > 0) await new Promise(r => setTimeout(r, gap));
+    aiLast = Date.now();
+    try{
+      const ac = new AbortController(); const tm = setTimeout(() => ac.abort(), 15000);
+      const url = AI_FREE + encodeURIComponent(aiPrompt(path, b)) + '?model=openai&referrer=dauhuthui&system=' + encodeURIComponent(AI_SYS);
+      const r = await fetch(url, { signal: ac.signal });
+      clearTimeout(tm);
+      if(!r.ok) return null;
+      let t = (await r.text()).trim().replace(/^["“]|["”]$/g, '');
+      if(!t || t.length < 4 || /^\s*[{<]/.test(t) || /rate limit|error|queue full/i.test(t.slice(0, 60))) return null;
+      return t.slice(0, 500);
+    }catch(e){ return null; }
+  });
+  aiQ = job.catch(() => {}).then(() => { aiWait--; });
+  return job;
+}
 async function aiCall(path, body){
   if(!aiOn()) return null;
   if(S.aiDay !== S.day){ S.aiDay = S.day; S.aiN = 0; }
   if((S.aiN || 0) >= AI_DAY_MAX) return null;
   S.aiN = (S.aiN || 0) + 1;
+  if(!AI_URL) return aiFree(path, body);
   try{
     const ac = new AbortController(); const tm = setTimeout(() => ac.abort(), 9000);
     const r = await fetch(AI_URL.replace(/\/$/, '') + path, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body), signal: ac.signal });
