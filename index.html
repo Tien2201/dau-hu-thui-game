@@ -3520,7 +3520,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.04-17h50';
+const GAME_VER = '2026.10.04-20h30';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -4094,6 +4094,13 @@ function hubClick(e){
     S.staff.push(c); S.cands.byRole[role] = list.filter(x => x !== c);
     SFX.pay(); save(); toast(c.skill >= 5 ? `💎 Thuê được ${c.name} 5★ hoàn hảo! Chỉ làm ${c.days} ngày thôi nha` : `Đã thuê ${c.name} ${TRAITS[c.trait].e} ${TRAITS[c.trait].n}`); return re();
   }
+  if(d.rr){
+    const cost = rerollCost();
+    if(S.money < cost){ toast(`Két không đủ ${fmtK(cost)} để đăng tin tuyển người`); SFX.bad(); return; }
+    S.money -= cost; led('Đăng tin tuyển nhân viên', -cost);
+    candidates(); S.cands.byRole[d.rr] = [genCandidate(d.rr), genCandidate(d.rr), genCandidate(d.rr)];
+    SFX.pay(); save(); renderHud(); toast('📢 Đã đăng tin tuyển, có 3 ứng viên mới!'); return re();
+  }
   if(d.st){ staffSub = d.st; return re(); }
   if(b.id === 'hireAll'){
     const hired = [];
@@ -4433,7 +4440,7 @@ function genCandidate(role){
 function candidates(){
   if(!S.cands || S.cands.day !== S.day) S.cands = { day:S.day, byRole:{} };
   for(const r of Object.keys(CFG.roles)){
-    if(!S.cands.byRole[r] || !S.cands.byRole[r].length) S.cands.byRole[r] = [genCandidate(r), genCandidate(r)];
+    if(!S.cands.byRole[r] || !S.cands.byRole[r].length) S.cands.byRole[r] = [genCandidate(r), genCandidate(r), genCandidate(r)];
   }
   return S.cands.byRole;
 }
@@ -5099,6 +5106,7 @@ function upgTabHtml(){
 }
 // Thêm chỗ làm theo cấp quán: [cấp mở thêm 1 chỗ, ...]
 const SLOT_UP = { bep:[4,7,10], phucvu:[4,6,8,11], thungan:[6], vesinh:[5,9], chef:[8,12] };
+const rerollCost = () => 10000 + Math.max(0, (S.level || 1) - 1) * 2000;
 const roleMax = r => (CFG.roles[r].max || 1) + (SLOT_UP[r] || []).filter(l => (S.level || 1) >= l).length;
 const roleNextLv = r => (SLOT_UP[r] || []).find(l => (S.level || 1) < l);
 function staffCard(s, hired){
@@ -5134,7 +5142,7 @@ function staffTabHtml(){
     if(rd.need && (S.earned || 0) < rd.need && !cur.length){
       const p = clamp((S.earned || 0) / rd.need, 0, 1);
       h += `<div class="lock"><b>🔒 Chưa mời được ${rd.n}</b><p>Đầu bếp xịn chỉ về làm khi quán có tiếng: doanh thu tích lũy đạt ${fmt(rd.need)}.</p><div class="pbar"><i style="width:${p*100}%"></i></div><small>${fmt(S.earned || 0)} / ${fmt(rd.need)}</small></div>`;
-    } else h += cur.length < max ? `<h3>Ứng viên</h3>${cands[staffSub].map(c => staffCard(c, false)).join('')}` : '<p class="note" style="text-align:center">Vị trí này đã đủ người.</p>';
+    } else h += cur.length < max ? `<h3>Ứng viên</h3><button class="big alt" id="reroll" data-rr="${staffSub}">🔄 Làm mới ứng viên (${fmtK(rerollCost())})</button>${cands[staffSub].map(c => staffCard(c, false)).join('')}` : '<p class="note" style="text-align:center">Vị trí này đã đủ người.</p>';
   }
   h += `<div class="stat"><span>Tổng lương mỗi ngày</span><span>${fmt(wages)}</span></div>`;
   return h;
