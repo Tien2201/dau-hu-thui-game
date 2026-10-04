@@ -1111,6 +1111,13 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 .tierpop b{display:block;font-size:30px;font-family:"Noto Serif",Georgia,serif;color:#FFD54F;position:relative;text-shadow:0 2px 0 #4a0a0a}
 .tierpop p{margin:4px 0 6px;font-size:13px;position:relative}
 .tierpop em{display:block;font-style:normal;font-size:11.5px;opacity:.85;position:relative}
+
+.tables.many{row-gap:2px}
+.tables.many .tbl .tav{width:44px;height:44px;padding:3px}
+.tables.many .tbl .tav i{font-size:22px}
+.tables.many .tbl .tn{font-size:10px}
+.tables.many .tbl .td{font-size:11px;min-height:12px}
+.tables.many .tbl::after{height:7px;margin-top:2px}
 </style>
 </head>
 <body class="inhub">
@@ -1271,9 +1278,11 @@ const CFG = {
       { n:'3 chảo', d:'Chiên thêm 1 mẻ cùng lúc', cost:150000, need:150000 },
       { n:'4 chảo', d:'Chiên thêm 1 mẻ nữa', cost:380000, need:900000 } ] },
     tables: { g:'mb', e:'🪑', n:'Số bàn', levels:[
-      { n:'3 bàn' },
-      { n:'4 bàn', d:'Thêm chỗ cho 1 khách', cost:280000, need:500000 },
-      { n:'5 bàn (thuê thêm mặt bằng)', d:'Thêm chỗ cho 1 khách nữa', cost:800000, need:1800000 } ] },
+      { n:'4 bàn' },
+      { n:'5 bàn', d:'Thêm chỗ cho 1 khách', cost:280000, need:500000 },
+      { n:'6 bàn (thuê thêm mặt bằng)', d:'Thêm chỗ cho 1 khách nữa', cost:800000, need:1800000 },
+      { n:'7 bàn', d:'Kê thêm 1 bàn ra hiên', cost:1500000, need:5000000 },
+      { n:'8 bàn (mở thêm tầng lửng)', d:'Thêm 1 bàn nữa, quán rộng rãi hẳn', cost:2800000, need:12000000 } ] },
     ac:     { g:'mb', e:'❄️', n:'Làm mát', levels:[
       { n:'Quạt máy' },
       { n:'Máy lạnh', d:'Khách kiên nhẫn hơn 15%, ngày nắng không bị ảnh hưởng', cost:450000, need:1000000 } ] },
@@ -1899,7 +1908,7 @@ function usedSet(){ const s = new Set(); unlocked().forEach(r => r.items.forEach
 const fryTime = () => CFG.fryTime * [1, .7, .5][S.upg.stove || 0];
 const autoFryer = () => (S.upg.stove || 0) >= 2;
 const fryerCount = () => 2 + (S.upg.fryer || 0);
-const seats = () => 3 + (S.upg.tables || 0);
+const seats = () => 4 + (S.upg.tables || 0);
 const isFry = k => !!(CFG.ingredients[k] && CFG.ingredients[k].fry);
 const stockOf = k => (S.stock && S.stock[k]) || 0;
 const fryables = () => { const u = usedSet(); return Object.keys(CFG.ingredients).filter(k => isFry(k) && (u.has(k) || k === 'tofu')); };
@@ -2100,7 +2109,7 @@ function renderStreet(){
   if(!R.walkHtml || R.walkDay !== S.day){ R.walkHtml = walkersHtml(); R.walkDay = S.day; }
   applyScene();
   st.innerHTML = sceneHtml() + R.walkHtml + (R.queue.length ? `<div class="qline">${R.queue.map((q,i) => `<span style="animation-delay:${(i * .15).toFixed(2)}s">${q.face}</span>`).join('')}<b>xếp hàng ${R.queue.length}</b></div>` : '')
-    + decorHtml() + `<div class="tables" style="grid-template-columns:repeat(${n},minmax(0,1fr))">${tables}</div>`;
+    + decorHtml() + `<div class="tables${n > 5 ? ' many' : ''}" style="grid-template-columns:repeat(${n > 5 ? Math.ceil(n / 2) : n},minmax(0,1fr))">${tables}</div>`;
   const sv = st.querySelector('.scbg'); if(sv && sv.setCurrentTime) try{ sv.setCurrentTime((performance.now() - SC_T0) / 1000); }catch(e){}
   renderQStats();
   updateBars();
@@ -2364,13 +2373,13 @@ function walkersHtml(){
 const repMul = () => clamp(1 - (S.rep - 3.5) * 0.4, 0.45, 1.8);
 const demand = () => priceMul() * cuteMul() * ((S.upg.music || 0) >= 2 ? 1.06 : 1) / repMul();
 function nextSpawn(){
-  return Math.max(2.5, clamp(13 - S.level*0.6 - (S.upg.sign || 0)*0.8, 4, 14) / demand()) * (3 / seats()) * R.spawnMul * rnd(.7, 1.3) * (celebRushOn() ? .38 : 1);
+  return Math.max(2.5, clamp(13 - S.level*0.6 - (S.upg.sign || 0)*0.8, 4, 14) / demand()) * (3 / seats()) * .75 * R.spawnMul * rnd(.7, 1.3) * (celebRushOn() ? .38 : 1);
 }
 function crowdLabel(){
   const d = demand();
   return d < .7 ? 'Vắng hoe 😢' : d < .95 ? 'Bình thường' : d < 1.2 ? 'Khá đông' : d < 1.5 ? 'Đông 🔥' : 'Cháy hàng 🔥🔥';
 }
-const queueMax = () => clamp(Math.round(S.rep - 1), 1, 5);
+const queueMax = () => clamp(Math.round(S.rep), 2, 6);
 function pickDish(){
   const rs = unlocked();
   const ok = rs.filter(canMake);
@@ -3524,7 +3533,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.05-02h55';
+const GAME_VER = '2026.10.05-03h10';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -3560,7 +3569,7 @@ function donateModal(back){
 /* ========================= DỰ BÁO NGÀY MAI ========================= */
 function forecastFor(day, evId){
   const ev = EVENTS.find(e => e.id === evId) || EVENTS[0];
-  const lv = S.level, base = Math.max(2.5, clamp(13 - lv * .6 - (S.upg.sign || 0) * .8, 4, 14) / demand()) * (3 / seats()) * (ev.spawn || 1);
+  const lv = S.level, base = Math.max(2.5, clamp(13 - lv * .6 - (S.upg.sign || 0) * .8, 4, 14) / demand()) * (3 / seats()) * .75 * (ev.spawn || 1);
   const walk = CFG.dayLength / base;
   const cap = seats() * CFG.dayLength / 38;                         // mỗi bàn tối đa ~1 lượt / 38 giây
   const k = Math.round(Math.min(walk, cap + walk * .15));
