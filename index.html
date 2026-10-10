@@ -2774,9 +2774,10 @@ function pickCeleb(){
   return CELEBS[0];
 }
 function celebTick(){
-  if(R.t < R.celebT || R.t >= CFG.dayLength - 15) return;
+  if(R.t < R.celebT || R.t >= CFG.dayLength - 5) return;
   const i = R.cust.findIndex((c,j) => !c && !(incOn('roof') && R.inc.roof.i === j));
-  if(i < 0){ R.celebT = R.t + 4; return; }
+  if(i < 0){ if(!R.celebWaitMsg){ R.celebWaitMsg = true; toast('🌟 Có người nổi tiếng đang tới, dọn sẵn 1 bàn trống nha!'); } return; }
+  R.celebWaitMsg = false;
   R.celebT = R.celebQ && R.celebQ.length ? Math.max(R.t + 25, R.celebQ.shift()) : 1e9;
   const cb = pickCeleb();
   S.celebs = S.celebs || {};
@@ -3665,7 +3666,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.05-04h35';
+const GAME_VER = '2026.10.10-14h15';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -3727,12 +3728,13 @@ function update(dt){
     R.spawnT -= dt * (incOn('flood') ? .35 : 1);
     if(R.spawnT <= 0){
       const i = R.cust.findIndex((c,j) => !c && !(incOn('roof') && R.inc.roof.i === j));
-      if(i >= 0 && !R.queue.length){ R.cust[i] = makeCustomer(); R.stats.arrive++; renderStreet(); renderOrder(); SFX.bell(); }
+      if(i >= 0 && !R.queue.length && !(R.celebT <= R.t)){ R.cust[i] = makeCustomer(); R.stats.arrive++; renderStreet(); renderOrder(); SFX.bell(); }
       else if(R.queue.length < queueMax()){ R.queue.push({ t:R.t, face:pick(FACES) }); R.stats.arrive++; renderStreet(); }
       else R.stats.turned++;
       R.spawnT = nextSpawn();
     }
   }
+  celebTick();   // ngôi sao được ưu tiên vào bàn trống trước người đang xếp hàng
   if(R.queue.length){
     const i = R.cust.findIndex((c,j) => !c && !(incOn('roof') && R.inc.roof.i === j));
     if(i >= 0){ R.queue.shift(); R.cust[i] = makeCustomer(); R.cust[i].t0 -= 5; renderStreet(); renderOrder(); SFX.bell(); }
@@ -3775,7 +3777,6 @@ function update(dt){
   if(R.t < CFG.dayLength) dramaTick(dt);
   incTick(dt); if(R.paused) return;
   hkhTick(); if(R.paused) return;
-  celebTick();
   renderInc();
   petals(dt);
   if(open){
