@@ -1137,6 +1137,35 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 .lgd.got{opacity:.45}.lgd.cur{border-color:#E8710A;box-shadow:0 0 0 2px rgba(232,113,10,.3);background:#FFF3E0}
 .lgd:last-child{grid-column:span 2;background:linear-gradient(#FFF8E1,#FFE082)}
 .row.ach.ok .ri{filter:none}.row.ach:not(.ok){opacity:.7}
+
+/* ==== Sổ góp ý (phong cách quán, không giống Google Maps) ==== */
+.gm{background:#FBF3E0 repeating-linear-gradient(#FBF3E0 0 27px,#EBDDBF 27px 28px)!important;border:2px solid #C9A56A;border-radius:6px 16px 16px 6px!important;box-shadow:inset 10px 0 0 #8E1B1B,0 4px 12px rgba(0,0,0,.25);padding:12px 12px 12px 22px!important;font-family:inherit!important;color:#3a2210!important}
+.gmt{font-family:"Noto Serif",Georgia,serif;font-weight:800;font-size:17px;color:#8E1B1B;margin-bottom:6px;letter-spacing:.3px}
+.seal{display:flex;flex-direction:column;align-items:center;justify-content:center;width:72px;height:72px;margin:0 auto 4px;border-radius:50%;background:#B22222;color:#FFF3D6;box-shadow:0 0 0 3px #FBF3E0,0 0 0 5px #B22222;transform:rotate(-8deg)}
+.seal b{font-size:28px!important;font-weight:900!important;font-family:"Noto Serif",Georgia,serif;line-height:1}
+.seal i{font-style:normal;font-size:10px;letter-spacing:2px;opacity:.9}
+.gms small{color:#7a5a3a!important;font-weight:700}
+.gstars{color:#E8A317!important;text-shadow:0 1px 0 #8a5a00}
+.gbar{color:#5a3a1a!important;grid-template-columns:24px 1fr!important;font-weight:700}
+.gbar i{background:#EADBBE!important;height:9px!important;border-radius:2px!important}
+.gbar i b{background:linear-gradient(90deg,#B22222,#E8710A)!important;border-radius:2px!important}
+.chips2 button{background:#F3E2BF!important;border:1.5px solid #B8894A!important;color:#5a3410!important;border-radius:6px!important;clip-path:polygon(8px 0,100% 0,100% 100%,8px 100%,0 50%);padding:5px 12px 5px 16px!important}
+.chips2 button.on{background:#8E1B1B!important;color:#FFE9B0!important;border-color:#8E1B1B!important}
+.rv{border-top:none!important;margin:10px 0;padding:10px 12px!important;background:#FFFDF6;border-radius:4px 12px 12px 12px;box-shadow:0 2px 0 #D9C49A,0 3px 8px rgba(90,52,16,.12);position:relative}
+.rv::before{content:"";position:absolute;top:-6px;left:50%;width:46px;height:12px;margin-left:-23px;background:rgba(232,163,23,.35);transform:rotate(-2deg)}
+.av{border-radius:10px!important;border:2px solid #fff;box-shadow:0 0 0 1.5px #C9A56A;font-family:"Noto Serif",Georgia,serif}
+.rvh b{color:#3a2210}.rvh small{color:#8a6a4a!important}
+.rvs{color:#8a6a4a!important}
+.rvs .gstars{background:#3a2210;padding:0 7px;border-radius:999px;font-size:12.5px!important;color:#FFD54F!important;text-shadow:none}
+.rvs .gstars.rs1,.rvs .gstars.rs2{background:#B22222;color:#FFE0B2!important}
+.gm .rv p{color:#2a1a10!important;font-size:14.5px!important}
+.rvtags{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.rvtags span{font-size:11.5px;font-weight:700;background:#F3E6C8;color:#5a3410;border-radius:6px;padding:2px 7px}
+.rvbtn{border:none!important;background:#8E1B1B!important;color:#FFF3D6!important;border-radius:8px!important;box-shadow:0 2px 0 #4a0a0a}
+.thr{border-left:3px dotted #C9A56A!important}
+.tm.o{background:#FCE9D2!important;border:1px solid #F0C99A}
+.tm.o b{color:#8E1B1B!important}
+.cmp{background:#F6ECD6!important;border:1px dashed #C9A56A}
 </style>
 </head>
 <body class="inhub">
@@ -1504,6 +1533,7 @@ function fixSave(s){
   s.staff = s.staff || []; s.reviews = s.reviews || []; s.rvRecent = s.rvRecent || [];
   s.rc = Object.assign({1:0,2:0,3:0,4:0,5:0}, s.rc);
   s.buzz = s.buzz || 0; s.nb = s.nb ?? 60; s.fineCount = s.fineCount || 0;
+  s.reviews.forEach(r => { if(r.meta) r.meta = r.meta.replace(/Local Guide/g, '🍜 Thực khách sành ăn').replace(/bài đánh giá/g, 'lần góp ý'); });
   s.reviews.forEach(r => { if(r.reply && !r.thread) r.thread = [{ w:'o', t:r.reply }]; delete r.reply; });
   if(s.xp == null) s.xp = CFG.levels[Math.min(4, (s.day || 1) - 1)] || 0;
   s.level = levelOf(s.xp);
@@ -2584,7 +2614,7 @@ function pay(i){
   if(c.foreign){ if(c.alien) S.aServed = (S.aServed || 0) + 1; else S.fServed = (S.fServed || 0) + 1; }
   if(c.bonus) tip += c.bonus;
   if(c.free){ c.cash = 0; R.stats.served++; c.leaving = true; c.face = '😌'; if(R.sel === c.uid) R.sel = null; toast(`${HKH_NAME} ăn xong đi về (không trả tiền)`); renderStreet(); renderOrder(); removeLater(i, c); return; }
-  if(c.hkh === 'review' && c.bad){ c.leaving = true; c.face = '😏'; const i2 = i; setTimeout(() => { const a = randAuthor(); pushReview({ id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:curDay(), stars:1, text:'Quán dở tệ, đậu thúi như cống, chủ quán còn lên mặt. 1 sao cũng là nhiều!', dish:null, sub:null, name:HKH_NAME, meta:'Local Guide · 3 bài đánh giá (toàn 1 sao)', col:'#4a148c' }, true); toast('😏 Hoài Kim Huynh vừa đăng review 1★'); }, 900); }
+  if(c.hkh === 'review' && c.bad){ c.leaving = true; c.face = '😏'; const i2 = i; setTimeout(() => { const a = randAuthor(); pushReview({ id:'r' + Date.now().toString(36) + Math.floor(Math.random()*1e5), day:curDay(), stars:1, text:'Quán dở tệ, đậu thúi như cống, chủ quán còn lên mặt. 1 sao cũng là nhiều!', dish:null, sub:null, name:HKH_NAME, meta:'3 lần góp ý (toàn 1 sao)', col:'#4a148c' }, true); toast('😏 Hoài Kim Huynh vừa đăng review 1★'); }, 900); }
   const t = activeStaff('thungan');
   if(t){
     const tr = trOf(t.s);
@@ -3666,7 +3696,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.10-14h15';
+const GAME_VER = '2026.10.10-15h45';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -4854,12 +4884,12 @@ function randAuthor(){
   const ho = pick(HO), ten = pick(f ? TEN_F : TEN_M), dem = pick(f ? DEM_F : DEM_M);
   const name = r < .5 ? `${ho} ${dem} ${ten}` : r < .72 ? `${ten} ${ho}` : r < .84 ? `${dem} ${ten}` : pick(NICK);
   const g = Math.random();
-  const meta = g < .2 ? `Local Guide · ${Math.floor(rnd(12, 420))} bài đánh giá` : g < .6 ? `${Math.floor(rnd(1, 35))} bài đánh giá` : '';
+  const meta = g < .2 ? `🍜 Thực khách sành ăn · ${Math.floor(rnd(12, 420))} lần góp ý` : g < .6 ? `${Math.floor(rnd(1, 35))} lần góp ý` : '';
   return { name, meta, col:pick(AVCOL) };
 }
 function vipAuthor(){
   return { name:pick(['Lão Thực Khách', 'Quan Thanh Tra Ẩm Thực', 'Ngự Thiện Phòng Review', 'Đại Hiệp Ăn Vặt']),
-    meta:`Local Guide · ${Math.floor(rnd(300, 1200))} bài đánh giá · ${Math.floor(rnd(200, 3000))} ảnh`, col:'#B22222', vip:true };
+    meta:`👑 Thực khách kỳ cựu · ${Math.floor(rnd(300, 1200))} lần góp ý · ${Math.floor(rnd(200, 3000))} ảnh`, col:'#B22222', vip:true };
 }
 function addReview(ctx){
   const { kind, cu, dish } = ctx;
@@ -5241,10 +5271,9 @@ function rvHtml(r){
   const cmts = (r.thread || []).length;
   return `<div class="rv" id="rv-${r.id}"><div class="rvh"><span class="av" style="background:${r.col}">${esc([...r.name][0].toUpperCase())}</span>
     <div><b>${esc(r.name)}${r.vip ? '<span class="vipb">👑 Reviewer</span>' : ''}${r.drama ? `<span class="drama">🔥 Drama · ${cmts} bình luận</span>` : ''}</b>${r.meta ? `<small>${esc(r.meta)}</small>` : ''}</div></div>
-    <div class="rvs"><span class="gstars">${starStr(r.stars)}</span><span>${ago(r.day)}${r.edited ? ' · Đã chỉnh sửa' : ''}</span></div>
+    <div class="rvs"><span class="gstars rs${r.stars}">${starStr(r.stars)}</span><span>📅 ${ago(r.day)}${r.edited ? ' · ✏️ đã sửa' : ''}</span></div>
     ${r.text ? `<p>${esc(r.text)}</p>` : ''}
-    ${r.sub ? `<div class="rvsub"><b>Đồ ăn:</b> ${r.sub[0]}/5 | <b>Dịch vụ:</b> ${r.sub[1]}/5${r.sub[2] ? ` | <b>Bầu không khí:</b> ${r.sub[2]}/5` : ''}</div>` : ''}
-    ${r.dish ? `<div class="rvd">Món đã gọi: ${esc(r.dish)}</div>` : ''}
+    ${r.sub || r.dish ? `<div class="rvtags">${r.dish ? `<span>🍢 ${esc(r.dish)}</span>` : ''}${r.sub ? `<span>🥢 Món ${r.sub[0]}/5</span><span>🙋 Phục vụ ${r.sub[1]}/5</span>${r.sub[2] ? `<span>🏮 Không khí ${r.sub[2]}/5</span>` : ''}` : ''}</div>` : ''}
     ${threadHtml(r)}
     ${rvDraft && rvDraft.id === r.id ? composerHtml(r)
       : owners >= 6 ? '<div class="rvd">💤 Cuộc tranh luận đã khép lại.</div>'
@@ -5256,11 +5285,11 @@ function reviewsHtml(){
   if(!n) return `<div class="msay"><img src="${IMG.m1}" alt=""><p>Chưa có đánh giá nào. Bán thật ngon, thật nhanh để khách quan khen nha!</p></div>`;
   const avg = rcAvg();
   const mx = Math.max(1, ...[1,2,3,4,5].map(k => S.rc[k] || 0));
-  const bars = [5,4,3,2,1].map(k => `<div class="gbar"><span>${k}</span><i><b style="width:${(S.rc[k] || 0) / mx * 100}%"></b></i></div>`).join('');
+  const bars = [5,4,3,2,1].map(k => `<div class="gbar"><span>${k}★</span><i><b style="width:${(S.rc[k] || 0) / mx * 100}%"></b></i></div>`).join('');
   const list = S.reviews.filter(r => rvFilter === 'all' || (rvFilter === 'pos' && r.stars >= 4) || (rvFilter === 'neg' && r.stars <= 2) || (rvFilter === 'noreply' && !(r.thread || []).some(m => m.w === 'o')) || (rvFilter === 'drama' && r.drama));
   const chips = [['all','Tất cả'],['pos','Khen'],['neg','Chê'],['noreply','Chưa phản hồi'],['drama','🔥 Drama']]
     .map(([k,l]) => `<button data-rf="${k}" class="${rvFilter === k ? 'on' : ''}">${l}</button>`).join('');
-  return `${dramaBanner()}<div class="gm"><div class="gmh"><div class="gms"><b>${avg.toFixed(1).replace('.', ',')}</b><span class="gstars">${starStr(avg)}</span><small>${n} bài đánh giá</small></div><div class="gmb">${bars}</div></div>
+  return `${dramaBanner()}<div class="gm"><div class="gmt">📜 Sổ góp ý thực khách</div><div class="gmh"><div class="gms"><span class="seal"><b>${avg.toFixed(1).replace('.', ',')}</b><i>điểm</i></span><span class="gstars">${starStr(avg)}</span><small>${n} lời góp ý</small></div><div class="gmb">${bars}</div></div>
     <div class="chips2">${chips}</div>
     ${list.length ? list.slice(0, 50).map(rvHtml).join('') : '<p class="rvd" style="padding:12px 0">Không có đánh giá nào.</p>'}</div>`;
 }
@@ -5301,7 +5330,7 @@ function bindReviews(rerender, root){
 }
 function showModalKeep(html){ const sc = $('#card').scrollTop; showModal(html); $('#card').scrollTop = sc; }
 function reviewsModal(back, keep){
-  const html = `<button class="mx" id="rvX" aria-label="Đóng">✕</button><h2>⭐ Đánh giá của khách</h2>${reviewsHtml()}<button class="big alt" id="rvBack">← Quay lại</button>`;
+  const html = `<button class="mx" id="rvX" aria-label="Đóng">✕</button><h2>📜 Góp ý của khách</h2>${reviewsHtml()}<button class="big alt" id="rvBack">← Quay lại</button>`;
   keep ? showModalKeep(html) : showModal(html);
   bindReviews(() => reviewsModal(back, true));
   $('#rvBack').onclick = back;
