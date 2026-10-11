@@ -450,16 +450,56 @@ function heroSprite(L, fr){
   }));
 }// cánh (24x22 mỗi bên), vẽ sau lưng
 function wingSprite(k, fr){
-  return cached('wi' + k + fr, () => { const [c1, c2] = ITEMS[k].c, t = ITEMS[k].t; return spr(22, 24, (R) => {
-    const fl = fr === 1 ? -.16 : fr === 2 ? .14 : 0;
-    for(let i = 0; i < 7; i++){
-      const len = 19 - i * 1.8, base = 3 + i * 2.2;
-      for(let q = 0; q < len; q++){ const xx = 20 - q, yy = Math.round(base + q * (.2 + i * .07 + fl)); const tip = q / len; R(xx, yy, 1, 2, tip > .7 ? c2 : tip > .35 ? shade(c1, -.08) : c1); if(i % 2 === 0 && q % 3 === 0) R(xx, yy, 1, 1, shade(c1, .45)); }
-    }
-    R(19, 2, 2, 16, shade(c1, .35)); R(20, 1, 1, 2, '#FFFFFF');
-    if(t >= 5) for(let i = 0; i < 5; i++) R(3 + i * 3, 5 + i * 2, 1, 1, '#FFFFFF');
-  }); });
-}// phi kiếm (5x15, mũi hướng lên)
+  // mỗi cánh vẽ theo đúng hình dạng tên gọi; (u,v) = toạ độ từ gốc cánh (u ra ngoài, v xuống dưới)
+  return cached('wi' + k + fr, () => { const I = ITEMS[k], [c1, c2] = I.c, W = 30, H = 34, RX = 29, RY = 13;
+    const a = [0, -.26, .2][fr], ca = Math.cos(a), sa = Math.sin(a);
+    const lerp = (p, q, t) => { const A = parseInt(p.slice(1), 16), B = parseInt(q.slice(1), 16), m = (s) => Math.round(((A >> s) & 255) * (1 - t) + ((B >> s) & 255) * t); return '#' + ((1 << 24) | (m(16) << 16) | (m(8) << 8) | m(0)).toString(16).slice(1); };
+    const seg = (u, v, x0, y0, x1, y1) => { const dx = x1 - x0, dy = y1 - y0, l2 = dx * dx + dy * dy, t = Math.max(0, Math.min(1, ((u - x0) * dx + (v - y0) * dy) / l2)); return [Math.hypot(u - x0 - t * dx, v - y0 - t * dy), t]; };
+    const inPoly = (u, v, P) => { let c = false; for(let i = 0, j = P.length - 1; i < P.length; j = i++){ const [xi, yi] = P[i], [xj, yj] = P[j]; if((yi > v) !== (yj > v) && u < (xj - xi) * (v - yi) / (yj - yi) + xi) c = !c; } return c; };
+    const feathers = (u, v, list, pal, tipFx) => { let best = null;
+      for(let n = 0; n < list.length; n++){ const [ang, len, wd] = list[n], dx = Math.cos(ang), dy = Math.sin(ang), t = u * dx + v * dy, d = -u * dy + v * dx;
+        if(t < 0 || t > len) continue; const tt = t / len, w = wd * (1 - tt * .45) * (tt > .85 ? (1 - tt) / .15 * .8 + .2 : 1); if(Math.abs(d) > w) continue;
+        let c = pal(tt, n); if(d < -w + 1) c = lerp(c, '#FFFFFF', .35); if(d > w - 1) c = lerp(c, '#000000', .25); if(tipFx) c = tipFx(c, tt, n, d) || c; best = c; }
+      return best; };
+    const shape = {
+      wi1(u, v){ // cánh bướm: cánh trước lớn, cánh sau nhỏ, đốm mắt và gân cánh
+        const e1 = ((u - 12) / 13) ** 2 + ((v + 6) / 9.5) ** 2 - (u * .012), e2 = ((u - 8.5) / 8.5) ** 2 + ((v - 7) / 7) ** 2;
+        if(u < 0 || (e1 > 1 && e2 > 1)) return null;
+        const fore = e1 <= 1, r = fore ? e1 : e2; let c = lerp(c1, c2, Math.min(1, r * 1.1));
+        if(r > .78) c = shade(c2, -.35); if(r > .78 && (Math.round(u * 1.3 + v) % 6 === 0)) c = '#FFFFFF';
+        const ang = Math.atan2(v - (fore ? 0 : 3), u), vein = Math.abs(Math.sin(ang * (fore ? 5 : 4))) < .09 && u > 2; if(vein && r < .78) c = shade(c2, -.25);
+        const dE = Math.hypot(u - 15, v + 7); if(fore && dE < 3.2) c = dE < 1.4 ? '#FFFFFF' : dE < 2.3 ? '#2A1A4A' : '#FFE07A';
+        const dE2 = Math.hypot(u - 10, v - 8); if(!fore && dE2 < 2) c = dE2 < 1 ? '#FFFFFF' : '#5A2A8A';
+        return c; },
+      wi2(u, v){ // băng phượng: lông vũ nhiều lớp, đầu lông là tinh thể băng
+        const pal = (tt, n) => tt > .82 ? '#FFFFFF' : lerp(n % 2 ? c1 : shade(c1, .15), c2, Math.min(1, tt * 1.15));
+        const prim = feathers(u, v, [[-1.05, 21, 2.2], [-.8, 25, 2.4], [-.55, 27, 2.5], [-.3, 26, 2.5], [-.05, 23, 2.4], [.2, 19, 2.3], [.45, 15, 2.2]], pal, (c, tt) => tt > .9 ? '#E8FBFF' : null);
+        const cov = ((u - 5) / 6) ** 2 + ((v + 2) / 4) ** 2 <= 1 ? ((Math.round(u) % 3 === 0 && Math.round(v) % 2 === 0) ? c2 : lerp(c1, c2, .25)) : null;
+        const crys = [[-.8, 26.5], [-.55, 28.5], [-.3, 27.5]].some(([an, l]) => Math.abs(u - Math.cos(an) * l) + Math.abs(v - Math.sin(an) * l) < 1.6) ? '#FFFFFF' : null;
+        return cov || crys || prim; },
+      wi3(u, v){ // hỏa hoàng: lông dài vút lên, đầu lông bốc lửa (lửa đổi theo khung)
+        const pal = (tt) => tt < .3 ? lerp('#FFF2B0', c1, tt / .3) : tt < .7 ? lerp(c1, '#FF9A2A', (tt - .3) / .4) : lerp('#FF9A2A', c2, (tt - .7) / .3);
+        const L = [[-1.2, 22, 3], [-1.0, 26, 3.2], [-.8, 29, 3.3], [-.6, 29, 3.3], [-.4, 27, 3.2], [-.2, 24, 3.1], [0, 21, 3], [.2, 17, 2.8], [.4, 13, 2.6]];
+        const pr = feathers(u, v, L, pal, (c, tt, n, d) => (tt > .55 && Math.abs(d) < .9) ? '#FFF2B0' : null);
+        if(pr) return pr;
+        for(let n = 0; n < L.length; n++){ if(n % 2) continue; const [an, l] = L[n], fl = 1 + ((n + fr) % 3); const tx = Math.cos(an) * (l + fl), ty = Math.sin(an) * (l + fl) - fl * .6; const dd = Math.hypot(u - tx, v - ty); if(dd < 1) return '#FFD25A'; }
+        if(((u - 6) / 8) ** 2 + ((v + 2) / 5) ** 2 <= 1) return (u + v) % 3 === 0 ? '#FFE07A' : '#FF8A2A';
+        return null; },
+      wi4(u, v){ // ma long: khung xương rồng, màng cánh có viền răng cưa, móng vuốt
+        const wr = [9, -13], tips = [[27, -16], [27, -4], [22, 7], [13, 11]], sags = [[20, -8], [20, 0], [15, 5]];
+        const P = [[0, -2], wr, tips[0], sags[0], tips[1], sags[1], tips[2], sags[2], tips[3], [2, 6]];
+        let bone = seg(u, v, 0, -1, wr[0], wr[1])[0] < 1.5; for(const t of tips) if(seg(u, v, wr[0], wr[1], t[0], t[1])[0] < .75) bone = true;
+        if(Math.hypot(u - wr[0], v - wr[1] + 2) < 1.4 || Math.hypot(u - wr[0] + 1, v - wr[1] + 3.2) < .8) return '#F2EEF4';
+        if(bone) return v < -8 ? '#A898F0' : '#8070D0';
+        if(!inPoly(u, v, P)) return null;
+        const g = Math.min(1, Math.hypot(u, v) / 26); let c = lerp('#5A3AB0', c2, g * .8);
+        if(Math.abs(Math.sin(u * .9 + v * .4)) < .08) c = lerp(c, c1, .6);
+        for(const s of sags){ if(Math.hypot(u - s[0], v - s[1]) < 2.2) c = shade(c, -.25); }
+        return c; },
+    }[k] || (() => null);
+    return spr(W, H, R => { for(let y = 0; y < H; y++) for(let x = 0; x < W; x++){ const du = RX - x, dv = y - RY, u = du * ca - dv * sa, v = du * sa + dv * ca; const c = shape(u, v); if(c) R(x, y, 1, 1, c); } });
+  }); }
+// phi kiếm (5x15, mũi hướng lên)
 function miniSword(k){
   return cached('ms' + k, () => { const I = ITEMS[k] || { t:1, c:'#BFE8FF' }, c = I.t === 4 ? '#FFB04A' : I.c;
     return spr(7, 15, R => { R(3, 0, 1, 1, shade(c, .6)); R(2, 1, 3, 8, c); R(3, 1, 1, 8, shade(c, .55)); R(1, 9, 5, 1, I.t >= 6 ? '#3A1A2A' : '#F2C14E'); if(I.t >= 4){ R(0, 8, 1, 2, '#F2C14E'); R(6, 8, 1, 2, '#F2C14E'); } R(3, 10, 1, 3, I.t >= 5 ? '#2A2A4A' : '#6A2A20'); R(2, 13, 3, 1, '#F2C14E'); }); });
@@ -1230,7 +1270,7 @@ function drawHero(ctx, x, y, L, st){
     ctx.globalAlpha = Math.sin(an) < 0 ? .75 : 1; ctx.drawImage(ms, X, Y); ctx.globalAlpha = 1; };
   behind.forEach(drawSw);
   // cánh
-  if(L.wi && ITEMS[L.wi]){ const wf = Math.floor(tNow * 5 + x) % 3, ws = wingSprite(L.wi, wf), wy = sy - 31 + bob; ctx.drawImage(ws, sx - 21, wy); ctx.drawImage(flipCached(ws), sx - 1, wy);
+  if(L.wi && ITEMS[L.wi]){ const wf = [0, 1, 0, 2][Math.floor(tNow * (st.moving ? 9 : 5) + x * .01) % 4], ws = wingSprite(L.wi, wf), wy = sy - 35 + bob; ctx.drawImage(ws, sx - 30, wy); ctx.drawImage(flipCached(ws), sx, wy);
     if(ITEMS[L.wi].t >= 5 && frame % 7 === 0) fx.push({ k:'p', x:x + rnd(-24, 24), y:y - rnd(14, 30), vx:rnd(-6, 6), vy:rnd(5, 20), t:0, d:1.2, c:ITEMS[L.wi].c[1], glow:1 }); }
   let sp = heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, beard:L.beard, npc:L.npc, skin:L.skin, at:L.at, ac:L.ac, h:L.h, bw:L.bw }, st.sit ? 0 : fr);
   if(st.dir < 0) sp = flipCached(sp);
@@ -1628,9 +1668,11 @@ function charSheet(){
   const S = stats(), s = P.stage, gate = isGate(s), full = P.exp >= needExp(s);
   const pv = cnv(64, 44), x = pv.getContext('2d'); const L = look();
   if(L.au >= 3){ x.fillStyle = AURA_C[L.au]; x.globalAlpha = .35; x.beginPath(); x.ellipse(32, 41, 16, 3, 0, 0, 7); x.fill(); x.globalAlpha = 1; }
-  if(L.wi){ x.drawImage(wingSprite(L.wi, 0), 11, 9); x.drawImage(flip(wingSprite(L.wi, 0)), 31, 9); }
-  for(let i = 0; i < Math.min(L.sw, 6); i++){ const a = -Math.PI / 2 + (i - (Math.min(L.sw, 6) - 1) / 2) * .42; x.drawImage(swordSprite(L.w), Math.round(32 + Math.cos(a) * 17 - 5), Math.round(16 + Math.sin(a) * 7 - 14)); }
+  if(L.wi){ x.drawImage(wingSprite(L.wi, 0), 2, 7); x.drawImage(flip(wingSprite(L.wi, 0)), 32, 7); }
+  const nS = Math.min(4, 1 + Math.floor(((L.sw || 1) - 1) / 2)), pos = [...Array(nS)].map((_, i) => { const a = .6 + i * Math.PI * 2 / nS; return [Math.round(32 + Math.cos(a) * 19 - 3), Math.round(31 + Math.sin(a) * 4 - 10), Math.sin(a)]; });
+  pos.filter(p => p[2] < 0).forEach(p => x.drawImage(miniSword(L.w), p[0], p[1]));
   x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw }, 0), 20, 10);
+  pos.filter(p => p[2] >= 0).forEach(p => x.drawImage(miniSword(L.w), p[0], p[1]));
   const slot = sl => { const it = itemOf(P.eq[sl]); return `<button class="slot${it ? ' t' + ITEMS[it.k].t : ''}" data-slot="${sl}" style="${it ? 'border-style:solid' : ''}">${it ? iconHtml(it.k, 46) + (it.plus ? `<span class="pl">+${it.plus}</span>` : '') : ''}<small>${SLOTN[sl]}</small></button>`; };
   sheet(`<button class="x" data-close aria-label="Đóng">×</button><h2>${esc(P.name)}</h2>
     <div class="doll"><div class="slotcol">${slot('w')}${slot('a')}</div><img class="prev" style="width:100%;height:auto;aspect-ratio:64/44;margin:0" src="${pv.toDataURL()}" alt=""><div class="slotcol">${slot('h')}${slot('wi')}</div></div>
