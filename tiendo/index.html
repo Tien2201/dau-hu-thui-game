@@ -190,6 +190,13 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 #dlg .ch button:hover,#dlg .ch button:focus-visible{background:var(--c);color:#1A1226;outline:none}
 @keyframes chin{from{opacity:0;transform:translateY(6px)}}
 #dlg .vc{position:absolute;right:8px;top:6px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(255,255,255,.08);color:#F5EEDC;font-size:14px;cursor:pointer}
+.it .lk{position:absolute;top:2px;right:4px;font-size:10px}
+.it .ax{position:absolute;bottom:15px;left:0;right:0;display:flex;justify-content:center;gap:2px}.it .ax i{width:4px;height:4px;border-radius:1px;background:#7FC8FF}.it .ax i.pf{background:#FFD25A;box-shadow:0 0 4px #FFD25A}
+.icard .afx li span{color:#9FD0FF}.icard .afx li.pf span,.icard .afx li.pf b{color:#FFD25A}
+.icard .set{margin-top:8px;font-size:12.5px;border-top:1px solid rgba(255,255,255,.12);padding-top:6px}.icard .set b{font-family:inherit;font-size:13px;display:inline}.icard .set div{color:#7A6E8E;padding:1px 0}.icard .set div.on{color:#7FE0A8}
+.cmp{font-weight:800;font-size:13px;margin:4px 0 0}.cmp.up{color:#7FE0A8}.cmp.dn{color:#FF7A6A}
+.brow{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.brow .btn{flex:1;min-width:120px;margin:0}
+.mat{display:inline-flex;align-items:center;gap:4px;color:#E8C8FF;font-weight:800}
 </style>
 </head>
 <body>
@@ -929,15 +936,49 @@ function newPlayer(o){
 }
 const itemOf = id => P.bag.find(b => b.id === id);
 function eqStat(slot){ const b = itemOf(P.eq[slot]); if(!b) return null; return { b, I:ITEMS[b.k], m:1 + b.plus * .1 }; }
+/* ---- dòng phụ ngẫu nhiên & bộ trang bị ---- */
+const AFX = {
+  atk:{ n:'Công kích', u:'%', v:[0, 0, 4, 6, 9, 12, 16] }, hp:{ n:'Sinh lực', u:'%', v:[0, 0, 5, 8, 11, 15, 20] }, def:{ n:'Phòng ngự', u:'%', v:[0, 0, 5, 8, 12, 16, 22] },
+  crit:{ n:'Bạo kích', u:'%', v:[0, 0, 2, 3, 4, 5, 7] }, critd:{ n:'Bạo thương', u:'%', v:[0, 0, 8, 12, 18, 25, 35] }, spd:{ n:'Tốc độ chạy', u:'%', v:[0, 0, 3, 4, 6, 8, 10] },
+  ls:{ n:'Hút máu', u:'%', v:[0, 0, 1, 1.5, 2, 3, 4] }, rg:{ n:'Hồi sinh lực', u:'%/giây', v:[0, 0, .2, .3, .4, .5, .7] }, exp:{ n:'Tu vi nhận', u:'%', v:[0, 0, 4, 6, 9, 12, 16] },
+  gold:{ n:'Linh thạch rơi', u:'%', v:[0, 0, 8, 12, 18, 25, 35] }, boss:{ n:'Sát thương lên boss', u:'%', v:[0, 0, 5, 8, 12, 16, 22] },
+};
+const AFX_POOL = { w:['atk', 'crit', 'critd', 'ls', 'boss', 'exp'], a:['hp', 'def', 'rg', 'spd', 'gold', 'exp'], h:['hp', 'def', 'crit', 'rg', 'gold', 'exp'], wi:['atk', 'hp', 'critd', 'spd', 'ls', 'boss'] };
+const AFX_N = [0, 0, 1, 1, 2, 2, 3];
+function rollItem(k, src = 'drop'){
+  const I = ITEMS[k], it = { id:P.nid++, k, plus:0, r:[] };
+  let n = AFX_N[I.t] + (I.t >= 3 && Math.random() < .35 ? 1 : 0);
+  if(src === 'shop') n = Math.min(n, 1); if(src === 'boss') n = Math.max(n, AFX_N[I.t] + 1); n = Math.min(4, n);
+  const pool = [...AFX_POOL[I.slot]];
+  for(let i = 0; i < n && pool.length; i++){ const key = pool.splice(Math.floor(Math.random() * pool.length), 1)[0], q = Math.random() ** (src === 'boss' ? .6 : 1); it.r.push([key, Math.round(AFX[key].v[I.t] * (.5 + q * .7) * 10) / 10, Math.round(q * 100) / 100]); }
+  return it;
+}
+const perfect = it => (it.r || []).some(r => r[2] >= .9);
+const SETS = {
+  3:{ n:'Thanh Vân', c:'#4FA8FF', b:[[2, { atk:6, hp:6 }], [3, { crit:3, critd:10 }], [4, { rg:.5, spd:6 }]], d:['+6% công & sinh lực', '+3% bạo kích, +10% bạo thương', '+0.5% hồi sinh lực/giây, +6% tốc độ'] },
+  4:{ n:'Xích Diễm', c:'#B07CFF', b:[[2, { atk:8, hp:8 }], [3, { crit:4, critd:15 }], [4, { ls:3, boss:10 }]], d:['+8% công & sinh lực', '+4% bạo kích, +15% bạo thương', '+3% hút máu, +10% sát thương boss'] },
+  5:{ n:'Huyền Băng', c:'#FFC83D', b:[[2, { atk:10, hp:10 }], [3, { crit:5, critd:20 }], [4, { def:20, spd:8, rg:.6 }]], d:['+10% công & sinh lực', '+5% bạo kích, +20% bạo thương', '+20% phòng ngự, +8% tốc độ, +0.6% hồi máu/giây'] },
+  6:{ n:'Tru Ma', c:'#FF5A4A', b:[[2, { atk:12, hp:12 }], [3, { crit:6, critd:30 }], [4, { atk:15, boss:25, ls:4 }]], d:['+12% công & sinh lực', '+6% bạo kích, +30% bạo thương', '+15% công, +25% sát thương boss, +4% hút máu'] },
+};
+function setCount(t){ return ['w', 'a', 'h', 'wi'].filter(sl => { const b = itemOf(P.eq[sl]); return b && ITEMS[b.k].t === t; }).length; }
+let _sk = '', _sv = null;
 function stats(){
+  const key = P.name + P.stage + '|' + ['w', 'a', 'h', 'wi'].map(sl => { const b = itemOf(P.eq[sl]); return b ? b.id + ':' + b.plus : '-'; }).join(',');
+  if(key === _sk && _sv) return _sv;
   const s = P.stage, w = eqStat('w'), a = eqStat('a'), wi = eqStat('wi'), pct = wi ? wi.I.pct * wi.m : 0;
   const hh = eqStat('h');
-  const atk = (baseAtk(s) + (w ? w.I.atk * w.m : 0)) * (1 + pct);
-  const hp = (baseHp(s) + (a ? a.I.hp * a.m : 0) + (hh ? hh.I.hp * hh.m : 0)) * (1 + pct);
-  const def = baseDef(s) + (a ? a.I.def * a.m : 0) + (hh ? hh.I.def * hh.m : 0);
-  return { atk:Math.round(atk), hp:Math.round(hp), def:Math.round(def), mp:Math.round(baseMp(s)), crit:.1 + Math.min(.15, s * .004) };
+  const B = { atk:0, hp:0, def:0, crit:0, critd:0, spd:0, ls:0, rg:0, exp:0, gold:0, boss:0 };
+  [w, a, hh, wi].forEach(e => { if(e) (e.b.r || []).forEach(([k, v]) => { if(k in B) B[k] += v; }); });
+  const sets = [];
+  for(const t in SETS){ const n = setCount(+t); if(n >= 2){ sets.push([+t, n]); SETS[t].b.forEach(([need, bonus]) => { if(n >= need) for(const k in bonus) B[k] += bonus[k]; }); } }
+  const atk = (baseAtk(s) + (w ? w.I.atk * w.m : 0)) * (1 + pct) * (1 + B.atk / 100);
+  const hp = (baseHp(s) + (a ? a.I.hp * a.m : 0) + (hh ? hh.I.hp * hh.m : 0)) * (1 + pct) * (1 + B.hp / 100);
+  const def = (baseDef(s) + (a ? a.I.def * a.m : 0) + (hh ? hh.I.def * hh.m : 0)) * (1 + B.def / 100);
+  _sk = key; _sv = { atk:Math.round(atk), hp:Math.round(hp), def:Math.round(def), mp:Math.round(baseMp(s)), crit:.1 + Math.min(.15, s * .004) + B.crit / 100, critd:1.8 + B.critd / 100, spd:B.spd, ls:B.ls, rg:B.rg, exp:B.exp, gold:B.gold, boss:B.boss, sets };
+  return _sv;
 }
-const power = () => { const S = stats(); return Math.round(S.atk * 4 + S.hp * .6 + S.def * 6 + P.stage * 50); };
+function powerWith(it){ const I = ITEMS[it.k], old = P.eq[I.slot]; P.eq[I.slot] = it.id; _sk = ''; const pw = power(); P.eq[I.slot] = old; _sk = ''; return pw; }
+const power = () => { const S = stats(); return Math.round((S.atk * 4 * (1 + (S.crit - .1) * (S.critd - 1)) + S.hp * .6 + S.def * 6 + P.stage * 50) * (1 + (S.ls + S.rg * 3 + S.boss * .3 + S.spd * .2) / 100)); };
 function look(p = P){
   const it = sl => itemOf(p.eq[sl]) || null, kk = sl => (it(sl) || {}).k;
   const w = kk('w') || 'w1', a = kk('a'), wi = kk('wi') || '', h = kk('h') || '';
@@ -1065,10 +1106,11 @@ function bossAI(m, dt, d){
 const shake = a => { shakeA = Math.max(shakeA, a); };
 function nearestMob(r = 150){ let b = null, bd = r; for(const m of mobs){ if(m.dead) continue; const d = Math.hypot(m.x - me.x, m.y - me.y); if(d < bd){ bd = d; b = m; } } return b; }
 function attackPress(){ if(me.sit) toggleMed(); if(!me.target || me.target.dead) me.target = nearestMob(170); if(!me.target){ toast('Không có yêu ma ở gần'); return; } }
-function dmgRoll(atk, def, mul = 1){ const S = stats(); let d = Math.max(1, atk * mul * rnd(.9, 1.1) - def * .5); let crit = Math.random() < S.crit; if(crit) d *= 1.8; return [Math.round(d), crit]; }
+function dmgRoll(atk, def, mul = 1){ const S = stats(); let d = Math.max(1, atk * mul * rnd(.9, 1.1) - def * .5); let crit = Math.random() < S.crit; if(crit) d *= S.critd; return [Math.round(d), crit]; }
 function hitMob(m, mul, color){
   if(m.dead) return;
-  const S = stats(), [d, crit] = dmgRoll(S.atk, m.L * 1.5, mul);
+  const S = stats(), [d, crit] = dmgRoll(S.atk, m.L * 1.5, mul * (m.D.boss ? 1 + S.boss / 100 : 1));
+  if(S.ls && !me.dead) me.hp = Math.min(S.hp, me.hp + Math.min(d * S.ls / 100, S.hp * .04));
   m.hp -= d; m.hit = .15; m.aggro = true; if(m.st !== 'chase') m.st = 'chase';
   texts.push({ x:m.x + rnd(-6, 6), y:m.y - m.D.h * (m.D.boss ? 2 : 1), t:0, s:d, c:crit ? '#FFD25A' : color || '#FFFFFF', big:crit, crit });
   const wc = ITEMS[look().w].c; fx.push({ k:'slash', x:m.x, y:m.y - m.D.h * (m.D.boss ? 1 : .5), a:rnd(0, 6.28), t:0, d:.22, c:color || wc, r:m.D.boss ? 18 : 10 });
@@ -1078,16 +1120,16 @@ function hitMob(m, mul, color){
 }
 function killMob(m){
   m.dead = true; m.hp = 0; m.re = m.D.boss ? m.D.re : 10; me.target = me.target === m ? null : me.target;
-  let exp = mobExp(m.L) * (m.D.boss ? 10 : 1); if(P.buff.x2 > Date.now()) exp *= 2;
+  const SS = stats(); let exp = mobExp(m.L) * (m.D.boss ? 10 : 1) * (1 + SS.exp / 100); if(P.buff.x2 > Date.now()) exp *= 2; exp = Math.round(exp);
   const lvGap = P.stage - m.L; if(lvGap > 6) exp = Math.max(1, Math.round(exp * Math.max(.1, 1 - (lvGap - 6) * .15)));
   gainExp(exp); texts.push({ x:m.x, y:m.y - 30, t:0, s:`+${fmt(exp)} tu vi`, c:'#C9A0FF' });
-  const st = Math.round(mobStone(m.L) * rnd(.8, 1.3) * (m.D.boss ? 15 : 1)); drops.push({ x:m.x + rnd(-6, 6), y:m.y + rnd(-3, 3), k:'st', n:st, t:0 });
-  m.D.drop.forEach(([k, p]) => { if(Math.random() < p) drops.push({ x:m.x + rnd(-10, 10), y:m.y + rnd(-6, 6), k, n:1, t:0 }); });
+  const st = Math.round(mobStone(m.L) * rnd(.8, 1.3) * (m.D.boss ? 15 : 1) * (1 + SS.gold / 100)); drops.push({ x:m.x + rnd(-6, 6), y:m.y + rnd(-3, 3), k:'st', n:st, t:0 });
+  m.D.drop.forEach(([k, p]) => { if(Math.random() < p) drops.push({ x:m.x + rnd(-10, 10), y:m.y + rnd(-6, 6), k, n:1, t:0, b:!!m.D.boss }); });
   P.kills++; questEvent('kill', m.k); fxBurst(m.x, m.y - 8, m.D.boss ? 40 : 14, m.k === 'hoama' || m.k === 'mavuong' ? '#FF8A2A' : '#C9A0FF');
   for(let i = 0; i < (m.D.boss ? 16 : 5); i++) fx.push({ k:'soul', x:m.x + rnd(-6, 6), y:m.y - rnd(4, 14), vx:rnd(-40, 40), vy:-rnd(30, 70), t:0, d:2.5, c:'#C9A0FF' });
   if(m.D.boss){ shake(8); flash = .6; warns = []; mobs.forEach(o => { if(o.temp && !o.dead){ o.dead = true; fxBurst(o.x, o.y - 6, 10, '#C9A0FF'); } });
     for(let i = 0; i < 5; i++) setTimeout(() => { fx.push({ k:'wave', x:m.x + rnd(-20, 20), y:m.y + rnd(-10, 10), t:0, d:.8, c:pick(['#FFD25A', '#FF8A2A', '#FFFFFF']), big:1 }); fxBurst(m.x + rnd(-20, 20), m.y - rnd(10, 40), 26, pick(['#FFD25A', '#FF5A4A', '#C9A0FF'])); sfx.boom(); shake(4); }, i * 180);
-    fx.push({ k:'pillar', x:m.x, y:m.y, t:0, d:2, c:'#FFD25A' });
+    fx.push({ k:'pillar', x:m.x, y:m.y, t:0, d:2, c:'#FFD25A' }); drops.push({ x:m.x + rnd(-12, 12), y:m.y + rnd(-6, 6), k:'tt', n:Math.round(m.L * 2.5), t:0 });
     drops.forEach(dd => { if(Math.hypot(dd.x - m.x, dd.y - m.y) < 14){ const an = rnd(0, 6.28), r = rnd(14, 40); dd.x = m.x + Math.cos(an) * r; dd.y = m.y + Math.sin(an) * r * .6; } }); }
   if(m.D.boss){ sfx.lv(); banner(`Hạ gục ${m.D.n}!`, 'Nhặt chiến lợi phẩm nào'); Net.chat(`đã hạ gục ${m.D.n}!`, true); }
 }
@@ -1182,7 +1224,7 @@ function update(dt){
   const L = Math.hypot(mx, my); me.moving = false;
   if(L > .15 && !me.dead && !me.sit){
     if(L > 1){ mx /= L; my /= L; }
-    const sp = 72 * dt, nx = me.x + mx * sp, ny = me.y + my * sp;
+    const sp = 72 * dt * (1 + S.spd / 100), nx = me.x + mx * sp, ny = me.y + my * sp;
     if(canStand(M, nx, me.y)) me.x = nx; else if(me.tx !== null) me.tx = null;
     if(canStand(M, me.x, ny)) me.y = ny;
     me.x = clamp(me.x, 6, M.W * TS - 6); me.y = clamp(me.y, 8, M.H * TS - 2);
@@ -1191,7 +1233,7 @@ function update(dt){
   }
   // hồi phục
   const regenK = me.sit ? (onPlatform() ? 6 : 4) : (tNow - lastHurt > 5 ? 1 : 0);
-  me.hp = Math.min(S.hp, me.hp + S.hp * .012 * regenK * dt); me.mp = Math.min(S.mp, me.mp + S.mp * (.02 + regenK * .01) * dt);
+  me.hp = Math.min(S.hp, me.hp + S.hp * (.012 * regenK + S.rg / 100) * dt); me.mp = Math.min(S.mp, me.mp + S.mp * (.02 + regenK * .01) * dt);
   if(me.sit){ let r = needExp(P.stage) / 1800 * (onPlatform() ? 2 : 1); if(P.buff.x2 > Date.now()) r *= 2; me.medAcc = (me.medAcc || 0) + r * dt; if(me.medAcc >= 1){ const n = Math.floor(me.medAcc); me.medAcc -= n; gainExp(n); } me.medT = (me.medT || 0) + dt; if(me.medT >= 1){ me.medT -= 1; if(onPlatform()) questEvent('med'); } if(frame % 12 === 0) fx.push({ k:'p', x:me.x + rnd(-10, 10), y:me.y - rnd(0, 6), vx:0, vy:-25, t:0, d:1.2, c:onPlatform() ? '#F2C14E' : '#9BE0FF' }); }
   // cổng dịch chuyển
   for(const pt of M.portals){ if(Math.hypot(pt.x - me.x, pt.y - me.y) < 12 && !me.porting){
@@ -1262,8 +1304,9 @@ function update(dt){
 }
 function pickDrop(d){
   if(d.k === 'st'){ P.st += d.n; texts.push({ x:me.x, y:me.y - 30, t:0, s:`+${d.n} linh thạch`, c:'#7FE0F0' }); sfx.coin(); return; }
+  if(d.k === 'tt'){ P.inv.tt = (P.inv.tt || 0) + d.n; texts.push({ x:me.x, y:me.y - 34, t:0, s:`+${d.n} Linh Tinh`, c:'#C99BFF' }); sfx.coin(); return; }
   if(PILLS[d.k]){ P.inv[d.k] = (P.inv[d.k] || 0) + d.n; texts.push({ x:me.x, y:me.y - 34, t:0, s:`+${PILLS[d.k].n}`, c:'#FFE07A' }); sfx.coin(); return; }
-  if(ITEMS[d.k]){ if(P.bag.length >= 40){ toast('Túi đồ đầy!'); return; } const I = ITEMS[d.k]; P.bag.push({ id:P.nid++, k:d.k, plus:0 }); lootBanner(I); sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:rarC(I.t) }); if(I.t >= 5) Net.chat(`nhặt được ${RAR[I.t][0]} [${I.n}]!`, true); saveSoon(); }
+  if(ITEMS[d.k]){ if(P.bag.length >= bagCap()){ if(!me._full || tNow - me._full > 4){ me._full = tNow; toast('Túi đồ đầy! Mở túi → Dọn túi nhanh'); } return; } const I = ITEMS[d.k], it = addItem(d.k, d.b ? 'boss' : 'drop'); if(!it){ saveSoon(); return; } lootBanner(I, it); sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:rarC(I.t) }); if(I.t >= 5) Net.chat(`nhặt được ${RAR[I.t][0]} [${I.n}]!`, true); saveSoon(); }
 }
 
 /* ======================= VẼ ======================= */
@@ -1528,7 +1571,8 @@ const ICONS = {};
 function itemIcon(k){
   if(ICONS[k]) return ICONS[k];
   let c;
-  if(k === 'st') c = spr(16, 16, R => { R(5, 3, 6, 10, '#7FE0F0'); R(6, 2, 4, 1, '#BFF4FF'); R(6, 4, 2, 6, '#E8FFFF'); R(4, 6, 1, 4, '#4FB0D0'); R(11, 6, 1, 4, '#4FB0D0'); });
+  if(k === 'tt') c = spr(16, 16, R => { R(7, 1, 2, 2, '#F4E8FF'); R(5, 3, 6, 4, '#C99BFF'); R(4, 7, 8, 4, '#9B6BE0'); R(6, 11, 4, 3, '#6A3AB0'); R(6, 4, 2, 5, '#F4E8FF'); R(10, 6, 1, 4, '#E0C8FF'); });
+  else if(k === 'st') c = spr(16, 16, R => { R(5, 3, 6, 10, '#7FE0F0'); R(6, 2, 4, 1, '#BFF4FF'); R(6, 4, 2, 6, '#E8FFFF'); R(4, 6, 1, 4, '#4FB0D0'); R(11, 6, 1, 4, '#4FB0D0'); });
   else if(PILLS[k]) c = spr(16, 16, R => { const col = PILLS[k].c; R(4, 5, 8, 8, col); R(5, 4, 6, 10, col); R(6, 5, 2, 2, '#FFFFFF'); R(9, 10, 2, 2, shade(col, -.3)); });
   else {
     const I = ITEMS[k]; c = cnv(28, 28); const x = c.getContext('2d'); x.imageSmoothingEnabled = false;
@@ -1580,7 +1624,7 @@ function grant(rw){
   const parts = [];
   if(rw.st){ P.st += rw.st; parts.push(`${fmt(rw.st)} linh thạch`); }
   ['hp', 'mp', 'x2', 'pc'].forEach(k => { if(rw[k]){ P.inv[k] = (P.inv[k] || 0) + rw[k]; parts.push(`${rw[k]} ${PILLS[k].n}`); } });
-  if(rw.item){ P.bag.push({ id:P.nid++, k:rw.item, plus:0 }); parts.push(ITEMS[rw.item].n); }
+  if(rw.item){ P.bag.push(rollItem(rw.item, 'boss')); parts.push(ITEMS[rw.item].n); }
   if(rw.exp){ gainExp(rw.exp); parts.push(`${fmt(rw.exp)} tu vi`); }
   return parts.join(', ');
 }
@@ -1595,7 +1639,7 @@ function sheet(html, opt = {}){
 function closeSheet(){ document.querySelectorAll('.sbg').forEach(x => x.remove()); if(P && me && !me.dead) running = true; lastT = performance.now(); saveSoon(); }
 let toastT; function toast(t){ document.querySelectorAll('.toast').forEach(x => x.remove()); const e = document.createElement('div'); e.className = 'toast'; e.textContent = t; document.body.appendChild(e); clearTimeout(toastT); toastT = setTimeout(() => e.remove(), 2600); }
 function bossBanner(m){ document.querySelectorAll('.bossban').forEach(x => x.remove()); const e = document.createElement('div'); e.className = 'bossban'; e.innerHTML = `<small>${esc(m.D.title || 'Boss')}</small><div class="ln"></div><b>${esc(m.D.n.toUpperCase())}</b><div class="ln"></div>`; document.body.appendChild(e); setTimeout(() => e.remove(), 3100); }
-function lootBanner(I){ document.querySelectorAll('.banner').forEach(x => x.remove()); const c = rarC(I.t), e = document.createElement('div'); e.className = 'banner'; e.style.color = c; e.style.textShadow = `0 3px 0 #000,0 0 22px ${c}`; e.innerHTML = `${iconHtml(Object.keys(ITEMS).find(k => ITEMS[k] === I), 48)}<br>${esc(I.n)}<small>${RAR[I.t][0]} · ${SLOTN[I.slot]}</small>`; document.body.appendChild(e); setTimeout(() => e.remove(), 2700); }
+function lootBanner(I, it){ document.querySelectorAll('.banner').forEach(x => x.remove()); const c = rarC(I.t), e = document.createElement('div'); e.className = 'banner'; e.style.color = c; e.style.textShadow = `0 3px 0 #000,0 0 22px ${c}`; e.innerHTML = `${iconHtml(Object.keys(ITEMS).find(k => ITEMS[k] === I), 48)}<br>${esc(I.n)}<small>${RAR[I.t][0]} · ${SLOTN[I.slot]}${it && it.r && it.r.length ? ' · ' + it.r.length + ' dòng phụ' : ''}${it && perfect(it) ? ' · ✦ Hoàn mỹ' : ''}</small>`; document.body.appendChild(e); setTimeout(() => e.remove(), 2700); }
 function banner(t, s){ document.querySelectorAll('.banner').forEach(x => x.remove()); const e = document.createElement('div'); e.className = 'banner'; e.innerHTML = `${esc(t)}${s ? `<small>${esc(s)}</small>` : ''}`; document.body.appendChild(e); setTimeout(() => e.remove(), 2700); }
 function fade(fn){ const f = $('#fade'); f.classList.add('on'); setTimeout(() => { fn(); setTimeout(() => f.classList.remove('on'), 80); }, 360); }
 const ICON_URL = {};
@@ -1755,14 +1799,14 @@ function shopSheet(kind, tab){
     body = Object.entries(ITEMS).filter(([k, I]) => I.p > 0).map(([k, I]) => { const lock = P.stage < I.s; return `<div class="line" style="${lock ? 'opacity:.5' : ''}">${iconHtml(k, 44)}<div class="g"><b style="color:${rarC(I.t)}">${I.n}</b><small>${itemDesc(I)} · cần ${realmName(I.s)}</small></div><button class="s" data-eqbuy="${k}" ${lock ? 'disabled' : ''}>${fmt(I.p)}</button></div>`; }).join('') + '<p class="sub">Trang bị phẩm cấp 5–6 chỉ rơi ra từ yêu ma ở Ma Điện.</p>';
   } else {
     const eqs = ['w', 'h', 'a', 'wi'].map(s => itemOf(P.eq[s])).filter(Boolean);
-    body = eqs.length ? eqs.map(b => { const I = ITEMS[b.k], cost = 60 * (b.plus + 1) ** 2 * I.t, ch = [1, 1, .95, .9, .8, .7, .6, .5, .4, .3][b.plus] || 0; return `<div class="line">${iconHtml(b.k)}<div class="g"><b>${I.n} +${b.plus}</b><small>${b.plus >= 10 ? 'Đã cường hoá tối đa' : `Lên +${b.plus + 1}: tỉ lệ ${Math.round(ch * 100)}% · mỗi cấp +10% chỉ số`}</small></div>${b.plus < 10 ? `<button class="s" data-up="${b.id}" data-c="${cost}" data-ch="${ch}">${fmt(cost)}</button>` : ''}</div>`; }).join('') : '<p class="sub">Chưa mang trang bị nào.</p>';
+    body = `<p class="sub">Có <span class="mat">${iconHtml('tt', 14)} ${fmt(P.inv.tt || 0)} Linh Tinh</span>. Từ +4 trở lên cần Linh Tinh, lấy bằng cách phân giải đồ thừa.</p>` + (eqs.length ? eqs.map(b => { const I = ITEMS[b.k], cost = 60 * (b.plus + 1) ** 2 * I.t, ch = [1, 1, .95, .9, .8, .7, .6, .5, .4, .3][b.plus] || 0, mt = b.plus >= 3 ? (b.plus - 1) * I.t * 2 : 0; return `<div class="line">${iconHtml(b.k)}<div class="g"><b>${I.n} +${b.plus}</b><small>${b.plus >= 10 ? 'Đã cường hoá tối đa' : `Lên +${b.plus + 1}: tỉ lệ ${Math.round(ch * 100)}%${mt ? ` · cần <span class="mat">${iconHtml('tt', 12)} ${mt}</span>` : ''} · mỗi cấp +10% chỉ số`}</small></div>${b.plus < 10 ? `<button class="s" data-up="${b.id}" data-c="${cost}" data-ch="${ch}" data-m="${mt}">${fmt(cost)}</button>` : ''}</div>`; }).join('') : '<p class="sub">Chưa mang trang bị nào.</p>');
   }
   sheet(`<button class="x" data-close aria-label="Đóng">×</button><h2>${forge ? 'Thợ Rèn Lão Thiết' : 'Đan Sư Lam Nhi'}</h2><p class="sub">Linh thạch: <b style="color:#7FE0F0">${fmt(P.st)}</b></p>
     ${forge ? `<div class="tabs"><button data-t="buy" class="${tab === 'buy' ? 'on' : ''}">Mua trang bị</button><button data-t="up" class="${tab === 'up' ? 'on' : ''}">Cường hoá</button></div>` : ''}${body}`);
   document.querySelectorAll('[data-t]').forEach(b => b.onclick = () => shopSheet(kind, b.dataset.t));
   document.querySelectorAll('[data-buy]').forEach(b => b.onclick = () => { const p = +b.dataset.p; if(P.st < p) return toast('Không đủ linh thạch'); P.st -= p; P.inv[b.dataset.buy] = (P.inv[b.dataset.buy] || 0) + 1; sfx.coin(); shopSheet(kind, tab); });
-  document.querySelectorAll('[data-eqbuy]').forEach(b => b.onclick = () => { const I = ITEMS[b.dataset.eqbuy]; if(P.st < I.p) return toast('Không đủ linh thạch'); if(P.bag.length >= 40) return toast('Túi đồ đầy'); P.st -= I.p; const it = { id:P.nid++, k:b.dataset.eqbuy, plus:0 }; P.bag.push(it); equip(it.id); sfx.lv(); toast(`Đã mua và trang bị ${I.n}`); shopSheet(kind, tab); });
-  document.querySelectorAll('[data-up]').forEach(b => b.onclick = () => { const c = +b.dataset.c, it = itemOf(+b.dataset.up); if(P.st < c) return toast('Không đủ linh thạch'); P.st -= c; if(Math.random() < +b.dataset.ch){ it.plus++; sfx.lv(); toast(`Cường hoá thành công! ${ITEMS[it.k].n} +${it.plus}`); Net.pushLook(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(ITEMS[it.k].t) }); if(it.plus >= 8) Net.chat(`cường hoá ${ITEMS[it.k].n} lên +${it.plus}!`, true); } else { sfx.bad(); toast('Cường hoá thất bại, linh thạch đã mất'); } shopSheet(kind, tab); });
+  document.querySelectorAll('[data-eqbuy]').forEach(b => b.onclick = () => { const I = ITEMS[b.dataset.eqbuy]; if(P.st < I.p) return toast('Không đủ linh thạch'); if(P.bag.length >= bagCap()) return toast('Túi đồ đầy'); P.st -= I.p; const it = rollItem(b.dataset.eqbuy, 'shop'); P.bag.push(it); equip(it.id); sfx.lv(); toast(`Đã mua và trang bị ${I.n}`); shopSheet(kind, tab); });
+  document.querySelectorAll('[data-up]').forEach(b => b.onclick = () => { const c = +b.dataset.c, mt = +b.dataset.m, it = itemOf(+b.dataset.up); if(P.st < c) return toast('Không đủ linh thạch'); if((P.inv.tt || 0) < mt) return toast(`Thiếu Linh Tinh (cần ${mt}). Phân giải đồ thừa trong túi để có.`); P.st -= c; P.inv.tt = (P.inv.tt || 0) - mt; if(Math.random() < +b.dataset.ch){ it.plus++; sfx.lv(); toast(`Cường hoá thành công! ${ITEMS[it.k].n} +${it.plus}`); Net.pushLook(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(ITEMS[it.k].t) }); if(it.plus >= 8) Net.chat(`cường hoá ${ITEMS[it.k].n} lên +${it.plus}!`, true); } else { sfx.bad(); toast('Cường hoá thất bại, linh thạch đã mất'); } shopSheet(kind, tab); });
 }
 function itemDesc(I){ return I.slot === 'w' ? `Công +${I.atk}` : (I.slot === 'a' || I.slot === 'h') ? `Sinh lực +${I.hp}, Phòng +${I.def}` : `Công & Sinh lực +${Math.round(I.pct * 100)}%`; }
 function equip(id){ const it = itemOf(id); if(!it) return; const I = ITEMS[it.k]; if(P.stage < I.s){ toast(`Cần ${realmName(I.s)}`); return false; } P.eq[I.slot] = id; const S = stats(); me.hp = Math.min(me.hp, S.hp); Net.pushLook(); _hk = ''; return true; }
@@ -1775,15 +1819,20 @@ function itemCard(it){
   return `<div class="icard" style="border-color:${c};background:linear-gradient(160deg,${shade(c, -.75)},#1A1226 70%)"><div class="top"><div class="big" style="background:radial-gradient(${shade(c, -.5)},#120C1C)">${iconHtml(it.k, 60)}</div>
     <div><b style="color:${c}">${I.n}${it.plus ? ' +' + it.plus : ''}</b><span class="rr" style="color:${c}">${RAR[I.t][0]} · ${SLOTN[I.slot]}</span><br><small style="color:var(--ink2)">Yêu cầu ${realmName(I.s)}</small></div></div>
     <ul>${rows.map(([a, b]) => `<li><span>${a}</span><b>+${typeof b === 'number' ? fmt(b) : b}</b></li>`).join('')}${it.plus ? `<li><span>Cường hoá</span><b style="color:var(--gold)">+${it.plus} (x${m.toFixed(1)})</b></li>` : ''}</ul>
+    ${(it.r || []).length ? `<ul class="afx">${it.r.map(([k, v, q]) => `<li class="${q >= .9 ? 'pf' : ''}"><span>${q >= .9 ? '✦ ' : '◆ '}${AFX[k].n}</span><b>+${v}${AFX[k].u}</b></li>`).join('')}</ul>` : ''}
+    ${SETS[I.t] ? (() => { const S = SETS[I.t], n = setCount(I.t); return `<div class="set"><b style="color:${S.c}">Bộ ${S.n}</b> <span style="color:var(--ink2)">(${n}/4 đang mặc)</span>${S.b.map(([need], i) => `<div class="${n >= need ? 'on' : ''}">${need} món: ${S.d[i]}</div>`).join('')}</div>`; })() : ''}
     ${I.d ? `<div class="fl">"${I.d}"</div>` : ''}</div>`;
 }
 function bagSheet(filter){
   const list = P.bag.filter(b => !filter || ITEMS[b.k].slot === filter).sort((a, b) => ITEMS[b.k].t - ITEMS[a.k].t || b.plus - a.plus);
-  sheet(`<button class="x" data-close aria-label="Đóng">×</button><h2>${filter ? 'Chọn ' + SLOTN[filter].toLowerCase() : 'Túi đồ'}</h2><p class="sub">Linh thạch <b style="color:#7FE0F0">${fmt(P.st)}</b> · ${P.bag.length}/40 ô · chạm vào để xem</p>
+  sheet(`<button class="x" data-close aria-label="Đóng">×</button><h2>${filter ? 'Chọn ' + SLOTN[filter].toLowerCase() : 'Túi đồ'}</h2><p class="sub">Linh thạch <b style="color:#7FE0F0">${fmt(P.st)}</b> · ${P.bag.length}/${bagCap()} ô · <span class="mat">${iconHtml('tt', 14)} ${fmt(P.inv.tt || 0)} Linh Tinh</span></p>
+    ${filter ? '' : `<div class="brow"><button class="btn alt" id="bulk">🧹 Dọn túi nhanh</button>${bagCap() < 120 ? `<button class="btn alt" id="exp">＋10 ô (${fmt(bagCost())} linh thạch)</button>` : ''}</div>`}
     ${filter ? '' : `<h3>Đan dược</h3><div class="grid">${Object.entries(PILLS).map(([k, p]) => `<button class="it" data-pill="${k}">${iconHtml(k)}<span class="q">${P.inv[k] || 0}</span></button>`).join('')}</div>`}
-    <h3>Trang bị</h3><div class="grid">${list.map(b => { const I = ITEMS[b.k], on = Object.values(P.eq).includes(b.id); return `<button class="it t${I.t}${on ? ' eq' : ''}" data-it="${b.id}">${iconHtml(b.k, 44)}${b.plus ? `<span class="pl">+${b.plus}</span>` : ''}${on ? '<span class="q" style="top:2px;bottom:auto;right:4px;color:var(--gold)">✓</span>' : ''}<span class="nm2" style="color:${rarC(I.t)}">${I.n}</span></button>`; }).join('') || '<p class="sub">Chưa có trang bị nào loại này.</p>'}</div>
+    <h3>Trang bị</h3><div class="grid">${list.map(b => { const I = ITEMS[b.k], on = Object.values(P.eq).includes(b.id); return `<button class="it t${I.t}${on ? ' eq' : ''}" data-it="${b.id}">${iconHtml(b.k, 44)}${b.plus ? `<span class="pl">+${b.plus}</span>` : ''}${on ? '<span class="q" style="top:2px;bottom:auto;right:4px;color:var(--gold)">✓</span>' : b.lk ? '<span class="lk">🔒</span>' : ''}${(b.r || []).length ? `<span class="ax">${b.r.map(r => `<i class="${r[2] >= .9 ? 'pf' : ''}"></i>`).join('')}</span>` : ''}<span class="nm2" style="color:${rarC(I.t)}">${I.n}</span></button>`; }).join('') || '<p class="sub">Chưa có trang bị nào loại này.</p>'}</div>
     ${filter ? '<button class="btn alt" id="bkC">Quay lại nhân vật</button>' : ''}`);
   const bk = $('#bkC'); if(bk) bk.onclick = charSheet;
+  const bu = $('#bulk'); if(bu) bu.onclick = bulkSheet;
+  const ex = $('#exp'); if(ex) ex.onclick = () => { const c = bagCost(); if(P.st < c) return toast('Không đủ linh thạch'); P.st -= c; P.bagMax = bagCap() + 10; sfx.lv(); toast(`Túi đồ mở rộng lên ${P.bagMax} ô`); saveSoon(); bagSheet(); };
   document.querySelectorAll('[data-pill]').forEach(b => b.onclick = () => { const k = b.dataset.pill, p = PILLS[k];
     sheet(`<button class="x" data-close aria-label="Đóng">×</button><h2>${p.n}</h2><p class="sub">${p.d} Đang có ${P.inv[k] || 0}.</p>${(k === 'hp' || k === 'mp' || k === 'x2') ? `<button class="btn gold" id="use" ${P.inv[k] ? '' : 'disabled'}>Dùng</button>` : '<p class="sub">Tự dùng khi đột phá đại cảnh giới.</p>'}<button class="btn alt" id="back">Quay lại</button>`);
     $('#back').onclick = () => bagSheet(); const u = $('#use'); if(u) u.onclick = () => { if(k === 'hp') drinkHp(); else if(k === 'mp'){ drinkMp(); } else { P.inv.x2--; P.buff.x2 = Math.max(Date.now(), P.buff.x2 || 0) + 600000; toast('Tụ Khí Đan: tu vi x2 trong 10 phút'); } bagSheet(); };
@@ -1791,10 +1840,32 @@ function bagSheet(filter){
   document.querySelectorAll('[data-it]').forEach(b => b.onclick = () => { const it = itemOf(+b.dataset.it), I = ITEMS[it.k], on = Object.values(P.eq).includes(it.id), cur = itemOf(P.eq[I.slot]);
     sheet(`<button class="x" data-close aria-label="Đóng">×</button>${itemCard(it)}
       ${!on && cur ? `<p class="sub">Đang mặc: <b style="color:${rarC(ITEMS[cur.k].t)}">${ITEMS[cur.k].n}${cur.plus ? ' +' + cur.plus : ''}</b></p>` : ''}
-      ${on ? '<p class="sub">Đang mang trên người.</p>' : `<button class="btn gold" id="eq" ${P.stage < I.s ? 'disabled' : ''}>${P.stage < I.s ? 'Chưa đủ cảnh giới' : 'Trang bị'}</button><button class="btn red" id="sell">Bán (${fmt(sellPrice(it))} linh thạch)</button>`}<button class="btn alt" id="back">Quay lại</button>`);
+      ${!on ? (() => { const d = powerWith(it) - power(); return `<p class="cmp ${d >= 0 ? 'up' : 'dn'}">${d >= 0 ? '▲' : '▼'} Chiến lực ${d >= 0 ? '+' : ''}${fmt(d)} nếu mặc món này</p>`; })() : ''}
+      ${on ? '<p class="sub">Đang mang trên người.</p>' : `<button class="btn gold" id="eq" ${P.stage < I.s ? 'disabled' : ''}>${P.stage < I.s ? 'Chưa đủ cảnh giới' : 'Trang bị'}</button>`}
+      <div class="brow"><button class="btn alt" id="lock">${it.lk ? '🔓 Mở khoá' : '🔒 Khoá'}</button>${on || it.lk ? '' : `<button class="btn red" id="sell">Bán ${fmt(sellPrice(it))}</button><button class="btn" id="salv" style="background:#6A3AB0">Phân giải +${salvageVal(it)}</button>`}</div><button class="btn alt" id="back">Quay lại</button>`);
+    $('#lock').onclick = () => { it.lk = !it.lk; saveSoon(); b.onclick(); };
+    const sv = $('#salv'); if(sv) sv.onclick = () => { const n = salvage(it); sfx.lv(); toast(`Phân giải ${I.n}, +${n} Linh Tinh`); saveSoon(); bagSheet(filter); };
     $('#back').onclick = () => bagSheet(filter); const e = $('#eq'); if(e) e.onclick = () => { if(equip(it.id) !== false){ sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(I.t) }); filter ? charSheet() : bagSheet(); } };
     const s = $('#sell'); if(s) s.onclick = () => { P.st += sellPrice(it); P.bag = P.bag.filter(x => x !== it); sfx.coin(); bagSheet(filter); };
   });
+}
+const bagCap = () => P.bagMax || 40;
+const bagCost = () => Math.round(2000 * ((bagCap() - 30) / 10) ** 2);
+const isEq = it => Object.values(P.eq).includes(it.id);
+const salvageVal = it => { const t = ITEMS[it.k].t; return Math.round((t * t + (it.r || []).length * t) * (1 + it.plus * .5)); };
+function salvage(it){ const n = salvageVal(it); P.inv.tt = (P.inv.tt || 0) + n; P.bag = P.bag.filter(x => x !== it); return n; }
+function addItem(k, src){ const I = ITEMS[k], it = rollItem(k, src); if(P.autoJunk && I.t <= P.autoJunk && !perfect(it)){ P.bag.push(it); const n = salvage(it); texts.push({ x:me.x, y:me.y - 34, t:0, s:`Phân giải ${I.n} +${n} Linh Tinh`, c:'#C99BFF' }); sfx.coin(); return null; } P.bag.push(it); return it; }
+function bulkSheet(){
+  const pick = t => P.bag.filter(b => !isEq(b) && !b.lk && ITEMS[b.k].t <= t);
+  const row = (t, lbl) => { const L = pick(t), g = L.reduce((a, b) => a + sellPrice(b), 0), m = L.reduce((a, b) => a + salvageVal(b), 0); return `<div class="line"><div class="g"><b style="color:${rarC(t)}">${lbl}</b><small>${L.length} món · bán ${fmt(g)} linh thạch hoặc phân giải ${fmt(m)} Linh Tinh</small></div><button class="s" data-bs="${t}" ${L.length ? '' : 'disabled'}>Bán</button><button class="s" data-bg="${t}" ${L.length ? '' : 'disabled'} style="background:#6A3AB0">Phân giải</button></div>`; };
+  sheet(`<button class="x" data-close aria-label="Đóng">×</button><h2>Dọn túi nhanh</h2><p class="sub">Không đụng tới đồ đang mặc và đồ đã khoá 🔒.</p>
+    ${row(1, 'Phàm phẩm')}${row(2, 'Từ Linh phẩm trở xuống')}${row(3, 'Từ Huyền phẩm trở xuống')}${row(4, 'Từ Địa phẩm trở xuống')}
+    <h3>Tự phân giải khi nhặt</h3><p class="sub">Đồ có dòng phụ Hoàn mỹ ✦ luôn được giữ lại.</p><div class="tabs">${['Tắt', 'Phàm', '≤ Linh', '≤ Huyền'].map((l, i) => `<button data-aj="${i}" class="${(P.autoJunk || 0) === i ? 'on' : ''}">${l}</button>`).join('')}</div>
+    <button class="btn alt" id="back">Quay lại túi</button>`);
+  $('#back').onclick = () => bagSheet();
+  document.querySelectorAll('[data-bs]').forEach(b => b.onclick = () => { const L = pick(+b.dataset.bs), g = L.reduce((a, x) => a + sellPrice(x), 0); P.st += g; P.bag = P.bag.filter(x => !L.includes(x)); sfx.coin(); toast(`Đã bán ${L.length} món, +${fmt(g)} linh thạch`); saveSoon(); bulkSheet(); });
+  document.querySelectorAll('[data-bg]').forEach(b => b.onclick = () => { const L = pick(+b.dataset.bg); let m = 0; L.forEach(x => m += salvage(x)); sfx.lv(); toast(`Phân giải ${L.length} món, +${fmt(m)} Linh Tinh`); saveSoon(); bulkSheet(); });
+  document.querySelectorAll('[data-aj]').forEach(b => b.onclick = () => { P.autoJunk = +b.dataset.aj; saveSoon(); bulkSheet(); });
 }
 const sellPrice = it => Math.round((ITEMS[it.k].p || ITEMS[it.k].t * 800) * .3 * (1 + it.plus * .3));
 function charSheet(){
@@ -1810,7 +1881,8 @@ function charSheet(){
   sheet(`<button class="x" data-close aria-label="Đóng">×</button><h2>${esc(P.name)}</h2>
     <div class="doll"><div class="slotcol">${slot('w')}${slot('a')}</div><img class="prev" style="width:100%;height:auto;aspect-ratio:64/44;margin:0" src="${pv.toDataURL()}" alt=""><div class="slotcol">${slot('h')}${slot('wi')}</div></div>
     <p class="sub" style="text-align:center;margin:0"><b style="color:${majorOf(s).c};font-size:16px">${realmName(s)}</b><br>Chiến lực <b style="color:var(--gold)">${fmt(power())}</b></p>
-    <div class="stats"><span>Công kích <b>${fmt(S.atk)}</b></span><span>Sinh lực <b>${fmt(S.hp)}</b></span><span>Phòng ngự <b>${fmt(S.def)}</b></span><span>Linh lực <b>${fmt(S.mp)}</b></span><span>Bạo kích <b>${Math.round(S.crit * 100)}%</b></span><span>Đã diệt <b>${fmt(P.kills)}</b></span></div>
+    <div class="stats"><span>Công kích <b>${fmt(S.atk)}</b></span><span>Sinh lực <b>${fmt(S.hp)}</b></span><span>Phòng ngự <b>${fmt(S.def)}</b></span><span>Linh lực <b>${fmt(S.mp)}</b></span><span>Bạo kích <b>${Math.round(S.crit * 100)}%</b></span><span>Bạo thương <b>${Math.round(S.critd * 100)}%</b></span>${[['spd', 'Tốc độ'], ['ls', 'Hút máu'], ['rg', 'Hồi máu/giây'], ['boss', 'ST lên boss'], ['exp', 'Tu vi nhận'], ['gold', 'Linh thạch rơi']].filter(([k]) => S[k]).map(([k, n]) => `<span>${n} <b>+${Math.round(S[k] * 10) / 10}%</b></span>`).join('')}<span>Đã diệt <b>${fmt(P.kills)}</b></span></div>
+    ${S.sets.map(([t, n]) => `<p class="sub" style="margin:4px 0"><b style="color:${SETS[t].c}">Bộ ${SETS[t].n} (${n}/4)</b> · ${SETS[t].d.filter((_, i) => n >= SETS[t].b[i][0]).join(' · ')}</p>`).join('')}
     <div class="bar" style="height:14px"><i style="width:${Math.min(100, P.exp / needExp(s) * 100)}%;background:linear-gradient(90deg,#8E5BE0,#C9A0FF)"></i><b style="font-size:10px;line-height:12px">Tu vi ${fmt(P.exp)}/${fmt(needExp(s))}</b></div>
     ${gate ? `<div class="line" style="margin-top:10px"><div class="g"><b>Đột phá ${majorOf(s + 1).n}</b><small>Tỉ lệ ${Math.round((.55 + (onPlatform() ? .1 : 0) + (P.inv.pc ? .35 : 0)) * 100)}% ${P.inv.pc ? '(dùng 1 Phá Cảnh Đan)' : '(mua Phá Cảnh Đan ở Đan Sư để +35%)'}${onPlatform() ? '' : ', đứng trên Đài Tu Luyện thêm 10%'}. Thất bại mất 30% tu vi.</small></div></div><button class="btn gold" id="bt" ${full ? '' : 'disabled'}>${full ? 'Độ thiên kiếp, đột phá!' : 'Tu vi chưa viên mãn'}</button>` : ''}
     <h3>Tuyệt kỹ</h3>${Object.values(SKILLS).map(k => `<div class="line" style="${s < k.s ? 'opacity:.5' : ''}"><div class="g"><b>${k.n}</b><small>${k.d} Tốn ${k.mp} linh lực, hồi ${k.cd}s.${s < k.s ? ` Lĩnh ngộ ở ${realmName(k.s)}.` : ''}</small></div></div>`).join('')}`);
@@ -2048,7 +2120,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : 'Không kết nối được máy chủ, bạn vẫn chơi offline được.');
 }
-window.__td = { get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
