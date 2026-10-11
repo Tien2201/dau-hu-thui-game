@@ -1179,7 +1179,7 @@ const Net = {
     D.onValue(D.ref(this.db, '.info/connected'), s => { if(s.val() && this.mapRef && P && me){ D.onDisconnect(this.mapRef).remove(); this.pushLook(); } });
   },
   async loadSave(){ const s = await this.D.get(this.D.ref(this.db, 'tt_save/' + this.uid)); return s.exists() ? JSON.parse(s.val()) : null; },
-  async save(json){ if(!this.ok) return; try{ await this.D.set(this.D.ref(this.db, 'tt_save/' + this.uid), json); await this.D.set(this.D.ref(this.db, 'tt_rank/' + this.uid), { n:P.name, p:power(), s:P.stage, t:this.D.serverTimestamp() }); }catch(e){ console.warn(e); } },
+  async save(json){ if(!this.ok || this.noCloud) return; try{ await this.D.set(this.D.ref(this.db, 'tt_save/' + this.uid), json); await this.D.set(this.D.ref(this.db, 'tt_rank/' + this.uid), { n:P.name, p:power(), s:P.stage, t:this.D.serverTimestamp() }); }catch(e){ console.warn(e); } },
   async rank(){ if(!this.ok) return null; try{ const s = await this.D.get(this.D.query(this.D.ref(this.db, 'tt_rank'), this.D.orderByChild('p'), this.D.limitToLast(20))); const out = []; s.forEach(c => { out.push(c.val()); }); return out.reverse(); }catch(e){ console.warn(e); return []; } },
   me(){ const L = look(); return { n:P.name, s:P.stage, p:power(), x:Math.round(me.x), y:Math.round(me.y), d:me.dir, sit:me.sit ? 1 : 0, plat:onPlatform() ? 1 : 0, g:L.g, h:L.hair, r:L.robe, tr:L.trim, w:L.w, wi:L.wi, sw:L.sw, t:this.D.serverTimestamp() }; },
   async leave(){ for(const u of this.unsubMap || []) u(); this.unsubMap = []; if(this.mapRef){ const r = this.mapRef; this.mapRef = null; try{ await this.D.onDisconnect(r).cancel(); await this.D.remove(r); }catch(e){} } },
@@ -1265,7 +1265,17 @@ function createSheet(done){
 }
 async function startGame(user){
   let data = null;
-  if(user){ Net.start(user); try{ data = await Net.loadSave(); }catch(e){ console.warn(e); toast('Không tải được dữ liệu online, kiểm tra Realtime Database'); data = JSON.parse(store.get('td_save_' + user.uid) || 'null'); } }
+  if(user){
+    sheet('<h2>Đang tải nhân vật…</h2><p class="sub">Đang kết nối máy chủ, chờ vài giây nha.</p>', { dismiss:false });
+    Net.start(user);
+    try{ data = await Promise.race([Net.loadSave(), sleep(7000).then(() => { throw new Error('timeout'); })]); }
+    catch(e){
+      console.warn(e); Net.noCloud = true; // không ghi đè dữ liệu online khi chưa tải được
+      data = JSON.parse(store.get('td_save_' + user.uid) || 'null');
+      await new Promise(r => sheet(`<h2>Chưa kết nối được máy chủ</h2><p class="sub">Đăng nhập thành công nhưng chưa đọc được dữ liệu online (có thể Realtime Database chưa được bật). Bạn vẫn chơi được, tiến trình tạm lưu trên máy này.</p><div class="msg">${esc(e.message || e)}</div><button class="btn gold" data-close>Vẫn chơi tiếp</button>`, { dismiss:false, onClose:r }));
+    }
+    closeSheet();
+  }
   else data = JSON.parse(store.get('td_save_guest') || 'null');
   if(!data){ createSheet(p => begin(p, true)); return; }
   begin(data, false);
