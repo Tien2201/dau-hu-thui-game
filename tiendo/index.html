@@ -199,6 +199,13 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .mat{display:inline-flex;align-items:center;gap:4px;color:#E8C8FF;font-weight:800}
 .langs{display:grid;grid-template-columns:1fr 1fr;gap:6px}.langs .btn{margin:0}
 .lgbar{display:flex;justify-content:center;flex-wrap:wrap;gap:4px;margin:-4px 0 10px}.lgbar button{font-size:20px;line-height:1;padding:4px 5px;border-radius:8px;opacity:.55;filter:grayscale(.4)}.lgbar button.on{opacity:1;filter:none;background:rgba(242,193,78,.18);box-shadow:inset 0 0 0 1.5px var(--gold)}
+.clsrow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.clsrow button{padding:9px 4px;border-radius:10px;border:1.5px solid var(--line);background:#1A1226;font-size:13px}.clsrow button.on{border-color:var(--cc);background:color-mix(in srgb,var(--cc) 20%,#1A1226);box-shadow:0 0 12px color-mix(in srgb,var(--cc) 45%,transparent)}
+.pcode{font-family:var(--px);font-size:40px;letter-spacing:8px;color:var(--gold);text-align:center;margin:6px 0;text-shadow:0 0 18px rgba(242,193,78,.5)}
+.pm{display:flex;align-items:center;gap:8px;padding:7px 8px;border:1px solid var(--line);border-radius:10px;margin:5px 0;background:#1A1226}.pm .g{flex:1;min-width:0}.pm .hp{height:5px;background:#3A2030;border-radius:3px;overflow:hidden;margin-top:3px}.pm .hp i{display:block;height:100%;background:#E0453A}
+#track .pt{margin-top:4px;padding-top:4px;border-top:1px solid rgba(255,255,255,.12)}#track .pt div{display:flex;align-items:center;gap:5px;white-space:nowrap}#track .pt i{display:inline-block;width:38px;height:4px;background:#3A2030;border-radius:2px;overflow:hidden}#track .pt i u{display:block;height:100%;background:#E0453A}
+.gcards{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}.gc{aspect-ratio:3/4;border-radius:10px;border:2px solid var(--line);background:linear-gradient(160deg,#2E2342,#140E1C);display:grid;place-items:center;text-align:center;font-size:10px;line-height:1.2;padding:4px;position:relative;overflow:hidden;opacity:0;transform:rotateY(90deg) scale(.8);transition:transform .35s cubic-bezier(.2,1.4,.4,1),opacity .2s}.gc.on{opacity:1;transform:none}.gc img{width:34px;height:34px;image-rendering:pixelated}.gc.r6{box-shadow:0 0 18px #FF5A4A,inset 0 0 14px rgba(255,90,74,.5)}.gc.r5{box-shadow:0 0 14px #FFC83D}.gc.r4{box-shadow:0 0 10px #B07CFF}
+.gc.big{grid-column:2/5}
+.gbar{height:8px;background:#1A1226;border-radius:4px;overflow:hidden;border:1px solid var(--line)}.gbar i{display:block;height:100%;background:linear-gradient(90deg,#B07CFF,#FF5A4A)}
 </style>
 </head>
 <body>
@@ -212,6 +219,8 @@ input[type=range]{width:100%;accent-color:var(--gold)}
     <button class="ib" id="bBag" aria-label="Túi đồ"><svg viewBox="0 0 24 24" fill="none" stroke="#F2C14E" stroke-width="2" stroke-linejoin="round"><path d="M5 9h14l-1.5 11h-11z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></svg></button>
     <button class="ib" id="bChar" aria-label="Nhân vật"><svg viewBox="0 0 24 24" fill="none" stroke="#F2C14E" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.5-6.5 8-6.5s7 2 8 6.5"/></svg><i class="dt hidden" id="dtChar"></i></button>
     <button class="ib" id="bQuest" aria-label="Nhiệm vụ"><svg viewBox="0 0 24 24" fill="none" stroke="#F2C14E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 10h6M9 14h6M9 18h3"/></svg><i class="dt hidden" id="dtQuest"></i></button>
+    <button class="ib" id="bGacha" aria-label="Tầm Bảo Các"><svg viewBox="0 0 24 24" fill="none" stroke="#F2C14E" stroke-width="2" stroke-linejoin="round"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M3 9h18v-3H3zM12 6v14M12 6c-2-4-6-3-5 0M12 6c2-4 6-3 5 0"/></svg></button>
+    <button class="ib" id="bParty" aria-label="Tổ đội"><svg viewBox="0 0 24 24" fill="none" stroke="#F2C14E" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.6"/><path d="M3 20c.8-3.6 3.2-5.2 6-5.2s5.2 1.6 6 5.2M15.5 14.6c2.6 0 4.6 1.4 5.3 4.4"/></svg></button>
     <button class="ib" id="bRank" aria-label="Bảng phong thần"><svg viewBox="0 0 24 24" fill="none" stroke="#F2C14E" stroke-width="2" stroke-linejoin="round"><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8M9 17h6"/></svg></button>
     <button class="ib" id="bChat" aria-label="Chat thế giới"><svg viewBox="0 0 24 24" fill="none" stroke="#F2C14E" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg><i class="dt hidden" id="dtChat"></i></button>
     <button class="ib" id="bMenu" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="#F2C14E" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
@@ -239,7 +248,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=1"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=2"><\/script>');
 })();
 </script>
 <script>
@@ -339,6 +348,17 @@ const mobAtk = L => baseHp(L) * .07 + baseDef(L) * .5;
 const mobExp = L => Math.round(needExp(L) / (12 + L * .8));
 const mobStone = L => Math.round(3 + L * 2.2);
 
+const CLASSES = {
+  kiem:{ n:Lx("Kiếm Tu"), ic:'⚔️', c:'#9BE0FF', atk:1, hp:1, def:1, crit:.05, d:Lx("Cân bằng, phi kiếm đánh xa. Thêm 1 phi kiếm hộ thân, +5% bạo kích.") },
+  the:{ n:Lx("Thể Tu"), ic:'👊', c:'#FFB04A', atk:.9, hp:1.45, def:1.4, ls:3, dr:.1, d:Lx("Cận chiến cực trâu: +45% sinh lực, +40% phòng ngự, hút máu 3%, giảm 10% sát thương nhận. Quyền chấn đánh lan.") },
+  phap:{ n:Lx("Pháp Tu"), ic:'🔮', c:'#C99BFF', atk:1.3, hp:.8, def:.85, cdr:.2, d:Lx("Đánh xa sát thương cao: +30% công, lôi cầu nổ lan. Tuyệt kỹ hồi nhanh hơn 20%, hồi linh lực nhanh.") },
+};
+const cls = (p = P) => CLASSES[(p && p.cls) || 'kiem'] || CLASSES.kiem;
+const COS = {
+  lotus:{ n:Lx("Liên Hoa Đài"), d:Lx("Đài sen vàng nở dưới chân."), c:'#FFB3D0' },
+  rainbow:{ n:Lx("Thất Thải Hào Quang"), d:Lx("Vầng hào quang bảy sắc sau lưng."), c:'#FFE07A' },
+  thunder:{ n:Lx("Lôi Vân Hộ Thể"), d:Lx("Mây sấm lơ lửng trên đầu, thỉnh thoảng giáng sét."), c:'#9BE0FF' },
+};
 const QUESTS = [
   { t:Lx("Bái kiến Tông Chủ"), d:Lx("Đến quảng trường gặp Tông Chủ Thanh Vân."), k:'talk', n:1, rw:{ st:50, hp:5, item:'h1' } },
   { t:Lx("Trừ hại Thỏ Yêu"), d:Lx("Ra Rừng Hắc Mộc (cổng phía đông thôn) diệt 6 Thỏ Yêu."), k:'kill', m:'tho', n:6, rw:{ st:120, hp:5, mp:3 } },
@@ -358,6 +378,7 @@ const QUESTS = [
   { t:Lx("Sa Trùng dưới cát"), d:Lx("Diệt 15 Sa Trùng gần ốc đảo."), k:'kill', m:'satrung', n:15, rw:{ st:14000, pc:1 } },
   { t:Lx("Cổ Mộ thức tỉnh"), d:Lx("Diệt 15 Cổ Thi Vương Vệ quanh Kim Tự Tháp."), k:'kill', m:'xacuop', n:15, rw:{ st:20000, pc:2, item:'wi4' } },
 ];
+const _qtbl = 1; QUESTS.forEach(q => q.rw.tbl = (q.rw.tbl || 0) + _qtbl);
 const DAILY = { t:Lx("Trừ ma vệ đạo (hằng ngày)"), d:Lx("Diệt 40 yêu ma bất kỳ."), k:'any', n:40 };
 
 /* ======================= ÂM THANH: nhạc cổ phong chill + hiệu ứng ======================= */
@@ -950,7 +971,7 @@ function canStand(M, x, y){ return !solidAt(M, x - 4, y) && !solidAt(M, x + 4, y
 let P = null; // dữ liệu lưu
 function newPlayer(o){
   return { v:1, name:o.name, g:o.g, hair:o.hair, robe:o.robe, stage:0, exp:0, st:100, hp:9e9, mp:9e9, map:'thon', x:25 * TS, y:21 * TS,
-    inv:{ hp:5, mp:3, x2:0, pc:0 }, bag:[{ id:1, k:'w1', plus:0 }, { id:2, k:'a1', plus:0 }], eq:{ w:1, a:2, wi:0 }, nid:3,
+    cls:o.cls || 'kiem', inv:{ hp:5, mp:3, x2:0, pc:0, tbl:3 }, bag:[{ id:1, k:'w1', plus:0 }, { id:2, k:'a1', plus:0 }], eq:{ w:1, a:2, wi:0 }, nid:3,
     q:{ i:0, p:0 }, daily:{ d:'', p:0, done:0 }, buff:{ x2:0 }, t:Date.now(), auto:false, kills:0, deaths:0 };
 }
 const itemOf = id => P.bag.find(b => b.id === id);
@@ -982,7 +1003,7 @@ const SETS = {
 function setCount(t){ return ['w', 'a', 'h', 'wi'].filter(sl => { const b = itemOf(P.eq[sl]); return b && ITEMS[b.k].t === t; }).length; }
 let _sk = '', _sv = null;
 function stats(){
-  const key = P.name + P.stage + '|' + ['w', 'a', 'h', 'wi'].map(sl => { const b = itemOf(P.eq[sl]); return b ? b.id + ':' + b.plus : '-'; }).join(',');
+  const key = P.name + P.stage + (P.cls || '') + '|' + ['w', 'a', 'h', 'wi'].map(sl => { const b = itemOf(P.eq[sl]); return b ? b.id + ':' + b.plus : '-'; }).join(',');
   if(key === _sk && _sv) return _sv;
   const s = P.stage, w = eqStat('w'), a = eqStat('a'), wi = eqStat('wi'), pct = wi ? wi.I.pct * wi.m : 0;
   const hh = eqStat('h');
@@ -990,19 +1011,21 @@ function stats(){
   [w, a, hh, wi].forEach(e => { if(e) (e.b.r || []).forEach(([k, v]) => { if(k in B) B[k] += v; }); });
   const sets = [];
   for(const t in SETS){ const n = setCount(+t); if(n >= 2){ sets.push([+t, n]); SETS[t].b.forEach(([need, bonus]) => { if(n >= need) for(const k in bonus) B[k] += bonus[k]; }); } }
-  const atk = (baseAtk(s) + (w ? w.I.atk * w.m : 0)) * (1 + pct) * (1 + B.atk / 100);
-  const hp = (baseHp(s) + (a ? a.I.hp * a.m : 0) + (hh ? hh.I.hp * hh.m : 0)) * (1 + pct) * (1 + B.hp / 100);
-  const def = (baseDef(s) + (a ? a.I.def * a.m : 0) + (hh ? hh.I.def * hh.m : 0)) * (1 + B.def / 100);
-  _sk = key; _sv = { atk:Math.round(atk), hp:Math.round(hp), def:Math.round(def), mp:Math.round(baseMp(s)), crit:.1 + Math.min(.15, s * .004) + B.crit / 100, critd:1.8 + B.critd / 100, spd:B.spd, ls:B.ls, rg:B.rg, exp:B.exp, gold:B.gold, boss:B.boss, sets };
+  const C = cls(); B.ls += C.ls || 0;
+  const atk = (baseAtk(s) + (w ? w.I.atk * w.m : 0)) * (1 + pct) * (1 + B.atk / 100) * C.atk;
+  const hp = (baseHp(s) + (a ? a.I.hp * a.m : 0) + (hh ? hh.I.hp * hh.m : 0)) * (1 + pct) * (1 + B.hp / 100) * C.hp;
+  const def = (baseDef(s) + (a ? a.I.def * a.m : 0) + (hh ? hh.I.def * hh.m : 0)) * (1 + B.def / 100) * C.def;
+  _sk = key; _sv = { atk:Math.round(atk), hp:Math.round(hp), def:Math.round(def), mp:Math.round(baseMp(s)), crit:.1 + Math.min(.15, s * .004) + B.crit / 100 + (C.crit || 0), dr:C.dr || 0, cdr:C.cdr || 0, critd:1.8 + B.critd / 100, spd:B.spd, ls:B.ls, rg:B.rg, exp:B.exp, gold:B.gold, boss:B.boss, sets };
   return _sv;
 }
 function powerWith(it){ const I = ITEMS[it.k], old = P.eq[I.slot]; P.eq[I.slot] = it.id; _sk = ''; const pw = power(); P.eq[I.slot] = old; _sk = ''; return pw; }
 const power = () => { const S = stats(); return Math.round((S.atk * 4 * (1 + (S.crit - .1) * (S.critd - 1)) + S.hp * .6 + S.def * 6 + P.stage * 50) * (1 + (S.ls + S.rg * 3 + S.boss * .3 + S.spd * .2) / 100)); };
 function look(p = P){
+  const _cl = (p && p.cls) || 'kiem', _co = (p && p.cosOn) || '';
   const it = sl => itemOf(p.eq[sl]) || null, kk = sl => (it(sl) || {}).k;
   const w = kk('w') || 'w1', a = kk('a'), wi = kk('wi') || '', h = kk('h') || '';
   const tiers = [w, a, wi, h].filter(Boolean).map(k => ITEMS[k].t), pl = Math.max(0, ...['w', 'a', 'wi', 'h'].map(sl => (it(sl) || { plus:0 }).plus));
-  return { g:p.g, hair:p.hair, robe:p.robe, trim:a ? (ITEMS[a].t >= 3 ? ITEMS[a].c : '#F2C14E') : '#F2C14E', w, wi, h, at:a ? ITEMS[a].t : 1, ac:a ? ITEMS[a].c : '#9A8A7A', bw:ITEMS[w].t >= 2 ? w : '', au:Math.max(0, ...tiers), pl, st:p.stage || 0, sw:Math.min(8, 1 + Math.floor((p.stage || 0) / 4)) };
+  return { g:p.g, hair:p.hair, robe:p.robe, trim:a ? (ITEMS[a].t >= 3 ? ITEMS[a].c : '#F2C14E') : '#F2C14E', w, wi, h, at:a ? ITEMS[a].t : 1, ac:a ? ITEMS[a].c : '#9A8A7A', bw:ITEMS[w].t >= 2 ? w : '', au:Math.max(0, ...tiers), pl, st:p.stage || 0, sw:Math.min(8, 1 + Math.floor((p.stage || 0) / 4)) + (_cl === 'kiem' ? 2 : 0), cls:_cl, cos:_co };
 }
 
 /* ======================= TRẠNG THÁI CHẠY ======================= */
@@ -1024,14 +1047,18 @@ function enterMap(id, x, y, silent){
   M.spawns.forEach(sp => { for(let i = 0; i < sp.n; i++) spawnMob(sp); });
   $('#mapname').textContent = M.name + (M.safe ? Lx(" · An toàn") : '');
   if(!silent) banner(M.name, M.safe ? Lx("Vùng an toàn") : M.dark ? Lx("Nguy hiểm, yêu ma cấp cao") : Lx("Vùng săn yêu thú"));
-  Net.changeMap(id);
+  Net.changeMap(id); curPN = 1; setTimeout(() => { Net.partyBossListen(); Net.partyPush(true); partyUpdate(); }, 300);
   cam.x = me.x - gw / 2; cam.y = me.y - gh / 2;
 }
+let curPN = 1;
+const diffHp = (n = curPN) => 1 + .7 * (n - 1), diffAtk = (n = curPN) => 1 + .25 * (n - 1), diffRw = (n = curPN) => 1 + .2 * (n - 1);
+function partyN(){ if(!Party.code || !M) return 1; let n = 1; for(const id in Party.mem){ if(id === Net.uid) continue; const m = Party.mem[id]; if(m && m.map === M.id && Date.now() - (m.ct || 0) < 15000) n++; } return Math.min(4, n); }
+function partyUpdate(){ const n = partyN(); if(n !== curPN){ const r = diffHp(n) / diffHp(curPN); mobs.forEach(m => { if(!m.dead){ m.max *= r; m.hp *= r; } }); const up = n > curPN; curPN = n; if(n > 1) toast(Lx("Tổ đội {0} người cùng bản đồ: quái x{1} máu, thưởng +{2}%", n, diffHp(n).toFixed(1), Math.round((diffRw(n) - 1) * 100))); else if(!up) toast(Lx("Đồng đội rời bản đồ, độ khó trở lại bình thường")); } }
 function spawnMob(sp){
   const D = MOBS[sp.m];
   for(let k = 0; k < 30; k++){
     const x = (sp.x + rnd(-sp.r, sp.r)) * TS, y = (sp.y + rnd(-sp.r, sp.r)) * TS;
-    if(canStand(M, x, y)){ const L = D.L, hp = mobHp(L) * (D.hpM || 1); mobs.push({ k:sp.m, D, sp, x, y, hx:x, hy:y, hp, max:hp, L, st:'idle', t:rnd(0, 3), cd:0, dir:1, fr:0, dead:0, hit:0 }); return; }
+    if(canStand(M, x, y)){ const L = D.L, hp = mobHp(L) * (D.hpM || 1) * diffHp(); mobs.push({ k:sp.m, D, sp, x, y, hx:x, hy:y, hp, max:hp, L, st:'idle', t:rnd(0, 3), cd:0, dir:1, fr:0, dead:0, hit:0 }); return; }
   }
 }
 
@@ -1130,7 +1157,7 @@ function hitMob(m, mul, color){
   if(m.dead) return;
   const S = stats(), [d, crit] = dmgRoll(S.atk, m.L * 1.5, mul * (m.D.boss ? 1 + S.boss / 100 : 1));
   if(S.ls && !me.dead) me.hp = Math.min(S.hp, me.hp + Math.min(d * S.ls / 100, S.hp * .04));
-  m.hp -= d; m.hit = .15; m.aggro = true; if(m.st !== 'chase') m.st = 'chase';
+  m.hp -= d; m.hit = .15; if(m.D.boss && Party.code && curPN > 1) Party.bdmg += d / m.max; m.aggro = true; if(m.st !== 'chase') m.st = 'chase';
   texts.push({ x:m.x + rnd(-6, 6), y:m.y - m.D.h * (m.D.boss ? 2 : 1), t:0, s:d, c:crit ? '#FFD25A' : color || '#FFFFFF', big:crit, crit });
   const wc = ITEMS[look().w].c; fx.push({ k:'slash', x:m.x, y:m.y - m.D.h * (m.D.boss ? 1 : .5), a:rnd(0, 6.28), t:0, d:.22, c:color || wc, r:m.D.boss ? 18 : 10 });
   for(let i = 0; i < (crit ? 10 : 4); i++) fx.push({ k:'p', x:m.x, y:m.y - m.D.h * .5, vx:rnd(-90, 90), vy:rnd(-90, 30), t:0, d:rnd(.2, .45), c:crit ? '#FFE07A' : '#FFFFFF', glow:1 });
@@ -1139,15 +1166,16 @@ function hitMob(m, mul, color){
 }
 function killMob(m){
   m.dead = true; m.hp = 0; m.re = m.D.boss ? m.D.re : 10; me.target = me.target === m ? null : me.target;
-  const SS = stats(); let exp = mobExp(m.L) * (m.D.boss ? 10 : 1) * (1 + SS.exp / 100); if(P.buff.x2 > Date.now()) exp *= 2; exp = Math.round(exp);
+  const SS = stats(); let exp = mobExp(m.L) * (m.D.boss ? 10 : 1) * (1 + SS.exp / 100) * diffRw(); if(P.buff.x2 > Date.now()) exp *= 2; exp = Math.round(exp);
   const lvGap = P.stage - m.L; if(lvGap > 6) exp = Math.max(1, Math.round(exp * Math.max(.1, 1 - (lvGap - 6) * .15)));
   gainExp(exp); texts.push({ x:m.x, y:m.y - 30, t:0, s:`+${fmt(exp)} tu vi`, c:'#C9A0FF' });
-  const st = Math.round(mobStone(m.L) * rnd(.8, 1.3) * (m.D.boss ? 15 : 1) * (1 + SS.gold / 100)); drops.push({ x:m.x + rnd(-6, 6), y:m.y + rnd(-3, 3), k:'st', n:st, t:0 });
-  m.D.drop.forEach(([k, p]) => { if(Math.random() < p) drops.push({ x:m.x + rnd(-10, 10), y:m.y + rnd(-6, 6), k, n:1, t:0, b:!!m.D.boss }); });
+  const st = Math.round(mobStone(m.L) * rnd(.8, 1.3) * (m.D.boss ? 15 : 1) * (1 + SS.gold / 100) * diffRw()); drops.push({ x:m.x + rnd(-6, 6), y:m.y + rnd(-3, 3), k:'st', n:st, t:0 });
+  m.D.drop.forEach(([k, p]) => { if(Math.random() < p * (1 + .1 * (curPN - 1))) drops.push({ x:m.x + rnd(-10, 10), y:m.y + rnd(-6, 6), k, n:1, t:0, b:!!m.D.boss }); });
   P.kills++; questEvent('kill', m.k); fxBurst(m.x, m.y - 8, m.D.boss ? 40 : 14, m.k === 'hoama' || m.k === 'mavuong' ? '#FF8A2A' : '#C9A0FF');
   for(let i = 0; i < (m.D.boss ? 16 : 5); i++) fx.push({ k:'soul', x:m.x + rnd(-6, 6), y:m.y - rnd(4, 14), vx:rnd(-40, 40), vy:-rnd(30, 70), t:0, d:2.5, c:'#C9A0FF' });
   if(m.D.boss){ shake(8); flash = .6; warns = []; mobs.forEach(o => { if(o.temp && !o.dead){ o.dead = true; fxBurst(o.x, o.y - 6, 10, '#C9A0FF'); } });
     for(let i = 0; i < 5; i++) setTimeout(() => { fx.push({ k:'wave', x:m.x + rnd(-20, 20), y:m.y + rnd(-10, 10), t:0, d:.8, c:pick(['#FFD25A', '#FF8A2A', '#FFFFFF']), big:1 }); fxBurst(m.x + rnd(-20, 20), m.y - rnd(10, 40), 26, pick(['#FFD25A', '#FF5A4A', '#C9A0FF'])); sfx.boom(); shake(4); }, i * 180);
+    P.inv.tbl = (P.inv.tbl || 0) + 1; texts.push({ x:m.x, y:m.y - 46, t:0, s:Lx('+1 Tầm Bảo Lệnh'), c:'#FFD25A' });
     fx.push({ k:'pillar', x:m.x, y:m.y, t:0, d:2, c:'#FFD25A' }); drops.push({ x:m.x + rnd(-12, 12), y:m.y + rnd(-6, 6), k:'tt', n:Math.round(m.L * 2.5), t:0 });
     drops.forEach(dd => { if(Math.hypot(dd.x - m.x, dd.y - m.y) < 14){ const an = rnd(0, 6.28), r = rnd(14, 40); dd.x = m.x + Math.cos(an) * r; dd.y = m.y + Math.sin(an) * r * .6; } }); }
   if(m.D.boss){ sfx.lv(); banner(`${Lx("Hạ gục {0}!", m.D.n)}`, Lx("Nhặt chiến lợi phẩm nào")); Net.chat(`${Lx("đã hạ gục {0}!", m.D.n)}`, true); }
@@ -1166,7 +1194,7 @@ function levelUp(){
 }
 function hurtMe(d){
   if(me.dead) return;
-  const S = stats(); d = Math.max(1, Math.round(d * rnd(.9, 1.1) - S.def * .5));
+  const S = stats(); d = d * diffAtk() * (1 - S.dr); d = Math.max(1, Math.round(d * rnd(.9, 1.1) - S.def * .5));
   if(shield > 0){ const a = Math.min(shield, d); shield -= a; d -= a; texts.push({ x:me.x, y:me.y - 26, t:0, s:Lx("chặn ") + a, c:'#F2C14E' }); }
   if(d <= 0) return;
   me.hp -= d; lastHurt = tNow; texts.push({ x:me.x + rnd(-4, 4), y:me.y - 26, t:0, s:'-' + d, c:'#FF6B5E' });
@@ -1184,10 +1212,10 @@ function useSkill(k){
   if(cds[k] > tNow){ return; }
   if(me.mp < S.mp){ toast(Lx("Linh lực không đủ")); return; }
   if(me.sit) toggleMed();
-  if(k === 'ho'){ me.mp -= S.mp; cds[k] = tNow + S.cd; const st = stats(); shield = Math.round(st.hp * .3); fx.push({ k:'wave', x:me.x, y:me.y, t:0, d:.6, c:'#F2C14E' }); me.hp = Math.min(st.hp, me.hp + st.hp * .2); fx.push({ k:'ring', x:me.x, y:me.y, t:0, d:.8, c:'#F2C14E' }); sfx.skill(); return; }
+  if(k === 'ho'){ me.mp -= S.mp; cds[k] = tNow + S.cd * (1 - stats().cdr); const st = stats(); shield = Math.round(st.hp * .3); fx.push({ k:'wave', x:me.x, y:me.y, t:0, d:.6, c:'#F2C14E' }); me.hp = Math.min(st.hp, me.hp + st.hp * .2); fx.push({ k:'ring', x:me.x, y:me.y, t:0, d:.8, c:'#F2C14E' }); sfx.skill(); return; }
   const t = (me.target && !me.target.dead) ? me.target : nearestMob(170);
   if(!t){ toast(Lx("Không có mục tiêu")); return; }
-  me.target = t; me.mp -= S.mp; cds[k] = tNow + S.cd; sfx.skill(); me.dir = t.x >= me.x ? 1 : -1;
+  me.target = t; me.mp -= S.mp; cds[k] = tNow + S.cd * (1 - stats().cdr); sfx.skill(); me.dir = t.x >= me.x ? 1 : -1;
   if(k === 'van'){ fx.push({ k:'circle', x:t.x, y:t.y, t:0, d:1.3, c:'#9BE0FF' }); for(let i = 0; i < 9; i++){ const a = rnd(0, 6.28), r = rnd(0, 26); projs.push({ k:'rain', x:t.x + Math.cos(a) * r, y:t.y + Math.sin(a) * r * .6, h:150 + i * 20, vy:360, tx:t.x, ty:t.y, mul:2.2 / 3, c:look().w }); } }
   if(k === 'hoa'){ const a = Math.atan2(t.y - me.y, t.x - me.x); projs.push({ k:'fire', x:me.x, y:me.y - 6, vx:Math.cos(a) * 190, vy:Math.sin(a) * 190, life:.9, hitSet:new Set(), mul:3.2 }); }
 }
@@ -1234,8 +1262,12 @@ function update(dt){
   }
   if(me.target && !me.target.dead && Math.hypot(mx, my) <= .15){
     const d = Math.hypot(me.target.x - me.x, me.target.y - me.y);
-    if(d > 80){ mx = (me.target.x - me.x) / d; my = (me.target.y - me.y) / d; }
-    else if(cds.atk <= tNow){ cds.atk = tNow + .55; me.dir = me.target.x >= me.x ? 1 : -1; projs.push({ k:'sword', x:me.x, y:me.y - 14, tgt:me.target, sp:250, mul:1, c:look().w }); sfx.swish(); }
+    const rng = P.cls === 'the' ? 22 : P.cls === 'phap' ? 95 : 80;
+    if(d > rng){ mx = (me.target.x - me.x) / d; my = (me.target.y - me.y) / d; }
+    else if(cds.atk <= tNow){ me.dir = me.target.x >= me.x ? 1 : -1;
+      if(P.cls === 'the'){ cds.atk = tNow + .5; const t = me.target; hitMob(t, 1.15, '#FFB04A'); fx.push({ k:'ring', x:t.x, y:t.y + 4, t:0, d:.35, c:'#FFB04A' }); mobs.forEach(o => { if(o !== t && !o.dead && Math.hypot(o.x - t.x, o.y - t.y) < 24) hitMob(o, .55, '#FFB04A'); }); me.lunge = .12; shake(1); sfx.hit(); }
+      else if(P.cls === 'phap'){ cds.atk = tNow + .65; projs.push({ k:'orb', x:me.x + me.dir * 6, y:me.y - 18, tgt:me.target, sp:210, mul:1.05, tr:[] }); sfx.swish(); }
+      else { cds.atk = tNow + .55; projs.push({ k:'sword', x:me.x, y:me.y - 14, tgt:me.target, sp:250, mul:1, c:look().w }); sfx.swish(); } }
   } else if(me.tx !== null && me.tx !== undefined){
     const d = Math.hypot(me.tx - me.x, me.ty - me.y);
     if(d < 4){ me.tx = null; if(me.talk){ npcTalk(me.talk); me.talk = null; } } else { mx = (me.tx - me.x) / d; my = (me.ty - me.y) / d; }
@@ -1252,7 +1284,7 @@ function update(dt){
   }
   // hồi phục
   const regenK = me.sit ? (onPlatform() ? 6 : 4) : (tNow - lastHurt > 5 ? 1 : 0);
-  me.hp = Math.min(S.hp, me.hp + S.hp * (.012 * regenK + S.rg / 100) * dt); me.mp = Math.min(S.mp, me.mp + S.mp * (.02 + regenK * .01) * dt);
+  me.hp = Math.min(S.hp, me.hp + S.hp * (.012 * regenK + S.rg / 100) * dt); me.mp = Math.min(S.mp, me.mp + S.mp * (.02 + regenK * .01) * dt * (P.cls === 'phap' ? 1.6 : 1));
   if(me.sit){ let r = needExp(P.stage) / 1800 * (onPlatform() ? 2 : 1); if(P.buff.x2 > Date.now()) r *= 2; me.medAcc = (me.medAcc || 0) + r * dt; if(me.medAcc >= 1){ const n = Math.floor(me.medAcc); me.medAcc -= n; gainExp(n); } me.medT = (me.medT || 0) + dt; if(me.medT >= 1){ me.medT -= 1; if(onPlatform()) questEvent('med'); } if(frame % 12 === 0) fx.push({ k:'p', x:me.x + rnd(-10, 10), y:me.y - rnd(0, 6), vx:0, vy:-25, t:0, d:1.2, c:onPlatform() ? '#F2C14E' : '#9BE0FF' }); }
   // cổng dịch chuyển
   for(const pt of M.portals){ if(Math.hypot(pt.x - me.x, pt.y - me.y) < 12 && !me.porting){
@@ -1282,6 +1314,7 @@ function update(dt){
   for(let i = projs.length - 1; i >= 0; i--){
     const p = projs[i];
     if(p.k === 'sword'){ const t = p.tgt; if(!t || t.dead){ projs.splice(i, 1); continue; } const tx = t.x, ty = t.y - 8, d = Math.hypot(tx - p.x, ty - p.y); if(d < 6){ hitMob(t, p.mul); sfx.hit(); projs.splice(i, 1); continue; } p.a = Math.atan2(ty - p.y, tx - p.x); (p.tr = p.tr || []).push([p.x, p.y]); if(p.tr.length > 6) p.tr.shift(); p.x += (tx - p.x) / d * p.sp * dt; p.y += (ty - p.y) / d * p.sp * dt; }
+    else if(p.k === 'orb'){ const t = p.tgt; if(!t || t.dead){ projs.splice(i, 1); continue; } const tx = t.x, ty = t.y - 8, d = Math.hypot(tx - p.x, ty - p.y); p.tr.push([p.x, p.y]); if(p.tr.length > 8) p.tr.shift(); if(d < 6){ hitMob(t, p.mul, '#C99BFF'); mobs.forEach(o => { if(o !== t && !o.dead && Math.hypot(o.x - t.x, o.y - t.y) < 22) hitMob(o, .5, '#C99BFF'); }); fx.push({ k:'ring', x:t.x, y:t.y, t:0, d:.4, c:'#C99BFF' }); for(let j = 0; j < 8; j++) fx.push({ k:'p', x:t.x, y:t.y - 8, vx:rnd(-70, 70), vy:rnd(-70, 30), t:0, d:.35, c:pick(['#E8D8FF', '#C99BFF', '#9BE0FF']), glow:1 }); sfx.hit(); projs.splice(i, 1); continue; } p.x += (tx - p.x) / d * p.sp * dt; p.y += (ty - p.y) / d * p.sp * dt + Math.sin(tNow * 20) * .3; }
     else if(p.k === 'rain'){ p.h -= p.vy * dt; if(p.h <= 0){ mobs.forEach(m => { if(!m.dead && Math.hypot(m.x - p.x, m.y - p.y) < 22) hitMob(m, p.mul, '#9BE0FF'); }); fxBurst(p.x, p.y, 6, '#BFE8FF'); fx.push({ k:'ring', x:p.x, y:p.y + 6, t:0, d:.35, c:'#BFE8FF' }); shake(1); sfx.hit(); projs.splice(i, 1); } }
     else if(p.k === 'fire'){ p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; if(frame % 3 === 0) fx.push({ k:'burn', x:p.x, y:p.y + 6, t:0, d:1.6 }); if(frame % 2 === 0) fx.push({ k:'p', x:p.x + rnd(-4, 4), y:p.y + rnd(-3, 3), vx:rnd(-15, 15), vy:rnd(-40, -10), t:0, d:.5, c:pick(['#FF8A2A', '#FFD25A', '#E8541C']) }); mobs.forEach(m => { if(!m.dead && !p.hitSet.has(m) && Math.hypot(m.x - p.x, m.y - 6 - p.y) < 16){ p.hitSet.add(m); hitMob(m, p.mul, '#FF9A3A'); } }); if(p.life <= 0) projs.splice(i, 1); }
   }
@@ -1319,7 +1352,7 @@ function update(dt){
   cam.x += (cx - cam.x) * Math.min(1, dt * 8); cam.y += (cy - cam.y) * Math.min(1, dt * 8);
   // người khác: nội suy
   for(const id in others){ const o = others[id]; const d = Math.hypot(o.nx - o.x, o.ny - o.y); if(d > 200){ o.x = o.nx; o.y = o.ny; } else { o.x += (o.nx - o.x) * Math.min(1, dt * 8); o.y += (o.ny - o.y) * Math.min(1, dt * 8); } o.moving = d > 1.5; if(o.moving) o.anim = (o.anim || 0) + dt * 8; if(Date.now() - o.seen > 70000) delete others[id]; }
-  Net.tick(dt);
+  Net.tick(dt); Net.partyTick(dt); if(frame % 30 === 0) partyUpdate();
 }
 function pickDrop(d){
   if(d.k === 'st'){ P.st += d.n; texts.push({ x:me.x, y:me.y - 30, t:0, s:`${Lx("+{0} linh thạch", d.n)}`, c:'#7FE0F0' }); sfx.coin(); return; }
@@ -1340,13 +1373,16 @@ function drawHero(ctx, x, y, L, st){
     if(frame % (L.au >= 5 ? 5 : 9) === 0) fx.push({ k:'p', x:x + rnd(-10, 10), y:y - rnd(0, 4), vx:rnd(-5, 5), vy:-rnd(18, 34), t:0, d:1, c, glow:1 }); }
   ctx.fillStyle = 'rgba(0,0,0,.28)'; ctx.fillRect(sx - 6, sy - 1, 12, 3);
   // phi kiếm hộ thân: kiếm nhỏ xoay vòng quanh eo, có chiều sâu
-  const n = L.sw === 0 ? 0 : Math.min(4, 1 + Math.floor(((L.sw || 1) - 1) / 2)), wt = ITEMS[L.w] ? ITEMS[L.w].t : 1, ms = miniSword(L.w || 'w1'), wc = ITEMS[L.w] ? ITEMS[L.w].c : '#BFE8FF';
+  if(L.cos) drawCos(ctx, L.cos, sx, sy + bob, 0);
+  const n = L.sw === 0 || (L.cls && L.cls !== 'kiem') ? 0 : Math.min(4, 1 + Math.floor(((L.sw || 1) - 1) / 2)), wt = ITEMS[L.w] ? ITEMS[L.w].t : 1, ms = miniSword(L.w || 'w1'), wc = ITEMS[L.w] ? ITEMS[L.w].c : '#BFE8FF';
   const behind = [], front = [], spd = st.sit ? .7 : 1.4;
   for(let i = 0; i < n; i++){ const a = tNow * spd + i * Math.PI * 2 / n, px = sx + Math.cos(a) * 19, py = sy - 12 + Math.sin(a) * 5 + Math.sin(tNow * 3 + i) * 1 + bob; (Math.sin(a) < 0 ? behind : front).push([px, py, a]); }
   const drawSw = ([a, b, an]) => { const X = Math.round(a - 3), Y = Math.round(b - 13);
     if(wt >= 3){ ctx.globalCompositeOperation = 'lighter'; for(let k = 1; k <= 3; k++){ const pa = an - k * .22, tx = sx + Math.cos(pa) * 19, ty = sy - 12 + Math.sin(pa) * 5 + bob; ctx.globalAlpha = .22 - k * .05; ctx.fillStyle = wc; ctx.fillRect(Math.round(tx - 1), Math.round(ty - 10), 2, 8); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
     ctx.globalAlpha = Math.sin(an) < 0 ? .75 : 1; ctx.drawImage(ms, X, Y); ctx.globalAlpha = 1; };
   behind.forEach(drawSw);
+  if(L.cls === 'phap'){ ctx.globalCompositeOperation = 'lighter'; for(let i = 0; i < 3; i++){ const a = tNow * 1.6 + i * 2.094, X = sx + Math.cos(a) * 15, Y = sy - 16 + Math.sin(a) * 5 + Math.sin(tNow * 3 + i) * 2; ctx.globalAlpha = Math.sin(a) < 0 ? .35 : .8; ctx.fillStyle = '#C99BFF'; ctx.beginPath(); ctx.arc(X, Y, 3, 0, 7); ctx.fill(); ctx.fillStyle = '#FFFFFF'; ctx.fillRect(Math.round(X), Math.round(Y) - 1, 1, 1); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
+  if(L.cls === 'the' && !st.sit && Math.random() < .12) fx.push({ k:'p', x:x + rnd(-7, 7), y:y - rnd(2, 22), vx:rnd(-4, 4), vy:-rnd(14, 28), t:0, d:.7, c:pick(['#FFB04A', '#FF7A2A', '#FFD25A']), glow:1 });
   // cánh
   if(L.wi && ITEMS[L.wi]){ const wf = [0, 1, 0, 2][Math.floor(tNow * (st.moving ? 9 : 5) + x * .01) % 4], ws = wingSprite(L.wi, wf), wy = sy - 35 + bob; ctx.drawImage(ws, sx - 30, wy); ctx.drawImage(flipCached(ws), sx, wy);
     if(ITEMS[L.wi].t >= 5 && frame % 7 === 0) fx.push({ k:'p', x:x + rnd(-24, 24), y:y - rnd(14, 30), vx:rnd(-6, 6), vy:rnd(5, 20), t:0, d:1.2, c:ITEMS[L.wi].c[1], glow:1 }); }
@@ -1355,10 +1391,19 @@ function drawHero(ctx, x, y, L, st){
   if(st.sit){ ctx.drawImage(sp, 0, 0, 24, 25, sx - 12, sy - 25 + bob + 2, 24, 25); ctx.fillStyle = L.robe; ctx.fillRect(sx - 8, sy - 3, 16, 3); }
   else ctx.drawImage(sp, sx - 12, sy - 32 + bob);
   front.forEach(drawSw);
+  if(L.cos) drawCos(ctx, L.cos, sx, sy + bob, 1);
   // vầng sáng sau đầu từ Nguyên Anh
   if((L.st || 0) >= 17){ ctx.globalAlpha = .6 + Math.sin(tNow * 2) * .2; ctx.strokeStyle = majorOf(L.st).c; ctx.beginPath(); ctx.ellipse(sx, sy - 34 + bob, 7, 2.5, 0, 0, 7); ctx.stroke(); ctx.globalAlpha = 1; }
   // ánh cường hoá +7
   if((L.pl || 0) >= 7 && Math.random() < .25){ ctx.fillStyle = '#FFFFFF'; ctx.fillRect(sx + Math.round(rnd(-9, 9)), sy - Math.round(rnd(4, 30)), 1, 1); }
+}
+function drawCos(ctx, k, sx, sy, front){
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  if(k === 'lotus' && !front){ for(let i = 0; i < 8; i++){ const a = tNow * .6 + i * .785, X = sx + Math.cos(a) * 12, Y = sy - 1 + Math.sin(a) * 4; ctx.globalAlpha = .75; ctx.fillStyle = i % 2 ? '#FFB3D0' : '#FFE07A'; ctx.beginPath(); ctx.ellipse(X, Y, 4, 2, a, 0, 7); ctx.fill(); } ctx.globalAlpha = .35; ctx.fillStyle = '#FFE07A'; ctx.beginPath(); ctx.ellipse(sx, sy - 1, 9, 3, 0, 0, 7); ctx.fill(); }
+  if(k === 'rainbow' && !front){ const C = ['#FF5A5A', '#FF9A3A', '#FFE07A', '#7FE0A8', '#5EB8FF', '#7A6BFF', '#C99BFF']; ctx.lineWidth = 1.2; C.forEach((c, i) => { ctx.globalAlpha = .45 + Math.sin(tNow * 3 + i) * .2; ctx.strokeStyle = c; ctx.beginPath(); ctx.arc(sx, sy - 22, 10 + i * 1.6, Math.PI * .95, Math.PI * 2.05); ctx.stroke(); }); }
+  if(k === 'thunder' && front){ ctx.globalCompositeOperation = 'source-over'; const Y = sy - 46 + Math.sin(tNow * 2) * 1.5; ctx.globalAlpha = .9; ctx.fillStyle = '#3A3A5A'; [[-7, 1, 6], [0, -1, 7], [7, 1, 6]].forEach(([dx, dy, r]) => { ctx.beginPath(); ctx.arc(sx + dx, Y + dy, r * .7, 0, 7); ctx.fill(); }); ctx.fillStyle = '#5A5A80'; ctx.fillRect(sx - 9, Y - 3, 18, 2);
+    if(Math.floor(tNow * 3) % 5 === 0 && Math.random() < .5){ ctx.globalCompositeOperation = 'lighter'; ctx.strokeStyle = '#BFE8FF'; ctx.lineWidth = 1; ctx.beginPath(); let X = sx + rnd(-6, 6), yy = Y + 4; ctx.moveTo(X, yy); for(let i = 0; i < 4; i++){ X += rnd(-4, 4); yy += 5; ctx.lineTo(X, yy); } ctx.stroke(); } }
+  ctx.restore();
 }
 const FLIPS = new Map();
 function flipCached(c){ let f = FLIPS.get(c); if(!f){ f = flip(c); FLIPS.set(c, f); } return f; }
@@ -1484,6 +1529,7 @@ function render(){
   for(const p of projs){
     if(p.k === 'sword' && p.tr){ const c = ITEMS[p.c] ? ITEMS[p.c].c : '#BFE8FF'; ctx.globalCompositeOperation = 'lighter'; p.tr.forEach(([a, b], i) => { ctx.globalAlpha = (i + 1) / p.tr.length * .45; ctx.fillStyle = c; ctx.fillRect(Math.round(a - cx) - 1, Math.round(b - cy) - 1, 3, 3); }); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
     if(p.k === 'sword'){ const s = swordSprite(p.c); ctx.save(); ctx.translate(Math.round(p.x - cx), Math.round(p.y - cy)); ctx.rotate((p.a || 0) + Math.PI / 2); ctx.drawImage(s, -5, -14); ctx.restore(); ctx.globalAlpha = .4; ctx.fillStyle = '#BFE8FF'; ctx.fillRect(Math.round(p.x - cx) - 1, Math.round(p.y - cy) - 1, 2, 2); ctx.globalAlpha = 1; }
+    else if(p.k === 'orb'){ const X = Math.round(p.x - cx), Y = Math.round(p.y - cy); ctx.globalCompositeOperation = 'lighter'; p.tr.forEach(([a, b], j) => { ctx.globalAlpha = (j + 1) / p.tr.length * .4; ctx.fillStyle = '#9B6BE0'; ctx.fillRect(Math.round(a - cx) - 1, Math.round(b - cy) - 1, 3, 3); }); ctx.globalAlpha = .45; ctx.fillStyle = '#C99BFF'; ctx.beginPath(); ctx.arc(X, Y, 5, 0, 7); ctx.fill(); ctx.globalAlpha = 1; ctx.fillStyle = '#F4ECFF'; ctx.fillRect(X - 1, Y - 1, 3, 3); if(Math.random() < .5){ ctx.strokeStyle = '#E8D8FF'; ctx.beginPath(); ctx.moveTo(X, Y); ctx.lineTo(X + rnd(-7, 7), Y + rnd(-7, 7)); ctx.stroke(); } ctx.globalCompositeOperation = 'source-over'; }
     else if(p.k === 'rain'){ const s = swordSprite(p.c); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = 'rgba(155,224,255,.35)'; ctx.fillRect(Math.round(p.x - cx) - 1, Math.round(p.y - cy - p.h) - 40, 3, 32); ctx.globalCompositeOperation = 'source-over'; ctx.save(); ctx.translate(Math.round(p.x - cx), Math.round(p.y - cy - p.h)); ctx.rotate(Math.PI); ctx.drawImage(s, -5, -14); ctx.restore(); }
     else if(p.k === 'fire'){ const X = p.x - cx, Y = p.y - cy, ang = Math.atan2(p.vy, p.vx); ctx.globalCompositeOperation = 'lighter'; for(let i = 5; i >= 0; i--){ const bx = X - Math.cos(ang) * i * 5 + Math.sin(tNow * 20 + i) * 1.5, by = Y - Math.sin(ang) * i * 5; ctx.globalAlpha = .9 - i * .13; ctx.fillStyle = i < 2 ? '#FFE07A' : i < 4 ? '#FF9A3A' : '#E0401A'; ctx.beginPath(); ctx.arc(bx, by, 6 - i * .7, 0, 7); ctx.fill(); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#1A0A08'; ctx.fillRect(Math.round(X + Math.cos(ang) * 3 - 1), Math.round(Y - 2), 1, 1); }
   }
@@ -1569,8 +1615,8 @@ function renderOverlay(){
   };
   for(const n of M.npcs){ const d = Math.hypot(n.x - me.x, n.y - me.y); if(!DLG && d < 90 && tNow > (n.bt || 0)){ n.bt = tNow + rnd(7, 12); n.say = subT(pickR(BARK[n.k])); n.sayT = tNow; } if(n.say && tNow - n.sayT < 3.2){ bubbles['npc_' + n.k] = { m:n.say, t:Date.now() - (tNow - n.sayT) * 1000 }; } else delete bubbles['npc_' + n.k]; }
   for(const n of M.npcs){ const x = tx(n.x), y = ty(n.y - 34); drawBubble('npc_' + n.k, x, y - 30); nameTag(x, y, n.n, n.k === 'tong' ? Lx("Giao nhiệm vụ") : n.k === 'dan' ? Lx("Bán đan dược") : Lx("Rèn & cường hoá"), '#7FE0A8'); if(n.k === 'tong' && (questReady() || (curQuest() && curQuest().k === 'talk'))){ o2.font = '800 18px sans-serif'; o2.fillStyle = '#F2C14E'; o2.strokeText('!', x, y - 30); o2.fillText('!', x, y - 30); } }
-  for(const id in others){ const o = others[id], x = tx(o.x), y = ty(o.y - 38 - (o.L.wi ? 6 : 0) - (o.L.h ? 3 : 0)); nameTag(x, y, o.n, realmName(o.s || 0), majorOf(o.s || 0).c); drawBubble(id, x, y - 30); }
-  if(!me.dead){ const LL = look(), x = tx(me.x), y = ty(me.y - 38 - (LL.wi ? 6 : 0) - (LL.h ? 3 : 0)); nameTag(x, y, P.name, realmName(P.stage), majorOf(P.stage).c); drawBubble('me', x, y - 30); }
+  for(const id in others){ const o = others[id], x = tx(o.x), y = ty(o.y - 38 - (o.L.wi ? 6 : 0) - (o.L.h ? 3 : 0)); nameTag(x, y, (Party.mem && Party.mem[id] ? '🤝 ' : '') + o.n, ((CLASSES[o.L.cls] || CLASSES.kiem).ic) + ' ' + realmName(o.s || 0), majorOf(o.s || 0).c); drawBubble(id, x, y - 30); }
+  if(!me.dead){ const LL = look(), x = tx(me.x), y = ty(me.y - 38 - (LL.wi ? 6 : 0) - (LL.h ? 3 : 0)); nameTag(x, y, P.name, cls().ic + ' ' + realmName(P.stage), majorOf(P.stage).c); drawBubble('me', x, y - 30); }
   for(const m of mobs){ if(m.dead) continue; const show = (m.D.boss ? !(m.st === 'chase' || Math.hypot(m.x - me.x, m.y - me.y) < 200) : (m.hp < m.max || me.target === m)) || (me.target === m && !m.D.boss); if(!show) continue; const sp = mobSprite(m.k, 0), x = tx(m.x), y = ty(m.y - sp.height - 3), w = m.D.boss ? 70 : 34;
     o2.fillStyle = 'rgba(0,0,0,.7)'; o2.fillRect(x - w / 2 - 1, y - 6, w + 2, 6); o2.fillStyle = m.D.boss ? '#C83A5A' : '#E0453A'; o2.fillRect(x - w / 2, y - 5, w * m.hp / m.max, 4);
     o2.font = `700 ${m.D.boss ? 12 : 10}px "Be Vietnam Pro",sans-serif`; o2.lineWidth = 3; o2.strokeStyle = 'rgba(0,0,0,.85)'; const lb = `${m.D.n} · ${realmName(Math.max(0, m.L - 1)).replace(Lx("Luyện Khí "), 'LK ')}`; o2.strokeText(lb, x, y - 9); o2.fillStyle = m.D.boss ? '#FF9C8A' : '#F5EEDC'; o2.fillText(lb, x, y - 9);
@@ -1608,7 +1654,7 @@ function hud(){
   const S = stats(), mp = Math.round(me.mp), hp = Math.round(me.hp);
   $('#hpb i').style.width = (hp / S.hp * 100) + '%'; $('#hpb b').textContent = `${fmt(hp)}/${fmt(S.hp)}`; $('#shb').style.width = Math.min(100, shield / S.hp * 100) + '%';
   $('#mpb i').style.width = (mp / S.mp * 100) + '%'; $('#mpb b').textContent = `${fmt(mp)}/${fmt(S.mp)}`;
-  const need = needExp(P.stage); $('#expI').style.width = Math.min(100, P.exp / need * 100) + '%'; $('#expB').textContent = `${realmName(P.stage)} · Tu vi ${fmt(P.exp)}/${fmt(need)} (${(P.exp / need * 100).toFixed(1)}%)${isGate(P.stage) && P.exp >= need ? Lx(" · CÓ THỂ ĐỘT PHÁ") : ''}`;
+  const need = needExp(P.stage); $('#expI').style.width = Math.min(100, P.exp / need * 100) + '%'; $('#expB').textContent = `${realmName(P.stage)} · ${Lx("Tu vi")} ${fmt(P.exp)}/${fmt(need)} (${(P.exp / need * 100).toFixed(1)}%)${isGate(P.stage) && P.exp >= need ? Lx(" · CÓ THỂ ĐỘT PHÁ") : ''}`;
   const k = `${P.name}|${P.stage}|${P.inv.hp}|${P.buff.x2 > Date.now()}|${P.q.i}|${P.q.p}|${P.daily.p}`;
   ['van', 'ho', 'hoa'].forEach((s, i) => { const b = $('#bS' + (i + 1)), sk = SKILLS[s]; b.classList.toggle('lock', P.stage < sk.s); const rem = Math.max(0, cds[s] - tNow); b.querySelector('.cd').style.transform = `scaleY(${rem / sk.cd})`; });
   const bo = mobs.find(m => m.D.boss && !m.dead && (m.st === 'chase' || Math.hypot(m.x - me.x, m.y - me.y) < 200)), bb = $('#bossbar');
@@ -1618,7 +1664,7 @@ function hud(){
   $('#meName').textContent = P.name; $('#meRealm').textContent = realmName(P.stage); $('#meRealm').style.color = majorOf(P.stage).c;
   $('#potN').textContent = P.inv.hp || 0;
   $('#buffs').innerHTML = P.buff.x2 > Date.now() ? Lx("<span>Tụ Khí x2</span>") : '';
-  $('#track').innerHTML = trackHtml(); $('#dtQuest').classList.toggle('hidden', !questReady());
+  $('#track').innerHTML = trackHtml() + partyHtml(); $('#dtQuest').classList.toggle('hidden', !questReady());
   $('#dtChar').classList.toggle('hidden', !(isGate(P.stage) && P.exp >= needExp(P.stage)));
   drawAva();
 }
@@ -1644,6 +1690,7 @@ function grant(rw){
   if(rw.st){ P.st += rw.st; parts.push(`${Lx("{0} linh thạch", fmt(rw.st))}`); }
   ['hp', 'mp', 'x2', 'pc'].forEach(k => { if(rw[k]){ P.inv[k] = (P.inv[k] || 0) + rw[k]; parts.push(`${rw[k]} ${PILLS[k].n}`); } });
   if(rw.item){ P.bag.push(rollItem(rw.item, 'boss')); parts.push(ITEMS[rw.item].n); }
+  if(rw.tbl){ P.inv.tbl = (P.inv.tbl || 0) + rw.tbl; parts.push(Lx('{0} Tầm Bảo Lệnh', rw.tbl)); }
   if(rw.exp){ gainExp(rw.exp); parts.push(`${fmt(rw.exp)} tu vi`); }
   return parts.join(', ');
 }
@@ -1746,7 +1793,7 @@ function greetTime(){ const h = new Date().getHours(); return h < 5 ? Lx("Khuya 
 function claimTong(){
   const q = curQuest(); let txt;
   if(q){ txt = grant(q.rw); P.q.i++; P.q.p = 0; P._qTold = 0; const nq = curQuest(); if(nq && nq.k === 'stage' && P.stage >= nq.n) P.q.p = nq.n; }
-  else { const s = P.stage; txt = grant({ st:300 + s * 120, x2:1, pc:s >= 8 ? 1 : 0, exp:Math.round(needExp(s) * .15) }); P.daily.done = 1; }
+  else { const s = P.stage; txt = grant({ st:300 + s * 120, x2:1, tbl:3, pc:s >= 8 ? 1 : 0, exp:Math.round(needExp(s) * .15) }); P.daily.done = 1; }
   sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:'#F2C14E' }); saveSoon();
   const nq = curQuest();
   say('tong', [`${Lx("Đây là phần thưởng của con: <{0}>.", txt)}`.replace(/[<>]/g, ''), nq ? `${Lx("Việc tiếp theo… {0}", nq.d)}` : Lx("Từ giờ con cứ tự do tu luyện. Mỗi ngày ghé ta nhận việc trừ ma.")],
@@ -1803,7 +1850,7 @@ function questSheet(atNpc){
   const d = $('#qDone'); if(d) d.onclick = () => {
     let txt;
     if(q){ txt = grant(q.rw); P.q.i++; P.q.p = 0; P._qTold = 0; const nq = curQuest(); if(nq && nq.k === 'stage' && P.stage >= nq.n) P.q.p = nq.n; }
-    else { const s = P.stage; txt = grant({ st:300 + s * 120, x2:1, pc:s >= 8 ? 1 : 0, exp:Math.round(needExp(s) * .15) }); P.daily.done = 1; }
+    else { const s = P.stage; txt = grant({ st:300 + s * 120, x2:1, tbl:3, pc:s >= 8 ? 1 : 0, exp:Math.round(needExp(s) * .15) }); P.daily.done = 1; }
     sfx.lv(); toast(Lx("Nhận: ") + txt); saveSoon(); questSheet(true);
   };
 }
@@ -1887,6 +1934,14 @@ function bulkSheet(){
   document.querySelectorAll('[data-aj]').forEach(b => b.onclick = () => { P.autoJunk = +b.dataset.aj; saveSoon(); bulkSheet(); });
 }
 const sellPrice = it => Math.round((ITEMS[it.k].p || ITEMS[it.k].t * 800) * .3 * (1 + it.plus * .3));
+function classSheet(){
+  const cost = P.clsFree === 0 ? 0 : 0, price = (P.clsChg || 0) === 0 ? 0 : 1500 + P.stage * 300;
+  sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>${Lx("Môn phái")}</h2><p class="sub">${price ? Lx("Đổi môn phái tốn {0} linh thạch.", fmt(price)) : Lx("Lần đổi đầu tiên miễn phí.")}</p>
+    ${Object.entries(CLASSES).map(([k, C]) => `<div class="line" style="border-color:${P.cls === k || (!P.cls && k === 'kiem') ? C.c : 'var(--line)'}"><div class="g"><b style="color:${C.c}">${C.ic} ${C.n}</b><small>${C.d}</small></div>${(P.cls || 'kiem') === k ? `<span class="sub" style="margin:0">${Lx("Đang theo")}</span>` : `<button class="s" data-cls="${k}">${price ? fmt(price) : Lx("Chọn")}</button>`}</div>`).join('')}
+    <button class="btn alt" id="back">${Lx("Quay lại")}</button>`);
+  $('#back').onclick = charSheet;
+  document.querySelectorAll('[data-cls]').forEach(b => b.onclick = () => { if(P.st < price) return toast(Lx("Không đủ linh thạch")); P.st -= price; P.cls = b.dataset.cls; P.clsChg = (P.clsChg || 0) + 1; _sk = ''; const S = stats(); me.hp = Math.min(me.hp, S.hp); Net.pushLook(); sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:cls().c }); toast(Lx("Đã chuyển sang {0}", cls().n)); saveSoon(); charSheet(); });
+}
 function charSheet(){
   const S = stats(), s = P.stage, gate = isGate(s), full = P.exp >= needExp(s);
   const pv = cnv(64, 44), x = pv.getContext('2d'); const L = look();
@@ -1896,8 +1951,9 @@ function charSheet(){
   pos.filter(p => p[2] < 0).forEach(p => x.drawImage(miniSword(L.w), p[0], p[1]));
   x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw }, 0), 20, 10);
   pos.filter(p => p[2] >= 0).forEach(p => x.drawImage(miniSword(L.w), p[0], p[1]));
+  setTimeout(() => { const a = $('#chCls'); if(a) a.onclick = e => { e.preventDefault(); classSheet(); }; }, 0);
   const slot = sl => { const it = itemOf(P.eq[sl]); return `<button class="slot${it ? ' t' + ITEMS[it.k].t : ''}" data-slot="${sl}" style="${it ? 'border-style:solid' : ''}">${it ? iconHtml(it.k, 46) + (it.plus ? `<span class="pl">+${it.plus}</span>` : '') : ''}<small>${SLOTN[sl]}</small></button>`; };
-  sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button><h2>${esc(P.name)}</h2>
+  sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button><h2>${esc(P.name)}</h2><p class="sub" style="margin:-2px 0 6px">${Lx("Môn phái")}: <b style="color:${cls().c}">${cls().ic} ${cls().n}</b> · <a href="#" id="chCls" style="color:var(--gold)">${Lx("Đổi môn phái")}</a></p>
     <div class="doll"><div class="slotcol">${slot('w')}${slot('a')}</div><img class="prev" style="width:100%;height:auto;aspect-ratio:64/44;margin:0" src="${pv.toDataURL()}" alt=""><div class="slotcol">${slot('h')}${slot('wi')}</div></div>
     <p class="sub" style="text-align:center;margin:0"><b style="color:${majorOf(s).c};font-size:16px">${realmName(s)}</b><br>${Lx("Chiến lực")} <b style="color:var(--gold)">${fmt(power())}</b></p>
     <div class="stats"><span>${Lx("Công kích")} <b>${fmt(S.atk)}</b></span><span>${Lx("Sinh lực")} <b>${fmt(S.hp)}</b></span><span>${Lx("Phòng ngự")} <b>${fmt(S.def)}</b></span><span>${Lx("Linh lực")} <b>${fmt(S.mp)}</b></span><span>${Lx("Bạo kích")} <b>${Math.round(S.crit * 100)}%</b></span><span>${Lx("Bạo thương")} <b>${Math.round(S.critd * 100)}%</b></span>${[['spd', Lx("Tốc độ")], ['ls', Lx("Hút máu")], ['rg', Lx("Hồi máu/giây")], ['boss', Lx("ST lên boss")], ['exp', Lx("Tu vi nhận")], ['gold', Lx("Linh thạch rơi")]].filter(([k]) => S[k]).map(([k, n]) => `<span>${n} <b>+${Math.round(S[k] * 10) / 10}%</b></span>`).join('')}<span>${Lx("Đã diệt")} <b>${fmt(P.kills)}</b></span></div>
@@ -1937,6 +1993,72 @@ function langSheet(){
     <div class="langs">${LANGS.map(([c, n, f]) => `<button class="btn ${c === LANG ? 'gold' : 'alt'}" data-lg="${c}">${f} ${n}</button>`).join('')}</div>`);
   document.querySelectorAll('[data-lg]').forEach(b => b.onclick = () => { if(b.dataset.lg === LANG) return closeSheet(); setLang(b.dataset.lg); });
 }
+const MAP_NEED = { madien:9, samac:21 };
+function partyHud(){ const el = document.getElementById('track'); if(el && P && me) el.innerHTML = trackHtml() + partyHtml(); }
+function partyHtml(){
+  if(!Party.code) return '';
+  const rows = Object.entries(Party.mem).filter(([id]) => id !== Net.uid).map(([id, m]) => { const on = Date.now() - (m.ct || 0) < 15000; return `<div style="opacity:${on ? 1 : .45}">${(CLASSES[m.cl] || CLASSES.kiem).ic} ${esc(m.n)} <i><u style="width:${Math.round((m.hp || 0) * 100)}%"></u></i>${M && m.map === M.id ? '' : ' 🗺'}</div>`; }).join('');
+  return `<div class="pt"><b>👥 ${Lx("Tổ đội")} ${Party.code}</b>${curPN > 1 ? ` · ${Lx("Độ khó")} x${diffHp().toFixed(1)}` : ''}${rows || `<div style="opacity:.6">${Lx("Đang chờ đồng đội…")}</div>`}</div>`;
+}
+function partySheet(){
+  if(!Net.ok){ sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>👥 ${Lx("Tổ đội")}</h2><p class="sub">${Lx("Chơi tổ đội cần đăng nhập tài khoản và có mạng. Chế độ offline luôn là đi một mình.")}</p><button class="btn gold" id="pIn">${Lx("Đăng nhập để chơi online")}</button>`); $('#pIn').onclick = async () => { await saveNow(); store.set('td_wantlogin', '1'); location.reload(); }; return; }
+  if(!Party.code){
+    sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>👥 ${Lx("Tổ đội")}</h2><p class="sub">${Lx("Hiện đang đi một mình. Đi chung tổ đội tối đa 4 người: quái mạnh hơn nhưng thưởng nhiều hơn, boss chung một thanh máu.")}</p>
+      <button class="btn gold" id="pQuick">⚔️ ${Lx("Ghép đội nhanh")}</button>
+      <button class="btn alt" id="pNew">🔒 ${Lx("Tạo phòng riêng (rủ bạn bằng mã)")}</button>
+      <div class="row2" style="margin-top:6px"><input class="inp" id="pCode" maxlength="6" placeholder="${Lx("Nhập mã phòng")}" autocapitalize="characters" style="margin:0;text-transform:uppercase"><button class="btn" id="pJoin" style="flex:0 0 96px;margin:0">${Lx("Vào")}</button></div>
+      <h3>${Lx("Độ khó theo số người cùng bản đồ")}</h3><p class="sub">2 ${Lx("người")}: ${Lx("quái x{0} máu, x{1} sát thương, thưởng +{2}%", diffHp(2).toFixed(1), diffAtk(2).toFixed(2), 20)}<br>3 ${Lx("người")}: ${Lx("quái x{0} máu, x{1} sát thương, thưởng +{2}%", diffHp(3).toFixed(1), diffAtk(3).toFixed(2), 40)}<br>4 ${Lx("người")}: ${Lx("quái x{0} máu, x{1} sát thương, thưởng +{2}%", diffHp(4).toFixed(1), diffAtk(4).toFixed(2), 60)}</p>`);
+    $('#pQuick').onclick = async () => { closeSheet(); await Net.partyQuick(); partySheet(); };
+    $('#pNew').onclick = async () => { await Net.partyCreate(false); partySheet(); };
+    $('#pJoin').onclick = async () => { const c = $('#pCode').value; await Net.partyJoin(c); if(Party.code) partySheet(); };
+    return;
+  }
+  const mem = Object.entries(Party.mem);
+  sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>👥 ${Lx("Tổ đội")}</h2><p class="sub" style="text-align:center;margin:0">${Lx("Mã phòng, gửi cho bạn bè để vào cùng")}</p><div class="pcode">${Party.code}</div>
+    <div class="brow"><button class="btn alt" id="pCopy">📋 ${Lx("Sao chép mã")}</button><button class="btn alt" id="pShout">📣 ${Lx("Rủ trên kênh thế giới")}</button></div>
+    ${mem.map(([id, m]) => { const on = Date.now() - (m.ct || 0) < 15000, mine = id === Net.uid, mp = MAPS[m.map]; return `<div class="pm" style="opacity:${on || mine ? 1 : .5}"><b style="font-size:20px">${(CLASSES[m.cl] || CLASSES.kiem).ic}</b><div class="g"><b>${esc(m.n)}${mine ? ` (${Lx("bạn")})` : ''}</b><small style="display:block;color:var(--ink2)">${realmName(m.s || 0)} · ${mp ? mp.name : ''}${on || mine ? '' : ' · ' + Lx("ngoại tuyến")}</small><div class="hp"><i style="width:${Math.round((m.hp || 0) * 100)}%"></i></div></div>${!mine && on && mp ? `<button class="s" data-go="${id}">${Lx("Tới chỗ")}</button>` : ''}</div>`; }).join('')}
+    <button class="tgl" id="pOpen" aria-pressed="${!!Party.open}"><span class="g">${Lx("Cho người lạ ghép vào")}<small>${Lx("Tắt nếu chỉ muốn chơi với bạn bè")}</small></span><span class="swt"></span></button>
+    <p class="sub">${curPN > 1 ? Lx("Đang có {0} người cùng bản đồ: quái x{1} máu, thưởng +{2}%.", curPN, diffHp().toFixed(1), Math.round((diffRw() - 1) * 100)) : Lx("Đứng cùng bản đồ với đồng đội để kích hoạt độ khó tổ đội và boss chung máu.")}</p>
+    <button class="btn red" id="pLeave">${Lx("Rời đội (đi một mình)")}</button>`);
+  $('#pCopy').onclick = () => { try{ navigator.clipboard.writeText(Party.code); toast(Lx("Đã chép mã {0}", Party.code)); }catch(e){} };
+  $('#pShout').onclick = () => { Net.chat(Lx("Tổ đội {0} đang tìm người! Bấm 👥 → nhập mã để vào cùng.", Party.code)); toast(Lx("Đã gửi lên kênh thế giới")); };
+  $('#pOpen').onclick = async () => { Party.open = !Party.open; await Net.D.update(Net.partyRef(), { o:Party.open ? 1 : 0 }); partySheet(); };
+  $('#pLeave').onclick = async () => { await Net.partyLeave(); partySheet(); };
+  document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { const m = Party.mem[b.dataset.go]; if(!m) return; if(MAP_NEED[m.map] && P.stage < MAP_NEED[m.map]) return toast(Lx("Cần đạt {0} mới vào được {1}", realmName(MAP_NEED[m.map]), MAPS[m.map].name)); closeSheet(); fade(() => enterMap(m.map, m.x, m.y)); });
+}
+const tblPrice = () => 150 + P.stage * 50;
+const GRATES = [[6, .015], [5, .05], [4, .135], [3, .25]];
+function gachaRoll(){
+  P.gp10 = (P.gp10 || 0) + 1; P.gp50 = (P.gp50 || 0) + 1;
+  let tier = 0; const r = Math.random(); let acc = 0; for(const [t, p] of GRATES){ acc += p; if(r < acc){ tier = t; break; } }
+  if(P.gp50 >= 50) tier = 6; if(P.gp10 >= 10 && tier < 3) tier = 3;
+  if(tier >= 3) P.gp10 = 0; if(tier >= 6) P.gp50 = 0;
+  if(!tier){ const s = P.stage, opts = [() => ({ k:'hp', n:3 }), () => ({ k:'mp', n:3 }), () => ({ k:'x2', n:1 }), () => ({ k:'tt', n:12 + s }), () => ({ k:'st', n:200 + s * 80 }), () => ({ k:'pc', n:1 })]; const o = (Math.random() < .08 ? opts[5] : opts[Math.floor(Math.random() * 5)])();
+    if(o.k === 'st') P.st += o.n; else P.inv[o.k] = (P.inv[o.k] || 0) + o.n; return { t:o.k === 'pc' ? 2 : 1, txt:`${o.k === 'st' ? Lx("{0} linh thạch", fmt(o.n)) : o.k === 'tt' ? `${o.n} Linh Tinh` : `${o.n} ${PILLS[o.k].n}`}`, ic:o.k }; }
+  const owned = P.cos || [];
+  if(tier === 6 && Math.random() < .5 && owned.length < Object.keys(COS).length){ const k = Object.keys(COS).filter(x => !owned.includes(x))[Math.floor(Math.random() * (Object.keys(COS).length - owned.length))]; P.cos = [...owned, k]; return { t:6, txt:COS[k].n, cos:k }; }
+  const keys = Object.keys(ITEMS).filter(k => ITEMS[k].t === tier); const k = keys[Math.floor(Math.random() * keys.length)];
+  if(P.bag.length >= bagCap()){ const it = rollItem(k, tier >= 5 ? 'boss' : 'drop'); P.bag.push(it); const n = salvage(it); return { t:tier, txt:`${ITEMS[k].n} → ${n} Linh Tinh`, ic:k }; }
+  const it = rollItem(k, tier >= 5 ? 'boss' : 'drop'); P.bag.push(it); return { t:tier, txt:ITEMS[k].n + ((it.r || []).length ? ` · ${it.r.length}✦` : ''), ic:k, pf:perfect(it) };
+}
+function gachaSheet(res){
+  const n = P.inv.tbl || 0, owned = P.cos || [];
+  sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>🎁 ${Lx("Tầm Bảo Các")}</h2>
+    <p class="sub">${Lx("Dùng Tầm Bảo Lệnh để tầm bảo. Lệnh có từ nhiệm vụ, boss, quà đăng nhập mỗi ngày, hoặc đổi bằng linh thạch. Không dùng tiền thật.")}</p>
+    <div class="line"><div class="g"><b>🎫 ${Lx("Tầm Bảo Lệnh")}: ${n}</b><small>${Lx("Linh thạch")}: ${fmt(P.st)}</small></div><button class="s" id="gBuy">${Lx("Đổi 1 lệnh")} · ${fmt(tblPrice())}</button></div>
+    ${res ? `<div class="gcards">${res.map((r, i) => `<div class="gc r${r.t}" style="border-color:${r.cos ? COS[r.cos].c : rarC(r.t)}">${r.cos ? '<b style="font-size:26px">✨</b>' : r.ic === 'st' ? '<b style="font-size:24px">💎</b>' : iconHtml(r.ic, 34)}<span style="color:${r.cos ? COS[r.cos].c : rarC(r.t)}">${esc(r.txt)}${r.pf ? ' ✦' : ''}</span></div>`).join('')}</div>` : ''}
+    <div class="brow"><button class="btn gold" id="g1" ${n < 1 ? 'disabled' : ''}>${Lx("Tầm bảo x1")}</button><button class="btn gold" id="g10" ${n < 10 ? 'disabled' : ''}>${Lx("Tầm bảo x10")}</button></div>
+    <p class="sub" style="margin:6px 0 2px">${Lx("Bảo đảm Huyền phẩm sau {0} lượt", 10 - (P.gp10 || 0))} · ${Lx("Bảo đảm Tiên phẩm sau {0} lượt", 50 - (P.gp50 || 0))}</p><div class="gbar"><i style="width:${(P.gp50 || 0) * 2}%"></i></div>
+    <h3>${Lx("Tỉ lệ")}</h3><p class="sub">${RAR[6][0]} / ${Lx("Ngoại hình hiếm")} 1.5% · ${RAR[5][0]} 5% · ${RAR[4][0]} 13.5% · ${RAR[3][0]} 25% · ${Lx("Đan dược, Linh Tinh, linh thạch")} 55%</p>
+    <h3>${Lx("Ngoại hình")}</h3>${Object.entries(COS).map(([k, c]) => `<div class="line"><div class="g"><b style="color:${c.c}">✨ ${c.n}</b><small>${c.d}</small></div>${owned.includes(k) ? `<button class="s" data-cos="${k}">${P.cosOn === k ? Lx("Gỡ") : Lx("Dùng")}</button>` : `<span class="sub" style="margin:0">🔒</span>`}</div>`).join('')}`);
+  const roll = cnt => { if((P.inv.tbl || 0) < cnt) return; P.inv.tbl -= cnt; const out = []; for(let i = 0; i < cnt; i++) out.push(gachaRoll()); const best = Math.max(...out.map(r => r.t)); saveSoon(); _hk = '';
+    gachaSheet(out); const cards = document.querySelectorAll('.gc'); cards.forEach((c, i) => setTimeout(() => { c.classList.add('on'); const r = out[i]; if(r.t >= 5){ sfx.lv(); shake(r.t >= 6 ? 6 : 3); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1.2, c:r.cos ? COS[r.cos].c : rarC(r.t) }); } else beep(500 + r.t * 120, .06, 'triangle', .04); }, 160 + i * (cnt > 1 ? 170 : 0)));
+    if(best >= 6){ const r = out.find(x => x.t >= 6); Net.chat(Lx("tầm bảo được {0} [{1}]!", RAR[6][0], r.txt), true); } };
+  $('#g1').onclick = () => roll(1); $('#g10').onclick = () => roll(10);
+  $('#gBuy').onclick = () => { const c = tblPrice(); if(P.st < c) return toast(Lx("Không đủ linh thạch")); P.st -= c; P.inv.tbl = (P.inv.tbl || 0) + 1; sfx.coin(); saveSoon(); gachaSheet(res); };
+  document.querySelectorAll('[data-cos]').forEach(b => b.onclick = () => { P.cosOn = P.cosOn === b.dataset.cos ? '' : b.dataset.cos; Net.pushLook(); saveSoon(); gachaSheet(res); });
+}
+function dailyGift(){ const d = today(); if(P.lgd === d) return; P.lgd = d; P.inv.tbl = (P.inv.tbl || 0) + 2; setTimeout(() => toast(Lx("Quà đăng nhập hôm nay: +2 Tầm Bảo Lệnh 🎫")), 2500); saveSoon(); }
 function menuSheet(){
   sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button><h2>Menu</h2>
     <p class="sub">${Net.ok ? `${Lx("Đang online với tài khoản")} <b>${esc(Net.acc)}</b>.` : Lx("Đang chơi offline, tiến trình lưu trên máy này.")}</p>
@@ -1979,6 +2101,8 @@ $('#bBag').onclick = () => { sfx.tap(); bagSheet(); };
 $('#bChar').onclick = () => { sfx.tap(); charSheet(); };
 $('#bQuest').onclick = () => { sfx.tap(); questSheet(false); };
 $('#bRank').onclick = () => { sfx.tap(); rankSheet(); };
+$('#bGacha').onclick = () => { sfx.tap(); gachaSheet(); };
+$('#bParty').onclick = () => { sfx.tap(); partySheet(); };
 $('#bChat').onclick = () => { sfx.tap(); chatSheet(); };
 $('#bMenu').onclick = () => { sfx.tap(); menuSheet(); };
 $('#bAtk').onclick = attackPress; $('#bPot').onclick = drinkHp; $('#bAuto').onclick = toggleAuto; $('#bMed').onclick = toggleMed;
@@ -1997,6 +2121,7 @@ const FIREBASE_CONFIG = {
   appId: "1:960591114586:web:e9d261b3d6ee865e5d4363",
 };
 const FB_VER = '10.12.2', ACC_DOMAIN = '@dauhuthui.game';
+const Party = { code:null, mem:{}, unsub:[], bdmg:0, open:false };
 const Net = {
   ok:false, uid:'', acc:'', A:null, D:null, auth:null, db:null, mapRef:null, unsubs:[], sendT:0, lastSent:'', hb:0,
   async init(){
@@ -2016,24 +2141,63 @@ const Net = {
     const D = this.D;
     const q = D.query(D.ref(this.db, 'tt_chat'), D.orderByChild('t'), D.limitToLast(30));
     this.unsubs.push(D.onChildAdded(q, s => onChat(s.val())));
+    setTimeout(() => { if(P && P.party && !Party.code) this.partyJoin(P.party).catch(() => {}); }, 2500);
     D.onValue(D.ref(this.db, '.info/connected'), s => { if(s.val() && this.mapRef && P && me){ D.onDisconnect(this.mapRef).remove(); this.pushLook(); } });
   },
   async loadSave(){ const s = await this.D.get(this.D.ref(this.db, 'tt_save/' + this.uid)); return s.exists() ? JSON.parse(s.val()) : null; },
   async save(json){ if(!this.ok || this.noCloud) return; try{ await this.D.set(this.D.ref(this.db, 'tt_save/' + this.uid), json); await this.D.set(this.D.ref(this.db, 'tt_rank/' + this.uid), { n:P.name, p:power(), s:P.stage, t:this.D.serverTimestamp() }); }catch(e){ console.warn(e); } },
   async rank(){ if(!this.ok) return null; try{ const s = await this.D.get(this.D.query(this.D.ref(this.db, 'tt_rank'), this.D.orderByChild('p'), this.D.limitToLast(20))); const out = []; s.forEach(c => { out.push(c.val()); }); return out.reverse(); }catch(e){ console.warn(e); return []; } },
-  me(){ const L = look(); return { n:P.name, s:P.stage, p:power(), x:Math.round(me.x), y:Math.round(me.y), d:me.dir, sit:me.sit ? 1 : 0, plat:onPlatform() ? 1 : 0, g:L.g, h:L.hair, r:L.robe, tr:L.trim, w:L.w, wi:L.wi, sw:L.sw, ht:L.h, at:L.at, ac:L.ac, au:L.au, pl:L.pl, t:this.D.serverTimestamp() }; },
+  me(){ const L = look(); return { n:P.name, s:P.stage, p:power(), x:Math.round(me.x), y:Math.round(me.y), d:me.dir, sit:me.sit ? 1 : 0, plat:onPlatform() ? 1 : 0, g:L.g, h:L.hair, r:L.robe, tr:L.trim, w:L.w, wi:L.wi, sw:L.sw, ht:L.h, at:L.at, ac:L.ac, au:L.au, pl:L.pl, cl:L.cls, co:L.cos || '', t:this.D.serverTimestamp() }; },
   async leave(){ for(const u of this.unsubMap || []) u(); this.unsubMap = []; if(this.mapRef){ const r = this.mapRef; this.mapRef = null; try{ await this.D.onDisconnect(r).cancel(); await this.D.remove(r); }catch(e){} } },
   async changeMap(id){
     if(!this.ok) return; const D = this.D;
     await this.leave(); for(const k in others) delete others[k];
     this.mapRef = D.ref(this.db, `tt_online/${id}/${this.uid}`);
     D.onDisconnect(this.mapRef).remove(); D.set(this.mapRef, this.me());
-    const room = D.ref(this.db, 'tt_online/' + id), up = s => { if(s.key === this.uid) return; const v = s.val(); if(!v) return; let o = others[s.key]; if(!o){ o = others[s.key] = { id:s.key, x:v.x, y:v.y }; } Object.assign(o, { n:v.n, s:v.s, p:v.p, nx:v.x, ny:v.y, dir:v.d, sit:v.sit, plat:v.plat, seen:Date.now(), L:{ g:v.g, hair:v.h, robe:v.r, trim:v.tr, w:v.w, wi:v.wi, sw:v.sw, h:v.ht || '', at:v.at || 1, ac:v.ac, bw:v.w && ITEMS[v.w] && ITEMS[v.w].t >= 2 ? v.w : '', au:v.au || 0, pl:v.pl || 0, st:v.s || 0 } }); };
+    const room = D.ref(this.db, 'tt_online/' + id), up = s => { if(s.key === this.uid) return; const v = s.val(); if(!v) return; let o = others[s.key]; if(!o){ o = others[s.key] = { id:s.key, x:v.x, y:v.y }; } Object.assign(o, { n:v.n, s:v.s, p:v.p, nx:v.x, ny:v.y, dir:v.d, sit:v.sit, plat:v.plat, seen:Date.now(), L:{ g:v.g, hair:v.h, robe:v.r, trim:v.tr, w:v.w, wi:v.wi, sw:v.sw, h:v.ht || '', at:v.at || 1, ac:v.ac, bw:v.w && ITEMS[v.w] && ITEMS[v.w].t >= 2 ? v.w : '', au:v.au || 0, pl:v.pl || 0, st:v.s || 0, cls:v.cl || 'kiem', cos:v.co || '' } }); };
     this.unsubMap = [D.onChildAdded(room, up), D.onChildChanged(room, up), D.onChildRemoved(room, s => { delete others[s.key]; })];
   },
   pushPos(force){ if(!this.ok || !this.mapRef) return; const x = Math.round(me.x), y = Math.round(me.y), k = `${x},${y},${me.dir},${me.sit}`; if(!force && k === this.lastSent) return; this.lastSent = k; this.D.update(this.mapRef, { x, y, d:me.dir, sit:me.sit ? 1 : 0, plat:onPlatform() ? 1 : 0, t:this.D.serverTimestamp() }).catch(() => {}); },
   pushLook(){ if(!this.ok || !this.mapRef) return; this.D.set(this.mapRef, this.me()).catch(() => {}); },
   tick(dt){ if(!this.ok) return; this.sendT += dt; this.hb += dt; if(this.sendT > .15){ this.sendT = 0; this.pushPos(false); } if(this.hb > 20){ this.hb = 0; this.pushPos(true); } },
+  partyRef(sub){ return this.D.ref(this.db, 'tt_party/' + Party.code + (sub ? '/' + sub : '')); },
+  async partyJoin(code, open){
+    if(!this.ok) return toast(Lx("Cần đăng nhập để chơi tổ đội"));
+    code = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6); if(code.length < 4) return toast(Lx("Mã phòng không hợp lệ"));
+    const D = this.D; await this.partyLeave(true);
+    const root = D.ref(this.db, 'tt_party/' + code); let snap = await D.get(root); const v = snap.val();
+    if(open === undefined){ if(!v) return toast(Lx("Không tìm thấy phòng {0}", code)); const live = Object.values(v.m || {}).filter(x => Date.now() - (x.ct || 0) < 60000).length; if(live >= 4) return toast(Lx("Phòng đã đủ 4 người")); }
+    else await D.set(root, { o:open ? 1 : 0, l:this.uid, t:D.serverTimestamp(), c:Date.now() });
+    Party.code = code; P.party = code; Party.mem = {}; Party.bdmg = 0;
+    const me_ = this.partyRef('m/' + this.uid); D.onDisconnect(me_).remove(); await this.partyPush(true);
+    Party.unsub.push(D.onValue(this.partyRef('m'), s => { Party.mem = s.val() || {}; if(!Party.mem[this.uid] && Party.code) this.partyPush(true); partyHud(); }));
+    Party.unsub.push(D.onValue(this.partyRef('o'), s => { Party.open = !!s.val(); }));
+    this.partyBossListen(); saveSoon(); sfx.lv();
+    toast(open === undefined ? Lx("Đã vào tổ đội {0}", code) : Lx("Đã tạo phòng {0}", code));
+  },
+  async partyCreate(open){ const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c = ''; for(let i = 0; i < 5; i++) c += A[Math.floor(Math.random() * A.length)]; return this.partyJoin(c, open); },
+  async partyQuick(){
+    if(!this.ok) return toast(Lx("Cần đăng nhập để chơi tổ đội"));
+    toast(Lx("Đang tìm tổ đội…"));
+    try{ const D = this.D, s = await D.get(D.query(D.ref(this.db, 'tt_party'), D.orderByChild('c'), D.limitToLast(30))); const cands = [];
+      s.forEach(c => { const v = c.val(); if(!v || !v.o || c.key === Party.code) return; const live = Object.values(v.m || {}).filter(x => Date.now() - (x.ct || 0) < 45000); if(live.length && live.length < 4) cands.push([c.key, live.length, live.some(x => x.map === P.map)]); });
+      cands.sort((a, b) => (b[2] - a[2]) || (b[1] - a[1]));
+      if(cands.length) return this.partyJoin(cands[0][0]);
+    }catch(e){ console.warn(e); }
+    return this.partyCreate(true);
+  },
+  async partyLeave(silent){
+    Party.unsub.forEach(u => { try{ u(); }catch(e){} }); Party.unsub = []; if(Party.bossUn){ try{ Party.bossUn(); }catch(e){} Party.bossUn = null; }
+    if(Party.code && this.ok){ const r = this.partyRef('m/' + this.uid); try{ await this.D.onDisconnect(r).cancel(); await this.D.remove(r); }catch(e){} }
+    const had = Party.code; Party.code = null; Party.mem = {}; P.party = ''; curPN = 1; partyUpdate(); partyHud(); if(had && !silent){ toast(Lx("Đã rời tổ đội, giờ đi một mình")); saveSoon(); }
+  },
+  async partyPush(force){ if(!Party.code || !this.ok || !P || !me) return; const S = stats(); const v = { n:P.name, s:P.stage, cl:P.cls || 'kiem', map:M ? M.id : P.map, x:Math.round(me.x), y:Math.round(me.y), hp:Math.round(me.hp / S.hp * 100) / 100, ct:Date.now() };
+    try{ await this.D.set(this.partyRef('m/' + this.uid), v); if(force) await this.D.update(this.partyRef(), { t:this.D.serverTimestamp(), c:Date.now() }); }catch(e){ console.warn(e); } },
+  partyBossListen(){ if(Party.bossUn){ Party.bossUn(); Party.bossUn = null; } if(!Party.code || !M) return; const mapId = M.id;
+    Party.bossUn = this.D.onValue(this.partyRef('b/' + mapId), s => { const v = s.val(); if(!v || !M || M.id !== mapId || curPN < 2) return; const b = mobs.find(m => m.D.boss && m.k === v.k && !m.dead); if(!b) return; const want = v.f * b.max; if(want < b.hp - 1) b.hp = Math.max(0, want); if(v.f <= 0 && !b.dead){ b.hp = 0; killMob(b); } }); },
+  partyTick(dt){ if(!Party.code || !this.ok) return; Party.pt = (Party.pt || 0) + dt; if(Party.pt > 1.5){ Party.pt = 0; this.partyPush(false); }
+    Party.bt = (Party.bt || 0) + dt; if(Party.bdmg > 0 && Party.bt > .35 && curPN > 1){ Party.bt = 0; const dmg = Party.bdmg; Party.bdmg = 0; const b = mobs.find(m => m.D.boss && !m.dead); if(!b) return;
+      this.D.runTransaction(this.partyRef('b/' + M.id), cur => { const now = Date.now(); if(!cur || cur.k !== b.k || (cur.f <= 0 && now - cur.t > 4000) || now - cur.t > 90000) cur = { k:b.k, f:1, t:now }; if(cur.f <= 0) return cur; cur.f = Math.max(0, cur.f - dmg); cur.t = now; return cur; }).catch(e => console.warn(e)); } },
   chat(m, sys){ if(!this.ok){ onChat({ n:P.name, s:P.stage, m, t:Date.now(), u:'me' }); return; } const D = this.D; D.push(D.ref(this.db, 'tt_chat'), { u:this.uid, n:P.name, s:P.stage, m:String(m).slice(0, 100), t:D.serverTimestamp(), sys:sys ? 1 : 0 }).catch(e => toast(Lx("Không gửi được tin nhắn"))); },
 };
 
@@ -2086,19 +2250,21 @@ function loginSheet(msg){
   draw();
 }
 function createSheet(done){
-  const o = { name:'', g:'m', hair:HAIRS[0], robe:ROBES[0] };
+  const o = { name:'', g:'m', hair:HAIRS[0], robe:ROBES[0], cls:'kiem' };
   const draw = () => {
     const pv = cnv(24, 34); pv.getContext('2d').drawImage(heroSprite({ g:o.g, hair:o.hair, robe:o.robe, trim:'#F2C14E' }, 0), 0, 0);
     sheet(`<h2>${Lx("Tạo nhân vật")}</h2><p class="sub">${Lx("Chọn đạo hiệu và dung mạo để bước vào con đường tu tiên.")}</p>
       <img class="prev" src="${pv.toDataURL()}" alt="">
       <input class="inp" id="cn" maxlength="14" placeholder="${Lx("Đạo hiệu (vd: Lý Tiêu Dao)")}" value="${esc(o.name)}">
       <span class="lab">${Lx("Giới tính")}</span><div class="seg"><button data-g="m" class="${o.g === 'm' ? 'on' : ''}">${Lx("Nam tu")}</button><button data-g="f" class="${o.g === 'f' ? 'on' : ''}">${Lx("Nữ tu")}</button></div>
+      <span class="lab">${Lx("Môn phái")}</span><div class="clsrow">${Object.entries(CLASSES).map(([k, C]) => `<button data-cl="${k}" class="${o.cls === k ? 'on' : ''}" style="--cc:${C.c}"><b>${C.ic} ${C.n}</b></button>`).join('')}</div><p class="sub" style="margin:4px 0 8px">${CLASSES[o.cls].d}</p>
       <span class="lab">${Lx("Màu tóc")}</span><div class="sw2">${HAIRS.map(c => `<button data-h="${c}" class="${o.hair === c ? 'on' : ''}" style="background:${c}" aria-label="${Lx("Tóc")}"></button>`).join('')}</div>
       <span class="lab">${Lx("Đạo bào")}</span><div class="sw2">${ROBES.map(c => `<button data-r="${c}" class="${o.robe === c ? 'on' : ''}" style="background:${c}" aria-label="${Lx("Áo")}"></button>`).join('')}</div>
       <div class="msg" id="cm"></div><button class="btn gold" id="cgo">${Lx("Nhập đạo")}</button>`, { dismiss:false });
     const keep = () => o.name = $('#cn').value;
     document.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { keep(); o.g = b.dataset.g; draw(); });
     document.querySelectorAll('[data-h]').forEach(b => b.onclick = () => { keep(); o.hair = b.dataset.h; draw(); });
+    document.querySelectorAll('[data-cl]').forEach(b => b.onclick = () => { keep(); o.cls = b.dataset.cl; draw(); });
     document.querySelectorAll('[data-r]').forEach(b => b.onclick = () => { keep(); o.robe = b.dataset.r; draw(); });
     $('#cgo').onclick = () => { keep(); o.name = o.name.trim(); if(o.name.length < 2) return $('#cm').textContent = Lx("Đạo hiệu ít nhất 2 ký tự"); closeSheet(); done(newPlayer(o)); };
   };
@@ -2128,6 +2294,7 @@ function begin(data, fresh){
   const S = stats(); me.hp = clamp(P.hp, 1, S.hp); me.mp = clamp(P.mp, 0, S.mp);
   $('#ui').classList.remove('hidden'); document.body.classList.add('ingame'); resize();
   enterMap(MAPS[P.map] ? P.map : 'thon', P.x, P.y, true);
+  if(P.inv.tbl === undefined) P.inv.tbl = 3; dailyGift();
   if(!canStand(M, me.x, me.y)){ me.x = 25 * TS; me.y = 21 * TS; enterMap('thon', me.x, me.y, true); }
   running = true; updAutoBtn();
   banner(M.name, realmName(P.stage));
@@ -2145,7 +2312,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : Lx("Không kết nối được máy chủ, bạn vẫn chơi offline được."));
 }
-window.__td = { get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
