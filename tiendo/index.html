@@ -299,11 +299,77 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .fs .seg{border-radius:2px}.fs .sw2 button{border-radius:2px}
 @media (max-width:760px),(max-height:330px){.fs{grid-template-columns:minmax(190px,34%) 1fr minmax(200px,36%)}.fsname{font-size:24px}.fsc img{height:84%}}
 @media (orientation:portrait){.fs{grid-template-columns:1fr;grid-template-rows:auto 34vh auto 1fr auto}.fsc{grid-row:2}.fsl{grid-row:3;display:flex;overflow-x:auto;gap:6px;padding-bottom:4px}.fsl .fcard{min-width:150px;margin:0}.fsr{grid-row:4}}
+/* ===== ĐIỆN ẢNH ===== */
+.lbx{position:fixed;left:0;right:0;height:0;background:#000;z-index:40;pointer-events:none;transition:height .7s cubic-bezier(.7,0,.2,1)}
+.lbx.t{top:0}.lbx.b{bottom:0}body.cine .lbx{height:9vh}
+#mmw,#track,#tr,#me,#expw,#chatlog,#buffs{transition:opacity .6s}body.cine #mmw,body.cine #track,body.cine #tr,body.cine #me,body.cine #expw,body.cine #chatlog{opacity:0}
+#gc,#oc{transform-origin:50% 50%}
+.sheet{animation:shin .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes shin{from{opacity:0;transform:translateY(10px) scale(.97);filter:blur(3px)}}
+.fs .fsp{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.fs>*{position:relative;z-index:1}
+.fsc::before,.fsc::after{content:'';position:absolute;inset:-20%;pointer-events:none;background:radial-gradient(ellipse 40% 22% at 30% 70%,rgba(200,210,230,.07),transparent 70%),radial-gradient(ellipse 35% 18% at 72% 62%,rgba(200,210,230,.06),transparent 70%);animation:fog 18s linear infinite alternate}
+.fsc::after{animation-duration:26s;animation-direction:alternate-reverse;opacity:.8;transform:scaleX(-1)}
+@keyframes fog{to{translate:12% -3%}}
+.fsc img{transition:filter .4s}
+.fs.enter .fsh{animation:fdown .7s .05s cubic-bezier(.2,.8,.2,1) both}
+.fs.enter .fsl>*{animation:fleft .6s calc(.15s + var(--i,0) * .05s) cubic-bezier(.2,.8,.2,1) both}
+.fs.enter .fsr>*{animation:fright .6s calc(.3s + var(--i,0) * .04s) cubic-bezier(.2,.8,.2,1) both}
+.fs.enter .fsb{animation:fup .6s .5s cubic-bezier(.2,.8,.2,1) both}
+.fs.enter .fsc img{animation:rise 1.3s .1s cubic-bezier(.2,.8,.2,1) both,fsbr 3.5s 1.4s ease-in-out infinite}
+.fs.enter .fsfloor{animation:floor 1.4s both}
+.fs.enter::before,.fs.enter::after{animation:corner .8s .2s both}
+@keyframes fdown{from{opacity:0;transform:translateY(-14px)}}
+@keyframes fleft{from{opacity:0;transform:translateX(-26px)}}
+@keyframes fright{from{opacity:0;transform:translateX(26px)}}
+@keyframes fup{from{opacity:0;transform:translateY(14px)}}
+@keyframes rise{0%{opacity:0;transform:translateY(8%) scale(.94);filter:blur(10px) brightness(0)}55%{opacity:1;filter:blur(0) brightness(2.2) drop-shadow(0 0 30px var(--cc,#fff))}100%{transform:none;filter:drop-shadow(0 10px 20px rgba(0,0,0,.55))}}
+@keyframes floor{from{opacity:0;transform:scaleX(.2)}}
+@keyframes corner{from{opacity:0;transform:scale(2.2)}}
+.fs.swap .fsc img{animation:mat .75s cubic-bezier(.2,.8,.2,1) both,fsbr 3.5s .8s ease-in-out infinite}
+.fs.swap .fsfloor{animation:pulse .8s both}
+.fs.swap .fsr>*{animation:fright .45s calc(var(--i,0) * .03s) cubic-bezier(.2,.8,.2,1) both}
+.fs.swap .fsname{animation:nm .7s cubic-bezier(.2,.8,.2,1) both}
+.fs.enter .fsname{animation:nm .9s .35s cubic-bezier(.2,.8,.2,1) both}
+.fs.enter .atr u,.fs.swap .atr u{transform-origin:left;animation:grow .9s calc(.35s + var(--j,0) * .07s) cubic-bezier(.2,.8,.2,1) both}
+.fs.enter .fsx i,.fs.swap .fsx i{transform-origin:left;animation:grow 1.2s .4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes mat{0%{opacity:.2;transform:scale(.92) translateY(2%);filter:blur(6px) brightness(3) drop-shadow(0 0 40px var(--cc,#fff))}60%{opacity:1;filter:blur(0) brightness(1.4) drop-shadow(0 0 22px var(--cc,#fff))}100%{transform:none;filter:drop-shadow(0 10px 20px rgba(0,0,0,.55))}}
+@keyframes pulse{0%{opacity:0;transform:scale(.4)}40%{opacity:1;transform:scale(1.25)}100%{transform:none}}
+@keyframes nm{from{opacity:0;letter-spacing:.5em;filter:blur(6px)}}
+@keyframes grow{from{transform:scaleX(0)}}
+.fsweep{position:absolute;inset:0;pointer-events:none;z-index:3;background:linear-gradient(100deg,transparent 35%,color-mix(in srgb,var(--cc,#EAD7A8) 35%,transparent) 48%,rgba(255,255,255,.25) 50%,transparent 62%);animation:sweep .7s cubic-bezier(.6,0,.3,1) forwards}
+@keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.fcard{transition:background .25s,border-color .25s,transform .2s}.fcard:hover{transform:translateX(3px)}.fcard.on .fi{animation:ic .5s}
+@keyframes ic{40%{transform:scale(1.35) rotate(-8deg)}}
+/* tên vùng kiểu phim */
+.banner.cin{top:34%;font-size:34px;color:#EBD6A6;text-shadow:0 2px 14px rgba(0,0,0,.9);animation:cin 3.2s forwards}
+.banner.cin::before,.banner.cin::after{content:'';display:block;height:1px;margin:6px auto;background:linear-gradient(90deg,transparent,#EAD7A8,transparent);animation:cl 3.2s forwards}
+.banner.cin small{font-family:var(--body);font-size:12px;letter-spacing:5px;text-transform:uppercase;color:var(--paper2);animation:cs 3.2s forwards}
+@keyframes cin{0%{opacity:0;letter-spacing:.6em;filter:blur(8px)}20%{opacity:1;letter-spacing:.12em;filter:blur(0)}78%{opacity:1;letter-spacing:.08em}100%{opacity:0;letter-spacing:.05em;filter:blur(4px)}}
+@keyframes cl{0%{width:0}25%,80%{width:120%}100%{width:0;opacity:0}}
+@keyframes cs{0%,15%{opacity:0;transform:translateY(6px)}35%,80%{opacity:1;transform:none}100%{opacity:0}}
+.bossban{animation:bban2 3.2s forwards}.bossban b{font-family:var(--serif);font-size:46px;letter-spacing:6px;color:#F0D9C8;text-shadow:0 0 30px rgba(255,40,40,.9),0 3px 0 #000}
+@keyframes bban2{0%{opacity:0;transform:scale(1.6);filter:blur(10px)}10%{opacity:1;transform:scale(1);filter:blur(0)}14%{transform:translate(-4px,2px)}18%{transform:translate(3px,-2px)}22%{transform:none}82%{opacity:1}100%{opacity:0;transform:scale(.96)}}
+/* vào đạo */
+.intro{position:fixed;inset:0;z-index:60;background:#000;display:grid;place-items:center;text-align:center;color:#EBD6A6;transition:opacity 1.4s}
+.intro.out{opacity:0;pointer-events:none}
+.intro .ink{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--cc) 55%,transparent),transparent 70%);animation:ink 3.6s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes ink{to{transform:scale(140);opacity:.55}}
+.intro .tx{position:relative}
+.intro small{display:block;font-family:var(--body);font-size:12px;letter-spacing:6px;color:var(--paper2);text-transform:uppercase;animation:cs 4.2s .2s both}
+.intro b{display:block;font-family:var(--serif);font-size:clamp(38px,8vw,72px);font-weight:700;line-height:1.1;margin:8px 0}
+.intro b span{display:inline-block;opacity:0;animation:ch .9s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes ch{from{opacity:0;transform:translateY(30%);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+.intro i{display:block;font-style:normal;font-family:var(--serif);font-size:20px;color:var(--cc);opacity:0;animation:ch 1s 1.3s forwards}
+.intro .ln{height:1px;width:0;margin:10px auto;background:linear-gradient(90deg,transparent,#EAD7A8,transparent);animation:cl2 1.6s .6s forwards}
+@keyframes cl2{to{width:min(70vw,520px)}}
+@media (prefers-reduced-motion:reduce){.fs *,.fs,.banner,.bossban,.intro *,.sheet{animation-duration:.01s!important;animation-delay:0s!important}}
 </style>
 </head>
 <body>
 <canvas id="gc"></canvas>
 <canvas id="oc"></canvas>
+<div class="lbx t"></div><div class="lbx b"></div>
 <div id="ui" class="hidden">
   <div id="me" class="hud"><canvas id="ava" width="16" height="16"></canvas><div class="g"><span class="nm" id="meName">…</span><span class="rl" id="meRealm">…</span>
     <span id="hpT"></span><div class="bar" id="hpb"><i></i><span id="shb"></span><b></b></div><div class="bar" id="mpb"><i></i><b></b></div><div id="buffs"></div></div></div>
@@ -342,7 +408,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=3"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=4"><\/script>');
 })();
 </script>
 <script>
@@ -1170,7 +1236,7 @@ function enterMap(id, x, y, silent){
   mobs = []; projs = []; fx = []; drops = []; warns = [];
   M.spawns.forEach(sp => { for(let i = 0; i < sp.n; i++) spawnMob(sp); });
   $('#mapname').textContent = M.name + (M.safe ? Lx(" · An toàn") : '');
-  if(!silent) banner(M.name, M.safe ? Lx("Vùng an toàn") : M.dark ? Lx("Nguy hiểm, yêu ma cấp cao") : Lx("Vùng săn yêu thú"));
+  if(!silent){ banner(M.name, M.safe ? Lx("Vùng an toàn") : M.dark ? Lx("Nguy hiểm, yêu ma cấp cao") : Lx("Vùng săn yêu thú")); const bn = document.querySelector('.banner'); if(bn) bn.classList.add('cin'); cine(2800); camZoom(1.25, 1800); }
   Net.changeMap(id); curPN = 1; setTimeout(() => { Net.partyBossListen(); Net.partyPush(true); partyUpdate(); }, 300);
   cam.x = me.x - gw / 2; cam.y = me.y - gh / 2;
 }
@@ -1228,7 +1294,7 @@ function inWarn(w, x, y){
   return false;
 }
 function spawnTemp(k, x, y){ const D = MOBS[k]; let px = x, py = y; for(let i = 0; i < 12 && !canStand(M, px, py); i++){ px = x + rnd(-30, 30); py = y + rnd(-20, 20); } const hp = mobHp(D.L); mobs.push({ k, D, sp:null, x:px, y:py, hx:px, hy:py, hp, max:hp, L:D.L, st:'chase', aggro:true, t:0, cd:1, dir:1, fr:0, dead:0, hit:0, temp:1 }); fxBurst(px, py - 8, 16, k === 'quy' ? '#B07CFF' : '#C83A5A'); fx.push({ k:'wave', x:px, y:py, t:0, d:.5, c:'#C83A5A' }); }
-function bossIntro(m){ m.intro = 1; sfx.roar(); shake(5); fx.push({ k:'wave', x:m.x, y:m.y, t:0, d:1, c:m.k === 'mavuong' ? '#FF5A2A' : '#C8203A', big:1 }); bossBanner(m); }
+function bossIntro(m){ m.intro = 1; cine(3000); camZoom(1.18, 1200); sfx.roar(); shake(5); fx.push({ k:'wave', x:m.x, y:m.y, t:0, d:1, c:m.k === 'mavuong' ? '#FF5A2A' : '#C8203A', big:1 }); bossBanner(m); }
 function bossAI(m, dt, d){
   const base = mobAtk(m.L) * (m.D.atkM || 1), isWolf = m.k === 'soivuong';
   if(!m.intro && d < 150 && !me.dead) bossIntro(m);
@@ -1360,7 +1426,7 @@ function breakthrough(){
   let ch = .55 + (onPlatform() ? .1 : 0); const usePill = P.inv.pc > 0; if(usePill){ P.inv.pc--; ch += .35; }
   closeSheet(); running = true;
   // thiên kiếp
-  me.sit = true; let n = 0; sfx.thunder();
+  me.sit = true; let n = 0; sfx.thunder(); cine(3600); camZoom(1.3, 3200);
   const iv = setInterval(() => { fx.push({ k:'bolt', x:me.x + rnd(-6, 6), y:me.y, t:0, d:.35 }); sfx.thunder(); if(++n >= 4){ clearInterval(iv); fin(); } }, 600);
   function fin(){
     me.sit = false;
@@ -2447,7 +2513,48 @@ function loginSheet(msg){
   };
   draw();
 }
-function sheetFs(html, opt = {}){ const bg = sheet(html, opt); bg.classList.add('fsbg'); bg.firstElementChild.className = 'fs'; return bg; }
+let fsKey = null, fsPrev = null;
+function sheetFs(html, opt = {}){
+  const old = document.querySelector('.fs'); const bg = sheet(html, opt); bg.classList.add('fsbg'); const f = bg.firstElementChild; f.className = 'fs';
+  const on = f.querySelector('.fcard.on[data-cl],.fcard.on[data-kp],.fst .on'), key = (f.querySelector('.fst .on') || {}).textContent + '|' + (on ? (on.dataset.cl || on.dataset.kp || '') : '') + '|' + ((f.querySelector('.fsl .fcard.on[data-cl],.fsl .fcard.on[data-kp]') || {}).dataset || {}).cl;
+  const cc = (f.querySelector('.fsfloor') || { style:{} }).style.getPropertyValue('--cc'); if(cc) f.style.setProperty('--cc', cc);
+  f.querySelectorAll('.fsl>*').forEach((e, i) => e.style.setProperty('--i', Math.min(i, 12)));
+  f.querySelectorAll('.fsr>*').forEach((e, i) => e.style.setProperty('--i', Math.min(i, 14)));
+  f.querySelectorAll('.atr').forEach((e, i) => e.style.setProperty('--j', i));
+  if(!old) f.classList.add('enter');
+  else if(key !== fsKey){ f.classList.add('swap'); const sw = document.createElement('div'); sw.className = 'fsweep'; f.appendChild(sw); setTimeout(() => sw.remove(), 800); if(old.querySelector('.fst .on') && old.querySelector('.fst .on').textContent !== (f.querySelector('.fst .on') || {}).textContent) sfx.whoosh && sfx.whoosh(); }
+  fsKey = key;
+  if(old){ const ol = old.querySelector('.fsl'), nl = f.querySelector('.fsl'); if(ol && nl && key.split('|')[0] === fsPrev) nl.scrollTop = ol.scrollTop; }
+  fsPrev = key.split('|')[0];
+  const c = document.createElement('canvas'); c.className = 'fsp'; f.prepend(c); fsDust(c, cc || '#EAD7A8');
+  return bg;
+}
+let DUST = null, dustRaf = 0;
+function fsDust(c, col){
+  if(!DUST) DUST = [...Array(46)].map(() => ({ x:Math.random(), y:Math.random(), v:.01 + Math.random() * .03, r:.6 + Math.random() * 1.8, ph:Math.random() * 6, e:Math.random() < .35 }));
+  cancelAnimationFrame(dustRaf); let last = performance.now();
+  const loop = t => { if(!c.isConnected) return; const dt = Math.min(.05, (t - last) / 1000); last = t;
+    const W = c.clientWidth, H = c.clientHeight; if(c.width !== W){ c.width = W; c.height = H; } const x = c.getContext('2d'); x.clearRect(0, 0, W, H);
+    for(const d of DUST){ d.y -= d.v * dt; d.x += Math.sin(t / 1500 + d.ph) * .00025; if(d.y < -.02){ d.y = 1.02; d.x = Math.random(); }
+      const a = (.25 + .35 * Math.sin(t / 700 + d.ph)) * (d.e ? 1 : .55); x.globalAlpha = Math.max(0, a); x.fillStyle = d.e ? col : '#E9E4D8';
+      if(d.e){ x.shadowColor = col; x.shadowBlur = 8; } else x.shadowBlur = 0; x.beginPath(); x.arc(d.x * W, d.y * H, d.r, 0, 7); x.fill(); }
+    x.globalAlpha = 1; dustRaf = requestAnimationFrame(loop); };
+  dustRaf = requestAnimationFrame(loop);
+}
+let cineT = 0;
+function cine(ms){ document.body.classList.add('cine'); clearTimeout(cineT); cineT = setTimeout(() => document.body.classList.remove('cine'), ms); }
+function camZoom(from, ms){
+  const els = [gc, oc]; els.forEach(e => { e.style.transition = 'none'; e.style.transform = `scale(${from})`; });
+  requestAnimationFrame(() => requestAnimationFrame(() => els.forEach(e => { e.style.transition = `transform ${ms}ms cubic-bezier(.25,.1,.2,1)`; e.style.transform = ''; })));
+}
+function introCine(name, C, cb){
+  const e = document.createElement('div'); e.className = 'intro'; e.style.setProperty('--cc', C.c);
+  e.innerHTML = `<div class="ink"></div><div class="tx"><small>${Lx("Đạo đồ khởi hành")}</small><div class="ln"></div><b>${[...name].map((ch, i) => `<span style="animation-delay:${.5 + i * .07}s">${ch === ' ' ? '&nbsp;' : esc(ch)}</span>`).join('')}</b><i>${C.ic} ${C.n}</i><div class="ln" style="animation-delay:.9s"></div></div>`;
+  document.body.appendChild(e); sfx.thunder && sfx.thunder();
+  let gone = false; const go = () => { if(gone) return; gone = true; cb(); cine(3200); camZoom(1.7, 2600); requestAnimationFrame(() => e.classList.add('out')); setTimeout(() => e.remove(), 1500); };
+  setTimeout(go, 3400); e.onclick = go;
+}
+
 function classPreview(cl, g, hair, robe, extra){
   const C = CLASSES[cl] || CLASSES.kiem, c = cnv(72, 60), x = c.getContext('2d'); x.imageSmoothingEnabled = false;
   const gr = x.createRadialGradient(36, 52, 2, 36, 52, 30); gr.addColorStop(0, C.c + 'AA'); gr.addColorStop(1, C.c + '00'); x.fillStyle = gr; x.fillRect(0, 26, 72, 34);
@@ -2511,7 +2618,7 @@ function createSheet(done){
     document.querySelectorAll('[data-r]').forEach(b => b.onclick = () => { keep(); o.robe = b.dataset.r; draw(); });
     const cn = $('#cn'); if(cn) cn.oninput = () => { o.name = cn.value; const f = document.querySelector('.fsr .fsname'); if(f) f.textContent = cn.value || '…'; };
     const bk = $('#fBack'); if(bk) bk.onclick = () => { keep(); step--; draw(); };
-    $('#fNext').onclick = () => { keep(); if(step < 2){ step++; sfx.tap(); draw(); return; } o.name = o.name.trim(); if(o.name.length < 2) return $('#cm').textContent = Lx("Đạo hiệu ít nhất 2 ký tự"); o.robe = o.robe || C.robe; closeSheet(); const np = newPlayer(o); np.st += np.inv.st0 || 0; delete np.inv.st0; done(np); };
+    $('#fNext').onclick = () => { keep(); if(step < 2){ step++; sfx.tap(); draw(); return; } o.name = o.name.trim(); if(o.name.length < 2) return $('#cm').textContent = Lx("Đạo hiệu ít nhất 2 ký tự"); o.robe = o.robe || C.robe; closeSheet(); const np = newPlayer(o); np.st += np.inv.st0 || 0; delete np.inv.st0; introCine(o.name, C, () => done(np)); };
   };
   draw();
 }
