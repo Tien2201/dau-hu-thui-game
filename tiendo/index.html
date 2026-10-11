@@ -311,7 +311,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .fsc::before,.fsc::after{content:'';position:absolute;inset:-20%;pointer-events:none;background:radial-gradient(ellipse 40% 22% at 30% 70%,rgba(200,210,230,.07),transparent 70%),radial-gradient(ellipse 35% 18% at 72% 62%,rgba(200,210,230,.06),transparent 70%);animation:fog 18s linear infinite alternate}
 .fsc::after{animation-duration:26s;animation-direction:alternate-reverse;opacity:.8;transform:scaleX(-1)}
 @keyframes fog{to{translate:12% -3%}}
-.fsc img{transition:filter .4s}
+.fsc img{filter:blur(0) brightness(1) drop-shadow(0 10px 20px rgba(0,0,0,.55))}
 .fs.enter .fsh{animation:fdown .7s .05s cubic-bezier(.2,.8,.2,1) both}
 .fs.enter .fsl>*{animation:fleft .6s calc(.15s + var(--i,0) * .05s) cubic-bezier(.2,.8,.2,1) both}
 .fs.enter .fsr>*{animation:fright .6s calc(.3s + var(--i,0) * .04s) cubic-bezier(.2,.8,.2,1) both}
@@ -323,23 +323,28 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 @keyframes fleft{from{opacity:0;transform:translateX(-26px)}}
 @keyframes fright{from{opacity:0;transform:translateX(26px)}}
 @keyframes fup{from{opacity:0;transform:translateY(14px)}}
-@keyframes rise{0%{opacity:0;transform:translateY(8%) scale(.94);filter:blur(10px) brightness(0)}55%{opacity:1;filter:blur(0) brightness(2.2) drop-shadow(0 0 30px var(--cc,#fff))}100%{transform:none;filter:drop-shadow(0 10px 20px rgba(0,0,0,.55))}}
+@keyframes rise{0%{opacity:0;transform:translateY(6%) scale(.96);filter:blur(8px) brightness(.2) drop-shadow(0 10px 20px rgba(0,0,0,0))}60%{opacity:1;filter:blur(0) brightness(1.15) drop-shadow(0 10px 20px rgba(0,0,0,.4))}100%{transform:none;filter:blur(0) brightness(1) drop-shadow(0 10px 20px rgba(0,0,0,.55))}}
 @keyframes floor{from{opacity:0;transform:scaleX(.2)}}
 @keyframes corner{from{opacity:0;transform:scale(2.2)}}
-.fs.swap .fsc img{animation:mat .75s cubic-bezier(.2,.8,.2,1) both,fsbr 3.5s .8s ease-in-out infinite}
-.fs.swap .fsfloor{animation:pulse .8s both}
-.fs.swap .fsr>*{animation:fright .45s calc(var(--i,0) * .03s) cubic-bezier(.2,.8,.2,1) both}
-.fs.swap .fsname{animation:nm .7s cubic-bezier(.2,.8,.2,1) both}
 .fs.enter .fsname{animation:nm .9s .35s cubic-bezier(.2,.8,.2,1) both}
-.fs.enter .atr u,.fs.swap .atr u{transform-origin:left;animation:grow .9s calc(.35s + var(--j,0) * .07s) cubic-bezier(.2,.8,.2,1) both}
-.fs.enter .fsx i,.fs.swap .fsx i{transform-origin:left;animation:grow 1.2s .4s cubic-bezier(.2,.8,.2,1) both}
-@keyframes mat{0%{opacity:.2;transform:scale(.92) translateY(2%);filter:blur(6px) brightness(3) drop-shadow(0 0 40px var(--cc,#fff))}60%{opacity:1;filter:blur(0) brightness(1.4) drop-shadow(0 0 22px var(--cc,#fff))}100%{transform:none;filter:drop-shadow(0 10px 20px rgba(0,0,0,.55))}}
-@keyframes pulse{0%{opacity:0;transform:scale(.4)}40%{opacity:1;transform:scale(1.25)}100%{transform:none}}
+.fs.enter .atr u,.fsr.in .atr u{transform-origin:left;animation:grow .7s calc(.1s + var(--j,0) * .05s) cubic-bezier(.2,.8,.2,1) both}
+.fs.enter .fsx i,.fsr.in .fsx i{transform-origin:left;animation:grow 1s .2s cubic-bezier(.2,.8,.2,1) both}
+.fsr.in>*{animation:soft .35s calc(var(--i,0) * .015s) cubic-bezier(.2,.8,.2,1) both}
+.fsr.in .fsname{animation:nm2 .55s cubic-bezier(.2,.8,.2,1) both}
+.fsl.in>*{animation:soft .4s calc(var(--i,0) * .03s) cubic-bezier(.2,.8,.2,1) both}
+.fsc img.ghost{position:absolute;bottom:0;left:50%;translate:-50% 0;animation:gout .5s ease-out forwards;z-index:0}
+.fsc img.xin{animation:gin .55s cubic-bezier(.2,.8,.2,1) both,fsbr 3.5s .6s ease-in-out infinite}
+.fsfloor{transition:background .5s}.fsfloor.pul{animation:pul .6s ease-out}
 @keyframes nm{from{opacity:0;letter-spacing:.5em;filter:blur(6px)}}
+@keyframes soft{from{opacity:.35;transform:translateX(6px)}}
+@keyframes nm2{from{opacity:.4;letter-spacing:.08em}}
+@keyframes gout{to{opacity:0;filter:blur(4px)}}
+@keyframes gin{from{opacity:0;transform:translateY(1.5%) scale(.985)}}
+@keyframes pul{40%{transform:scale(1.12);opacity:1}}
 @keyframes grow{from{transform:scaleX(0)}}
 .fsweep{position:absolute;inset:0;pointer-events:none;z-index:3;background:linear-gradient(100deg,transparent 35%,color-mix(in srgb,var(--cc,#EAD7A8) 35%,transparent) 48%,rgba(255,255,255,.25) 50%,transparent 62%);animation:sweep .7s cubic-bezier(.6,0,.3,1) forwards}
 @keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
-.fcard{transition:background .25s,border-color .25s,transform .2s}.fcard:hover{transform:translateX(3px)}.fcard.on .fi{animation:ic .5s}
+.fcard{transition:background .35s,border-color .35s,box-shadow .35s,transform .2s}.fcard:hover{transform:translateX(3px)}
 @keyframes ic{40%{transform:scale(1.35) rotate(-8deg)}}
 /* tên vùng kiểu phim */
 .banner.cin{top:34%;font-size:34px;color:#EBD6A6;text-shadow:0 2px 14px rgba(0,0,0,.9);animation:cin 3.2s forwards}
@@ -2513,30 +2518,64 @@ function loginSheet(msg){
   };
   draw();
 }
-let fsKey = null, fsPrev = null;
+let fsKey = null, fsCol = '#EAD7A8';
+function morph(a, b){
+  if(a.tagName !== b.tagName || a.tagName === 'IMG' && a.getAttribute('src') !== b.getAttribute('src')) return false;
+  for(const at of [...a.attributes]) if(!b.hasAttribute(at.name)) a.removeAttribute(at.name);
+  for(const at of [...b.attributes]) if(a.getAttribute(at.name) !== at.value) a.setAttribute(at.name, at.value);
+  if(a.tagName === 'INPUT') return true;
+  const ac = [...a.childNodes], bc = [...b.childNodes];
+  if(ac.length === bc.length && ac.every((n, k) => n.nodeType === bc[k].nodeType && (n.nodeType !== 1 || n.tagName === bc[k].tagName))){
+    ac.forEach((n, k) => { if(n.nodeType === 1){ if(!morph(n, bc[k])) n.replaceWith(bc[k]); } else if(n.nodeValue !== bc[k].nodeValue) n.nodeValue = bc[k].nodeValue; });
+  } else if(a.innerHTML !== b.innerHTML) a.innerHTML = b.innerHTML;
+  return true;
+}
+const replay = (e, c) => { e.classList.remove(c); void e.offsetWidth; e.classList.add(c); };
 function sheetFs(html, opt = {}){
-  const old = document.querySelector('.fs'); const bg = sheet(html, opt); bg.classList.add('fsbg'); const f = bg.firstElementChild; f.className = 'fs';
-  const on = f.querySelector('.fcard.on[data-cl],.fcard.on[data-kp],.fst .on'), key = (f.querySelector('.fst .on') || {}).textContent + '|' + (on ? (on.dataset.cl || on.dataset.kp || '') : '') + '|' + ((f.querySelector('.fsl .fcard.on[data-cl],.fsl .fcard.on[data-kp]') || {}).dataset || {}).cl;
-  const cc = (f.querySelector('.fsfloor') || { style:{} }).style.getPropertyValue('--cc'); if(cc) f.style.setProperty('--cc', cc);
-  f.querySelectorAll('.fsl>*').forEach((e, i) => e.style.setProperty('--i', Math.min(i, 12)));
-  f.querySelectorAll('.fsr>*').forEach((e, i) => e.style.setProperty('--i', Math.min(i, 14)));
-  f.querySelectorAll('.atr').forEach((e, i) => e.style.setProperty('--j', i));
-  if(!old) f.classList.add('enter');
-  else if(key !== fsKey){ f.classList.add('swap'); const sw = document.createElement('div'); sw.className = 'fsweep'; f.appendChild(sw); setTimeout(() => sw.remove(), 800); if(old.querySelector('.fst .on') && old.querySelector('.fst .on').textContent !== (f.querySelector('.fst .on') || {}).textContent) sfx.whoosh && sfx.whoosh(); }
+  const tmp = document.createElement('div'); tmp.innerHTML = html;
+  const cc = (tmp.querySelector('.fsfloor') || { style:{} }).style.getPropertyValue('--cc') || '#EAD7A8'; fsCol = cc;
+  const stepOf = r => (r.querySelector('.fst .on') || {}).textContent || '';
+  const selOf = r => { const o = r.querySelector('.fsl .fcard.on[data-cl],.fsl .fcard.on[data-kp],.fsl .fcard.on[data-slot]'); return o ? (o.dataset.cl || o.dataset.kp || o.dataset.slot) : ''; };
+  const key = stepOf(tmp) + '|' + selOf(tmp), old = document.querySelector('.fs');
+  tmp.querySelectorAll('.fsl>*').forEach((e, i) => e.style.setProperty('--i', Math.min(i, 12)));
+  tmp.querySelectorAll('.fsr>*').forEach((e, i) => e.style.setProperty('--i', Math.min(i, 14)));
+  tmp.querySelectorAll('.atr').forEach((e, i) => e.style.setProperty('--j', i));
+  if(old && old.isConnected){
+    const f = old, stepCh = stepOf(f) !== stepOf(tmp), selCh = key !== fsKey; fsKey = key;
+    f.classList.remove('enter'); f.style.setProperty('--cc', cc);
+    const part = q => [f.querySelector(q), tmp.querySelector(q)];
+    // đầu & chân: cập nhật tại chỗ
+    for(const q of ['.fsh', '.fsb']){ const [a, b] = part(q); if(a && b){ if(!morph(a, b)) a.replaceWith(b); } }
+    // cột trái: giữ nguyên nút cũ để chuyển màu mượt
+    { const [a, b] = part('.fsl'); if(a && b){ if(stepCh){ a.replaceWith(b); replay(b, 'in'); } else if(!morph(a, b)) a.replaceWith(b); } }
+    // nhân vật: hoà tan ảnh cũ sang ảnh mới
+    { const [a, b] = part('.fsc'); if(a && b){ const oi = a.querySelector('img'), ni = b.querySelector('img'), fl = a.querySelector('.fsfloor');
+      if(fl) fl.style.setProperty('--cc', cc);
+      if(oi && ni && oi.getAttribute('src') !== ni.getAttribute('src')){
+        a.querySelectorAll('img.ghost').forEach(g => g.remove());
+        oi.classList.add('ghost'); ni.classList.add('xin'); oi.after(ni); setTimeout(() => oi.remove(), 520);
+        if(fl && selCh) replay(fl, 'pul');
+      } } }
+    // cột phải: nội dung mới mờ dần vào
+    { const [a, b] = part('.fsr'); if(a && b){ if(selCh || stepCh){ a.replaceWith(b); replay(b, 'in'); } else if(!morph(a, b)) a.replaceWith(b); } }
+    if(stepCh){ const sw = document.createElement('div'); sw.className = 'fsweep'; f.appendChild(sw); setTimeout(() => sw.remove(), 800); }
+    return f.parentElement;
+  }
   fsKey = key;
-  if(old){ const ol = old.querySelector('.fsl'), nl = f.querySelector('.fsl'); if(ol && nl && key.split('|')[0] === fsPrev) nl.scrollTop = ol.scrollTop; }
-  fsPrev = key.split('|')[0];
-  const c = document.createElement('canvas'); c.className = 'fsp'; f.prepend(c); fsDust(c, cc || '#EAD7A8');
+  const bg = sheet(html, opt); bg.classList.add('fsbg'); const f = bg.firstElementChild; f.className = 'fs enter'; f.style.setProperty('--cc', cc);
+  f.innerHTML = ''; while(tmp.firstChild) f.appendChild(tmp.firstChild);
+  const c = document.createElement('canvas'); c.className = 'fsp'; f.prepend(c); fsDust(c);
+  setTimeout(() => f.classList.remove('enter'), 2600);
   return bg;
 }
 let DUST = null, dustRaf = 0;
-function fsDust(c, col){
+function fsDust(c){
   if(!DUST) DUST = [...Array(46)].map(() => ({ x:Math.random(), y:Math.random(), v:.01 + Math.random() * .03, r:.6 + Math.random() * 1.8, ph:Math.random() * 6, e:Math.random() < .35 }));
   cancelAnimationFrame(dustRaf); let last = performance.now();
   const loop = t => { if(!c.isConnected) return; const dt = Math.min(.05, (t - last) / 1000); last = t;
     const W = c.clientWidth, H = c.clientHeight; if(c.width !== W){ c.width = W; c.height = H; } const x = c.getContext('2d'); x.clearRect(0, 0, W, H);
     for(const d of DUST){ d.y -= d.v * dt; d.x += Math.sin(t / 1500 + d.ph) * .00025; if(d.y < -.02){ d.y = 1.02; d.x = Math.random(); }
-      const a = (.25 + .35 * Math.sin(t / 700 + d.ph)) * (d.e ? 1 : .55); x.globalAlpha = Math.max(0, a); x.fillStyle = d.e ? col : '#E9E4D8';
+      const col = fsCol; const a = (.25 + .35 * Math.sin(t / 700 + d.ph)) * (d.e ? 1 : .55); x.globalAlpha = Math.max(0, a); x.fillStyle = d.e ? col : '#E9E4D8';
       if(d.e){ x.shadowColor = col; x.shadowBlur = 8; } else x.shadowBlur = 0; x.beginPath(); x.arc(d.x * W, d.y * H, d.r, 0, 7); x.fill(); }
     x.globalAlpha = 1; dustRaf = requestAnimationFrame(loop); };
   dustRaf = requestAnimationFrame(loop);
