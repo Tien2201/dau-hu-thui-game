@@ -283,14 +283,14 @@ const MOBS = {
   soi:{ n:'Sói Xám Yêu', L:4, sp:46, w:18, h:13, drop:[['hp', .25], ['w2', .03], ['a2', .03], ['h2', .02]] },
   nhen:{ n:'Độc Chu', L:7, sp:40, w:18, h:12, drop:[['mp', .25], ['a2', .04], ['w3', .01]] },
   cay:{ n:'Thụ Yêu', L:10, sp:26, w:18, h:22, drop:[['hp', .3], ['w3', .02], ['a3', .015], ['h3', .015]] },
-  soivuong:{ n:'Lang Vương', title:'Chúa Tể Rừng Hắc Mộc', L:12, sp:52, w:44, h:18, boss:1, hpM:7, atkM:1.1, re:150, drop:[['pc', 1], ['w3', .35], ['a3', .35], ['h3', .3], ['x2', .5]] },
+  soivuong:{ n:'Huyết Nguyệt Lang Hoàng', title:'Kẻ Nuốt Trăng · Rừng Hắc Mộc', L:12, sp:52, w:44, h:18, boss:1, hpM:7, atkM:1.1, re:150, drop:[['pc', 1], ['w3', .35], ['a3', .35], ['h3', .3], ['x2', .5]] },
   quy:{ n:'Tiểu Quỷ', L:13, sp:44, w:14, h:16, drop:[['hp', .3], ['w4', .01], ['a4', .01], ['h4', .008]] },
   hoama:{ n:'Hỏa Ma', L:16, sp:38, w:16, h:20, drop:[['mp', .3], ['wi3', .006], ['a4', .015], ['h5', .008]] },
   xuong:{ n:'Cốt Kiếm Sĩ', L:19, sp:42, w:14, h:20, drop:[['hp', .3], ['w5', .012], ['a5', .012], ['h5', .01]] },
   bocap:{ n:'Sa Hạt Yêu', L:26, sp:48, w:18, h:12, drop:[['hp', .3], ['w5', .014], ['a5', .014], ['h5', .012]] },
   satrung:{ n:'Sa Trùng', L:29, sp:30, w:20, h:18, drop:[['mp', .3], ['h6', .007], ['wi3', .01], ['a5', .015]] },
   xacuop:{ n:'Cổ Thi Vương Vệ', L:32, sp:36, w:14, h:22, drop:[['hp', .3], ['w6', .008], ['a6', .008], ['wi4', .003]] },
-  mavuong:{ n:'Ma Vương Diễm Hỏa', title:'Ma Chủ Dung Nham Điện', L:24, sp:40, w:50, h:32, boss:1, hpM:9, atkM:1.2, re:240, drop:[['pc', 1], ['wi4', .2], ['w6', .25], ['a6', .25], ['h6', .25], ['wi3', .3], ['x2', 1]] },
+  mavuong:{ n:'Xích Viêm Ma Tôn', title:'Chúa Tể Luyện Ngục · Dung Nham Điện', L:24, sp:40, w:50, h:32, boss:1, hpM:9, atkM:1.2, re:240, drop:[['pc', 1], ['wi4', .2], ['w6', .25], ['a6', .25], ['h6', .25], ['wi3', .3], ['x2', 1]] },
 };
 const mobHp = L => Math.round(baseAtk(L) * 4.5);
 const mobAtk = L => baseHp(L) * .07 + baseDef(L) * .5;
@@ -305,12 +305,12 @@ const QUESTS = [
   { t:'Sói Xám quấy làng', d:'Diệt 10 Sói Xám Yêu trong rừng.', k:'kill', m:'soi', n:10, rw:{ st:300, hp:8 } },
   { t:'Độc Chu nhả tơ', d:'Diệt 10 Độc Chu ở phía bắc rừng.', k:'kill', m:'nhen', n:10, rw:{ st:450, mp:8, item:'a2' } },
   { t:'Thụ Yêu thành tinh', d:'Diệt 8 Thụ Yêu ở phía nam rừng.', k:'kill', m:'cay', n:8, rw:{ st:600, x2:1 } },
-  { t:'Diệt Lang Vương', d:'Hạ Lang Vương ở sâu trong rừng phía đông.', k:'kill', m:'soivuong', n:1, rw:{ st:1000, pc:1 } },
+  { t:'Săn Huyết Nguyệt Lang Hoàng', d:'Hạ Huyết Nguyệt Lang Hoàng ở sâu trong rừng phía đông.', k:'kill', m:'soivuong', n:1, rw:{ st:1000, pc:1 } },
   { t:'Trúc Cơ thành công', d:'Đột phá lên Trúc Cơ Sơ Kỳ.', k:'stage', n:9, rw:{ st:1500, item:'wi1' } },
   { t:'Thám hiểm Ma Điện', d:'Vào Ma Điện Dung Nham diệt 15 Tiểu Quỷ.', k:'kill', m:'quy', n:15, rw:{ st:1800, hp:10 } },
   { t:'Dập tắt Hỏa Ma', d:'Diệt 15 Hỏa Ma.', k:'kill', m:'hoama', n:15, rw:{ st:2500, mp:10, item:'a4' } },
   { t:'Cốt Kiếm Sĩ', d:'Diệt 15 Cốt Kiếm Sĩ.', k:'kill', m:'xuong', n:15, rw:{ st:3500, x2:2 } },
-  { t:'Trảm Ma Vương', d:'Hạ Ma Vương Diễm Hỏa trước Ma Điện.', k:'kill', m:'mavuong', n:1, rw:{ st:8000, pc:2 } },
+  { t:'Trảm Xích Viêm Ma Tôn', d:'Hạ Xích Viêm Ma Tôn trước Dung Nham Điện.', k:'kill', m:'mavuong', n:1, rw:{ st:8000, pc:2 } },
   { t:'Gió cát Hoàng Sa', d:'Đạt Hóa Thần Sơ Kỳ, đi cổng phía nam Rừng Hắc Mộc vào Hoàng Sa Cổ Mạc.', k:'stage', n:21, rw:{ st:9000, hp:15, mp:15 } },
   { t:'Sa Hạt độc vĩ', d:'Diệt 20 Sa Hạt Yêu giữa sa mạc.', k:'kill', m:'bocap', n:20, rw:{ st:11000, x2:2, item:'h5' } },
   { t:'Sa Trùng dưới cát', d:'Diệt 15 Sa Trùng gần ốc đảo.', k:'kill', m:'satrung', n:15, rw:{ st:14000, pc:1 } },
@@ -962,10 +962,10 @@ function bossAI(m, dt, d){
   const base = mobAtk(m.L) * (m.D.atkM || 1), isWolf = m.k === 'soivuong';
   if(!m.intro && d < 150 && !me.dead) bossIntro(m);
   const ph2 = m.hp < m.max * .5;
-  if(ph2 && !m.ph2){ m.ph2 = 1; banner(`${m.D.n} nổi giận!`, isWolf ? 'Huyết nguyệt bao phủ, Lang Vương cuồng bạo' : 'Ma hỏa bùng cháy, đôi cánh hoá lửa'); sfx.roar(); shake(6); fx.push({ k:'wave', x:m.x, y:m.y, t:0, d:1.2, c:'#FF2A2A', big:1 }); m.sk = .8; }
+  if(ph2 && !m.ph2){ m.ph2 = 1; banner(`${m.D.n} nổi giận!`, isWolf ? 'Trăng máu bao phủ, Lang Hoàng cuồng bạo' : 'Luyện ngục bùng cháy, đôi cánh hoá lửa'); sfx.roar(); shake(6); fx.push({ k:'wave', x:m.x, y:m.y, t:0, d:1.2, c:'#FF2A2A', big:1 }); m.sk = .8; }
   // triệu hồi theo ngưỡng máu
   const thr = [.75, .5, .25].filter(t => m.hp < m.max * t).length;
-  if(thr > (m.thr || 0)){ m.thr = thr; const kk = isWolf ? 'soi' : 'quy'; for(let i = 0; i < 2; i++) spawnTemp(kk, m.x + (i ? 30 : -30), m.y + rnd(-10, 10)); toast(isWolf ? 'Lang Vương hú gọi bầy sói!' : 'Ma Vương triệu hồi Tiểu Quỷ!'); }
+  if(thr > (m.thr || 0)){ m.thr = thr; const kk = isWolf ? 'soi' : 'quy'; for(let i = 0; i < 2; i++) spawnTemp(kk, m.x + (i ? 30 : -30), m.y + rnd(-10, 10)); toast(isWolf ? 'Lang Hoàng hú gọi bầy sói!' : 'Ma Tôn triệu hồi Tiểu Quỷ!'); }
   const spd = ph2 ? 1.35 : 1;
   m.sk = (m.sk === undefined ? 2 : m.sk) - dt * spd;
   if(m.act){
@@ -1865,7 +1865,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : 'Không kết nối được máy chủ, bạn vẫn chơi offline được.');
 }
-window.__td = { get cam(){ return cam; }, get fx(){ return fx; }, get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
