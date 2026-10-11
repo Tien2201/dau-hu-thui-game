@@ -255,6 +255,9 @@ body:not(.inhub) #hub{display:none!important}
 /* ---- thanh trên ---- */
 .hud{display:grid;grid-template-columns:auto 1fr auto 1.2fr;gap:8px;align-items:center;padding:8px 10px 6px;
   background:linear-gradient(#3a0d0d,#2a0a0a);border-bottom:2px solid rgba(212,168,75,.45);flex:0 0 auto}
+.hbtns{display:flex;flex-direction:column;gap:4px}
+.hbtns .iconbtn{width:30px!important;height:30px!important;font-size:13px}
+.sndbtn{font-size:14px!important}
 .iconbtn{width:38px;height:38px;border-radius:50%;border:2px solid var(--gold);background:var(--red2);color:var(--gold2);font-size:15px;padding:0;
   display:inline-flex;align-items:center;justify-content:center}
 .hday{display:flex;flex-direction:column;line-height:1.1;color:#FFF3D6;min-width:0}
@@ -1173,7 +1176,7 @@ svg.ico{width:1.25em;height:1.25em;vertical-align:-.28em;display:inline-block;fl
 <div id="app">
  <div id="game">
   <header class="hud">
-    <button class="iconbtn" id="pauseBtn" aria-label="Tạm dừng">❚❚</button>
+    <div class="hbtns"><button class="iconbtn" id="pauseBtn" aria-label="Tạm dừng">❚❚</button><button class="iconbtn sndbtn" id="sndBtnG" aria-label="Âm thanh">🔊</button></div>
     <div class="hday"><b id="dayLbl">Ngày 1</b><span id="clock">07:00</span></div>
     <div class="hcash"><small>KÉT</small><b id="money">0</b></div>
     <div class="hstar" id="stars"><span class="gst" id="starIcons">☆☆☆☆☆</span><small id="starTxt">– · 0 đánh giá</small></div>
@@ -1850,7 +1853,7 @@ function audioUnlock(){
     if(MUSIC.on){ if(!MUSIC.timer) musicStart(); else musicVol(); }
   }catch(e){}
 }
-['pointerdown','touchstart','touchend','click','keydown'].forEach(ev => document.addEventListener(ev, () => { if(!ac || ac.state !== 'running' || (MUSIC.on && !MUSIC.timer)) audioUnlock(); }, { passive:true, capture:true }));
+['pointerdown','touchstart','touchend','click','keydown'].forEach(ev => document.addEventListener(ev, () => { if(soundAllOff()) return; if(!ac || ac.state !== 'running' || (MUSIC.on && !MUSIC.timer)) audioUnlock(); }, { passive:true, capture:true }));
 function beep(f=600, d=.08, type='sine', v=.08){
   if(muted || VOL.sfx <= 0) return;
   try{
@@ -1978,11 +1981,13 @@ function soundRows(){
   return `<div class="setrow"><span>🎵 Nhạc nền chill</span><button class="sw${MUSIC.on ? ' on' : ''}" id="swMusic"><i></i></button></div>
     <div class="vrow"><span>🔈</span><input type="range" min="0" max="100" step="5" id="volMusic" value="${Math.round(VOL.music * 100)}"><b id="volMusicV">${Math.round(VOL.music * 100)}%</b></div>
     <div class="setrow"><span>🔊 Âm thanh khi bấm</span><button class="sw${muted ? '' : ' on'}" id="swSound"><i></i></button></div>
-    <div class="vrow"><span>🔈</span><input type="range" min="0" max="100" step="5" id="volSfx" value="${Math.round(VOL.sfx * 100)}"><b id="volSfxV">${Math.round(VOL.sfx * 100)}%</b></div>`;
+    <div class="vrow"><span>🔈</span><input type="range" min="0" max="100" step="5" id="volSfx" value="${Math.round(VOL.sfx * 100)}"><b id="volSfxV">${Math.round(VOL.sfx * 100)}%</b></div>
+    <button class="big alt" id="sndAll">${soundAllOff() ? '🔊 Bật lại âm thanh' : '🎧 Tắt hết để nghe YouTube'}</button>`;
 }
 function bindSoundRows(){
   $('#swMusic').onclick = () => { setMusic(!MUSIC.on); $('#swMusic').classList.toggle('on', MUSIC.on); };
-  $('#swSound').onclick = () => { muted = !muted; try{ localStorage.setItem('dauhuthui_muted', muted ? '1' : '0'); }catch(e){} $('#swSound').classList.toggle('on', !muted); if(!muted) SFX.tap(); };
+  $('#swSound').onclick = () => { muted = !muted; try{ localStorage.setItem('dauhuthui_muted', muted ? '1' : '0'); }catch(e){} $('#swSound').classList.toggle('on', !muted); if(soundAllOff()) audioKill(); else if(!muted) SFX.tap(); sndIcons(); };
+  $('#sndAll').onclick = () => soundAll(soundAllOff());
   $('#volMusic').oninput = e => { VOL.music = e.target.value / 100; $('#volMusicV').textContent = e.target.value + '%'; if(VOL.music > 0 && !MUSIC.on){ setMusic(true); $('#swMusic').classList.add('on'); } musicVol(); saveVol(); };
   $('#volSfx').oninput = e => { VOL.sfx = e.target.value / 100; $('#volSfxV').textContent = e.target.value + '%'; saveVol(); };
   $('#volSfx').onchange = () => SFX.tap();
@@ -2027,10 +2032,29 @@ function musicStep(step, t){
     if(Math.random() < .2){ o.frequency.setValueAtTime(f * .944, t); o.frequency.linearRampToValueAtTime(f, t + .08); }  // luyến nốt
   }
 }
+/* Tắt hết: đóng hẳn bộ âm thanh + dừng vòng âm thanh im lặng để nhạc YouTube/Spotify chạy nền không bị chen */
+const soundAllOff = () => !MUSIC.on && muted;
+function audioKill(){
+  if(MUSIC.timer){ clearInterval(MUSIC.timer); MUSIC.timer = null; }
+  if(unlockEl){ try{ unlockEl.pause(); unlockEl.removeAttribute('src'); unlockEl.load(); }catch(e){} unlockEl = null; }
+  if(ac){ try{ ac.close(); }catch(e){} }
+  ac = null; sfxBus = null; MUSIC.master = null;
+}
+function sndIcons(){ document.querySelectorAll('.sndbtn').forEach(b => { const off = soundAllOff(); b.textContent = off ? '🔇' : '🔊'; b.setAttribute('aria-label', off ? 'Âm thanh đang tắt' : 'Âm thanh đang bật'); }); const a = $('#sndAll'); if(a) a.textContent = soundAllOff() ? '🔊 Bật lại âm thanh' : '🎧 Tắt hết để nghe YouTube'; }
+function soundAll(on){
+  muted = !on; try{ localStorage.setItem('dauhuthui_muted', muted ? '1' : '0'); }catch(e){}
+  setMusic(on);
+  if(on){ audioUnlock(); toast('🔊 Đã bật nhạc và âm thanh'); }
+  else { audioKill(); toast('🔇 Đã tắt hết, mở YouTube nghe nhạc thoải mái'); }
+  const m = $('#swMusic'), sd = $('#swSound'); if(m) m.classList.toggle('on', MUSIC.on); if(sd) sd.classList.toggle('on', !muted);
+  sndIcons();
+}
 function setMusic(on){
   MUSIC.on = on;
   try{ localStorage.setItem('dauhuthui_music', on ? '1' : '0'); }catch(e){}
   on ? musicStart() : musicStop();
+  if(soundAllOff()) audioKill();
+  sndIcons();
 
 }
 
@@ -3697,7 +3721,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.10-21h10';
+const GAME_VER = '2026.10.11-07h50';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -4051,7 +4075,7 @@ function renderHub(keep){
   const n = rcTotal(), a = n ? rcAvg() : 0;
   const ct = cartTotal();
   $('#hub').innerHTML = `
-    <header class="hud"><button class="iconbtn" id="setBtn" aria-label="Cài đặt">⚙️</button>
+    <header class="hud"><div class="hbtns"><button class="iconbtn" id="setBtn" aria-label="Cài đặt">⚙️</button><button class="iconbtn sndbtn" id="sndBtn" aria-label="Âm thanh">${soundAllOff() ? '🔇' : '🔊'}</button></div>
       <div class="hday"><b>Ngày ${S.day}</b><span>Chuẩn bị</span></div>
       <div class="hcash"><small>KÉT · VỐN</small><b id="hubMoney">${fmtK(S.money)}</b>${S.loan ? `<small class="fund neg">📄 nợ ${fmtK(S.loan.debt)}</small>` : ''}<small class="fund${(S.fund || 0) < 0 ? ' neg' : ''}">🏦 ${fmtK(S.fund || 0)}</small></div>
       <div class="hstar" id="hubStars"><span class="gst">${starStr(a)}</span><small>${n ? a.toFixed(1).replace('.', ',') : '–'} · ${n} đánh giá</small></div></header>
@@ -4227,6 +4251,7 @@ function hubClick(e){
   const d = b.dataset;
   const re = () => renderHub(true);
   if(b.id === 'setBtn') return settingsModal();
+  if(b.id === 'sndBtn') return soundAll(soundAllOff());
   if(b.id === 'hubStars'){ hubTab = 'dg'; return re(); }
   if(b.id === 'renameBtn') return renameModal(false);
   if(b.id === 'guideBtn') return guideModal(0);
@@ -6057,6 +6082,8 @@ document.addEventListener('dblclick', e => e.preventDefault(), { passive:false }
 setGTab('quay');
 $('#trash').onclick = trash;
 $('#pauseBtn').onclick = togglePause;
+$('#sndBtnG').onclick = () => soundAll(soundAllOff());
+sndIcons();
 $('#stars').onclick = () => { if(R && R.running && !R.paused){ R.paused = true; reviewsModal(resume); } };
 $('#hub').addEventListener('click', e => {
   if(e.target.closest('#hubStars')){ hubTab = 'dg'; renderHub(false); $('#hscroll').scrollTop = $('.htabs').offsetTop - 8; return; }
