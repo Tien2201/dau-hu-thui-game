@@ -460,6 +460,10 @@ function wingSprite(k, fr){
     if(t >= 5) for(let i = 0; i < 5; i++) R(3 + i * 3, 5 + i * 2, 1, 1, '#FFFFFF');
   }); });
 }// phi kiếm (5x15, mũi hướng lên)
+function miniSword(k){
+  return cached('ms' + k, () => { const I = ITEMS[k] || { t:1, c:'#BFE8FF' }, c = I.t === 4 ? '#FFB04A' : I.c;
+    return spr(7, 15, R => { R(3, 0, 1, 1, shade(c, .6)); R(2, 1, 3, 8, c); R(3, 1, 1, 8, shade(c, .55)); R(1, 9, 5, 1, I.t >= 6 ? '#3A1A2A' : '#F2C14E'); if(I.t >= 4){ R(0, 8, 1, 2, '#F2C14E'); R(6, 8, 1, 2, '#F2C14E'); } R(3, 10, 1, 3, I.t >= 5 ? '#2A2A4A' : '#6A2A20'); R(2, 13, 3, 1, '#F2C14E'); }); });
+}
 function swordSprite(k){
   return cached('sw' + k, () => {
     const I = ITEMS[k] || { t:3, c:'#BFE8FF' }, t = I.t, c = I.c;
@@ -1217,11 +1221,13 @@ function drawHero(ctx, x, y, L, st){
     ctx.globalAlpha = .55; ctx.strokeStyle = c; for(let i = 0; i < 3; i++){ const a0 = tNow * 2 + i * 2.1; ctx.beginPath(); ctx.ellipse(sx, sy - 1, 14, 5.5, 0, a0, a0 + .9); ctx.stroke(); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
     if(frame % (L.au >= 5 ? 5 : 9) === 0) fx.push({ k:'p', x:x + rnd(-10, 10), y:y - rnd(0, 4), vx:rnd(-5, 5), vy:-rnd(18, 34), t:0, d:1, c, glow:1 }); }
   ctx.fillStyle = 'rgba(0,0,0,.28)'; ctx.fillRect(sx - 6, sy - 1, 12, 3);
-  // phi kiếm hộ thân
-  const sw = swordSprite(L.w || 'w1'), n = L.sw === 0 ? 0 : (L.sw || 1), wt = ITEMS[L.w] ? ITEMS[L.w].t : 1;
-  const behind = [], front = [];
-  for(let i = 0; i < n; i++){ const a = -Math.PI / 2 + (i - (n - 1) / 2) * .42, rr = 15 + (i % 2) * 3; const px = sx + Math.cos(a) * rr * 1.15, py = sy - 20 + Math.sin(a) * rr * .45 + Math.sin(tNow * 2.5 + i) * 1.5; (i % 2 ? front : behind).push([px, py]); }
-  const drawSw = ([a, b]) => { if(wt >= 4){ ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .35; ctx.fillStyle = ITEMS[L.w].c; ctx.fillRect(Math.round(a - 2), Math.round(b - 20), 4, 18); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; } ctx.drawImage(sw, Math.round(a - 5), Math.round(b - 24)); };
+  // phi kiếm hộ thân: kiếm nhỏ xoay vòng quanh eo, có chiều sâu
+  const n = L.sw === 0 ? 0 : Math.min(4, 1 + Math.floor(((L.sw || 1) - 1) / 2)), wt = ITEMS[L.w] ? ITEMS[L.w].t : 1, ms = miniSword(L.w || 'w1'), wc = ITEMS[L.w] ? ITEMS[L.w].c : '#BFE8FF';
+  const behind = [], front = [], spd = st.sit ? .7 : 1.4;
+  for(let i = 0; i < n; i++){ const a = tNow * spd + i * Math.PI * 2 / n, px = sx + Math.cos(a) * 19, py = sy - 12 + Math.sin(a) * 5 + Math.sin(tNow * 3 + i) * 1 + bob; (Math.sin(a) < 0 ? behind : front).push([px, py, a]); }
+  const drawSw = ([a, b, an]) => { const X = Math.round(a - 3), Y = Math.round(b - 13);
+    if(wt >= 3){ ctx.globalCompositeOperation = 'lighter'; for(let k = 1; k <= 3; k++){ const pa = an - k * .22, tx = sx + Math.cos(pa) * 19, ty = sy - 12 + Math.sin(pa) * 5 + bob; ctx.globalAlpha = .22 - k * .05; ctx.fillStyle = wc; ctx.fillRect(Math.round(tx - 1), Math.round(ty - 10), 2, 8); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
+    ctx.globalAlpha = Math.sin(an) < 0 ? .75 : 1; ctx.drawImage(ms, X, Y); ctx.globalAlpha = 1; };
   behind.forEach(drawSw);
   // cánh
   if(L.wi && ITEMS[L.wi]){ const wf = Math.floor(tNow * 5 + x) % 3, ws = wingSprite(L.wi, wf), wy = sy - 31 + bob; ctx.drawImage(ws, sx - 21, wy); ctx.drawImage(flipCached(ws), sx - 1, wy);
