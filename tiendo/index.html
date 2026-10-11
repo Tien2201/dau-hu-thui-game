@@ -174,6 +174,22 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   #tr{max-width:46vw}
 }
 @media (max-height:420px){ #track{display:none} #acts{transform:scale(.86);transform-origin:bottom right} #joy{width:110px;height:110px} #chatlog{bottom:calc(140px + env(safe-area-inset-bottom,0px))} }
+#dlg{position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(660px,calc(100% - 16px));z-index:60;display:flex;gap:12px;align-items:flex-start;background:linear-gradient(180deg,rgba(44,30,64,.97),rgba(24,16,36,.97));border:2px solid var(--c);border-radius:16px;padding:12px 14px 14px;box-shadow:0 0 0 3px #120C1C,0 0 26px rgba(0,0,0,.5),inset 0 0 30px rgba(0,0,0,.35);animation:dlgin .22s ease-out;cursor:pointer;user-select:none;-webkit-user-select:none}
+@keyframes dlgin{from{opacity:0;transform:translate(-50%,16px)}to{opacity:1;transform:translate(-50%,0)}}
+#dlg .pt{width:78px;height:78px;flex:none;border-radius:12px;background:radial-gradient(circle at 50% 40%,#5A4680,#1E1430);border:2px solid var(--c);image-rendering:pixelated;transform-origin:50% 100%}
+#dlg.talking .pt{animation:talk .18s infinite alternate}@keyframes talk{to{transform:scaleY(1.035) translateY(-1px)}}
+#dlg .bd{flex:1;min-width:0}
+#dlg .nm{display:inline-block;font-weight:800;font-size:14px;color:#1A1226;background:var(--c);border-radius:8px;padding:2px 10px;margin-bottom:6px}
+#dlg .tx{font-size:15.5px;line-height:1.55;color:#F5EEDC;min-height:48px;text-shadow:0 1px 0 #000}
+#dlg .tx b{color:var(--c)}
+#dlg .nx{position:absolute;right:14px;bottom:6px;color:var(--c);font-size:13px;animation:nxb .5s infinite alternate;display:none}#dlg.wait .nx{display:block}
+@keyframes nxb{to{transform:translateY(3px)}}
+#dlg .ch{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+#dlg .ch button{font:700 14px "Be Vietnam Pro",sans-serif;color:#F5EEDC;background:linear-gradient(180deg,#4A3A6A,#2E2346);border:1.5px solid var(--c);border-radius:10px;padding:8px 13px;cursor:pointer;animation:chin .25s ease-out backwards}
+#dlg .ch button:nth-child(2){animation-delay:.05s}#dlg .ch button:nth-child(3){animation-delay:.1s}
+#dlg .ch button:hover,#dlg .ch button:focus-visible{background:var(--c);color:#1A1226;outline:none}
+@keyframes chin{from{opacity:0;transform:translateY(6px)}}
+#dlg .vc{position:absolute;right:8px;top:6px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(255,255,255,.08);color:#F5EEDC;font-size:14px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -319,7 +335,7 @@ const QUESTS = [
 const DAILY = { t:'Trừ ma vệ đạo (hằng ngày)', d:'Diệt 40 yêu ma bất kỳ.', k:'any', n:40 };
 
 /* ======================= ÂM THANH: nhạc cổ phong chill + hiệu ứng ======================= */
-const SND = (() => { try{ return Object.assign({ music:true, sfx:true, vol:.6 }, JSON.parse(store.get('td_snd') || '{}')); }catch(e){ return { music:true, sfx:true, vol:.6 }; } })();
+const SND = (() => { try{ return Object.assign({ music:true, sfx:true, voice:true, vol:.6 }, JSON.parse(store.get('td_snd') || '{}')); }catch(e){ return { music:true, sfx:true, vol:.6 }; } })();
 let AC = null, master, musicBus, sfxBus, noiseBuf, schedIv = null, nextT = 0, stepN = 0;
 function audioInit(){
   if(AC) return true; if(!SND.music && !SND.sfx) return false;
@@ -1489,7 +1505,8 @@ function renderOverlay(){
     if(realm){ o2.font = '600 10.5px "Be Vietnam Pro",sans-serif'; o2.strokeText(realm, x, y - 1); o2.fillStyle = rc; o2.fillText(realm, x, y - 1); }
     if(tag){ o2.font = '800 10px "Be Vietnam Pro",sans-serif'; o2.strokeText(tag, x, y - 28); o2.fillStyle = '#FF7A6A'; o2.fillText(tag, x, y - 28); }
   };
-  for(const n of M.npcs){ const x = tx(n.x), y = ty(n.y - 34); nameTag(x, y, n.n, n.k === 'tong' ? 'Giao nhiệm vụ' : n.k === 'dan' ? 'Bán đan dược' : 'Rèn & cường hoá', '#7FE0A8'); if(n.k === 'tong' && (questReady() || (curQuest() && curQuest().k === 'talk'))){ o2.font = '800 18px sans-serif'; o2.fillStyle = '#F2C14E'; o2.strokeText('!', x, y - 30); o2.fillText('!', x, y - 30); } }
+  for(const n of M.npcs){ const d = Math.hypot(n.x - me.x, n.y - me.y); if(!DLG && d < 90 && tNow > (n.bt || 0)){ n.bt = tNow + rnd(7, 12); n.say = subT(pickR(BARK[n.k])); n.sayT = tNow; } if(n.say && tNow - n.sayT < 3.2){ bubbles['npc_' + n.k] = { m:n.say, t:Date.now() - (tNow - n.sayT) * 1000 }; } else delete bubbles['npc_' + n.k]; }
+  for(const n of M.npcs){ const x = tx(n.x), y = ty(n.y - 34); drawBubble('npc_' + n.k, x, y - 30); nameTag(x, y, n.n, n.k === 'tong' ? 'Giao nhiệm vụ' : n.k === 'dan' ? 'Bán đan dược' : 'Rèn & cường hoá', '#7FE0A8'); if(n.k === 'tong' && (questReady() || (curQuest() && curQuest().k === 'talk'))){ o2.font = '800 18px sans-serif'; o2.fillStyle = '#F2C14E'; o2.strokeText('!', x, y - 30); o2.fillText('!', x, y - 30); } }
   for(const id in others){ const o = others[id], x = tx(o.x), y = ty(o.y - 38 - (o.L.wi ? 6 : 0) - (o.L.h ? 3 : 0)); nameTag(x, y, o.n, realmName(o.s || 0), majorOf(o.s || 0).c); drawBubble(id, x, y - 30); }
   if(!me.dead){ const LL = look(), x = tx(me.x), y = ty(me.y - 38 - (LL.wi ? 6 : 0) - (LL.h ? 3 : 0)); nameTag(x, y, P.name, realmName(P.stage), majorOf(P.stage).c); drawBubble('me', x, y - 30); }
   for(const m of mobs){ if(m.dead) continue; const show = (m.D.boss ? !(m.st === 'chase' || Math.hypot(m.x - me.x, m.y - me.y) < 200) : (m.hp < m.max || me.target === m)) || (me.target === m && !m.D.boss); if(!show) continue; const sp = mobSprite(m.k, 0), x = tx(m.x), y = ty(m.y - sp.height - 3), w = m.D.boss ? 70 : 34;
@@ -1584,11 +1601,127 @@ function fade(fn){ const f = $('#fade'); f.classList.add('on'); setTimeout(() =>
 const ICON_URL = {};
 const iconHtml = (k, sz = 36) => { const u = ICON_URL[k] || (ICON_URL[k] = itemIcon(k).toDataURL()); return `<img src="${u}" style="width:${sz}px;height:${sz}px;image-rendering:pixelated" alt="">`; };
 
+/* ======================= HỘI THOẠI NPC ======================= */
+const NPCV = {
+  tong:{ n:'Tông Chủ Thanh Vân', c:'#F2C14E', f:150, w:'triangle', pitch:.72, rate:.92 },
+  dan:{ n:'Đan Sư Lam Nhi', c:'#7FE0A8', f:620, w:'sine', pitch:1.35, rate:1.06 },
+  ren:{ n:'Thợ Rèn Lão Thiết', c:'#FF9A5A', f:105, w:'square', pitch:.55, rate:.9 },
+};
+const pickR = a => a[Math.floor(Math.random() * a.length)];
+const subT = t => { const m = P.g !== 'f'; return t.replace(/\{name\}/g, P.name).replace(/\{sh\}/g, m ? 'sư huynh' : 'sư tỷ').replace(/\{tt\}/g, m ? 'tiểu tử' : 'cô nương').replace(/\{realm\}/g, realmName(P.stage)); };
+const PORT = {};
+function portrait(k){ if(PORT[k]) return PORT[k]; const sp = heroSprite(Object.assign({}, npcLook(k)), 0), c = cnv(80, 80), x = c.getContext('2d'); x.imageSmoothingEnabled = false; x.drawImage(sp, 4, 2, 19, 19, 2, 6, 76, 76); return PORT[k] = c.toDataURL(); }
+let VI_VOICE = null;
+function pickVoice(){ try{ const vs = speechSynthesis.getVoices(); VI_VOICE = vs.find(v => /^vi([-_]|$)/i.test(v.lang)) || null; }catch(e){ VI_VOICE = null; } }
+if('speechSynthesis' in window){ pickVoice(); try{ speechSynthesis.addEventListener('voiceschanged', pickVoice); }catch(e){} }
+function speakLine(k, text){
+  if(!SND.voice || !VI_VOICE) return false;
+  try{ speechSynthesis.cancel(); const V = NPCV[k], u = new SpeechSynthesisUtterance(text.replace(/[…]/g, '.').replace(/<[^>]+>/g, '')); u.voice = VI_VOICE; u.lang = VI_VOICE.lang; u.pitch = V.pitch; u.rate = V.rate; u.volume = Math.max(.2, SND.vol); speechSynthesis.speak(u); return true; }catch(e){ return false; }
+}
+let DLG = null;
+function say(k, pages, choices = [], opt = {}){
+  closeDlg(true); closeSheet(); running = false; joy.x = joy.y = 0; me.tx = null;
+  const V = NPCV[k], el = document.createElement('div'); el.id = 'dlg'; el.style.setProperty('--c', V.c);
+  el.innerHTML = `<img class="pt" src="${portrait(k)}" alt=""><div class="bd"><div class="nm">${esc(V.n)}</div><div class="tx" aria-live="polite"></div><div class="ch"></div></div><span class="nx">▼</span><button class="vc" aria-label="Bật/tắt lồng tiếng">${SND.voice ? '🔊' : '🔈'}</button>`;
+  document.body.appendChild(el);
+  DLG = { k, pages:pages.map(subT), choices, opt, i:0, el, typing:false, iv:null };
+  el.addEventListener('click', e => { if(e.target.closest('.ch button') || e.target.closest('.vc')) return; dlgNext(); });
+  el.querySelector('.vc').onclick = e => { e.stopPropagation(); SND.voice = !SND.voice; store.set('td_snd', JSON.stringify(SND)); e.currentTarget.textContent = SND.voice ? '🔊' : '🔈'; if(!SND.voice){ try{ speechSynthesis.cancel(); }catch(_){} } else if(!VI_VOICE) toast('Máy chưa có giọng đọc tiếng Việt, NPC sẽ nói kiểu "líu lo"'); else speakLine(DLG.k, DLG.pages[DLG.i]); };
+  dlgPage();
+}
+function dlgPage(){
+  const D = DLG; if(!D) return; const txt = D.pages[D.i], tx = D.el.querySelector('.tx'), V = NPCV[D.k];
+  D.el.querySelector('.ch').innerHTML = ''; D.el.classList.remove('wait'); D.el.classList.add('talking');
+  const voiced = speakLine(D.k, txt); let n = 0; D.typing = true; tx.textContent = '';
+  const sp = voiced ? 52 : 30;
+  const tick = () => {
+    n++; tx.textContent = txt.slice(0, n); const ch = txt[n - 1] || '';
+    if(!voiced && /[\p{L}\p{N}]/u.test(ch) && n % 2 === 0) beep(V.f * (1 + (Math.random() - .5) * .3) * (/[?!]/.test(txt.slice(n, n + 3)) ? 1.2 : 1), .05, V.w, V.w === 'square' ? .018 : .03);
+    if(n >= txt.length){ dlgDone(); return; }
+    if(/[,.…!?]/.test(ch) && !/[.…!?]/.test(txt[n] || '')){ clearInterval(D.iv); setTimeout(() => { if(DLG === D && D.typing){ clearInterval(D.iv); D.iv = setInterval(tick, sp); } }, ch === ',' ? 110 : 230); }
+  };
+  clearInterval(D.iv); D.iv = setInterval(tick, sp);
+}
+function dlgDone(){
+  const D = DLG; if(!D) return; clearInterval(D.iv); D.typing = false; D.el.querySelector('.tx').textContent = D.pages[D.i]; D.el.classList.remove('talking');
+  const last = D.i >= D.pages.length - 1;
+  if(!last || !D.choices.length){ D.el.classList.add('wait'); if(last && D.opt.auto) setTimeout(() => { if(DLG === D && !D.typing) closeDlg(); }, D.opt.auto); return; }
+  const box = D.el.querySelector('.ch');
+  D.choices.forEach(([label, fn], i) => { const b = document.createElement('button'); b.textContent = label; b.onclick = e => { e.stopPropagation(); sfx.tap(); fn(); }; box.appendChild(b); if(i === 0) setTimeout(() => b.focus({ preventScroll:true }), 30); });
+}
+function dlgNext(){ const D = DLG; if(!D) return; if(D.typing){ dlgDone(); return; } if(D.i < D.pages.length - 1){ D.i++; dlgPage(); } else if(!D.choices.length) closeDlg(); }
+function closeDlg(silent){ if(!DLG) return; clearInterval(DLG.iv); DLG.el.remove(); DLG = null; try{ speechSynthesis.cancel(); }catch(e){} if(!silent && P && me && !me.dead && !document.querySelector('.sbg')){ running = true; lastT = performance.now(); } }
+addEventListener('keydown', e => { if(!DLG) return; if(e.key === ' ' || e.key === 'Enter'){ if(!DLG.el.querySelector('.ch button') || DLG.typing){ e.preventDefault(); e.stopImmediatePropagation(); dlgNext(); } } else if(e.key === 'Escape'){ closeDlg(); } else if(/^[1-4]$/.test(e.key)){ const b = DLG.el.querySelectorAll('.ch button')[+e.key - 1]; if(b){ e.stopImmediatePropagation(); b.click(); } } }, true);
+const BYE = {
+  tong:['Đi đi. Nhớ kỹ: tu đạo trước tu tâm.', 'Thượng lộ bình an, {name}.', 'Ừm. Có chuyện gì cứ quay về tìm ta.'],
+  dan:['Đi cẩn thận nha {sh}! Bị thương thì về đây muội băng cho.', 'Hẹn gặp lại~ Nhớ đừng liều quá đó!', 'Đi đi, muội còn phải canh lò đan.'],
+  ren:['Đi đi. Kiếm mẻ thì mang về đây.', 'Hừ, đừng để ta nghe tin ngươi bỏ mạng đấy, {tt}.', 'Keng… À, ngươi vẫn còn đứng đó à?'],
+};
+const bye = k => say(k, [pickR(BYE[k])], [], { auto:1500 });
+const BARK = {
+  tong:['Tu đạo trước tu tâm…', 'Linh khí hôm nay dồi dào lắm.', 'Đài Tu Luyện đang trống đấy.', 'Hừm… trời sắp đổi gió.'],
+  dan:['Đan mới ra lò đây~', 'Hồi Huyết Đan, Hồi Linh Đan đây!', 'Ui, nóng nóng nóng!', 'Ai bị thương ghé muội nha!'],
+  ren:['Keng! Keng!', 'Thép tốt phải tôi trăm lần.', 'Hừ… lửa lò còn yếu.', 'Mang kiếm lại đây, ta rèn cho!'],
+};
+const LORE = [
+  ['Lang Hoàng ư? Ngày trước nó chỉ là sói đầu đàn. Uống phải máu dưới trăng đỏ, giờ thành Huyết Nguyệt Lang Hoàng.', 'Khi trăng máu hiện lên, nó điên cuồng gấp bội. Thấy vùng đỏ dưới chân thì đừng nghĩ nhiều, né trước đã.'],
+  ['Xích Viêm Ma Tôn bị tổ sư phong ấn dưới Dung Nham Điện từ ngàn năm trước.', 'Nhưng phong ấn đang yếu dần… Ta e rằng sớm muộn gì cũng phải có người đối mặt với nó.'],
+  ['Phía nam rừng là Hoàng Sa Cổ Mạc. Tương truyền dưới Kim Tự Tháp chôn cả một vương triều.', 'Bão cát ở đó có thể lột da người. Đến Hóa Thần hẵng nghĩ tới chuyện đặt chân vào.'],
+  ['Mỗi lần đột phá đại cảnh giới, trời đất sẽ giáng thiên kiếp.', 'Phá Cảnh Đan giúp con chống đỡ. Đừng bao giờ đột phá khi trong người còn thương tích.'],
+  ['Lam Nhi là đứa trẻ ta nhặt được bên suối năm xưa. Tay luyện đan của nó còn hơn cả ta.', 'Còn lão Thiết… lão rèn kiếm cho bổn môn từ hồi tóc ta còn đen.'],
+];
+function hintFor(q){
+  if(q.k === 'kill'){ const D = MOBS[q.m]; const base = `${D.n}: con mới diệt được ${P.q.p}/${q.n}.`;
+    if(q.m === 'soivuong') return [base, 'Lang Hoàng đáng sợ nhất lúc trăng máu. Thấy vùng đỏ dưới chân là phải né ngay!'];
+    if(q.m === 'mavuong') return [base, 'Khi đôi cánh Ma Tôn hóa lửa, mưa thiên thạch sẽ dày gấp bội. Đừng đứng yên một chỗ.'];
+    return [base, pickR(['Cứ bình tĩnh mà đánh, đừng tham.', 'Nhớ mang theo Hồi Huyết Đan, ghé Lam Nhi mà mua.', 'Chúng tụ lại thì dùng Vạn Kiếm Quy Tông, đỡ tốn sức.', q.d])]; }
+  if(q.k === 'stage') return [`Cảnh giới hiện giờ của con là ${realmName(P.stage)}, còn cần đạt ${realmName(q.n)}.`, 'Lên Đài Tu Luyện giữa quảng trường ngồi thiền, tu vi tăng nhanh gấp đôi đấy.'];
+  if(q.k === 'med') return ['Lên Đài Tu Luyện giữa quảng trường, ngồi tĩnh tâm một lát đi.', `Còn ${Math.max(0, q.n - P.q.p)} giây nữa là đủ.`];
+  return [q.d];
+}
+function greetTime(){ const h = new Date().getHours(); return h < 5 ? 'Khuya thế này còn chưa nghỉ sao? Tu tiên cũng cần giữ sức đó.' : h < 11 ? 'Sáng sớm đã thấy con, chăm chỉ lắm.' : h < 14 ? 'Trưa rồi, nhớ điều tức cho đều.' : h < 18 ? 'Chiều nay linh khí khá dồi dào, tu luyện vào đi.' : 'Trời tối rồi. Rừng Hắc Mộc về đêm yêu khí nặng lắm, cẩn thận.'; }
+function claimTong(){
+  const q = curQuest(); let txt;
+  if(q){ txt = grant(q.rw); P.q.i++; P.q.p = 0; P._qTold = 0; const nq = curQuest(); if(nq && nq.k === 'stage' && P.stage >= nq.n) P.q.p = nq.n; }
+  else { const s = P.stage; txt = grant({ st:300 + s * 120, x2:1, pc:s >= 8 ? 1 : 0, exp:Math.round(needExp(s) * .15) }); P.daily.done = 1; }
+  sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:'#F2C14E' }); saveSoon();
+  const nq = curQuest();
+  say('tong', [`Đây là phần thưởng của con: <${txt}>.`.replace(/[<>]/g, ''), nq ? `Việc tiếp theo… ${nq.d}` : 'Từ giờ con cứ tự do tu luyện. Mỗi ngày ghé ta nhận việc trừ ma.'],
+    [['Lên đường!', () => bye('tong')], ['Xem chi tiết', () => { closeDlg(true); questSheet(true); }]]);
+}
+function talkTong(){
+  const q = curQuest();
+  if(q && q.k === 'talk'){ P.q.p = 1; return say('tong', ['Ồ… một gương mặt mới. Con là {name} phải không? Ta đợi con mãi.', 'Ta là Tông Chủ Thanh Vân. Thôn nhỏ thật, nhưng linh mạch dưới chân núi này không hề tầm thường.', 'Dạo gần đây yêu thú trong Rừng Hắc Mộc mỗi ngày một hung hãn. Bổn môn đang cần người.', 'Cầm lấy lễ nhập môn này. Từ hôm nay, con chính thức bước lên Tiên Đồ.'], [['Bái tạ Tông Chủ', claimTong]]); }
+  if(questReady()) return say('tong', [q ? pickR(['Tốt lắm! Việc ta giao, con làm gọn gàng hơn ta tưởng.', 'Ha ha, quả nhiên ta không nhìn lầm người.', 'Tin con lập công đã truyền khắp thôn rồi đấy.']) : 'Hôm nay con trừ ma đủ số rồi. Tâm vững, kiếm mới vững.'], [['Nhận thưởng', claimTong], ['Để sau', () => bye('tong')]]);
+  const lines = [];
+  if(P.deaths > (P._dd || 0)){ lines.push(pickR(['Ta nghe nói con vừa trọng thương trở về… Biết lượng sức mình cũng là một loại tu vi.', 'Thất bại một lần chưa phải hết. Đứng dậy, đạo tâm sẽ cứng hơn.'])); P._dd = P.deaths; }
+  else lines.push(Math.random() < .5 ? greetTime() : pickR(['{name} đến rồi à. Tu vi {realm}… không tệ.', 'Ừm, khí tức của con ổn định hơn lần trước.', 'Lại đây. Để ta xem con tiến bộ tới đâu rồi.']));
+  if(q) lines.push(...hintFor(q)); else lines.push('Thử thách của bổn môn con đã vượt hết. Mỗi ngày nhớ trừ ma vệ đạo, đừng để đạo tâm nguội lạnh.');
+  say('tong', lines, [['Xem nhiệm vụ', () => { closeDlg(true); questSheet(true); }], ['Hỏi chuyện', () => say('tong', pickR(LORE), [['Hỏi thêm', () => say('tong', pickR(LORE), [['Đa tạ', () => bye('tong')]])], ['Đa tạ', () => bye('tong')]])], ['Tạm biệt', () => bye('tong')]]);
+}
+function talkDan(){
+  const S = stats(), lines = [];
+  if(me.hp < S.hp * .5) lines.push('Trời ơi, {sh} bị thương thế này mà còn đi lung tung! Mau uống Hồi Huyết Đan đi.');
+  else if(!P.inv.hp) lines.push('Hết Hồi Huyết Đan rồi à? Muội vừa luyện xong mẻ mới, còn ấm tay đây.');
+  else if(P.stage >= 8 && !P.inv.pc) lines.push('{sh} sắp tới ngưỡng đột phá rồi phải không? Phá Cảnh Đan của muội tốt lắm đó.');
+  else lines.push(pickR(['{sh} lại ghé à? Hôm nay muốn mua gì nào?', 'Lò đan hôm nay lửa đều lắm, đan ra viên nào cũng tròn.', 'Ơ, {sh} đến đúng lúc, muội vừa thử công thức mới!']));
+  const shop = ['Mua đan dược', () => { closeDlg(true); shopSheet('pill'); }];
+  say('dan', lines, [shop, ['Trò chuyện', () => say('dan', pickR([['Hồi nhỏ muội suýt làm nổ lò đan của Tông Chủ…', 'Từ đó người cho muội một cái lò riêng. Hì hì.'], ['Linh thảo trong Rừng Hắc Mộc mọc quanh chỗ Độc Chu giăng tơ.', 'Nên muội chẳng dám đi hái một mình đâu.'], ['Nghe nói ở Hoàng Sa có loại xương rồng nở hoa trăm năm một lần.', 'Nếu {sh} thấy thì mang về cho muội nha!'], ['Lão Thiết trông dữ vậy thôi chứ hay lén cho muội kẹo lắm.']]), [shop, ['Tạm biệt', () => bye('dan')]])], ['Tạm biệt', () => bye('dan')]]);
+}
+function talkRen(){
+  const w = itemOf(P.eq.w), I = w ? ITEMS[w.k] : null, lines = [];
+  if(!I) lines.push('Tay không mà đòi đi trừ ma à, {tt}?');
+  else if(w.plus >= 7) lines.push(`${I.n} +${w.plus}… Hừm. Cả đời ta chưa rèn được mấy thanh như vậy.`);
+  else if(w.plus < 3) lines.push(`${I.n} mà mới +${w.plus}? Còn non lắm. Để ta tôi thêm vài lửa.`);
+  else lines.push(pickR(['Lại đây. Để ta xem lưỡi kiếm của ngươi mẻ chỗ nào.', 'Hừ, đến rồi à. Đưa đồ đây.', 'Thép tốt cần lửa lớn. Linh thạch mang đủ chưa?']));
+  const forge = ['Rèn & cường hoá', () => { closeDlg(true); shopSheet('forge'); }];
+  say('ren', lines, [forge, ['Trò chuyện', () => say('ren', pickR([['Cường hoá càng cao càng dễ thất bại. Đó là đạo của thép.', 'Muốn chắc ăn thì đừng tiếc linh thạch.'], ['Hồi trẻ ta cũng từng muốn tu tiên.', 'Rồi ta nhận ra… cầm búa hợp với ta hơn cầm kiếm.'], ['Vảy của Ma Tôn nghe nói nóng hơn cả lò của ta.', 'Nếu ngươi lấy được một mảnh… hừ, mang về đây xem.']]), [forge, ['Tạm biệt', () => bye('ren')]])], ['Tạm biệt', () => bye('ren')]]);
+}
 function npcTalk(n){
-  sfx.tap();
-  if(n.k === 'tong') return questSheet(true);
-  if(n.k === 'dan') return shopSheet('pill');
-  if(n.k === 'ren') return shopSheet('forge');
+  sfx.tap(); n.say = null;
+  if(n.k === 'tong') return talkTong();
+  if(n.k === 'dan') return talkDan();
+  if(n.k === 'ren') return talkRen();
 }
 function questSheet(atNpc){
   const q = curQuest();
@@ -1733,12 +1866,14 @@ function soundSheet(){
   sheet(`<button class="x" data-close aria-label="Đóng">×</button><h2>Âm thanh</h2><p class="sub">Muốn nghe nhạc YouTube thì tắt hết ở đây.</p>
     <button class="tgl" id="sgM" aria-pressed="${SND.music}"><span class="g">Nhạc cổ phong<small>Đàn tranh ngũ cung</small></span><span class="swt"></span></button>
     <button class="tgl" id="sgS" aria-pressed="${SND.sfx}"><span class="g">Hiệu ứng<small>Phi kiếm, thiên kiếp, nhặt đồ</small></span><span class="swt"></span></button>
+    <button class="tgl" id="sgVo" aria-pressed="${SND.voice}"><span class="g">Lồng tiếng NPC<small>${VI_VOICE ? 'Giọng đọc tiếng Việt của máy' : 'Máy chưa có giọng tiếng Việt, NPC nói kiểu "líu lo"'}</small></span><span class="swt"></span></button>
     <label class="lab">Âm lượng<input type="range" id="sgV" min="0" max="100" value="${Math.round(SND.vol * 100)}"></label>
     <button class="btn ${allOff ? '' : 'red'}" id="sgAll">${allOff ? 'Bật lại âm thanh' : 'Tắt hết để nghe YouTube'}</button>`);
   $('#sgM').onclick = () => { SND.music = !SND.music; applySnd(); soundSheet(); };
   $('#sgS').onclick = () => { SND.sfx = !SND.sfx; applySnd(); soundSheet(); };
   $('#sgV').oninput = e => { SND.vol = e.target.value / 100; if(AC) master.gain.setTargetAtTime(SND.vol, AC.currentTime, .05); store.set('td_snd', JSON.stringify(SND)); };
-  $('#sgAll').onclick = () => { SND.music = SND.sfx = allOff; applySnd(); soundSheet(); };
+  $('#sgAll').onclick = () => { SND.music = SND.sfx = SND.voice = allOff; applySnd(); soundSheet(); };
+  $('#sgVo').onclick = () => { SND.voice = !SND.voice; store.set('td_snd', JSON.stringify(SND)); if(SND.voice && VI_VOICE){ const u = new SpeechSynthesisUtterance('Chào đạo hữu.'); u.voice = VI_VOICE; u.lang = VI_VOICE.lang; try{ speechSynthesis.speak(u); }catch(e){} } soundSheet(); };
 }
 function cafeSheet(){
   sheet(`<button class="x" data-close aria-label="Đóng">×</button><h2>Mời tác giả ly cà phê</h2><p class="sub">Thích game thì mời mình ly cà phê để có động lực mở thêm bản đồ và cảnh giới mới nha. Quét bằng app MoMo, bao nhiêu cũng quý.</p>
@@ -1913,7 +2048,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : 'Không kết nối được máy chủ, bạn vẫn chơi offline được.');
 }
-window.__td = { get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
