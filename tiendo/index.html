@@ -437,6 +437,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
  .tt .tft{left:0;right:0;text-align:center;max-width:none;bottom:calc(8px + env(safe-area-inset-bottom,0px))}
 }
 @media (max-height:420px) and (orientation:landscape){.tt .tp{padding:12px 16px 10px}.tt .inp{padding:7px 4px;margin-bottom:6px}.tt .go{padding:9px}.tt .gst{margin-top:6px;padding:6px}.tt .tabs{margin-bottom:8px}.tt .tabs button{font-size:17px}.tt .tl p{display:none}}
+@media (hover:hover) and (pointer:fine){#joy{display:none!important}}
 </style>
 </head>
 <body>
@@ -481,7 +482,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=5"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=6"><\/script>');
 })();
 </script>
 <script>
@@ -1329,14 +1330,19 @@ function spawnMob(sp){
 const keys = {};
 addEventListener('keydown', e => {
   if(e.target.tagName === 'INPUT') return;
-  const k = e.key.toLowerCase(); keys[k] = true;
+  const k = e.key.toLowerCase(); keys[k] = true; const kc = KCODE[e.code]; if(kc) keys[kc] = true;
   if(!running || document.querySelector('.sbg')) return;
+  if(kc === 'e' || k === 'e'){ const n = nearNpc(); if(n){ e.preventDefault(); npcTalk(n); } }
   if(k === 'j' || k === ' '){ e.preventDefault(); attackPress(); }
   if(k === '1') useSkill('van'); if(k === '2') useSkill('ho'); if(k === '3') useSkill('hoa');
   if(k === 'h') drinkHp(); if(k === 'r') toggleMed(); if(k === 't') toggleAuto();
   if(k === 'enter'){ e.preventDefault(); chatSheet(); }
 });
-addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
+addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; const kc = KCODE[e.code]; if(kc) keys[kc] = false; });
+addEventListener('blur', () => { for(const k in keys) keys[k] = false; });
+const KCODE = { KeyW:'w', KeyA:'a', KeyS:'s', KeyD:'d', KeyE:'e' };
+const TOUCH = matchMedia('(hover: none), (pointer: coarse)').matches;
+function nearNpc(){ let b = null, bd = 46; for(const n of M.npcs){ const d = Math.hypot(n.x - me.x, n.y + 10 - me.y); if(d < bd){ bd = d; b = n; } } return b; }
 const joy = { x:0, y:0, id:null }, joyEl = $('#joy'), knob = $('#knob');
 function joyMove(e){ const r = joyEl.getBoundingClientRect(); let dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2); const L = Math.hypot(dx, dy), mx = r.width * .38; if(L > mx){ dx *= mx / L; dy *= mx / L; } joy.x = dx / mx; joy.y = dy / mx; knob.style.transform = `translate(${dx}px,${dy}px)`; }
 joyEl.addEventListener('pointerdown', e => { joy.id = e.pointerId; joyEl.setPointerCapture(e.pointerId); joyMove(e); });
@@ -1350,10 +1356,9 @@ gc.addEventListener('pointerdown', e => {
   const mob = mobs.filter(m => !m.dead).find(m => Math.abs(m.x - wx) < m.D.w * (m.D.boss ? 1 : .7) && wy < m.y + 4 && wy > m.y - m.D.h * (m.D.boss ? 2 : 1) - 4);
   if(mob){ me.target = mob; me.tx = null; if(me.sit) toggleMed(); return; }
   const npc = M.npcs.find(n => Math.abs(n.x - wx) < 10 && wy < n.y + 4 && wy > n.y - 28);
-  if(npc){ me.tx = npc.x; me.ty = npc.y + 10; me.talk = npc; me.target = null; return; }
+  if(npc){ if(Math.hypot(npc.x - me.x, npc.y + 10 - me.y) < 46) npcTalk(npc); else toast(Lx("Lại gần để nói chuyện")); return; }
   const op = Object.values(others).find(o => Math.abs(o.x - wx) < 9 && wy < o.y + 3 && wy > o.y - 28);
   if(op){ otherSheet(op); return; }
-  me.tx = wx; me.ty = wy; me.target = null; me.talk = null; if(me.sit) toggleMed();
 });
 
 /* ======================= CHIẾN ĐẤU ======================= */
@@ -1527,7 +1532,7 @@ function update(dt){
   if(me.target && !me.target.dead && Math.hypot(mx, my) <= .15){
     const d = Math.hypot(me.target.x - me.x, me.target.y - me.y);
     const rng = cls().rng || 80;
-    if(d > rng){ mx = (me.target.x - me.x) / d; my = (me.target.y - me.y) / d; }
+    if(d > rng){ if(P.auto){ mx = (me.target.x - me.x) / d; my = (me.target.y - me.y) / d; } }
     else if(cds.atk <= tNow){ me.dir = me.target.x >= me.x ? 1 : -1;
       if(P.cls === 'the'){ cds.atk = tNow + .5; const t = me.target; hitMob(t, 1.15, '#FFB04A'); fx.push({ k:'ring', x:t.x, y:t.y + 4, t:0, d:.35, c:'#FFB04A' }); mobs.forEach(o => { if(o !== t && !o.dead && Math.hypot(o.x - t.x, o.y - t.y) < 24) hitMob(o, .55, '#FFB04A'); }); me.lunge = .12; shake(1); sfx.hit(); }
       else if(P.cls === 'dao'){ cds.atk = tNow + .55; const t = me.target; hitMob(t, 1.2, '#F0F4FF'); mobs.forEach(o => { if(o !== t && !o.dead && Math.hypot(o.x - me.x, o.y - me.y) < 34 && (Math.sign(o.x - me.x) === me.dir || Math.abs(o.x - me.x) < 8)) hitMob(o, .8, '#F0F4FF'); }); fx.push({ k:'slash', x:me.x + me.dir * 10, y:me.y - 10, a:me.dir > 0 ? -1.3 : 1.85, t:0, d:.25, c:'#F0F4FF', r:24 }); shake(.8); sfx.hit(); }
@@ -1897,6 +1902,7 @@ function renderOverlay(){
     if(tag){ o2.font = '800 10px "Be Vietnam Pro",sans-serif'; o2.strokeText(tag, x, y - 28); o2.fillStyle = '#FF7A6A'; o2.fillText(tag, x, y - 28); }
   };
   for(const n of M.npcs){ const d = Math.hypot(n.x - me.x, n.y - me.y); if(!DLG && d < 90 && tNow > (n.bt || 0)){ n.bt = tNow + rnd(7, 12); n.say = subT(pickR(BARK[n.k])); n.sayT = tNow; } if(n.say && tNow - n.sayT < 3.2){ bubbles['npc_' + n.k] = { m:n.say, t:Date.now() - (tNow - n.sayT) * 1000 }; } else delete bubbles['npc_' + n.k]; }
+  { const nn = !DLG && nearNpc(); if(nn){ const x = tx(nn.x), y = ty(nn.y + 14), t = TOUCH ? Lx("Chạm để nói chuyện") : Lx("[E] Nói chuyện"); o2.font = '600 11px "Be Vietnam Pro",sans-serif'; o2.textAlign = 'center'; const w = o2.measureText(t).width + 14; o2.fillStyle = 'rgba(10,12,16,.75)'; o2.fillRect(x - w / 2, y - 9 + Math.sin(tNow * 4), w, 17); o2.strokeStyle = 'rgba(217,185,122,.6)'; o2.strokeRect(x - w / 2 + .5, y - 8.5 + Math.sin(tNow * 4), w - 1, 16); o2.fillStyle = '#EAD7A8'; o2.fillText(t, x, y + 3 + Math.sin(tNow * 4)); } }
   for(const n of M.npcs){ const x = tx(n.x), y = ty(n.y - 34); drawBubble('npc_' + n.k, x, y - 30); nameTag(x, y, n.n, n.k === 'tong' ? Lx("Giao nhiệm vụ") : n.k === 'dan' ? Lx("Bán đan dược") : Lx("Rèn & cường hoá"), '#7FE0A8'); if(n.k === 'tong' && (questReady() || (curQuest() && curQuest().k === 'talk'))){ o2.font = '800 18px sans-serif'; o2.fillStyle = '#F2C14E'; o2.strokeText('!', x, y - 30); o2.fillText('!', x, y - 30); } }
   for(const id in others){ const o = others[id], x = tx(o.x), y = ty(o.y - 38 - (o.L.wi ? 6 : 0) - (o.L.h ? 3 : 0)); nameTag(x, y, (Party.mem && Party.mem[id] ? '🤝 ' : '') + o.n, ((CLASSES[o.L.cls] || CLASSES.kiem).ic) + ' ' + realmName(o.s || 0), majorOf(o.s || 0).c); drawBubble(id, x, y - 30); }
   if(!me.dead){ const LL = look(), x = tx(me.x), y = ty(me.y - 38 - (LL.wi ? 6 : 0) - (LL.h ? 3 : 0)); nameTag(x, y, P.name, cls().ic + ' ' + realmName(P.stage), majorOf(P.stage).c); drawBubble('me', x, y - 30); }
@@ -2408,7 +2414,7 @@ function menuSheet(){
 }
 function helpSheet(){
   sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button><h2>${Lx("Hướng dẫn tu tiên")}</h2><div class="chatbox" style="height:auto;max-height:60vh">
-    <div><b>${Lx("Di chuyển:")}</b> ${Lx("cần gạt góc trái, chạm vào mặt đất để đi tới, hoặc phím W A S D.")}</div>
+    <div><b>${Lx("Di chuyển:")}</b> ${(TOUCH ? Lx("cần gạt góc trái.") : Lx("phím W A S D (hoặc mũi tên). Đứng gần NPC bấm E để nói chuyện."))}</div>
     <div><b>${Lx("Đánh quái:")}</b> ${Lx("chạm vào yêu ma, hoặc bấm nút Ngự Kiếm để phi kiếm tự tìm mục tiêu gần nhất. Bấm \"Tự đánh\" để tự săn quái (phím T).")}</div>
     <div><b>${Lx("Tuyệt kỹ:")}</b> ${Lx("Vạn Kiếm (phím 1), Hộ Thể (phím 2), Liệt Hỏa (phím 3) mở dần theo cảnh giới.")}</div>
     <div><b>${Lx("Tu luyện:")}</b> ${Lx("bấm nút âm dương để ngồi thiền nhận tu vi. Ngồi trên Đài Tu Luyện giữa thôn được gấp đôi. Thoát game vẫn nhận tu vi bế quan (tối đa 8 tiếng).")}</div>
@@ -2813,7 +2819,7 @@ function begin(data, fresh){
   banner(M.name, realmName(P.stage));
   // tu vi bế quan khi offline
   if(!fresh && data.t){ const sec = Math.min(8 * 3600, (Date.now() - data.t) / 1000); if(sec > 120){ const gain = Math.round(needExp(P.stage) / 1800 * sec * .3); if(gain > 0){ gainExp(gain); setTimeout(() => sheet(`<h2>${Lx("Bế quan xuất quan")}</h2><p class="sub">${Lx("Trong {0} vắng mặt, bạn bế quan tu luyện được", sec >= 3600 ? (sec / 3600).toFixed(1) + Lx(" giờ") : Math.round(sec / 60) + Lx(" phút"))} <b style="color:#C9A0FF">${fmt(gain)} tu vi</b>.</p><button class="btn gold" data-close>${Lx("Tiếp tục tu luyện")}</button>`), 600); } } }
-  if(fresh){ setTimeout(() => sheet(`<h2>${Lx("Chào mừng {0}", esc(P.name))}</h2><p class="sub">${Lx("Bạn vừa bái nhập Thanh Vân Tông. Hãy tới quảng trường gặp")} <b>${Lx("Tông Chủ")}</b> ${Lx("(ông lão râu trắng có dấu \"!\") để nhận nhiệm vụ đầu tiên.")}</p><p class="sub">${Lx("Chạm vào Tông Chủ để đi tới và nói chuyện.")}</p><button class="btn gold" data-close>${Lx("Bắt đầu tu tiên")}</button>`), 500); }
+  if(fresh){ setTimeout(() => sheet(`<h2>${Lx("Chào mừng {0}", esc(P.name))}</h2><p class="sub">${Lx("Bạn vừa bái nhập Thanh Vân Tông. Hãy tới quảng trường gặp")} <b>${Lx("Tông Chủ")}</b> ${Lx("(ông lão râu trắng có dấu \"!\") để nhận nhiệm vụ đầu tiên.")}</p><p class="sub">${Lx("Đi tới gần Tông Chủ rồi chạm vào ông (hoặc bấm E) để nói chuyện.")}</p><button class="btn gold" data-close>${Lx("Bắt đầu tu tiên")}</button>`), 500); }
   saveSoon();
 }
 async function boot(){
