@@ -376,6 +376,67 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .intro .ln{height:1px;width:0;margin:10px auto;background:linear-gradient(90deg,transparent,#EAD7A8,transparent);animation:cl2 1.6s .6s forwards}
 @keyframes cl2{to{width:min(70vw,520px)}}
 @media (prefers-reduced-motion:reduce){.fs *,.fs,.banner,.bossban,.intro *,.sheet{animation-duration:.01s!important;animation-delay:0s!important}}
+/* ===== MÀN TIÊU ĐỀ ===== */
+.ttlbg{padding:0;background:#000;backdrop-filter:none}
+.tt{position:relative;width:100%;height:100%;overflow:hidden;color:var(--paper);background:#05040A}
+.tt::before,.tt::after{display:none}
+.tt canvas.tsc{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;transform-origin:62% 40%;transition:transform 1.4s cubic-bezier(.6,0,.2,1),filter 1.4s}
+.tt .vig{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(5,4,10,.78) 0%,rgba(5,4,10,.35) 38%,rgba(5,4,10,0) 58%,rgba(5,4,10,.45) 100%),linear-gradient(0deg,rgba(5,4,10,.75),rgba(5,4,10,0) 30%)}
+.tt .tl{position:absolute;left:max(6vw,calc(env(safe-area-inset-left) + 20px));top:50%;transform:translateY(-58%);max-width:52vw}
+.tt .tl small{display:block;font-size:12px;font-weight:600;letter-spacing:6px;color:#C9B8F0;text-transform:uppercase}
+.tt .tl .ln{height:1px;width:220px;margin:12px 0 10px;background:linear-gradient(90deg,#EAD7A8,transparent);transform-origin:left}
+.tt .tl h1{margin:0;font-family:var(--serif);font-weight:700;font-size:clamp(46px,8.2vw,104px);line-height:.92;letter-spacing:.04em;color:#F3DFAE;text-shadow:0 0 40px rgba(242,193,78,.25),0 4px 0 rgba(0,0,0,.5)}
+.tt .tl h1 span{display:inline-block}
+.tt .tl p{font-family:var(--serif);font-style:italic;font-size:clamp(15px,1.9vw,20px);color:#D8D0BE;margin:14px 0 0;max-width:430px;line-height:1.35}
+.tt .tp{position:absolute;right:max(5vw,calc(env(safe-area-inset-right) + 18px));top:50%;transform:translateY(-50%);width:min(340px,40vw);padding:18px 20px 16px;background:linear-gradient(180deg,rgba(18,16,28,.72),rgba(10,9,16,.82));border:1px solid var(--edge);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.tt .tp::before{content:'';position:absolute;left:-1px;top:-1px;border-style:solid;border-width:12px 12px 0 0;border-color:var(--paper) transparent transparent transparent}
+.tt .tp::after{content:'';position:absolute;right:-1px;bottom:-1px;border-style:solid;border-width:0 0 12px 12px;border-color:transparent transparent var(--paper) transparent}
+.tt .tabs{display:flex;gap:18px;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.tt .tabs button{background:none!important;border:none!important;border-radius:0!important;box-shadow:none!important;font-family:var(--serif);font-size:20px;font-weight:700;color:var(--paper2);padding:2px 0 6px;position:relative}
+.tt .tabs button.on{color:#EBD6A6}.tt .tabs button.on::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--gl)}
+.tt .inp{width:100%;margin:0 0 8px;background:rgba(0,0,0,.35)!important;border:none!important;border-bottom:1px solid rgba(233,228,216,.25)!important;border-radius:0!important;padding:10px 4px;font-size:14px;color:var(--paper);transition:border-color .25s}
+.tt .inp:focus{outline:none;border-bottom-color:var(--gl)!important;background:rgba(0,0,0,.5)!important}
+.tt .x2{overflow:hidden;max-height:0;transition:max-height .35s ease,opacity .3s;opacity:0}.tt .x2.on{max-height:60px;opacity:1}
+.tt .msg{min-height:16px;font-size:12px}
+.tt .go{width:100%;margin-top:4px;padding:12px;font-size:15px;font-weight:800;letter-spacing:1px;border:1px solid #F2E2B8;background:linear-gradient(180deg,#EAD7A8,#C9A464);color:#1C1408;position:relative;overflow:hidden}
+.tt .go::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-120%);animation:shine 3.2s 2s ease-in-out infinite}
+@keyframes shine{40%,100%{transform:translateX(120%)}}
+.tt .gst{display:block;width:100%;margin-top:10px;padding:8px;font-size:13px;color:var(--paper2);border:1px solid rgba(233,228,216,.18);background:rgba(255,255,255,.03)}
+.tt .gst:hover{color:var(--paper);border-color:rgba(233,228,216,.4)}
+.tt .tlang{position:absolute;left:max(6vw,calc(env(safe-area-inset-left) + 20px));bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:2px}
+.tt .tlang button{font-size:17px;padding:3px 4px;opacity:.45;filter:grayscale(.5);transition:opacity .2s,filter .2s}.tt .tlang button.on,.tt .tlang button:hover{opacity:1;filter:none}
+.tt .tft{position:absolute;right:max(5vw,calc(env(safe-area-inset-right) + 18px));bottom:calc(16px + env(safe-area-inset-bottom,0px));font-size:10.5px;color:rgba(233,228,216,.45);text-align:right;max-width:46vw}
+/* vào màn */
+.tt.in canvas.tsc{animation:tscin 2.4s cubic-bezier(.2,.7,.2,1) both}
+@keyframes tscin{from{opacity:0;transform:scale(1.18);filter:blur(6px)}}
+.tt.in .tl small{animation:fup .8s .9s both}.tt.in .tl .ln{animation:grow 1.1s 1s cubic-bezier(.2,.8,.2,1) both}
+.tt.in .tl h1 span{animation:ch 1s cubic-bezier(.2,.8,.2,1) both}
+.tt.in .tl p{animation:fup 1s 1.9s both}
+.tt.in .tp{animation:tpin .9s 1.5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes tpin{from{opacity:0;transform:translate(30px,-50%)}}
+.tt.in .tlang,.tt.in .tft{animation:fup .8s 2.2s both}
+/* rời màn */
+.tt.out canvas.tsc{transform:scale(1.6);filter:blur(2px) brightness(1.3)}
+.tt.out .tp{transition:all .6s cubic-bezier(.6,0,.4,1);opacity:0;transform:translate(60px,-50%)}
+.tt.out .tl{transition:all .9s cubic-bezier(.6,0,.4,1);opacity:0;transform:translateY(-70%) scale(1.08);filter:blur(8px)}
+.tt.out .tlang,.tt.out .tft,.tt.out .vig{transition:opacity .5s;opacity:0}
+.wipe{position:fixed;inset:0;z-index:70;pointer-events:none;background:#05040A;clip-path:circle(0% at var(--ox,50%) var(--oy,40%));transition:clip-path .9s cubic-bezier(.7,0,.3,1),opacity .9s}
+.wipe.on{clip-path:circle(150% at var(--ox,50%) var(--oy,40%))}.wipe.off{opacity:0}
+.wipe i{position:absolute;left:var(--ox,50%);top:var(--oy,40%);width:12px;height:12px;margin:-6px;border-radius:50%;border:2px solid #EAD7A8;box-shadow:0 0 30px #F2C14E;opacity:0}
+.wipe.on i{animation:ring .9s ease-out}
+@keyframes ring{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(60)}}
+@media (orientation:portrait){
+ .tt .vig{background:linear-gradient(0deg,rgba(5,4,10,.9) 0%,rgba(5,4,10,.55) 45%,rgba(5,4,10,0) 70%)}
+ .tt .tl{left:0;right:0;top:calc(9vh + env(safe-area-inset-top,0px));transform:none;max-width:none;text-align:center;padding:0 20px}
+ .tt .tl .ln{margin:10px auto;background:linear-gradient(90deg,transparent,#EAD7A8,transparent)}
+ .tt .tl h1{font-size:clamp(44px,14vw,70px)}.tt .tl p{margin:10px auto 0}
+ .tt .tp{left:16px;right:16px;width:auto;top:auto;bottom:calc(64px + env(safe-area-inset-bottom,0px));transform:none}
+ .tt.in .tp{animation-name:tpinp}@keyframes tpinp{from{opacity:0;transform:translateY(30px)}}
+ .tt.out .tp{transform:translateY(60px)}
+ .tt .tlang{left:0;right:0;justify-content:center;bottom:calc(30px + env(safe-area-inset-bottom,0px))}
+ .tt .tft{left:0;right:0;text-align:center;max-width:none;bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+}
+@media (max-height:420px) and (orientation:landscape){.tt .tp{padding:12px 16px 10px}.tt .inp{padding:7px 4px;margin-bottom:6px}.tt .go{padding:9px}.tt .gst{margin-top:6px;padding:6px}.tt .tabs{margin-bottom:8px}.tt .tabs button{font-size:17px}.tt .tl p{display:none}}
 </style>
 </head>
 <body>
@@ -420,7 +481,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=4"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=5"><\/script>');
 })();
 </script>
 <script>
@@ -441,7 +502,7 @@ const rnd = (a, b) => a + Math.random() * (b - a);
 const pick = a => a[Math.floor(Math.random() * a.length)];
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 const fmt = n => Math.floor(n).toLocaleString({ vi:'vi-VN', en:'en-US', zh:'zh-CN', ja:'ja-JP', ko:'ko-KR', th:'th-TH', id:'id-ID', es:'es-ES', pt:'pt-BR' }[LANG] || 'en-US');
-const EMBLEM = document.querySelector('link[rel=icon]').href;
+const EMBLEM = 'icon-512.png';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const store = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }, del(k){ try{ localStorage.removeItem(k); }catch(e){} } };
 function mulberry(a){ return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
@@ -2497,33 +2558,87 @@ function loop(now){
 }
 
 /* ======================= VÀO GAME ======================= */
+function titleScene(c){
+  const R = mulberry(77), stars = [...Array(90)].map(() => [R(), R() * .62, R() * 6, R() < .15]);
+  const ridge = (seed, amp, base) => { const r = mulberry(seed), pts = [...Array(64)].map(() => r()); return x => { const k = ((x % 64) + 64) % 64, i = Math.floor(k), f = k - i, a = pts[i], b = pts[(i + 1) % 64]; return [base, (a + (b - a) * (f * f * (3 - 2 * f))) * amp]; }; };
+  const L = [[ridge(3, 26, .67), '#2E2448', .9], [ridge(9, 30, .78), '#1E1832', 1.8], [ridge(21, 22, .9), '#110D1E', 3.4]];
+  const mist = [...Array(7)].map(() => [R(), .5 + R() * .4, 40 + R() * 70, .3 + R() * .5]);
+  const motes = [...Array(40)].map(() => [R(), R(), .02 + R() * .04, R() * 6, R() < .5]);
+  const pet = [...Array(14)].map(() => [R(), R(), .03 + R() * .03, R() * 6]);
+  let t0 = performance.now(), raf;
+  const draw = now => {
+    if(!c.isConnected) return cancelAnimationFrame(raf);
+    const t = (now - t0) / 1000, cw = Math.max(1, c.clientWidth), ch = Math.max(1, c.clientHeight), W = cw >= ch ? Math.round(180 * cw / ch) : 180, H = cw >= ch ? 180 : Math.round(180 * ch / cw), sc = Math.min(W, H) / 180;
+    if(c.width !== W || c.height !== H){ c.width = W; c.height = H; }
+    const x = c.getContext('2d'); x.imageSmoothingEnabled = false;
+    const sky = x.createLinearGradient(0, 0, 0, H); sky.addColorStop(0, '#07061A'); sky.addColorStop(.55, '#231A3E'); sky.addColorStop(.85, '#4A3360'); sky.addColorStop(1, '#5E3E64'); x.fillStyle = sky; x.fillRect(0, 0, W, H);
+    for(const [sx, sy, ph, big] of stars){ const a = .35 + .65 * Math.abs(Math.sin(t * .8 + ph)); x.globalAlpha = a; x.fillStyle = big ? '#FFE7B0' : '#CFC4F0'; x.fillRect(Math.floor(sx * W), Math.floor(sy * H), big ? 2 : 1, big ? 2 : 1); }
+    x.globalAlpha = 1;
+    const portrait = H > W, mx = Math.round(W * (portrait ? .5 : .45)), my = Math.round(portrait ? H * .4 : 44), mr = portrait ? 26 : 24;
+    c.dataset.mx = (mx / W * 100).toFixed(1); c.dataset.my = (my / H * 100).toFixed(1);
+    const hg = x.createRadialGradient(mx, my, mr * .6, mx, my, mr * 3.2); hg.addColorStop(0, 'rgba(255,230,180,.35)'); hg.addColorStop(1, 'rgba(255,230,180,0)'); x.fillStyle = hg; x.fillRect(0, 0, W, H);
+    for(let yy = -mr; yy <= mr; yy++){ const w = Math.floor(Math.sqrt(mr * mr - yy * yy)); x.fillStyle = Math.abs(yy) > mr - 2 ? '#DCCBA4' : '#F4E8C8'; x.fillRect(mx - w, my + yy, w * 2, 1); }
+    x.fillStyle = 'rgba(200,180,140,.5)'; [[-8, -6, 4], [6, 4, 5], [-3, 9, 3], [10, -9, 2]].forEach(([a, b, r]) => x.fillRect(mx + a * mr / 26, my + b * mr / 26, r, r));
+    // người ngự kiếm bay ngang trăng
+    const cyc = (t + 4) % 14, fx = -30 + cyc / 14 * (W + 60), fy = my + 14 - Math.sin(cyc / 14 * Math.PI) * 30;
+    if(cyc < 14){ x.fillStyle = 'rgba(255,214,120,.35)'; for(let k = 1; k < 18; k++) x.fillRect(Math.floor(fx - k * 2), Math.floor(fy + 3 + k * .15), 2, 1); x.fillStyle = '#E8ECF6'; x.fillRect(Math.floor(fx - 6), Math.floor(fy + 3), 12, 1); x.fillStyle = '#F2C14E'; x.fillRect(Math.floor(fx - 6), Math.floor(fy + 3), 2, 1);
+      x.fillStyle = '#0E0A18'; x.fillRect(Math.floor(fx - 1), Math.floor(fy - 6), 3, 9); x.fillRect(Math.floor(fx - 2), Math.floor(fy - 1), 5, 4); x.fillRect(Math.floor(fx), Math.floor(fy - 8), 2, 2); x.fillRect(Math.floor(fx - 3 - Math.sin(t * 6)), Math.floor(fy - 4), 2, 1); }
+    // núi ba lớp trôi chậm
+    L.forEach(([f, col, sp], li) => { x.fillStyle = col; const off = t * sp; for(let X = 0; X < W; X++){ const [b0, a0] = f((X + off) / 9), y = Math.floor(b0 * (portrait ? .86 : 1) * H - a0 * sc); x.fillRect(X, y, 1, H - y); }
+      if(li === 0){ x.fillStyle = 'rgba(255,220,170,.08)'; for(let X = 0; X < W; X++){ const [b0, a0] = f((X + off) / 9), y = Math.floor(b0 * (portrait ? .86 : 1) * H - a0 * sc); x.fillRect(X, y, 1, 1); } }
+      if(li === 1){ const bx = Math.floor((W * .2 - off * 1) % (W + 80) + W + 80) % (W + 80) - 40, by = (([b0, a0]) => Math.floor(b0 * (portrait ? .86 : 1) * H - a0 * sc))(f((bx + off) / 9));
+        x.fillStyle = col; x.fillRect(bx - 1, by - 22, 3, 22); [[0, 12], [6, 10], [12, 8], [18, 6]].forEach(([dy, w]) => { x.fillRect(bx - w, by - 6 - dy, w * 2 + 1, 2); x.fillRect(bx - w - 2, by - 7 - dy, 2, 1); x.fillRect(bx + w + 1, by - 7 - dy, 2, 1); x.fillRect(bx - Math.floor(w * .6), by - 4 - dy, Math.floor(w * 1.2) + 1, 4); });
+        x.fillStyle = 'rgba(255,200,110,.85)'; [[-4, -9], [3, -9], [0, -15], [-2, -21]].forEach(([a, b]) => x.fillRect(bx + a, by + b, 1, 1)); } });
+    // mây mù
+    for(const [mxr, myr, w, sp] of mist){ const X = ((mxr * (W + w * 2) + t * sp * 6) % (W + w * 2)) - w, Y = myr * H; const g = x.createRadialGradient(X, Y, 1, X, Y, w); g.addColorStop(0, 'rgba(200,190,230,.10)'); g.addColorStop(1, 'rgba(200,190,230,0)'); x.fillStyle = g; x.fillRect(X - w, Y - w / 3, w * 2, w * .66); }
+    // linh khí bay lên
+    for(const m of motes){ const X = (m[0] * W + Math.sin(t * .7 + m[3]) * 4), Y = ((m[1] - t * m[2]) % 1 + 1) % 1 * H; x.globalAlpha = .4 + .4 * Math.sin(t * 2 + m[3]); x.fillStyle = m[4] ? '#F2C14E' : '#B89CFF'; x.fillRect(Math.floor(X), Math.floor(Y), 1, 1); }
+    // cánh hoa rơi
+    x.globalAlpha = .8; for(const q of pet){ const X = ((q[0] * W + t * 9 + Math.sin(t + q[3]) * 6) % W + W) % W, Y = ((q[1] + t * q[2]) % 1) * H; x.fillStyle = '#E8A0B8'; x.fillRect(Math.floor(X), Math.floor(Y), 2, 1); }
+    x.globalAlpha = 1;
+    // cây thông tiền cảnh
+    x.fillStyle = '#07050D'; [[.04, 46], [.1, 34], [.93, 52], [.985, 38]].forEach(([px, h]) => { const X = Math.floor(px * W), sway = Math.round(Math.sin(t * .8 + px * 9)); x.fillRect(X, H - h, 2, h); for(let k = 0; k < h - 8; k += 4){ const w = Math.floor((h - k) / 5); x.fillRect(X - w + (k > h * .5 ? sway : 0), H - h + k + 4, w * 2 + 2, 2); } });
+    raf = requestAnimationFrame(draw);
+  };
+  raf = requestAnimationFrame(draw);
+}
+function leaveTitle(cb){
+  const tt = document.querySelector('.tt'); if(!tt){ cb(); return; }
+  const cv = tt.querySelector('.tsc'), ox = (cv && cv.dataset.mx || 50) + '%', oy = (cv && cv.dataset.my || 30) + '%'; if(cv) cv.style.transformOrigin = `${ox} ${oy}`;
+  tt.classList.remove('in'); tt.classList.add('out'); sfx.whoosh ? sfx.whoosh() : sfx.tap();
+  const w = document.createElement('div'); w.className = 'wipe'; w.innerHTML = '<i></i>'; w.style.setProperty('--ox', ox); w.style.setProperty('--oy', oy); document.body.appendChild(w);
+  setTimeout(() => w.classList.add('on'), 650);
+  setTimeout(() => { closeSheet(); cb(); setTimeout(() => { w.classList.add('off'); setTimeout(() => w.remove(), 950); }, 120); }, 1600);
+}
 function loginSheet(msg){
   let mode = 'in';
-  const draw = () => {
-    sheet(`<div class="logo"><img src="${EMBLEM}" alt=""><b>IMMORTAL ASCENT</b><span>${Lx("TIÊN ĐỒ · TU TIÊN ONLINE")}</span></div><div class="lgbar">${LANGS.map(([c, n, f]) => `<button type="button" data-lq="${c}" class="${c === LANG ? 'on' : ''}" title="${n}" aria-label="${n}">${f}</button>`).join('')}</div>
-      <div class="seg"><button data-m="in" class="${mode === 'in' ? 'on' : ''}">${Lx("Đăng nhập")}</button><button data-m="up" class="${mode === 'up' ? 'on' : ''}">${Lx("Đăng ký")}</button></div>
+  const title = 'IMMORTAL ASCENT'.split(' ').map((wd, wi) => [...wd].map((ch, i) => `<span style="animation-delay:${.35 + wi * .25 + i * .06}s">${ch}</span>`).join('')).join('<br>');
+  const bg = sheet(`<canvas class="tsc"></canvas><div class="vig"></div>
+    <div class="tl"><small>${Lx("TIÊN ĐỒ · TU TIÊN ONLINE")}</small><div class="ln"></div><h1>${title}</h1><p>${Lx("Một kiếm, một đời, một con đường thành tiên.")}</p></div>
+    <div class="tp"><div class="tabs"><button type="button" data-m="in" class="on">${Lx("Đăng nhập")}</button><button type="button" data-m="up">${Lx("Đăng ký")}</button></div>
       <form id="lf"><input class="inp" id="lu" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="${Lx("Tên đăng nhập (dùng chung game Đậu Hủ Thúi)")}" maxlength="40">
-      <input class="inp" id="lp" type="password" autocomplete="${mode === 'up' ? 'new-password' : 'current-password'}" placeholder="${Lx("Mật khẩu (ít nhất 6 ký tự)")}">
-      ${mode === 'up' ? Lx("<input class=\"inp\" id=\"lp2\" type=\"password\" autocomplete=\"new-password\" placeholder=\"Nhập lại mật khẩu\">") : ''}
+      <input class="inp" id="lp" type="password" autocomplete="current-password" placeholder="${Lx("Mật khẩu (ít nhất 6 ký tự)")}">
+      <div class="x2">${Lx("<input class=\"inp\" id=\"lp2\" type=\"password\" autocomplete=\"new-password\" placeholder=\"Nhập lại mật khẩu\">")}</div>
       <div class="msg" id="lm">${esc(msg || '')}</div>
-      <button class="btn gold" id="lgo">${mode === 'up' ? Lx("Tạo tài khoản & nhập đạo") : Lx("Đăng nhập & vào game")}</button></form>
-      <button class="btn alt" id="guest">${Lx("Chơi thử offline (không cần tài khoản)")}</button>
-      <p class="sub" style="text-align:center;margin-top:10px">${Lx("Trò chơi giải trí, mọi nhân vật, môn phái và sự kiện đều là hư cấu.")}</p>`, { dismiss:false });
-    document.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { mode = b.dataset.m; draw(); });
-    document.querySelectorAll('[data-lq]').forEach(b => b.onclick = () => { if(b.dataset.lq !== LANG) setLang(b.dataset.lq); });
-    $('#guest').onclick = () => { closeSheet(); startGame(null); };
-    $('#lf').onsubmit = async e => {
-      e.preventDefault(); const u = $('#lu').value.trim(), p = $('#lp').value, say = t => $('#lm').textContent = t;
-      if(!Net.A) return say(Lx("Chưa kết nối được máy chủ, thử chơi offline nha"));
-      if(mode === 'up' && !/^[a-zA-Z0-9_.]{3,20}$/.test(u)) return say(Lx("Tên đăng nhập 3–20 ký tự, chữ không dấu, số, _ hoặc ."));
-      if(p.length < 6) return say(Lx("Mật khẩu cần ít nhất 6 ký tự"));
-      if(mode === 'up' && p !== $('#lp2').value) return say(Lx("Hai mật khẩu chưa khớp"));
-      say(Lx("Đang xử lý…")); $('#lgo').disabled = true;
-      try{ const user = await Net.login(u, p, mode === 'up'); closeSheet(); startGame(user); }
-      catch(err){ $('#lgo').disabled = false; say({ 'auth/invalid-credential':Lx("Sai tên đăng nhập hoặc mật khẩu"), 'auth/wrong-password':Lx("Sai mật khẩu"), 'auth/user-not-found':Lx("Chưa có tài khoản này, bấm Đăng ký"), 'auth/email-already-in-use':Lx("Tên này đã có người dùng"), 'auth/too-many-requests':Lx("Thử sai nhiều quá, đợi một lát nha"), 'auth/network-request-failed':Lx("Mất mạng, thử lại nha") }[err.code] || (Lx("Có lỗi: ") + (err.code || err.message))); }
-    };
+      <button class="go" id="lgo">${Lx("Đăng nhập & vào game")}</button></form>
+      <button type="button" class="gst" id="guest">${Lx("Chơi thử offline (không cần tài khoản)")}</button></div>
+    <div class="tlang">${LANGS.map(([c, n, f]) => `<button type="button" data-lq="${c}" class="${c === LANG ? 'on' : ''}" title="${n}" aria-label="${n}">${f}</button>`).join('')}</div>
+    <div class="tft">${Lx("Trò chơi giải trí, mọi nhân vật, môn phái và sự kiện đều là hư cấu.")}<br>© Nguyễn Tiến</div>`, { dismiss:false });
+  bg.classList.add('ttlbg'); const tt = bg.firstElementChild; tt.className = 'tt in'; titleScene(tt.querySelector('.tsc'));
+  const setMode = m => { mode = m; document.querySelectorAll('[data-m]').forEach(b => b.classList.toggle('on', b.dataset.m === m)); $('.tt .x2').classList.toggle('on', m === 'up'); $('#lp').autocomplete = m === 'up' ? 'new-password' : 'current-password'; $('#lgo').textContent = m === 'up' ? Lx("Tạo tài khoản & nhập đạo") : Lx("Đăng nhập & vào game"); $('#lm').textContent = ''; };
+  document.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { sfx.tap(); setMode(b.dataset.m); });
+  document.querySelectorAll('[data-lq]').forEach(b => b.onclick = () => { if(b.dataset.lq !== LANG) setLang(b.dataset.lq); });
+  $('#guest').onclick = () => leaveTitle(() => startGame(null));
+  $('#lf').onsubmit = async e => {
+    e.preventDefault(); const u = $('#lu').value.trim(), p = $('#lp').value, say = t => $('#lm').textContent = t;
+    if(!Net.A) return say(Lx("Chưa kết nối được máy chủ, thử chơi offline nha"));
+    if(mode === 'up' && !/^[a-zA-Z0-9_.]{3,20}$/.test(u)) return say(Lx("Tên đăng nhập 3–20 ký tự, chữ không dấu, số, _ hoặc ."));
+    if(p.length < 6) return say(Lx("Mật khẩu cần ít nhất 6 ký tự"));
+    if(mode === 'up' && p !== $('#lp2').value) return say(Lx("Hai mật khẩu chưa khớp"));
+    say(Lx("Đang xử lý…")); $('#lgo').disabled = true;
+    try{ const user = await Net.login(u, p, mode === 'up'); leaveTitle(() => startGame(user)); }
+    catch(err){ $('#lgo').disabled = false; say({ 'auth/invalid-credential':Lx("Sai tên đăng nhập hoặc mật khẩu"), 'auth/wrong-password':Lx("Sai mật khẩu"), 'auth/user-not-found':Lx("Chưa có tài khoản này, bấm Đăng ký"), 'auth/email-already-in-use':Lx("Tên này đã có người dùng"), 'auth/too-many-requests':Lx("Thử sai nhiều quá, đợi một lát nha"), 'auth/network-request-failed':Lx("Mất mạng, thử lại nha") }[err.code] || (Lx("Có lỗi: ") + (err.code || err.message))); }
   };
-  draw();
 }
 let fsKey = null, fsCol = '#EAD7A8';
 function morph(a, b){
