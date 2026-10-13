@@ -69,6 +69,7 @@ button[disabled]{opacity:.4;cursor:default}
 #bossbar .bb{position:relative;height:12px;margin-top:3px;background:#120C1C;border:1px solid #000;border-radius:3px;box-shadow:0 0 0 1px #8A2A2A,0 0 12px rgba(255,40,40,.35);overflow:hidden}
 #bossbar .bb i{position:absolute;left:0;top:0;bottom:0}#bbW{background:#F5EEDC;transition:width .6s .25s}#bbI{background:linear-gradient(#FF5A4A,#A81A1A)}
 #bossbar .bb u{position:absolute;top:0;bottom:0;width:2px;background:rgba(255,231,168,.85);box-shadow:0 0 4px #000;z-index:2}#bossbar .bb .pm1{left:33.33%}#bossbar .bb .pm2{left:66.66%}
+#bossbar.mini .bb u{display:none}#bossbar.mini b{color:#FFD25A}#bossbar.mini .bb{height:9px}
 #bossbar.p3 .bb{animation:bbp3 .35s infinite alternate}@keyframes bbp3{to{box-shadow:0 0 0 1px #B04AFF,0 0 22px rgba(176,74,255,.9)}}#bossbar.p3 b{color:#D9B8FF}
 #bossbar.p2 .bb{animation:bbp .5s infinite alternate}@keyframes bbp{to{box-shadow:0 0 0 1px #FF5A4A,0 0 18px rgba(255,60,40,.8)}}
 #bbP{position:absolute;inset:0;font-size:9px;line-height:11px;font-weight:800;color:#fff;text-shadow:0 1px 0 #000}
@@ -594,6 +595,18 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 #track .trm .ci{font-size:16px}#track .trm .g{flex:1;min-width:0}#track .trm .g b{display:block;font-size:12.5px;color:#FFF6E0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#track .trm .g b small{display:inline;font-weight:400}#track .trm .g small{display:block;font-size:10.5px;color:var(--paper2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #track .trm i{display:block;height:3px;margin-top:2px;background:#3A2030;border-radius:2px;overflow:hidden}#track .trm i u{display:block;height:100%;background:#E0453A}
 #track .trm .go{font-style:normal;color:#7FC8FF;font-size:12px}
+
+/* Bí Cảnh */
+.bcl{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;margin:6px 0}
+.bcc{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:8px;text-align:left;color:var(--paper);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;cursor:pointer}
+.bcc i{font-style:normal;font-size:22px}.bcc b{font-family:var(--serif);font-size:15px}.bcc small{font-size:10.5px;color:var(--paper2)}.bcc .st{color:#F2C14E;letter-spacing:1px}
+.bcc.on{border-color:#C99BFF;background:rgba(176,74,255,.16);box-shadow:0 0 0 1px #C99BFF inset}.bcc.lk{opacity:.5}
+.bcd{padding:10px;border:1px solid rgba(201,155,255,.35);border-radius:6px;background:rgba(20,10,30,.45)}.bcd p{margin:6px 0;font-size:12.5px;color:#E9E4D8}
+.bch b{display:block;font-family:var(--serif);font-size:19px;color:#EBD6A6}.bch small{font-size:11px;color:var(--paper2)}
+.bcdf{display:flex;gap:6px;margin:8px 0 2px}.bcdf button{flex:1;padding:7px 4px;color:var(--dc);font-weight:800;font-size:13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:4px;cursor:pointer}
+.bcdf button small{display:block;font-size:9.5px;font-weight:600;color:var(--paper2)}.bcdf button.on{border-color:var(--dc);background:color-mix(in srgb,var(--dc) 18%,transparent)}.bcdf button:disabled{opacity:.45}
+.bcwin{text-align:center}.bcwin small{letter-spacing:4px;color:#F2C14E;font-weight:800;font-size:11px}.bcwin h2{margin:4px 0}
+.bcrw{display:grid;grid-template-columns:1fr 1fr;gap:5px 10px;text-align:left;margin:10px 0;padding:10px;background:rgba(242,193,78,.07);border:1px solid rgba(242,193,78,.3);border-radius:6px}.bcrw div{display:flex;align-items:center;gap:6px;font-size:12.5px;min-width:0}.bcrw span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* ===== NHIỆM VỤ DỄ ĐỌC ===== */
 #track{padding:7px 12px 8px 10px!important;background:linear-gradient(90deg,rgba(8,8,12,.62),rgba(8,8,12,.38) 70%,rgba(8,8,12,0))!important;border-left:2px solid rgba(217,185,122,.7);max-width:250px!important}
 #track .qk{font-size:14px!important}#track .qk b{font-weight:700!important;color:#FFF6E0!important}
@@ -654,7 +667,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=18"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=19"><\/script>');
 })();
 </script>
 <script>
@@ -688,7 +701,7 @@ const MAJORS = [
 ];
 const SUBS = [Lx("Sơ Kỳ"), Lx("Trung Kỳ"), Lx("Hậu Kỳ"), Lx("Đại Viên Mãn")];
 const MAX_STAGE = 37;
-const majorOf = s => MAJORS.find(m => s >= m.from && s <= m.to);
+const majorOf = s => MAJORS.find(m => s >= m.from && s <= m.to) || MAJORS[s < 0 ? 0 : MAJORS.length - 1];
 function realmName(s){ return `Lv ${s + 1} · ${majorOf(s).n}`; }
 function realmFull(s){ const m = majorOf(s); if(m.n === Lx("Luyện Khí")) return `${Lx("Luyện Khí Tầng {0}", s + 1)}`; if(m.from === m.to) return m.n; return `${m.n} ${SUBS[s - m.from]}`; }
 const isGate = s => s < MAX_STAGE && majorOf(s).to === s; // cuối đại cảnh giới phải đột phá
@@ -750,6 +763,23 @@ const MOBS = {
   satrung:{ n:Lx("Sa Trùng"), L:29, sp:30, w:20, h:18, drop:[['mp', .3], ['h6', .007], ['wi3', .01], ['a5', .015]] },
   xacuop:{ n:Lx("Cổ Thi Vương Vệ"), L:32, sp:36, w:14, h:22, drop:[['hp', .3], ['w6', .008], ['a6', .008], ['wi4', .003]] },
   mavuong:{ n:Lx("Xích Viêm Ma Tôn"), title:Lx("Chúa Tể Luyện Ngục · Dung Nham Điện"), L:24, sp:40, w:50, h:32, boss:1, hpM:16, atkM:1.35, re:240, drop:[['pc', 1], ['wi4', .2], ['w6', .25], ['a6', .25], ['h6', .25], ['wi3', .3], ['x2', 1], ['ty:m_rong', .06], ['ty:p_kylan', .1]] },
+  // tiểu boss (một pha)
+  chumau:{ n:Lx("Độc Chu Mẫu"), title:Lx("Tiểu Boss · Tổ nhện phía bắc"), L:9, sp:40, w:34, h:22, boss:1, mini:1, hpM:5, atkM:1.25, re:90, base:'nhen', tn:{ h:282, s:1.15 }, sc:2, drop:[['w3', .3], ['a3', .25], ['ty:w_tien', .06], ['x2', .4], ['mp', .6]] },
+  kiemthanh:{ n:Lx("Cốt Kiếm Thánh"), title:Lx("Tiểu Boss · Nghĩa địa kiếm"), L:20, sp:46, w:26, h:36, boss:1, mini:1, hpM:5, atkM:1.35, re:90, base:'xuong', tn:{ h:46, s:.7, l:.06 }, sc:1.9, drop:[['w5', .2], ['a5', .15], ['wi3', .06], ['x2', .5], ['hp', .6]] },
+  trungvuong:{ n:Lx("Sa Trùng Vương"), title:Lx("Tiểu Boss · Đụn cát phía đông"), L:30, sp:34, w:40, h:34, boss:1, mini:1, hpM:5.5, atkM:1.35, re:90, base:'satrung', tn:{ h:24, s:1.25, l:-.04 }, sc:2.1, drop:[['w6', .08], ['a5', .2], ['h6', .06], ['x2', .5], ['mp', .6]] },
+  langvuong:{ n:Lx("Tuyết Lang Vương"), title:Lx("Tiểu Boss · Băng Nguyên"), L:35, sp:52, w:34, h:24, boss:1, mini:1, hpM:5.5, atkM:1.4, re:90, base:'soi', tn:{ h:205, s:.3, l:.26 }, sc:1.9, drop:[['w6', .15], ['a6', .12], ['h6', .1], ['x2', .6], ['hp', .8]] },
+  quytuong:{ n:Lx("Thủy Quỷ Tướng"), title:Lx("Tiểu Boss · Hắc Thủy Đầm"), L:39, sp:44, w:28, h:32, boss:1, mini:1, hpM:6, atkM:1.45, re:90, base:'quy', tn:{ h:168, s:1.1 }, sc:2, drop:[['w6', .2], ['a6', .18], ['h6', .15], ['x2', .6], ['pc', .25]] },
+  // boss lớn mới (ba pha)
+  thivuong:{ n:Lx("Cổ Mộ Thi Vương"), title:Lx("Chủ Nhân Cổ Mộ · Hoàng Sa Cổ Mạc"), L:34, sp:38, w:34, h:52, boss:1, hpM:18, atkM:1.4, re:220, base:'xacuop', tn:{ h:44, s:1.2, l:.04 }, sc:2.5, drop:[['pc', 1], ['w6', .3], ['a6', .3], ['h6', .3], ['wi4', .15], ['x2', 1]] },
+  banglong:{ n:Lx("Băng Phách Long Hậu"), title:Lx("Nữ Hoàng Băng Giá · Băng Nguyên Tuyết Vực"), L:38, sp:42, w:66, h:30, boss:1, hpM:20, atkM:1.45, re:240, base:'mt:rong', pal:['#CFEFFF', '#5E9AD8', '#FFFFFF', '#5EB8FF'], sc:1.8, drop:[['pc', 1], ['pc', .6], ['w6', .4], ['a6', .4], ['h6', .35], ['wi2', .3], ['ty:m_vlong', .08], ['x2', 1]] },
+  doclong:{ n:Lx("Cửu U Độc Long"), title:Lx("Kẻ Gieo Độc · Hắc Thủy Đầm"), L:42, sp:40, w:60, h:30, boss:1, hpM:22, atkM:1.5, re:260, base:'mt:long', pal:['#5A8A3A', '#2A4A1E', '#C8E07A', '#9A4AFF'], nc:1, sc:2.1, drop:[['pc', 1], ['pc', 1], ['w6', .5], ['a6', .5], ['h6', .45], ['wi4', .3], ['ty:p_long', .1], ['x2', 1]] },
+  // quái thường bản đồ mới
+  tuyetlang:{ n:Lx("Tuyết Lang"), L:33, sp:52, w:18, h:13, base:'soi', tn:{ h:205, s:.25, l:.24 }, drop:[['hp', .3], ['w6', .006], ['a6', .006]] },
+  bangtinh:{ n:Lx("Băng Tinh"), L:35, sp:36, w:16, h:20, base:'hoama', tn:{ h:196, s:1.1, l:.06 }, drop:[['mp', .3], ['h6', .006], ['wi2', .004]] },
+  tuyethung:{ n:Lx("Băng Thụ Yêu"), L:36, sp:26, w:18, h:22, base:'cay', tn:{ h:190, s:.5, l:.16 }, drop:[['hp', .3], ['a6', .008], ['w6', .006]] },
+  docthiem:{ n:Lx("Độc Thiềm"), L:37, sp:40, w:14, h:12, base:'tho', tn:{ h:96, s:.9, l:-.28 }, drop:[['hp', .3], ['w6', .008], ['h6', .006]] },
+  thuyquy:{ n:Lx("Thủy Quỷ"), L:39, sp:44, w:14, h:16, base:'quy', tn:{ h:170, s:1 }, drop:[['mp', .3], ['a6', .008], ['wi4', .003]] },
+  thima:{ n:Lx("Đầm Thi"), L:40, sp:34, w:14, h:22, base:'xacuop', tn:{ h:105, s:.6, l:-.14 }, drop:[['hp', .3], ['w6', .01], ['a6', .01]] },
 };
 const mobHp = L => Math.round(baseAtk(L) * 6.5);
 const mobAtk = L => baseHp(L) * .095 + baseDef(L) * .6;
@@ -812,6 +842,16 @@ const QUESTS = [
   { t:Lx("Sa Hạt độc vĩ"), d:Lx("Diệt 20 Sa Hạt Yêu giữa sa mạc."), k:'kill', m:'bocap', n:20, rw:{ st:11000, x2:2, item:'h5', ty:'m_vlong' } },
   { t:Lx("Sa Trùng dưới cát"), d:Lx("Diệt 15 Sa Trùng gần ốc đảo."), k:'kill', m:'satrung', n:15, rw:{ st:14000, pc:1 } },
   { t:Lx("Cổ Mộ thức tỉnh"), d:Lx("Diệt 15 Cổ Thi Vương Vệ quanh Kim Tự Tháp."), k:'kill', m:'xacuop', n:15, rw:{ st:20000, pc:2, item:'wi4' } },
+  { t:Lx("Sa Trùng Vương"), d:Lx("Hạ Sa Trùng Vương ở đụn cát phía đông nam Hoàng Sa."), k:'kill', m:'trungvuong', n:1, rw:{ st:22000, pc:1, x2:2 } },
+  { t:Lx("Cổ Mộ Thi Vương"), d:Lx("Phá phong ấn Cổ Mộ, hạ Cổ Mộ Thi Vương trước Kim Tự Tháp."), k:'kill', m:'thivuong', n:1, rw:{ st:30000, pc:2, item:'h6' } },
+  { t:Lx("Băng Nguyên mở cửa"), d:Lx("Đạt Lv 28 rồi đi cổng phía đông Hoàng Sa vào Băng Nguyên Tuyết Vực."), k:'stage', n:27, rw:{ st:32000, hp:20, mp:20 } },
+  { t:Lx("Tuyết Lang đói mồi"), d:Lx("Diệt 20 Tuyết Lang ở Băng Nguyên."), k:'kill', m:'tuyetlang', n:20, rw:{ st:36000, x2:2, item:'a6' } },
+  { t:Lx("Tuyết Lang Vương"), d:Lx("Hạ Tuyết Lang Vương ở phía tây bắc Băng Nguyên."), k:'kill', m:'langvuong', n:1, rw:{ st:40000, pc:1 } },
+  { t:Lx("Băng Phách Long Hậu"), d:Lx("Vào đấu trường băng phía đông, hạ Băng Phách Long Hậu."), k:'kill', m:'banglong', n:1, rw:{ st:52000, pc:2, item:'w6' } },
+  { t:Lx("Đường xuống đầm lầy"), d:Lx("Đạt Lv 32 rồi đi cổng phía nam Băng Nguyên vào Hắc Thủy Đầm."), k:'stage', n:31, rw:{ st:56000, hp:25, mp:25 } },
+  { t:Lx("Độc Thiềm kêu đêm"), d:Lx("Diệt 20 Độc Thiềm ở Hắc Thủy Đầm."), k:'kill', m:'docthiem', n:20, rw:{ st:60000, x2:3 } },
+  { t:Lx("Thủy Quỷ Tướng"), d:Lx("Hạ Thủy Quỷ Tướng giữa đầm lầy."), k:'kill', m:'quytuong', n:1, rw:{ st:66000, pc:1, item:'h6' } },
+  { t:Lx("Cửu U Độc Long"), d:Lx("Đến tế đàn đông nam Hắc Thủy Đầm, hạ Cửu U Độc Long."), k:'kill', m:'doclong', n:1, rw:{ st:90000, pc:3, item:'wi4' } },
 ];
 const _qtbl = 1; QUESTS.forEach(q => q.rw.tbl = (q.rw.tbl || 0) + _qtbl);
 const DAILY = { t:Lx("Trừ ma vệ đạo (hằng ngày)"), d:Lx("Diệt 40 yêu ma bất kỳ."), k:'any', n:40 };
@@ -1086,6 +1126,7 @@ function objSprite(k, v = 0){
 }
 /* ---- quái ---- */
 function mobSprite(k, fr){
+  const DB = MOBS[k]; if(DB && DB.base) return cached('m' + k + fr, () => DB.base.startsWith('mt:') ? mountSprite('mb' + k, fr % 3, { c:DB.pal, f:DB.base.slice(3), nc:DB.nc }) : DB.tn ? tintC(mobSprite(DB.base, fr), DB.tn) : mobSprite(DB.base, fr));
   return cached('m' + k + fr, () => {
     const f = fr % 3;
     switch(k){
@@ -1198,7 +1239,7 @@ function templeSprite(v){
     for(let i = 0; i < Math.floor((W - 16) / 8); i++){ R(10 + i * 8, H - 6, 5, 4, '#E8E4D8'); R(11 + i * 8, H - 5, 1, 1, '#1A1218'); R(13 + i * 8, H - 5, 1, 1, '#1A1218'); }
   });
 }
-function npcLook(k){ return { tong:{ g:'m', hair:'#F2EEF4', robe:'#B0302A', trim:'#F2C14E', beard:1 }, dan:{ g:'f', hair:'#1E1622', robe:'#2E9A70', trim:'#E8E4F0' }, ren:{ g:'m', hair:'#3A2A24', robe:'#6A4628', trim:'#3A2A24', npc:'ren', skin:'#D8A07A' } }[k]; }
+function npcLook(k){ return { tong:{ g:'m', hair:'#F2EEF4', robe:'#B0302A', trim:'#F2C14E', beard:1 }, dan:{ g:'f', hair:'#1E1622', robe:'#2E9A70', trim:'#E8E4F0' }, ren:{ g:'m', hair:'#3A2A24', robe:'#6A4628', trim:'#3A2A24', npc:'ren', skin:'#D8A07A' }, bc:{ g:'f', hair:'#E8E4F0', robe:'#4A2A7A', trim:'#C99BFF' } }[k]; }
 
 /* ---- ô nền 16x16 ---- */
 const TS = 16;
@@ -1322,7 +1363,7 @@ function buildMaps(){
   [[9, 11, 0], [17, 8, 1], [34, 8, 2], [42, 12, 3], [38, 30, 0], [18, 32, 1], [43, 25, 2]].forEach(([x, y, v]) => addObj(M, 'house', x, y, v));
   addObj(M, 'well', 31, 23); addObj(M, 'stall', 29, 25, 0); addObj(M, 'anvil', 19, 24); addObj(M, 'statue', 24, 12);
   [[18, 13], [31, 13], [18, 25], [31, 25]].forEach(([x, y]) => addObj(M, 'lantern', x, y));
-  M.npcs.push({ k:'tong', n:Lx("Tông Chủ Thanh Vân"), x:22 * TS, y:16 * TS }, { k:'dan', n:Lx("Đan Sư Lam Nhi"), x:29 * TS + 10, y:24 * TS + 4 }, { k:'ren', n:Lx("Thợ Rèn Lão Thiết"), x:20 * TS, y:23 * TS + 6 });
+  M.npcs.push({ k:'tong', n:Lx("Tông Chủ Thanh Vân"), x:22 * TS, y:16 * TS }, { k:'dan', n:Lx("Đan Sư Lam Nhi"), x:29 * TS + 10, y:24 * TS + 4 }, { k:'ren', n:Lx("Thợ Rèn Lão Thiết"), x:20 * TS, y:23 * TS + 6 }, { k:'bc', n:Lx("Sứ Giả Bí Cảnh"), x:36 * TS, y:17 * TS });
   M.portals.push({ x:49 * TS, y:20 * TS, to:'rung', tx:2 * TS, ty:24 * TS, label:Lx("Rừng Hắc Mộc") });
   for(let i = 0; i < 26; i++){ addObj(M, 'tree', i * 2, 0, i, true); addObj(M, 'tree', i * 2, 37, i + 1, true); }
   for(let i = 1; i < 19; i++){ addObj(M, 'tree', 0, i * 2, i); if(i * 2 < 18 || i * 2 > 21) addObj(M, 'tree', 49, i * 2, i + 2); }
@@ -1384,8 +1425,72 @@ function buildMaps(){
   M.portals.push({ x:32 * TS + 8, y:1 * TS + 10, to:'rung', tx:40 * TS + 8, ty:44 * TS, label:Lx("Rừng Hắc Mộc") });
   M.spawns.push({ m:'bocap', x:14, y:13, r:6, n:7 }, { m:'bocap', x:42, y:32, r:6, n:6 }, { m:'satrung', x:32, y:35, r:5, n:6 }, { m:'satrung', x:52, y:28, r:4, n:5 }, { m:'xacuop', x:48, y:17, r:5, n:6 }, { m:'xacuop', x:44, y:24, r:3, n:4 });
   MAPS.samac = M;
+  /* --- mở lối đông Hoàng Sa sang Băng Nguyên --- */
+  rect(MAPS.samac, 56, 28, 8, 4, T_.SAND); MAPS.samac.objs = MAPS.samac.objs.filter(o => !(o.x > 55 * TS && o.y > 26 * TS && o.y < 33 * TS));
+  MAPS.samac.portals.push({ x:62 * TS + 8, y:30 * TS, to:'bangnguyen', tx:3 * TS, ty:24 * TS, label:Lx("Băng Nguyên Tuyết Vực"), need:27 });
+  MAPS.samac.spawns.push({ m:'trungvuong', x:50, y:36, r:2, n:1 }, { m:'thivuong', x:48, y:17, r:3, n:1 });
+  MAPS.rung.spawns.push({ m:'chumau', x:52, y:7, r:2, n:1 });
+  MAPS.madien.spawns.push({ m:'kiemthanh', x:11, y:21, r:2, n:1 });
+  /* --- Băng Nguyên Tuyết Vực --- */
+  M = makeMap('bangnguyen', 64, 48, T_.GRASS, 55); M.name = Lx("Băng Nguyên Tuyết Vực"); M.theme = 'snow';
+  M.miniC = MINI_C.slice(); M.miniC[T_.GRASS] = '#E8F0F8'; M.miniC[T_.DGRASS] = '#C8D8E8'; M.miniC[T_.STONE] = '#9AC4E4'; M.miniC[T_.PATH] = '#A8B4C8'; M.miniC[T_.PLAZA] = '#B8C8DC';
+  const SN = makeNoise(91);
+  for(let yy = 0; yy < 48; yy++) for(let xx = 0; xx < 64; xx++) if(SN(xx / 6, yy / 6) > .6) setT(M, xx, yy, T_.DGRASS);
+  for(let xx = 0; xx < 64; xx++){ const h = 2 + Math.round(SN(xx / 4, 3) * 3), h2 = 2 + Math.round(SN(xx / 4, 40) * 3); rect(M, xx, 0, 1, h, T_.ROCK); if(Math.abs(xx - 32) > 2) rect(M, xx, 48 - h2, 1, h2, T_.ROCK); else rect(M, xx, 47, 1, 1, T_.ROCK); }
+  for(let yy = 0; yy < 48; yy++){ const w = 2 + Math.round(SN(3, yy / 4) * 3), w2 = 2 + Math.round(SN(50, yy / 4) * 3); if(Math.abs(yy - 24.5) > 2) rect(M, 0, yy, w, 1, T_.ROCK); else rect(M, 0, yy, 1, 1, T_.ROCK); rect(M, 64 - w2, yy, w2, 1, T_.ROCK); }
+  for(let yy = 14; yy < 32; yy++) for(let xx = 22; xx < 46; xx++) if(((xx - 34) / 10) ** 2 + ((yy - 22) / 6.5) ** 2 + Math.sin(xx * 1.1 + yy * .7) * .06 < 1) setT(M, xx, yy, T_.STONE);
+  y = 24; for(let xx = 0; xx < 50; xx++){ if(getT(M, xx, y) !== T_.STONE) rect(M, xx, y, 1, 2, T_.PATH); if(xx % 5 === 0) y = clamp(y + pick2([-1, 0, 1], M.r), 21, 27); }
+  for(let yy = 26; yy < 46; yy++) rect(M, 31, yy, 2, 1, getT(M, 31, yy) === T_.STONE ? T_.STONE : T_.PATH);
+  for(let yy = 15; yy < 34; yy++) for(let xx = 47; xx < 62; xx++) if(((xx - 54) / 7) ** 2 + ((yy - 24) / 7) ** 2 < 1) setT(M, xx, yy, T_.PLAZA);
+  [[14, 8, 3, 2], [8, 38, 2, 2], [44, 40, 3, 2], [20, 32, 2, 2]].forEach(([x, yy, w, h]) => rect(M, x, yy, w, h, T_.ROCK));
+  [[49, 18], [59, 18], [49, 30], [59, 30], [47, 24], [61, 24]].forEach(([x, yy], i) => addObj(M, 'pillar', x, yy, i % 2));
+  addObj(M, 'obelisk', 52, 17); addObj(M, 'obelisk', 56, 17);
+  for(let i = 0; i < 200; i++){ const x = 3 + Math.floor(M.r() * 58), yy = 3 + Math.floor(M.r() * 42); if(freeAt(M, x, yy, 1) && getT(M, x, yy) !== T_.STONE && getT(M, x, yy) !== T_.PLAZA && !(x < 6 && Math.abs(yy - 24) < 4) && !(Math.abs(x - 32) < 3 && yy > 42)) addObj(M, pick2(['pine', 'pine', 'pine', 'rock', 'dead'], M.r), x, yy, i, true); }
+  M.portals.push({ x:1 * TS + 4, y:24 * TS + 8, to:'samac', tx:60 * TS, ty:30 * TS, label:Lx("Hoàng Sa Cổ Mạc") }, { x:32 * TS, y:46 * TS + 8, to:'damlay', tx:32 * TS, ty:4 * TS, label:Lx("Hắc Thủy Đầm"), need:31 });
+  M.spawns.push({ m:'tuyetlang', x:14, y:14, r:6, n:6 }, { m:'tuyetlang', x:16, y:36, r:6, n:6 }, { m:'bangtinh', x:34, y:20, r:7, n:7 }, { m:'bangtinh', x:44, y:10, r:4, n:4 }, { m:'tuyethung', x:42, y:38, r:6, n:6 }, { m:'langvuong', x:24, y:12, r:2, n:1 }, { m:'banglong', x:55, y:24, r:1, n:1 });
+  MAPS.bangnguyen = M;
+  /* --- Hắc Thủy Đầm --- */
+  M = makeMap('damlay', 64, 48, T_.DGRASS, 66); M.name = Lx("Hắc Thủy Đầm"); M.theme = 'swamp';
+  M.miniC = MINI_C.slice(); M.miniC[T_.GRASS] = '#3A5A30'; M.miniC[T_.DGRASS] = '#2A4424'; M.miniC[T_.WATER] = '#2E4A2A'; M.miniC[T_.PATH] = '#5A4A30';
+  const WN = makeNoise(123);
+  for(let yy = 0; yy < 48; yy++) for(let xx = 0; xx < 64; xx++){ const v = WN(xx / 5, yy / 5); if(v > .6) setT(M, xx, yy, T_.WATER); else if(v < .3) setT(M, xx, yy, T_.GRASS); }
+  for(let xx = 0; xx < 64; xx++){ const h = 2 + Math.round(WN(xx / 4, 3) * 3), h2 = 2 + Math.round(WN(xx / 4, 40) * 3); if(Math.abs(xx - 32) > 2) rect(M, xx, 0, 1, h, T_.ROCK); else rect(M, xx, 0, 1, 1, T_.ROCK); rect(M, xx, 48 - h2, 1, h2, T_.ROCK); }
+  for(let yy = 0; yy < 48; yy++){ const w = 2 + Math.round(WN(3, yy / 4) * 3), w2 = 2 + Math.round(WN(50, yy / 4) * 3); rect(M, 0, yy, w, 1, T_.ROCK); rect(M, 64 - w2, yy, w2, 1, T_.ROCK); }
+  rect(M, 28, 1, 9, 5, T_.DGRASS);
+  let px = 32; for(let yy = 1; yy < 38; yy++){ for(let w = 0; w < 2; w++) setT(M, px + w, yy, getT(M, px + w, yy) === T_.WATER ? T_.WOOD : T_.PATH); if(yy % 4 === 0) px = clamp(px + pick2([-1, 0, 1], M.r), 26, 38); }
+  for(let xx = px; xx < 52; xx++) for(let w = 0; w < 2; w++) setT(M, xx, 37 + w, getT(M, xx, 37 + w) === T_.WATER ? T_.WOOD : T_.PATH);
+  for(let yy = 28; yy < 47; yy++) for(let xx = 40; xx < 62; xx++){ const d = ((xx - 51) / 9) ** 2 + ((yy - 37) / 8) ** 2; if(d < .62) setT(M, xx, yy, T_.PLAZA); else if(d < 1 && getT(M, xx, yy) !== T_.ROCK) setT(M, xx, yy, T_.DGRASS); }
+  [[44, 32], [58, 32], [44, 42], [58, 42]].forEach(([x, yy], i) => addObj(M, 'pillar', x, yy, i % 2)); [[47, 31], [55, 31]].forEach(([x, yy]) => addObj(M, 'skulls', x, yy));
+  for(let i = 0; i < 160; i++){ const x = 3 + Math.floor(M.r() * 58), yy = 3 + Math.floor(M.r() * 42), t = getT(M, x, yy);
+    if(t === T_.WATER){ if(M.r() < .25) addObj(M, M.r() < .5 ? 'lily' : 'reed', x, yy, i, false, 8, 8); continue; }
+    if(freeAt(M, x, yy, 1) && t !== T_.PLAZA && !(Math.abs(x - 32) < 5 && yy < 7)) addObj(M, pick2(['dead', 'dead', 'mush', 'tree', 'lrock'], M.r), x, yy, i, true); }
+  M.portals.push({ x:32 * TS + 8, y:1 * TS + 10, to:'bangnguyen', tx:32 * TS, ty:44 * TS, label:Lx("Băng Nguyên Tuyết Vực") });
+  M.spawns.push({ m:'docthiem', x:16, y:12, r:6, n:7 }, { m:'docthiem', x:46, y:14, r:6, n:6 }, { m:'thuyquy', x:14, y:32, r:6, n:6 }, { m:'thuyquy', x:26, y:42, r:4, n:4 }, { m:'thima', x:40, y:24, r:6, n:6 }, { m:'quytuong', x:20, y:22, r:3, n:1 }, { m:'doclong', x:51, y:37, r:1, n:1 });
+  MAPS.damlay = M;
   for(const k in MAPS) bakeMap(MAPS[k]);
   initWps();
+}
+const THM = new Map();
+function themePix(th, d, obj){
+  for(let i = 0; i < d.length; i += 4){ if(!d[i + 3]) continue; const r = d[i], g = d[i + 1], b = d[i + 2], L = r * .3 + g * .59 + b * .11; let R = r, G = g, B = b;
+    if(th === 'snow'){
+      if(g > r + 6 && g >= b){ const v = obj ? null : 168 + L * .5; if(obj){ R = r * .5 + 120; G = g * .5 + 128; B = b * .5 + 140; } else { R = v - 8; G = v; B = v + 14; } }
+      else if(r > g && g > b && r - b > 28){ R = L * .75 + 46; G = L * .8 + 52; B = L * .85 + 72; }
+      else if(b > r + 20){ R = L * .5 + 120; G = L * .5 + 150; B = L * .4 + 180; }
+      else if(!obj){ R = L * .8 + 32; G = L * .85 + 42; B = L * .9 + 62; }
+    } else {
+      if(g > r + 4 && g >= b){ R = r * .48 + 16; G = g * .56 + 10; B = b * .5 + 24; }
+      else if(r > g && g > b){ R = r * .62 + 8; G = g * .6 + 8; B = b * .55 + 6; }
+      else if(b > r + 20){ R = r * .4 + 24; G = g * .5 + 40; B = b * .3 + 18; }
+      else { R = r * .75; G = g * .75; B = b * .8; }
+    }
+    d[i] = Math.max(0, Math.min(255, R)); d[i + 1] = Math.max(0, Math.min(255, G)); d[i + 2] = Math.max(0, Math.min(255, B)); }
+}
+function themeSpr(c, th){ const k = th; let m = THM.get(c); if(m && m[k]) return m[k]; if(!m) THM.set(c, m = {}); const o = cnv(c.width, c.height), x = o.getContext('2d'); x.drawImage(c, 0, 0); const im = x.getImageData(0, 0, o.width, o.height); themePix(th, im.data, 1); x.putImageData(im, 0, 0); return (m[k] = o); }
+function themeBake(M){
+  for(const c of M.layers){ const x = c.getContext('2d'), im = x.getImageData(0, 0, c.width, c.height); themePix(M.theme, im.data, 0); x.putImageData(im, 0, 0); }
+  for(const o of M.objs) if(o.s) o.s = themeSpr(o.s, M.theme);
+  for(const o of (M.flat || [])) if(o.s) o.s = themeSpr(o.s, M.theme);
 }
 function bakeMap(M){
   if(!WTEX){ WTEX = animTex('w'); LTEX = animTex('l'); }
@@ -1412,9 +1517,11 @@ function bakeMap(M){
   M.og = new Map();
   for(const o of M.objs){ if(!o.solid) continue; const x0 = Math.floor((o.x - o.fw / 2) / TS), x1 = Math.floor((o.x + o.fw / 2) / TS), y0 = Math.floor((o.y - o.fh) / TS), y1 = Math.floor((o.y + 1) / TS);
     for(let y = y0; y <= y1; y++) for(let x = x0; x <= x1; x++){ const k = y * M.W + x; if(!M.og.has(k)) M.og.set(k, []); M.og.get(k).push(o); } }
+  if(M.theme === 'snow' || M.theme === 'swamp') themeBake(M);
 }
 function solidAt(M, px, py){
   const t = getT(M, Math.floor(px / TS), Math.floor(py / TS)); if(SOLID.has(t)) return true;
+  if(M.block && M.block.size && M.block.has(Math.floor(py / TS) * M.W + Math.floor(px / TS))) return true;
   const L = M.og && M.og.get(Math.floor(py / TS) * M.W + Math.floor(px / TS)); if(!L) return false;
   for(const o of L) if(Math.abs(px - o.x) < o.fw / 2 && py < o.y + 1 && py > o.y - o.fh) return true;
   return false;
@@ -1502,6 +1609,7 @@ function resize(){
 addEventListener('resize', resize);
 
 function enterMap(id, x, y, silent){
+  if(DG && id !== DG.mid){ delete MAPS[DG.mid]; DG = null; }
   M = MAPS[id]; P.map = id; me.x = x; me.y = y; me.tx = null; me.target = null;
   mobs = []; projs = []; fx = []; drops = []; warns = [];
   M.spawns.forEach(sp => { for(let i = 0; i < sp.n; i++) spawnMob(sp); });
@@ -1568,50 +1676,94 @@ function inWarn(w, x, y){
   return false;
 }
 function spawnTemp(k, x, y){ const D = MOBS[k]; let px = x, py = y; for(let i = 0; i < 12 && !canStand(M, px, py); i++){ px = x + rnd(-30, 30); py = y + rnd(-20, 20); } const hp = mobHp(D.L); mobs.push({ k, D, sp:null, x:px, y:py, hx:px, hy:py, hp, max:hp, L:D.L, st:'chase', aggro:true, t:0, cd:1, dir:1, fr:0, dead:0, hit:0, temp:1 }); fxBurst(px, py - 8, 16, k === 'quy' ? '#B07CFF' : '#C83A5A'); fx.push({ k:'wave', x:px, y:py, t:0, d:.5, c:'#C83A5A' }); }
-function bossIntro(m){ m.intro = 1; cine(3000); camZoom(1.18, 1200); sfx.roar(); shake(5); fx.push({ k:'wave', x:m.x, y:m.y, t:0, d:1, c:m.k === 'mavuong' ? '#FF5A2A' : '#C8203A', big:1 }); bossBanner(m); }
-const BPH = {
-  soivuong:[null,
-    { n:Lx("Lang Hoàng"), c:'#C8203A' },
-    { n:Lx("Huyết Nguyệt Lang"), sub:Lx("Trăng máu nhuộm đỏ, Lang Hoàng hoá cuồng"), c:'#FF2A3A', tint:'#FF1A2A' },
-    { n:Lx("Ảnh Nguyệt Lang Thần"), sub:Lx("Nuốt trọn vầng trăng, hoá thân bóng tối"), c:'#9A4AFF', tint:'#5A1AB0' }],
-  mavuong:[null,
-    { n:Lx("Xích Viêm Ma Tôn"), c:'#FF4A1A' },
-    { n:Lx("Hỏa Ma Chân Thân"), sub:Lx("Đôi cánh hoá lửa, dung nham sôi trào"), c:'#FF8A2A', tint:'#FF3A1A' },
-    { n:Lx("Luyện Ngục Ma Thần"), sub:Lx("Lửa luyện ngục đen kịt nuốt cả trời đất"), c:'#B04AFF', tint:'#3A0A5A' }],
+function bossIntro(m){ m.intro = 1; if(m.D.mini){ sfx.growl(); shake(3); fx.push({ k:'wave', x:m.x, y:m.y, t:0, d:.8, c:(BOSSD[m.k] || { ph:[{ c:'#F2C14E' }] }).ph[0].c, big:1 }); toast(Lx("Tiểu Boss: {0}", m.D.n)); return; } cine(3000); camZoom(1.18, 1200); sfx.roar(); shake(5); fx.push({ k:'wave', x:m.x, y:m.y, t:0, d:1, c:bossPhD(m).c, big:1 }); bossBanner(m); }
+const BOSSD = {
+  soivuong:{ sum:'soi', eye:[10, 27], ph:[
+    { n:Lx("Lang Hoàng"), c:'#C8203A', sk:['claw', 'dash', 'howl'] },
+    { n:Lx("Huyết Nguyệt Lang"), sub:Lx("Trăng máu nhuộm đỏ, Lang Hoàng hoá cuồng"), c:'#FF2A3A', tint:'#FF1A2A', sk:['combo', 'tdash', 'moon'] },
+    { n:Lx("Ảnh Nguyệt Lang Thần"), sub:Lx("Nuốt trọn vầng trăng, hoá thân bóng tối"), c:'#9A4AFF', tint:'#5A1AB0', sk:['shadow', 'clone', 'eclipse', 'combo'], trail:1 }] },
+  mavuong:{ sum:'quy', eye:[0, 56], ph:[
+    { n:Lx("Xích Viêm Ma Tôn"), c:'#FF4A1A', sk:['meteor', 'nova', 'beam'] },
+    { n:Lx("Hỏa Ma Chân Thân"), sub:Lx("Đôi cánh hoá lửa, dung nham sôi trào"), c:'#FF8A2A', tint:'#FF3A1A', sk:['sweep', 'trap', 'meteor'] },
+    { n:Lx("Luyện Ngục Ma Thần"), sub:Lx("Lửa luyện ngục đen kịt nuốt cả trời đất"), c:'#B04AFF', tint:'#3A0A5A', sk:['cross', 'chain', 'trap'], rain:1 }] },
+  thivuong:{ sum:'xacuop', ph:[
+    { n:Lx("Cổ Mộ Thi Vương"), c:'#F2C14E', sk:['claw', 'nova', 'beam'] },
+    { n:Lx("Kim Giáp Thi Vương"), sub:Lx("Giáp vàng vỡ vụn, thi khí ngút trời"), c:'#FFB04A', tint:'#E8902A', sk:['sweep', 'moon', 'combo'] },
+    { n:Lx("Vạn Cổ Thi Hoàng"), sub:Lx("Vạn xác ngàn năm cùng thức tỉnh"), c:'#7FE0A8', tint:'#1E5A3A', sk:['cross', 'eclipse', 'chain'], rain:1 }] },
+  banglong:{ sum:'bangtinh', ph:[
+    { n:Lx("Băng Phách Long Hậu"), c:'#7FD8FF', sk:['beam', 'meteor', 'claw'] },
+    { n:Lx("Hàn Băng Long Hậu"), sub:Lx("Gió tuyết cuồng nộ, vảy rồng hoá băng tinh"), c:'#BFF4FF', tint:'#5EB8FF', sk:['sweep', 'trap', 'tdash'] },
+    { n:Lx("Vĩnh Đông Long Thần"), sub:Lx("Mùa đông vĩnh cửu phủ trùm trời đất"), c:'#E8FBFF', tint:'#2A4A9A', sk:['cross', 'eclipse', 'chain'], rain:1 }] },
+  doclong:{ sum:'docthiem', ph:[
+    { n:Lx("Cửu U Độc Long"), c:'#9ADB4A', sk:['moon', 'beam', 'howl'] },
+    { n:Lx("Thực Cốt Độc Long"), sub:Lx("Nọc độc sôi sục, đầm lầy hoá axit"), c:'#C8F04A', tint:'#5A8A1A', sk:['trap', 'sweep', 'clone'] },
+    { n:Lx("Cửu U Long Đế"), sub:Lx("Chín tầng U Minh mở cửa"), c:'#C99BFF', tint:'#2A0A3A', sk:['shadow', 'cross', 'chain', 'eclipse'], rain:1, trail:1 }] },
+  chumau:{ sum:'nhen', ph:[{ n:Lx("Độc Chu Mẫu"), c:'#B07CFF', sk:['claw', 'moon', 'howl'] }] },
+  kiemthanh:{ sum:'xuong', ph:[{ n:Lx("Cốt Kiếm Thánh"), c:'#F2E6B0', sk:['combo', 'dash', 'shadow'] }] },
+  trungvuong:{ sum:'satrung', ph:[{ n:Lx("Sa Trùng Vương"), c:'#E8A040', sk:['nova', 'moon', 'dash'] }] },
+  langvuong:{ sum:'tuyetlang', ph:[{ n:Lx("Tuyết Lang Vương"), c:'#BFE8FF', sk:['combo', 'tdash', 'howl'] }] },
+  quytuong:{ sum:'thuyquy', ph:[{ n:Lx("Thủy Quỷ Tướng"), c:'#5ED3B4', sk:['claw', 'trap', 'moon'] }] },
 };
 const bPh = m => m.ph || 1;
+const bossPhD = (m, ph) => { const B = BOSSD[m.k] || { ph:[{ n:m.D.n, c:'#C8203A', sk:['claw', 'dash', 'howl'] }] }; return B.ph[Math.min(B.ph.length, ph || bPh(m)) - 1]; };
+const MELEE = new Set(['claw', 'combo', 'howl', 'nova']);
 function bossPhaseCut(m, ph){
-  const P2 = BPH[m.k][ph], T = 2.8;
+  const P2 = bossPhD(m, ph), T = 2.8;
   m.ph = ph; m.ph2 = ph >= 2 ? 1 : 0; m.act = null; m.inv = tNow + T; m.cut = { t:0, ph, d:T }; m.sk = T + .6; warns = [];
-  mobs.forEach(o => { if(o.temp && !o.dead) o.st = 'chase'; });
   cine(T * 1000); camFocus = { x:m.x, y:m.y - 14, until:tNow + T - .2 }; camZoom(1.25, 900); sfx.roar(); shake(5);
   setTimeout(() => { if(!m.dead) bossBanner({ D:{ n:P2.n, title:Lx("PHA {0}", ph === 2 ? 'II' : 'III') + ' · ' + P2.sub } }); }, 350);
-  for(let i = 0; i < 46; i++){ const a = rnd(0, 6.28), r = rnd(70, 150); fx.push({ k:'cv', x:m.x + Math.cos(a) * r, y:m.y - 14 + Math.sin(a) * r * .6, tx:m.x, ty:m.y - 14, t:-rnd(0, 1.4), d:2.2, c:pick([P2.c, '#FFFFFF', P2.tint]) }); }
+  for(let i = 0; i < 46; i++){ const a = rnd(0, 6.28), r = rnd(70, 150); fx.push({ k:'cv', x:m.x + Math.cos(a) * r, y:m.y - 14 + Math.sin(a) * r * .6, tx:m.x, ty:m.y - 14, t:-rnd(0, 1.4), d:2.2, c:pick([P2.c, '#FFFFFF', P2.tint || P2.c]) }); }
   setTimeout(() => { if(m.dead || m.ph !== ph) return; flash = .8; shake(10); sfx.boom(); sfx.thunder();
     fx.push({ k:'wave', x:m.x, y:m.y, t:0, d:1.2, c:P2.c, big:1 }, { k:'pillar', x:m.x, y:m.y, t:0, d:1.5, c:P2.c });
     fxBurst(m.x, m.y - 16, 50, P2.c);
-    // sóng xung kích đẩy lùi người chơi
     const dx = me.x - m.x, dy = me.y - m.y, dd = Math.hypot(dx, dy) || 1; if(dd < 80 && !me.dead){ const push = 80 - dd; for(let k = 0; k < 8; k++){ const nx = me.x + dx / dd * push / 8, ny = me.y + dy / dd * push / 8; if(canStand(M, nx, ny)){ me.x = nx; me.y = ny; } } hurtMe(mobAtk(m.L) * .6); }
   }, (T - .55) * 1000);
 }
+// thư viện chiêu boss dùng chung, tô màu theo từng pha
+function bossSkill(m, k, a, d, base, PH){
+  const c = PH.c, c2 = PH.tint || c, sz = Math.min(1.5, .7 + (m.D.sc || 1) * .25), ph = bPh(m);
+  const slash = (an, col) => { fx.push({ k:'slash', x:m.x + Math.cos(an) * 26, y:m.y - 8 + Math.sin(an) * 14, a:an - 1.1, t:0, d:.3, c:col, r:30 * sz }); shake(3); sfx.hit(); };
+  const circ = (x, y, r, dly, dmg, met, big) => warn({ s:'c', x, y, r, d:dly, dmg, met, boom(){ fxBurst(this.x, this.y - 4, big ? 24 : 14, c); fx.push({ k:'wave', x:this.x, y:this.y, t:0, d:.45, c, big }); if(met) for(let j = 0; j < 3; j++) fx.push({ k:'burn', x:this.x + rnd(-10, 10), y:this.y + rnd(-5, 5), t:0, d:1.6 }); shake(big ? 5 : 3); sfx.boom(); } });
+  const beamB = (an, L, dly) => warn({ s:'l', x:m.x, y:m.y - 6, a:an, L, wd:26, d:dly, dmg:base * 1.7, boom:() => { for(let j = 0; j < 24; j++){ const r = j / 24 * L; fx.push({ k:'p', x:m.x + Math.cos(an) * r + rnd(-8, 8), y:m.y - 6 + Math.sin(an) * r + rnd(-8, 8), vx:rnd(-20, 20), vy:-rnd(20, 60), t:0, d:.7, c:pick([c, c2, '#FFFFFF']), glow:1 }); } shake(4); sfx.boom(); } });
+  const cast = (dur) => { m.act = { k:'cast', t:0, dur, pose:2 }; };
+  switch(k){
+    case 'dash': warn({ s:'l', x:m.x, y:m.y, a, L:150, wd:26, d:.85, dmg:0 }); m.act = { k:'dash', t:0, wait:.85, a, L:150, dist:0 }; sfx.growl(); break;
+    case 'tdash': warn({ s:'l', x:m.x, y:m.y, a, L:140, wd:26, d:.7, dmg:0 }); m.act = { k:'dash', t:0, wait:.7, a, L:140, dist:0, n:2 }; sfx.growl(); break;
+    case 'claw': warn({ s:'cone', x:m.x, y:m.y - 6, a, r:58 * sz, sp:.85, d:.6, dmg:base * 1.8, boom:() => slash(a, c) }); m.act = { k:'claw', t:0, dur:.7 }; break;
+    case 'combo': m.act = { k:'combo', t:0, next:0, left:ph === 3 ? 4 : 3, c, sz }; break;
+    case 'howl': warn({ s:'c', x:m.x, y:m.y, r:70 * sz, d:1, dmg:base * 1.3, boom:() => { fx.push({ k:'wave', x:m.x, y:m.y, t:0, d:.7, c, big:1 }); shake(4); } }); m.act = { k:'howl', t:0, dur:1.2, pose:2 }; sfx.roar(); break;
+    case 'moon': for(let i = 0; i < 6; i++) circ(me.x + (i ? rnd(-55, 55) : 0), me.y + (i ? rnd(-32, 32) : 0), 20, 1 + i * .14, base * 1.3); m.act = { k:'howl', t:0, dur:1.1, pose:2 }; sfx.roar(); break;
+    case 'meteor': for(let i = 0; i < 5 + (ph > 1 ? 2 : 0); i++) circ(me.x + (i ? rnd(-60, 60) : 0), me.y + (i ? rnd(-35, 35) : 0), 22, 1.25 + i * .12, base * 1.4, 1); cast(1.1); sfx.skill(); break;
+    case 'nova': circ(m.x, m.y, 85 * sz, 1.3, base * 1.6, 0, 1); cast(1.4); sfx.roar(); break;
+    case 'beam': beamB(a, 190, 1); cast(1.1); sfx.skill(); break;
+    case 'sweep': { const ds = Math.random() < .5 ? -1 : 1; for(let i = 0; i < 5; i++) beamB(a + ds * (i - 2) * .38, 200, .9 + i * .22); cast(2); sfx.skill(); break; }
+    case 'trap': { const gap = Math.floor(rnd(0, 10)), x0 = me.x, y0 = me.y;
+      for(let i = 0; i < 10; i++){ if(i === gap) continue; const an = i / 10 * 6.28; circ(x0 + Math.cos(an) * 52, y0 + Math.sin(an) * 31, 17, 1.1, base * 1.3); }
+      circ(x0, y0, 44, 1.9, base * 2, 0, 1); cast(1.3); sfx.roar(); toast(Lx("Vòng vây! Tìm khe hở để thoát")); break; }
+    case 'cross': { const b0 = rnd(0, .78); for(let i = 0; i < 4; i++) beamB(b0 + i * 1.57, 230, 1.1); for(let i = 0; i < 4; i++) beamB(b0 + .78 + i * 1.57, 230, 1.9); cast(2.1); sfx.roar(); break; }
+    case 'chain': for(let i = 0; i < 3; i++) setTimeout(() => { if(m.dead || me.dead || m.cut) return; circ(me.x, me.y, 38, .8, base * 1.5, 0, 1); }, i * 550); cast(1.9); sfx.skill(); break;
+    case 'shadow': { const b0 = rnd(0, 1.57); for(let i = 0; i < 4; i++){ const an = b0 + i * Math.PI / 2; warn({ s:'l', x:me.x - Math.cos(an) * 110, y:me.y - Math.sin(an) * 110, a:an, L:220, wd:20, d:1.05 + i * .15, dmg:base * 1.5, boom(){ for(let j = 0; j < 16; j++){ const r = j / 16 * 220; fx.push({ k:'p', x:this.x + Math.cos(this.a) * r, y:this.y + Math.sin(this.a) * r, vx:rnd(-10, 10), vy:-rnd(5, 20), t:0, d:.6, c:pick([c, c2]), glow:1 }); } shake(3); sfx.hit(); } }); }
+      m.act = { k:'howl', t:0, dur:1.3, pose:2 }; sfx.roar(); break; }
+    case 'clone': for(const s2 of [-1, 1]){ const an = a + s2 * 1.2; warn({ s:'l', x:me.x - Math.cos(an) * 100, y:me.y - Math.sin(an) * 100, a:an, L:200, wd:22, d:.95, dmg:base * 1.4, boom(){ fxBurst(me.x, me.y - 10, 8, c); sfx.hit(); } }); }
+      warn({ s:'l', x:m.x, y:m.y, a, L:170, wd:26, d:.95, dmg:0 }); m.act = { k:'dash', t:0, wait:.95, a, L:170, dist:0, fast:1 }; sfx.growl(); break;
+    case 'eclipse': for(let i = 0; i < 10; i++){ const an = i / 10 * 6.28; warn({ s:'c', x:m.x + Math.cos(an) * 78, y:m.y + Math.sin(an) * 47, r:34, d:1.6, dmg:base * 1.7, boom(){ fx.push({ k:'wave', x:this.x, y:this.y, t:0, d:.5, c:c2 }); } }); }
+      flash = .3; m.act = { k:'howl', t:0, dur:1.8, pose:2 }; sfx.thunder(); toast(Lx("Áp sát boss để tránh đòn!")); break;
+  }
+}
 function bossAI(m, dt, d){
-  const isWolf = m.k === 'soivuong', ph0 = bPh(m);
+  const B = BOSSD[m.k] || { ph:[bossPhD(m)] }, NP = B.ph.length, ph0 = bPh(m);
   if(!m.intro && d < 150 && !me.dead){ bossIntro(m); m.ph = 1; }
-  // đoạn phim đổi pha: đứng yên, gồng mình biến hình
   if(m.cut){ m.cut.t += dt; m.fr += dt * 2; if(m.cut.t >= m.cut.d) m.cut = null; return [0, 0]; }
-  const want = m.hp < m.max / 3 ? 3 : m.hp < m.max * 2 / 3 ? 2 : 1;
+  const want = NP < 3 ? 1 : m.hp < m.max / 3 ? 3 : m.hp < m.max * 2 / 3 ? 2 : 1;
   if(want > ph0 && m.intro){ bossPhaseCut(m, ph0 + 1); return [0, 0]; }
-  const ph = bPh(m), base = mobAtk(m.L) * (m.D.atkM || 1) * (ph === 3 ? 1.3 : ph === 2 ? 1.12 : 1);
-  // triệu hồi theo ngưỡng máu
-  const thr = [.8, .55, .3, .12].filter(t => m.hp < m.max * t).length;
-  if(thr > (m.thr || 0)){ m.thr = thr; const kk = isWolf ? 'soi' : 'quy', n = ph === 3 ? 3 : 2; for(let i = 0; i < n; i++) spawnTemp(kk, m.x + Math.cos(i * 2.1) * 34, m.y + Math.sin(i * 2.1) * 20); toast(isWolf ? Lx("Lang Hoàng hú gọi bầy sói!") : Lx("Ma Tôn triệu hồi Tiểu Quỷ!")); }
+  const ph = bPh(m), PH = bossPhD(m), base = mobAtk(m.L) * (m.D.atkM || 1) * (ph === 3 ? 1.3 : ph === 2 ? 1.12 : 1) * (m.dgA || 1);
+  // gọi đồng bọn theo ngưỡng máu
+  const thr = (m.D.mini ? [.5] : [.8, .55, .3, .12]).filter(t => m.hp < m.max * t).length;
+  if(thr > (m.thr || 0) && B.sum){ m.thr = thr; const n = m.D.mini ? 2 : ph === 3 ? 3 : 2; for(let i = 0; i < n; i++) spawnTemp(B.sum, m.x + Math.cos(i * 2.1) * 34, m.y + Math.sin(i * 2.1) * 20); toast(Lx("{0} gọi đồng bọn!", PH.n)); }
   const spd = ph === 3 ? 1.6 : ph === 2 ? 1.3 : 1;
   m.sk = (m.sk === undefined ? 2 : m.sk) - dt * spd;
-  // pha 3 Ma Thần: mưa thiên thạch liên tục
-  if(!isWolf && ph === 3 && !me.dead){ m.rain = (m.rain || 0) - dt; if(m.rain <= 0){ m.rain = 1.7; for(let i = 0; i < 2; i++) warn({ s:'c', x:me.x + rnd(-40, 40), y:me.y + rnd(-25, 25), r:18, d:1.1 + i * .2, dmg:base * .9, met:1, boom(){ fxBurst(this.x, this.y - 4, 12, '#B04AFF'); fx.push({ k:'wave', x:this.x, y:this.y, t:0, d:.4, c:'#C99BFF' }); shake(2); sfx.boom(); } }); } }
-  // pha 3 Ảnh Lang: để lại bóng mờ khi di chuyển
-  if(isWolf && ph === 3 && frame % 3 === 0) fx.push({ k:'p', x:m.x + rnd(-14, 14), y:m.y - rnd(0, 14), vx:rnd(-8, 8), vy:-rnd(4, 14), t:0, d:.9, c:pick(['#5A1AB0', '#2A0A4A', '#9A4AFF']), glow:1 });
-  const slash = (a, x, y, c) => { fx.push({ k:'slash', x:x + Math.cos(a) * 26, y:y - 8 + Math.sin(a) * 14, a:a - 1.1, t:0, d:.3, c, r:30 }); shake(3); sfx.hit(); };
+  if(PH.rain && !me.dead){ m.rain = (m.rain || 0) - dt; if(m.rain <= 0){ m.rain = 1.7; for(let i = 0; i < 2; i++) warn({ s:'c', x:me.x + rnd(-40, 40), y:me.y + rnd(-25, 25), r:18, d:1.1 + i * .2, dmg:base * .9, met:1, boom(){ fxBurst(this.x, this.y - 4, 12, PH.c); fx.push({ k:'wave', x:this.x, y:this.y, t:0, d:.4, c:PH.c }); shake(2); sfx.boom(); } }); } }
+  if(PH.trail && frame % 3 === 0) fx.push({ k:'p', x:m.x + rnd(-14, 14), y:m.y - rnd(0, 14), vx:rnd(-8, 8), vy:-rnd(4, 14), t:0, d:.9, c:pick([PH.c, PH.tint || PH.c]), glow:1 });
   if(m.act){
     const A = m.act; A.t += dt;
     if(A.k === 'dash' && A.t > A.wait){
@@ -1619,65 +1771,20 @@ function bossAI(m, dt, d){
       if(canStand(M, nx, ny)){ m.x = nx; m.y = ny; } else A.dist = A.L;
       A.dist += step; m.fr += dt * 20; m.dir = Math.cos(A.a) >= 0 ? 1 : -1;
       if(frame % 2 === 0) fx.push({ k:'dust', x:m.x, y:m.y, t:0, d:.5 });
-      if(ph === 3 && frame % 2 === 0) fx.push({ k:'p', x:m.x, y:m.y - 10, vx:0, vy:-8, t:0, d:.6, c:'#9A4AFF', glow:1 });
-      if(!A.hit && Math.hypot(me.x - m.x, me.y - m.y) < 24){ A.hit = 1; hurtMe(base * 1.7); shake(4); fxBurst(me.x, me.y - 12, 14, '#FF5A6A'); }
+      if(!A.hit && Math.hypot(me.x - m.x, me.y - m.y) < 24){ A.hit = 1; hurtMe(base * 1.7); shake(4); fxBurst(me.x, me.y - 12, 14, PH.c); }
       if(A.dist >= A.L){ if(A.n > 0 && !me.dead){ const a2 = Math.atan2(me.y - m.y, me.x - m.x); warn({ s:'l', x:m.x, y:m.y, a:a2, L:A.L, wd:26, d:.5, dmg:0 }); m.act = { k:'dash', t:0, wait:.5, a:a2, L:A.L, dist:0, n:A.n - 1, fast:A.fast }; sfx.growl(); } else m.act = null; }
     } else if(A.k === 'combo'){
-      if(A.t >= A.next && A.left > 0){ A.left--; A.next += .5; const a2 = Math.atan2(me.y - m.y, me.x - m.x); m.dir = Math.cos(a2) >= 0 ? 1 : -1; warn({ s:'cone', x:m.x, y:m.y - 6, a:a2, r:62, sp:.9, d:.42, dmg:base * 1.5, boom:() => slash(a2, m.x, m.y, A.c) }); }
+      if(A.t >= A.next && A.left > 0){ A.left--; A.next += .5; const a2 = Math.atan2(me.y - m.y, me.x - m.x); m.dir = Math.cos(a2) >= 0 ? 1 : -1; warn({ s:'cone', x:m.x, y:m.y - 6, a:a2, r:62 * (A.sz || 1), sp:.9, d:.42, dmg:base * 1.5, boom:() => { fx.push({ k:'slash', x:m.x + Math.cos(a2) * 26, y:m.y - 8 + Math.sin(a2) * 14, a:a2 - 1.1, t:0, d:.3, c:A.c, r:30 }); shake(3); sfx.hit(); } }); }
       if(A.left <= 0 && A.t > A.next) m.act = null;
     } else if(A.k !== 'dash' && A.t >= A.dur) m.act = null;
     return [0, 0];
   }
   if(m.sk <= 0 && d < 190 && !me.dead){
-    m.sk = ph === 3 ? 2.3 : ph === 2 ? 3 : 4.2;
+    m.sk = (ph === 3 ? 2.3 : ph === 2 ? 3 : 4.2) * (m.D.mini ? 1.15 : 1);
     const a = Math.atan2(me.y - m.y, me.x - m.x); m.dir = Math.cos(a) >= 0 ? 1 : -1;
-    if(isWolf){
-      // mỗi pha một bộ chiêu riêng
-      const opt = ph === 1 ? (d < 50 ? ['claw', 'howl', 'claw'] : ['dash', 'dash', 'howl'])
-        : ph === 2 ? (d < 50 ? ['combo', 'moon', 'combo'] : ['tdash', 'moon', 'tdash'])
-        : ['shadow', 'clone', 'eclipse', d < 50 ? 'combo' : 'clone'];
-      const k = pick(opt);
-      if(k === 'dash'){ warn({ s:'l', x:m.x, y:m.y, a, L:150, wd:26, d:.85, dmg:0 }); m.act = { k:'dash', t:0, wait:.85, a, L:150, dist:0 }; sfx.growl(); }
-      if(k === 'claw'){ warn({ s:'cone', x:m.x, y:m.y - 6, a, r:58, sp:.85, d:.6, dmg:base * 1.8, boom:() => slash(a, m.x, m.y, '#FF5A6A') }); m.act = { k:'claw', t:0, dur:.7 }; }
-      if(k === 'howl'){ warn({ s:'c', x:m.x, y:m.y, r:70, d:1, dmg:base * 1.3, boom:() => { fx.push({ k:'wave', x:m.x, y:m.y, t:0, d:.7, c:'#C8203A', big:1 }); shake(4); } }); m.act = { k:'howl', t:0, dur:1.2, pose:2 }; sfx.roar(); }
-      if(k === 'tdash'){ warn({ s:'l', x:m.x, y:m.y, a, L:140, wd:26, d:.7, dmg:0 }); m.act = { k:'dash', t:0, wait:.7, a, L:140, dist:0, n:2 }; sfx.growl(); }
-      if(k === 'combo'){ m.act = { k:'combo', t:0, next:0, left:ph === 3 ? 4 : 3, c:ph === 3 ? '#B07CFF' : '#FF2A3A' }; }
-      if(k === 'moon'){ for(let i = 0; i < 6; i++){ const ox = i ? rnd(-55, 55) : 0, oy = i ? rnd(-32, 32) : 0; warn({ s:'c', x:me.x + ox, y:me.y + oy, r:20, d:1 + i * .14, dmg:base * 1.3, boom(){ fx.push({ k:'pillar', x:this.x, y:this.y, t:0, d:.5, c:'#FF2A3A' }); fxBurst(this.x, this.y - 6, 10, '#FF2A3A'); shake(2); } }); } m.act = { k:'howl', t:0, dur:1.1, pose:2 }; sfx.roar(); }
-      if(k === 'shadow'){ // bóng sói lao tới từ 4 phía cắt chéo qua người chơi
-        const b0 = rnd(0, 1.57); for(let i = 0; i < 4; i++){ const an = b0 + i * Math.PI / 2, sx = me.x - Math.cos(an) * 110, sy = me.y - Math.sin(an) * 110; warn({ s:'l', x:sx, y:sy, a:an, L:220, wd:20, d:1.05 + i * .15, dmg:base * 1.5, boom(){ for(let j = 0; j < 16; j++){ const r = j / 16 * 220; fx.push({ k:'p', x:this.x + Math.cos(this.a) * r, y:this.y + Math.sin(this.a) * r, vx:rnd(-10, 10), vy:-rnd(5, 20), t:0, d:.6, c:pick(['#9A4AFF', '#2A0A4A']), glow:1 }); } shake(3); sfx.hit(); } }); }
-        m.act = { k:'howl', t:0, dur:1.3, pose:2 }; sfx.roar(); }
-      if(k === 'clone'){ // phân thân: hai bóng sói lao từ hai bên cùng lúc, bản thể lao thẳng
-        for(const s2 of [-1, 1]){ const an = a + s2 * 1.2, sx = me.x - Math.cos(an) * 100, sy = me.y - Math.sin(an) * 100; warn({ s:'l', x:sx, y:sy, a:an, L:200, wd:22, d:.95, dmg:base * 1.4, boom(){ fxBurst(me.x, me.y - 10, 8, '#9A4AFF'); sfx.hit(); } }); }
-        warn({ s:'l', x:m.x, y:m.y, a, L:170, wd:26, d:.95, dmg:0 }); m.act = { k:'dash', t:0, wait:.95, a, L:170, dist:0, fast:1 }; sfx.growl(); }
-      if(k === 'eclipse'){ // nhật thực: vùng an toàn duy nhất là sát chân boss
-        for(let i = 0; i < 10; i++){ const an = i / 10 * 6.28; warn({ s:'c', x:m.x + Math.cos(an) * 78, y:m.y + Math.sin(an) * 47, r:34, d:1.6, dmg:base * 1.7, boom(){ fx.push({ k:'wave', x:this.x, y:this.y, t:0, d:.5, c:'#5A1AB0' }); } }); }
-        flash = .3; m.act = { k:'howl', t:0, dur:1.8, pose:2 }; sfx.thunder(); toast(Lx("Nhật thực! Áp sát Lang Thần để tránh")); }
-    } else {
-      const opt = ph === 1 ? ['meteor', 'nova', 'beam', 'meteor']
-        : ph === 2 ? ['sweep', 'trap', 'meteor', 'sweep']
-        : ['cross', 'chain', 'trap', 'cross'];
-      const k = pick(opt);
-      const meteor = (n, big) => { for(let i = 0; i < n; i++){ const ox = i ? rnd(-60, 60) : 0, oy = i ? rnd(-35, 35) : 0; warn({ s:'c', x:me.x + ox, y:me.y + oy, r:big ? 28 : 22, d:1.25 + i * .12, dmg:base * 1.4, met:1, boom(){ fxBurst(this.x, this.y - 4, 18, '#FF8A2A'); fx.push({ k:'wave', x:this.x, y:this.y, t:0, d:.45, c:'#FFB04A' }); for(let j = 0; j < 4; j++) fx.push({ k:'burn', x:this.x + rnd(-10, 10), y:this.y + rnd(-5, 5), t:0, d:2 }); shake(3); sfx.boom(); } }); } m.act = { k:'cast', t:0, dur:1.1, pose:2 }; sfx.skill(); };
-      const beamB = (an, L, delay, col) => warn({ s:'l', x:m.x, y:m.y - 6, a:an, L, wd:26, d:delay, dmg:base * 1.7, boom:() => { for(let j = 0; j < 24; j++){ const r = j / 24 * L; fx.push({ k:'p', x:m.x + Math.cos(an) * r + rnd(-8, 8), y:m.y - 6 + Math.sin(an) * r + rnd(-8, 8), vx:rnd(-20, 20), vy:-rnd(20, 60), t:0, d:.7, c:pick(col), glow:1 }); if(j % 4 === 0) fx.push({ k:'burn', x:m.x + Math.cos(an) * r, y:m.y + Math.sin(an) * r, t:0, d:1.4 }); } shake(4); sfx.boom(); } });
-      if(k === 'meteor') meteor(5);
-      if(k === 'nova'){ warn({ s:'c', x:m.x, y:m.y, r:85, d:1.3, dmg:base * 1.6, boom:() => { fx.push({ k:'wave', x:m.x, y:m.y, t:0, d:.8, c:'#FF5A2A', big:1 }); for(let j = 0; j < 22; j++){ const an = j / 22 * 6.28; fx.push({ k:'burn', x:m.x + Math.cos(an) * 60, y:m.y + Math.sin(an) * 36, t:0, d:1.8 }); } shake(5); sfx.boom(); } }); m.act = { k:'cast', t:0, dur:1.4, pose:2 }; sfx.roar(); }
-      if(k === 'beam'){ beamB(a, 190, 1, ['#FFE07A', '#FF8A2A', '#FF4A1A']); m.act = { k:'cast', t:0, dur:1.1, pose:2 }; sfx.skill(); }
-      if(k === 'sweep'){ // quạt lửa: 5 tia quét lần lượt
-        const dirS = Math.random() < .5 ? -1 : 1; for(let i = 0; i < 5; i++) beamB(a + dirS * (i - 2) * .38, 200, .9 + i * .22, ['#FFE07A', '#FF8A2A', '#FF4A1A']);
-        m.act = { k:'cast', t:0, dur:2, pose:2 }; sfx.skill(); }
-      if(k === 'trap'){ // vòng lửa nhốt người chơi, chỉ chừa một khe thoát
-        const gap = Math.floor(rnd(0, 10)), cx0 = me.x, cy0 = me.y;
-        for(let i = 0; i < 10; i++){ if(i === gap) continue; const an = i / 10 * 6.28; warn({ s:'c', x:cx0 + Math.cos(an) * 52, y:cy0 + Math.sin(an) * 31, r:17, d:1.1, dmg:base * 1.3, boom(){ for(let j = 0; j < 3; j++) fx.push({ k:'burn', x:this.x + rnd(-8, 8), y:this.y + rnd(-5, 5), t:0, d:1.6 }); } }); }
-        warn({ s:'c', x:cx0, y:cy0, r:44, d:1.9, dmg:base * 2, boom(){ fxBurst(this.x, this.y - 6, 30, ph === 3 ? '#B04AFF' : '#FF5A2A'); fx.push({ k:'wave', x:this.x, y:this.y, t:0, d:.7, c:'#FF8A2A', big:1 }); shake(6); sfx.boom(); } });
-        m.act = { k:'cast', t:0, dur:1.3, pose:2 }; sfx.roar(); toast(Lx("Vòng lửa! Tìm khe hở để thoát")); }
-      if(k === 'cross'){ // luyện ngục thập tự: 8 tia toả ra rồi nổ tiếp đợt hai lệch góc
-        const b0 = rnd(0, .78); for(let i = 0; i < 4; i++) beamB(b0 + i * 1.57, 230, 1.1, ['#C99BFF', '#B04AFF', '#3A0A5A']);
-        for(let i = 0; i < 4; i++) beamB(b0 + .78 + i * 1.57, 230, 1.9, ['#C99BFF', '#B04AFF', '#3A0A5A']);
-        m.act = { k:'cast', t:0, dur:2.1, pose:2 }; sfx.roar(); }
-      if(k === 'chain'){ // ba vụ nổ đuổi theo vị trí người chơi
-        for(let i = 0; i < 3; i++) setTimeout(() => { if(m.dead || me.dead || m.cut) return; warn({ s:'c', x:me.x, y:me.y, r:38, d:.8, dmg:base * 1.5, boom(){ fxBurst(this.x, this.y - 6, 22, '#B04AFF'); fx.push({ k:'wave', x:this.x, y:this.y, t:0, d:.5, c:'#C99BFF', big:1 }); shake(4); sfx.boom(); } }); }, i * 550);
-        m.act = { k:'cast', t:0, dur:1.9, pose:2 }; sfx.skill(); }
-    }
+    const L = PH.sk, near = L.filter(k => MELEE.has(k)), far = L.filter(k => !MELEE.has(k));
+    const k = pick(d < 50 && near.length && Math.random() < .75 ? near : d >= 50 && far.length && Math.random() < .8 ? far : L);
+    bossSkill(m, k, a, d, base, PH);
     return [0, 0];
   }
   if(d > 22) return [(me.x - m.x) / d * spd, (me.y - m.y) / d * spd];
@@ -1707,11 +1814,11 @@ function hitMob(m, mul, color){
 }
 function killMob(m){
   m.dead = true; m.hp = 0; m.re = m.D.boss ? m.D.re : 10; me.target = me.target === m ? null : me.target;
-  const SS = stats(); let exp = mobExp(m.L) * (m.D.boss ? 10 : 1) * (1 + SS.exp / 100) * diffRw(); if(P.buff.x2 > Date.now()) exp *= 2; exp = Math.round(exp);
+  const SS = stats(); let exp = mobExp(m.L) * (m.D.boss ? (m.D.mini ? 4 : 10) : 1) * (1 + SS.exp / 100) * diffRw(); if(P.buff.x2 > Date.now()) exp *= 2; exp = Math.round(exp);
   const lvGap = P.stage - m.L; if(lvGap > 6) exp = Math.max(1, Math.round(exp * Math.max(.1, 1 - (lvGap - 6) * .15)));
   if(m.el) exp *= 3;
   gainExp(exp); texts.push({ x:m.x, y:m.y - 30, t:0, s:`+${fmt(exp)} tu vi`, c:'#C9A0FF' });
-  const st = Math.round(mobStone(m.L) * rnd(.8, 1.3) * (m.D.boss ? 15 : m.el ? 4 : 1) * (1 + SS.gold / 100) * diffRw()); drops.push({ x:m.x + rnd(-6, 6), y:m.y + rnd(-3, 3), k:'st', n:st, t:0 });
+  const st = Math.round(mobStone(m.L) * rnd(.8, 1.3) * (m.D.boss ? (m.D.mini ? 6 : 15) : m.el ? 4 : 1) * (1 + SS.gold / 100) * diffRw()); drops.push({ x:m.x + rnd(-6, 6), y:m.y + rnd(-3, 3), k:'st', n:st, t:0 });
   m.D.drop.forEach(([k, p]) => { if(k.startsWith('ty:') && tyOwn(k.slice(3))) return; if(Math.random() < p * (m.el ? 3 : 1) * (1 + .1 * (curPN - 1)) * (1 + (cls().drop || 0))) drops.push({ x:m.x + rnd(-10, 10), y:m.y + rnd(-6, 6), k, n:1, t:0, b:!!m.D.boss }); });
   if(Math.random() < (m.D.boss ? 1 : .035)) drops.push({ x:m.x + rnd(-8, 8), y:m.y + rnd(-5, 5), k:'tp', n:m.D.boss ? 2 : 1, t:0 });
   P.kills++; questEvent('kill', m.k); fxBurst(m.x, m.y - 8, m.D.boss ? 40 : 14, m.k === 'hoama' || m.k === 'mavuong' ? '#FF8A2A' : '#C9A0FF');
@@ -1746,6 +1853,7 @@ function hurtMe(d){
   if(me.hp <= 0) die();
 }
 function die(){
+  if(DG && M && M.id === DG.mid) return dgDie();
   me.dead = true; me.hp = 0; P.deaths++; const lost = Math.round(P.exp * .05); P.exp -= lost; sfx.bad();
   sheet(`<h2>${Lx("Thân tử đạo tiêu…")}</h2><p class="sub">${Lx("Bạn bị yêu ma đánh trọng thương, mất {0} tu vi. Hồn phách quay về Thôn Thanh Vân dưỡng thương.", fmt(lost))}</p><button class="btn gold" id="rev">${Lx("Hồi sinh")}</button>`, { dismiss:false });
   $('#rev').onclick = () => { closeSheet(); me.dead = false; const S = stats(); me.hp = S.hp; me.mp = S.mp; fade(() => enterMap('thon', 25 * TS, 21 * TS)); };
@@ -1837,7 +1945,7 @@ function update(dt){
   me.hp = Math.min(S.hp, me.hp + S.hp * (.012 * regenK + S.rg / 100) * dt); me.mp = Math.min(S.mp, me.mp + S.mp * (.02 + regenK * .01) * dt * (P.cls === 'phap' ? 1.6 : P.cls === 'y' ? 1.3 : 1));
   if(me.sit){ let r = needExp(P.stage) / 1800 * (onPlatform() ? 2 : 1); if(P.buff.x2 > Date.now()) r *= 2; me.medAcc = (me.medAcc || 0) + r * dt; if(me.medAcc >= 1){ const n = Math.floor(me.medAcc); me.medAcc -= n; gainExp(n); } me.medT = (me.medT || 0) + dt; if(me.medT >= 1){ me.medT -= 1; if(onPlatform()) questEvent('med'); } if(frame % 12 === 0) fx.push({ k:'p', x:me.x + rnd(-10, 10), y:me.y - rnd(0, 6), vx:0, vy:-25, t:0, d:1.2, c:onPlatform() ? '#F2C14E' : '#9BE0FF' }); }
   // cổng dịch chuyển
-  for(const pt of M.portals){ if(Math.hypot(pt.x - me.x, pt.y - me.y) < 12 && !me.porting){
+  for(const pt of M.portals){ if(pt.to === '__dgexit') continue; if(Math.hypot(pt.x - me.x, pt.y - me.y) < 12 && !me.porting){
     if(pt.need && P.stage < pt.need){ if(!me.warned){ me.warned = 1; toast(`${Lx("Cần đạt {0} mới vào được {1}", realmName(pt.need), pt.label)}`); setTimeout(() => me.warned = 0, 3000); } me.x -= Math.sign(pt.x - me.x || 1) * 10; continue; }
     me.porting = true; fade(() => { enterMap(pt.to, pt.tx, pt.ty); me.porting = false; });
   } }
@@ -1851,7 +1959,7 @@ function update(dt){
     let vx = 0, vy = 0;
     if(m.st === 'home' && m.D.boss){ m.ph2 = 0; m.ph = 0; m.cut = null; m.inv = 0; m.thr = 0; m.act = null; m.intro = 0; }
     if(m.st === 'chase' && m.D.boss){ [vx, vy] = bossAI(m, dt, d); }
-    else if(m.st === 'chase'){ const ma = mobAtk(m.L) * (m.D.atkM || 1) * (m.el ? 1.6 : 1);
+    else if(m.st === 'chase'){ const ma = mobAtk(m.L) * (m.D.atkM || 1) * (m.el ? 1.6 : 1) * (m.dgA || 1);
       m.ls2 = (m.ls2 || 3) - dt;
       if(m.lg){ const G = m.lg; G.t += dt; if(G.t > .55){ const st2 = 210 * dt, nx = m.x + Math.cos(G.a) * st2, ny = m.y + Math.sin(G.a) * st2; if(canStand(M, nx, ny)){ m.x = nx; m.y = ny; } else G.dist = 99; G.dist += st2; m.fr += dt * 16; if(!G.hit && Math.hypot(me.x - m.x, me.y - m.y) < 14){ G.hit = 1; hurtMe(ma * 1.7); } if(G.dist > 52) m.lg = null; } }
       else if(m.ls2 <= 0 && d < 70 && d > 16){ m.ls2 = rnd(4, 7) * (m.el ? .7 : 1); const a = Math.atan2(me.y - m.y, me.x - m.x); m.dir = Math.cos(a) >= 0 ? 1 : -1; warn({ s:'l', x:m.x, y:m.y, a, L:56, wd:14, d:.55, dmg:0 }); m.lg = { a, t:0, dist:0 }; }
@@ -1913,6 +2021,7 @@ function update(dt){
   // người khác: nội suy
   for(const id in others){ const o = others[id]; const d = Math.hypot(o.nx - o.x, o.ny - o.y); if(d > 200){ o.x = o.nx; o.y = o.ny; } else { o.x += (o.nx - o.x) * Math.min(1, dt * 8); o.y += (o.ny - o.y) * Math.min(1, dt * 8); } o.moving = d > 1.5; if(o.moving) o.anim = (o.anim || 0) + dt * 8; if(Date.now() - o.seen > 70000) delete others[id]; }
   Net.tick(dt); Net.partyTick(dt); if(frame % 30 === 0) partyUpdate();
+  dgTick(dt);
 }
 function pickDrop(d){
   if(d.k.startsWith('ty:')){ gainTyp(d.k.slice(3)); return; }
@@ -2011,7 +2120,7 @@ function drawLiquids(ctx, cx, cy){
   for(let ty = y0; ty <= y1; ty++) for(let tx = x0; tx <= x1; tx++){
     const t = M.t[ty * M.W + tx]; if(t !== T_.WATER && t !== T_.LAVA) continue;
     const X = tx * TS - cx, Y = ty * TS - cy, e = M.edge[ty * M.W + tx], W = t === T_.WATER;
-    ctx.fillStyle = W ? pw : pl; ctx.fillRect(X, Y, TS, TS);
+    ctx.fillStyle = W ? pw : pl; ctx.fillRect(X, Y, TS, TS); if(W && M.theme === 'swamp'){ ctx.fillStyle = 'rgba(40,66,26,.66)'; ctx.fillRect(X, Y, TS, TS); } else if(W && M.theme === 'snow'){ ctx.fillStyle = 'rgba(214,236,255,.6)'; ctx.fillRect(X, Y, TS, TS); }
     const h = ((tx * 73856093) ^ (ty * 19349663) ^ (tk * 83492791)) >>> 0;
     if(W){
       if(h % 100 < 4){ const a = 2 + (h >> 8) % 12, b = 2 + (h >> 12) % 12; ctx.fillStyle = '#FFFFFF'; ctx.fillRect(X + a, Y + b, 1, 1); ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fillRect(X + a - 1, Y + b, 3, 1); ctx.fillRect(X + a, Y + b - 1, 1, 3); }
@@ -2056,6 +2165,7 @@ function renderW(){
   ctx.drawImage(M.layers[0], cx, cy, gw, gh, 0, 0, gw, gh);
   if(M.hasLiq) drawLiquids(ctx, cx, cy);
   drawWps(ctx, cx, cy);
+  if(M.block || M.chests) drawDg(ctx, cx, cy);
   if(M.glow){ ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .75 + Math.sin(tNow * 2.2) * .25; ctx.drawImage(M.glow, cx, cy, gw, gh, 0, 0, gw, gh); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
   // hiệu ứng nằm trên mặt đất
   for(const f of fx){
@@ -2141,6 +2251,8 @@ function renderW(){
   }
   ctx.globalAlpha = 1;
   drawSky(ctx, cx, cy);
+  if(M.theme === 'snow'){ ctx.fillStyle = 'rgba(190,215,255,.10)'; ctx.fillRect(0, 0, gw, gh); if(frame % 2 === 0) fx.push({ k:'petal', x:cam.x + rnd(-20, gw + 20), y:cam.y - 4, vx:rnd(-8, 4), vy:rnd(12, 24), t:0, d:9, ph:rnd(0, 6), c:pick(['#FFFFFF', '#E8F4FF', '#FFFFFF']) }); }
+  if(M.theme === 'swamp'){ const gr = ctx.createLinearGradient(0, gh * .5, 0, gh); gr.addColorStop(0, 'rgba(60,90,40,0)'); gr.addColorStop(1, 'rgba(70,100,50,.22)'); ctx.fillStyle = gr; ctx.fillRect(0, 0, gw, gh); ctx.fillStyle = 'rgba(16,30,14,.18)'; ctx.fillRect(0, 0, gw, gh); if(frame % 8 === 0) fx.push({ k:'p', x:cam.x + rnd(0, gw), y:cam.y + rnd(0, gh), vx:rnd(-4, 4), vy:-rnd(2, 6), t:0, d:3, c:pick(['#C8F04A', '#9ADB4A', '#E8FF9A']), glow:1 }); }
   if(M.theme === 'desert'){ const st = M.storm || 0; ctx.fillStyle = `rgba(214,160,86,${.04 + st * .3})`; ctx.fillRect(0, 0, gw, gh);
     if(st > .05){ ctx.globalAlpha = st * .55; for(let i = 0; i < 8; i++){ const y = ((i * 61 + tNow * 5) % (gh + 40)) - 20, x = ((tNow * 260 + i * 140) % (gw + 200)) - 200; const gr = ctx.createLinearGradient(x, 0, x + 200, 0); gr.addColorStop(0, 'rgba(240,210,150,0)'); gr.addColorStop(.5, 'rgba(255,236,196,1)'); gr.addColorStop(1, 'rgba(240,210,150,0)'); ctx.fillStyle = gr; ctx.fillRect(x, y, 200, 6 + i % 3 * 4); } ctx.globalAlpha = 1; }
     const hz = ctx.createLinearGradient(0, 0, 0, gh); hz.addColorStop(0, 'rgba(255,240,200,.12)'); hz.addColorStop(.4, 'rgba(255,240,200,0)'); ctx.fillStyle = hz; ctx.fillRect(0, 0, gw, gh); }
@@ -2150,33 +2262,29 @@ function renderW(){
   renderOverlay();
 }
 function drawBoss(ctx, e, cx, cy){
-  const pose = e.act && e.act.pose === 2 ? 2 : (e.act && e.act.k === 'dash' && e.act.t > e.act.wait) ? 1 : (e.k === 'mavuong' ? (Math.floor(tNow * 1.5) % 2) : Math.floor(e.fr) % 2);
-  const fr = pose + (e.k === 'mavuong' && e.ph2 ? 3 : 0), s = mobSprite(e.k, fr), sp = e.dir < 0 ? flipCached(s) : s;
-  const ph = e.ph || 1, PH = (BPH[e.k] || [])[ph] || {}, col = PH.c || (e.k === 'mavuong' ? '#FF4A1A' : '#C8203A');
-  // khi đang biến hình: to dần, rung, nhấp nháy
-  const cut = e.cut, ck = cut ? Math.min(1, cut.t / (cut.d - .5)) : 1, scl = ph === 3 ? 1.3 : ph === 2 ? 1.15 : 1, scNow = cut ? (cut.ph === 3 ? 1.15 : 1) + (scl - (cut.ph === 3 ? 1.15 : 1)) * ck : scl;
+  const B = BOSSD[e.k] || { ph:[bossPhD(e)] }, mv = e.k === 'mavuong', ph = e.ph || 1, PH = bossPhD(e), col = PH.c;
+  const pose = e.act && e.act.pose === 2 ? 2 : (e.act && e.act.k === 'dash' && e.act.t > e.act.wait) ? 1 : (mv ? (Math.floor(tNow * 1.5) % 2) : Math.floor(e.fr) % 2);
+  const fr = pose + (mv && e.ph2 ? 3 : 0), s = mobSprite(e.k, fr), sp = e.dir < 0 ? flipCached(s) : s;
+  const cut = e.cut, ck = cut ? Math.min(1, cut.t / (cut.d - .5)) : 1, b0 = e.D.sc || 1, scOf = p => b0 * (p === 3 ? 1.3 : p === 2 ? 1.15 : 1);
+  const scNow = cut ? scOf(cut.ph - 1) + (scOf(cut.ph) - scOf(cut.ph - 1)) * ck : scOf(ph);
   const W2 = Math.round(s.width * scNow), H2 = Math.round(s.height * scNow), jit = cut ? Math.round(rnd(-1.5, 1.5) * ck) : 0;
   const X = Math.round(e.x - cx - W2 / 2 + (e.lunge ? e.dir * 4 : 0)) + jit, Y = Math.round(e.y - cy - H2 + 4);
-  // bóng + hào quang
   ctx.fillStyle = 'rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(e.x - cx, e.y - cy, W2 * .42, 7, 0, 0, 7); ctx.fill();
   ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = (e.ph2 ? .35 : .2) + Math.sin(tNow * 4) * .07; ctx.fillStyle = col; ctx.beginPath(); ctx.ellipse(e.x - cx, e.y - cy - 2, W2 * .55, 11, 0, 0, 7); ctx.fill();
-  ctx.globalAlpha = .6; ctx.strokeStyle = col; for(let i = 0; i < 4; i++){ const a0 = -tNow * 1.5 + i * 1.57; ctx.beginPath(); ctx.ellipse(e.x - cx, e.y - cy - 2, W2 * .6, 12, 0, a0, a0 + .8); ctx.stroke(); }
+  ctx.globalAlpha = .6; ctx.strokeStyle = col; for(let i = 0; i < (e.D.mini ? 2 : 4); i++){ const a0 = -tNow * 1.5 + i * (e.D.mini ? 3.14 : 1.57); ctx.beginPath(); ctx.ellipse(e.x - cx, e.y - cy - 2, W2 * .6, 12, 0, a0, a0 + .8); ctx.stroke(); }
   ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
-  if(frame % (ph === 3 ? 1 : e.ph2 ? 2 : 5) === 0) fx.push({ k:'p', x:e.x + rnd(-W2 * .4, W2 * .4), y:e.y - rnd(0, H2 * .6), vx:rnd(-6, 6), vy:-rnd(20, 50), t:0, d:1, c:ph === 3 ? pick([col, PH.tint, '#FFFFFF']) : e.ph2 ? pick(['#FF8A2A', '#FFD25A', '#FF2A2A']) : pick([col, '#7A3AB0']), glow:1 });
-  // pha 3: vòng ấn chú dưới chân + bóng mờ
+  if(frame % (ph === 3 ? 1 : e.ph2 ? 2 : e.D.mini ? 7 : 5) === 0) fx.push({ k:'p', x:e.x + rnd(-W2 * .4, W2 * .4), y:e.y - rnd(0, H2 * .6), vx:rnd(-6, 6), vy:-rnd(20, 50), t:0, d:1, c:pick([col, PH.tint || col, ph === 3 ? '#FFFFFF' : col]), glow:1 });
   if(ph === 3 || (cut && cut.ph === 3)){ ctx.save(); ctx.translate(e.x - cx, e.y - cy - 1); ctx.scale(1, .45); ctx.rotate(tNow * .8); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .45 * ck; ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(0, 0, W2 * .62, 0, 7); ctx.stroke(); ctx.beginPath(); for(let i = 0; i <= 6; i++){ const a = i * 4 * Math.PI / 6; i ? ctx.lineTo(Math.cos(a) * W2 * .55, Math.sin(a) * W2 * .55) : ctx.moveTo(Math.cos(a) * W2 * .55, Math.sin(a) * W2 * .55); } ctx.stroke(); ctx.restore(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
     if(!cut){ ctx.globalAlpha = .22; ctx.drawImage(tintCached(sp, PH.tint || col), X - e.dir * 7, Y + 1, W2, H2); ctx.globalAlpha = .12; ctx.drawImage(tintCached(sp, PH.tint || col), X - e.dir * 13, Y + 2, W2, H2); ctx.globalAlpha = 1; } }
-  // thở
   const bs = e.act || cut ? 0 : Math.round(Math.sin(tNow * 2.5));
   ctx.drawImage(sp, X, Y + bs, W2, H2);
   if(e.hit > 0){ ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .55; ctx.drawImage(sp, X, Y + bs, W2, H2); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
-  const tn = PH.tint || (cut ? ((BPH[e.k] || [])[cut.ph] || {}).tint : '');
-  if(tn){ const ta = cut ? (Math.floor(tNow * 14) % 2 ? .75 : .2) * ck : (ph === 3 ? (e.k === 'soivuong' ? .55 : .5) : .3) + Math.random() * .12; ctx.globalAlpha = ta; if(ph === 3 && !cut) ctx.drawImage(tintCached(sp, tn), X, Y + bs, W2, H2); else { ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(tintCached(sp, tn), X, Y + bs, W2, H2); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
+  const tn = cut ? (bossPhD(e, cut.ph).tint || '') : PH.tint || '';
+  if(tn){ const ta = cut ? (Math.floor(tNow * 14) % 2 ? .75 : .2) * ck : (ph === 3 ? .5 : .3) + Math.random() * .12; ctx.globalAlpha = ta; if(ph === 3 && !cut) ctx.drawImage(tintCached(sp, tn), X, Y + bs, W2, H2); else { ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(tintCached(sp, tn), X, Y + bs, W2, H2); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
   if(cut){ ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .25 + .25 * ck; ctx.strokeStyle = '#FFE7A8'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(e.x - cx, e.y - cy - H2 * .45, W2 * .62, H2 * .62, 0, 0, 7); ctx.stroke(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
     if(frame % 2 === 0) fx.push({ k:'p', x:e.x + rnd(-W2 * .4, W2 * .4), y:e.y + 2, vx:0, vy:-rnd(40, 90), t:0, d:.9, c:pick([col, '#FFFFFF']), glow:1 }); }
-  // mắt phát sáng
-  const ex = (e.k === 'mavuong' ? 0 : (e.dir > 0 ? 10 : -10)) * scNow, ey = (e.k === 'mavuong' ? s.height - 56 : s.height - 27) * scNow;
-  ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .5 + Math.sin(tNow * 6) * .2; ctx.fillStyle = ph === 3 ? '#C99BFF' : '#FF2A2A'; ctx.beginPath(); ctx.arc(e.x - cx + ex, Y + bs + ey, ph === 3 ? 8 : 6, 0, 7); ctx.fill(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  if(B.eye){ const ex = (mv ? 0 : (e.dir > 0 ? B.eye[0] : -B.eye[0])) * scNow, ey = (s.height - B.eye[1]) * scNow;
+    ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .5 + Math.sin(tNow * 6) * .2; ctx.fillStyle = ph === 3 ? '#C99BFF' : '#FF2A2A'; ctx.beginPath(); ctx.arc(e.x - cx + ex, Y + bs + ey, ph === 3 ? 8 : 6, 0, 7); ctx.fill(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
 }
 const TINTS = new Map();
 function tintCached(c, col){ const k = c; let m = TINTS.get(k); if(!m){ m = cnv(c.width, c.height); const x = m.getContext('2d'); x.drawImage(c, 0, 0); x.globalCompositeOperation = 'source-atop'; x.fillStyle = col; x.fillRect(0, 0, c.width, c.height); TINTS.set(k, m); } return m; }
@@ -2213,7 +2321,7 @@ function renderOverlay(){
   for(const n of M.npcs){ const d = Math.hypot(n.x - me.x, n.y - me.y); if(!DLG && d < 90 && tNow > (n.bt || 0)){ n.bt = tNow + rnd(7, 12); n.say = subT(pickR(BARK[n.k])); n.sayT = tNow; } if(n.say && tNow - n.sayT < 3.2){ bubbles['npc_' + n.k] = { m:n.say, t:Date.now() - (tNow - n.sayT) * 1000 }; } else delete bubbles['npc_' + n.k]; }
   { const nw = !DLG && !nearNpc() && nearWp(); if(nw){ const x = tx(nw.x), y = ty(nw.y + 12), t = TOUCH ? Lx("Bấm nút để truyền tống") : Lx("[E] Truyền tống"); o2.font = '600 11px "Be Vietnam Pro",sans-serif'; o2.textAlign = 'center'; const w = o2.measureText(t).width + 14; o2.fillStyle = 'rgba(10,12,16,.75)'; o2.fillRect(x - w / 2, y - 9, w, 17); o2.strokeStyle = 'rgba(127,200,255,.6)'; o2.strokeRect(x - w / 2 + .5, y - 8.5, w - 1, 16); o2.fillStyle = '#9FD8FF'; o2.fillText(t, x, y + 3); } }
   { const nn = !DLG && nearNpc(); if(nn){ const x = tx(nn.x), y = ty(nn.y + 14), t = TOUCH ? Lx("Chạm để nói chuyện") : Lx("[E] Nói chuyện"); o2.font = '600 11px "Be Vietnam Pro",sans-serif'; o2.textAlign = 'center'; const w = o2.measureText(t).width + 14; o2.fillStyle = 'rgba(10,12,16,.75)'; o2.fillRect(x - w / 2, y - 9 + Math.sin(tNow * 4), w, 17); o2.strokeStyle = 'rgba(217,185,122,.6)'; o2.strokeRect(x - w / 2 + .5, y - 8.5 + Math.sin(tNow * 4), w - 1, 16); o2.fillStyle = '#EAD7A8'; o2.fillText(t, x, y + 3 + Math.sin(tNow * 4)); } }
-  for(const n of M.npcs){ const x = tx(n.x), y = ty(n.y - 34); drawBubble('npc_' + n.k, x, y - 30); nameTag(x, y, n.n, n.k === 'tong' ? Lx("Giao nhiệm vụ") : n.k === 'dan' ? Lx("Bán đan dược") : Lx("Rèn & cường hoá"), '#7FE0A8'); if(n.k === 'tong' && (questReady() || (curQuest() && curQuest().k === 'talk'))){ o2.font = '800 18px sans-serif'; o2.fillStyle = '#F2C14E'; o2.strokeText('!', x, y - 30); o2.fillText('!', x, y - 30); } }
+  for(const n of M.npcs){ const x = tx(n.x), y = ty(n.y - 34); drawBubble('npc_' + n.k, x, y - 30); nameTag(x, y, n.n, n.k === 'tong' ? Lx("Giao nhiệm vụ") : n.k === 'dan' ? Lx("Bán đan dược") : n.k === 'bc' ? Lx("Bí Cảnh") : Lx("Rèn & cường hoá"), '#7FE0A8'); if(n.k === 'tong' && (questReady() || (curQuest() && curQuest().k === 'talk'))){ o2.font = '800 18px sans-serif'; o2.fillStyle = '#F2C14E'; o2.strokeText('!', x, y - 30); o2.fillText('!', x, y - 30); } }
   for(const id in others){ const o = others[id], x = tx(o.x), y = ty(o.y - 38 - (o.L.wi ? 6 : 0) - (o.L.h ? 3 : 0) - mtH(o.L)); nameTag(x, y, (Party.mem && Party.mem[id] ? '🤝 ' : '') + o.n, ((CLASSES[o.L.cls] || CLASSES.kiem).ic) + ' ' + realmName(o.s || 0), majorOf(o.s || 0).c); drawBubble(id, x, y - 30); }
   if(!me.dead){ const LL = look(), x = tx(me.x), y = ty(me.y - 38 - (LL.wi ? 6 : 0) - (LL.h ? 3 : 0) - mtH(LL)); nameTag(x, y, P.name, cls().ic + ' ' + realmName(P.stage), majorOf(P.stage).c); drawBubble('me', x, y - 30); }
   for(const m of mobs){ if(m.dead) continue; const show = (m.D.boss ? !(m.st === 'chase' || Math.hypot(m.x - me.x, m.y - me.y) < 200) : (m.el || m.hp < m.max || me.target === m)) || (me.target === m && !m.D.boss); if(!show) continue; const sp = mobSprite(m.k, 0), x = tx(m.x), y = ty(m.y - sp.height - 3), w = m.D.boss ? 70 : 34;
@@ -2301,9 +2409,9 @@ function hud(){
   { const nn = !DLG && running && nearNpc(), nw = !nn && !DLG && running && nearWp(), ba = $('#bAtk'), want = nn ? nn.k : nw ? 'wp' : ''; if(ba._t !== want){ ba._t = want; ba.classList.toggle('talk', !!(nn || nw)); ba.querySelector('.tk').innerHTML = nn ? Lx("Nói<br>chuyện") : nw ? Lx("Truyền<br>tống") : ''; } }
   const k = `${P.name}|${P.stage}|${P.inv.hp}|${P.buff.x2 > Date.now()}|${P.q.i}|${P.q.p}|${P.daily.p}`;
   ['van', 'ho', 'hoa'].forEach((s, i) => { const b = $('#bS' + (i + 1)), sk = SKILLS[s]; const lk = P.stage < sk.s; if(b._lk !== lk){ b._lk = lk; b.classList.toggle('lock', lk); } const rem = Math.max(0, cds[s] - tNow), v = (rem / (skCd(s) || sk.cd)).toFixed(2); if(b._cd !== v){ b._cd = v; b.querySelector('.cd').style.transform = `scaleY(${v})`; } });
-  const bo = mobs.find(m => m.D.boss && !m.dead && (m.st === 'chase' || Math.hypot(m.x - me.x, m.y - me.y) < 200)), bb = $('#bossbar');
+  let bo = null, bd0 = 1e9; for(const m of mobs){ if(!m.D.boss || m.dead) continue; const dd = Math.hypot(m.x - me.x, m.y - me.y); if((m.st === 'chase' || dd < 200) && dd < bd0){ bd0 = dd; bo = m; } } const bb = $('#bossbar');
   bb.classList.toggle('hidden', !bo);
-  if(bo){ const pc = bo.hp / bo.max * 100; $('#bbN').textContent = bo.D.n; $('#bbT').textContent = bo.D.title || ''; $('#bbI').style.width = pc + '%'; $('#bbW').style.width = pc + '%'; const bph = bo.ph || 1; $('#bbP').textContent = `${fmt(bo.hp)} / ${fmt(bo.max)} · ${Lx("PHA {0}", ['I', 'II', 'III'][bph - 1])}`; if(bo.ph > 1) $('#bbN').textContent = BPH[bo.k][bph].n; bb.classList.toggle('p2', bph === 2); bb.classList.toggle('p3', bph === 3); }
+  if(bo){ const pc = bo.hp / bo.max * 100; $('#bbN').textContent = bo.D.n; $('#bbT').textContent = bo.D.title || ''; $('#bbI').style.width = pc + '%'; $('#bbW').style.width = pc + '%'; const bph = bo.ph || 1; $('#bbP').textContent = `${fmt(bo.hp)} / ${fmt(bo.max)}${bo.D.mini ? '' : ' · ' + Lx("PHA {0}", ['I', 'II', 'III'][bph - 1])}`; if(bo.ph > 1) $('#bbN').textContent = bossPhD(bo).n; bb.classList.toggle('mini', !!bo.D.mini); bb.classList.toggle('p2', bph === 2); bb.classList.toggle('p3', bph === 3); }
   if(k === _hk) return; _hk = k;
   $('#meName').textContent = P.name; $('#meRealm').textContent = realmName(P.stage); $('#meRealm').style.color = majorOf(P.stage).c;
   $('#potN').textContent = P.inv.hp || 0;
@@ -2340,6 +2448,7 @@ function questWhere(q){
   return ['', ''];
 }
 function trackHtml(){
+  if(DG && M && M.id === DG.mid) return dgTrack();
   const q = curQuest();
   if(q){
     const ready = questReady(), prog = q.k === 'stage' ? (P.stage >= q.n ? Lx("xong") : realmName(q.n)) : q.k === 'talk' ? '' : `${P.q.p}/${q.n}`, op = trOpen === 'q';
@@ -2356,6 +2465,7 @@ function trackHtml(){
   return `<div class="trq" data-tr="d"><div class="qk"><i>◈</i><b>${DAILY.t}</b><em>${P.daily.d === today() ? P.daily.p : 0}/${DAILY.n}</em></div></div>`;
 }
 function questGoal(){
+  if(DG && M && M.id === DG.mid){ const R = DG.rooms.find(r => r.st !== 'done'); return R ? { map:M.id, x:(R.x + R.w / 2) * TS, y:(R.y + R.h / 2) * TS } : null; }
   const q = curQuest(); if(!q) return null;
   if(questReady() || q.k === 'talk') return { map:'thon', x:22 * TS, y:16 * TS };
   if(q.k === 'med' || q.k === 'stage') return { map:'thon', x:MAPS.thon.platform.x, y:MAPS.thon.platform.y };
@@ -2372,7 +2482,7 @@ function goalHere(){
 const MINI_C = ['#3E7A3A', '#2E5A30', '#B89A66', '#9A968C', '#2A6FB5', '#3A3448', '#E0501A', '#16131C', '#8A6A3E', '#3A3030', '#D6AF66', '#C9A060'];
 function drawMini(){
   const c = $('#mm'); if(!c || !M) return; const x = c.getContext('2d'), W = 236, R = 112, Cx = 118;
-  if(!M.mini){ M.mini = cnv(M.W, M.H); const m = M.mini.getContext('2d'); for(let ty = 0; ty < M.H; ty++) for(let tx = 0; tx < M.W; tx++){ m.fillStyle = MINI_C[M.t[ty * M.W + tx]] || '#222'; m.fillRect(tx, ty, 1, 1); } m.fillStyle = 'rgba(0,0,0,.35)'; M.objs.forEach(o => { if(o.solid) m.fillRect(Math.floor(o.x / TS), Math.floor(o.y / TS) - 1, 1, 1); }); }
+  if(!M.mini){ M.mini = cnv(M.W, M.H); const m = M.mini.getContext('2d'); for(let ty = 0; ty < M.H; ty++) for(let tx = 0; tx < M.W; tx++){ m.fillStyle = (M.miniC || MINI_C)[M.t[ty * M.W + tx]] || '#222'; m.fillRect(tx, ty, 1, 1); } m.fillStyle = 'rgba(0,0,0,.35)'; M.objs.forEach(o => { if(o.solid) m.fillRect(Math.floor(o.x / TS), Math.floor(o.y / TS) - 1, 1, 1); }); }
   const k = 6, pxT = me.x / TS, pyT = me.y / TS, toS = (wx, wy) => [Cx + (wx / TS - pxT) * k, Cx + (wy / TS - pyT) * k];
   x.clearRect(0, 0, W, W); x.save(); x.beginPath(); x.arc(Cx, Cx, R, 0, 7); x.clip();
   x.fillStyle = '#0B0D12'; x.fillRect(0, 0, W, W); x.imageSmoothingEnabled = false; x.globalAlpha = .85; x.drawImage(M.mini, Cx - pxT * k, Cx - pyT * k, M.W * k, M.H * k); x.globalAlpha = 1;
@@ -2423,6 +2533,7 @@ const NPCV = {
   tong:{ n:Lx("Tông Chủ Thanh Vân"), c:'#F2C14E', f:150, w:'triangle', pitch:.72, rate:.92 },
   dan:{ n:Lx("Đan Sư Lam Nhi"), c:'#7FE0A8', f:620, w:'sine', pitch:1.35, rate:1.06 },
   ren:{ n:Lx("Thợ Rèn Lão Thiết"), c:'#FF9A5A', f:105, w:'square', pitch:.55, rate:.9 },
+  bc:{ n:Lx("Sứ Giả Bí Cảnh"), c:'#C99BFF', f:420, w:'sine', pitch:1.15, rate:.96 },
 };
 const pickR = a => a[Math.floor(Math.random() * a.length)];
 const subT = t => { const m = P.g !== 'f'; return t.replace(/\{name\}/g, P.name).replace(/\{sh\}/g, m ? Lx("sư huynh") : Lx("sư tỷ")).replace(/\{tt\}/g, m ? Lx("tiểu tử") : Lx("cô nương")).replace(/\{realm\}/g, realmName(P.stage)); };
@@ -2470,6 +2581,7 @@ function dlgNext(){ const D = DLG; if(!D) return; if(D.typing){ dlgDone(); retur
 function closeDlg(silent){ if(!DLG) return; clearInterval(DLG.iv); DLG.el.remove(); DLG = null; try{ speechSynthesis.cancel(); }catch(e){} if(!silent && P && me && !me.dead && !document.querySelector('.sbg')){ running = true; lastT = performance.now(); } }
 addEventListener('keydown', e => { if(!DLG) return; if(e.key === ' ' || e.key === 'Enter'){ if(!DLG.el.querySelector('.ch button') || DLG.typing){ e.preventDefault(); e.stopImmediatePropagation(); dlgNext(); } } else if(e.key === 'Escape'){ closeDlg(); } else if(/^[1-4]$/.test(e.key)){ const b = DLG.el.querySelectorAll('.ch button')[+e.key - 1]; if(b){ e.stopImmediatePropagation(); b.click(); } } }, true);
 const BYE = {
+  bc:[Lx("Khi nào sẵn sàng, cứ quay lại."), Lx("Bí Cảnh không chạy đi đâu cả.")],
   tong:[Lx("Đi đi. Nhớ kỹ: tu đạo trước tu tâm."), Lx("Thượng lộ bình an, {name}."), Lx("Ừm. Có chuyện gì cứ quay về tìm ta.")],
   dan:[Lx("Đi cẩn thận nha {sh}! Bị thương thì về đây muội băng cho."), Lx("Hẹn gặp lại~ Nhớ đừng liều quá đó!"), Lx("Đi đi, muội còn phải canh lò đan.")],
   ren:[Lx("Đi đi. Kiếm mẻ thì mang về đây."), Lx("Hừ, đừng để ta nghe tin ngươi bỏ mạng đấy, {tt}."), Lx("Keng… À, ngươi vẫn còn đứng đó à?")],
@@ -2479,6 +2591,7 @@ const BARK = {
   tong:[Lx("Tu đạo trước tu tâm…"), Lx("Linh khí hôm nay dồi dào lắm."), Lx("Đài Tu Luyện đang trống đấy."), Lx("Hừm… trời sắp đổi gió.")],
   dan:[Lx("Đan mới ra lò đây~"), Lx("Hồi Huyết Đan, Hồi Linh Đan đây!"), Lx("Ui, nóng nóng nóng!"), Lx("Ai bị thương ghé muội nha!")],
   ren:['Keng! Keng!', Lx("Thép tốt phải tôi trăm lần."), Lx("Hừ… lửa lò còn yếu."), Lx("Mang kiếm lại đây, ta rèn cho!")],
+  bc:[Lx("Bí Cảnh đã mở…"), Lx("Kẻ gan dạ, lại đây."), Lx("Rương báu đang chờ chủ nhân."), Lx("Cửa sau lưng sẽ đóng lại đấy.")],
 };
 const LORE = [
   [Lx("Lang Hoàng ư? Ngày trước nó chỉ là sói đầu đàn. Uống phải máu dưới trăng đỏ, giờ thành Huyết Nguyệt Lang Hoàng."), Lx("Khi trăng máu hiện lên, nó điên cuồng gấp bội. Thấy vùng đỏ dưới chân thì đừng nghĩ nhiều, né trước đã.")],
@@ -2539,6 +2652,7 @@ function npcTalk(n){
   if(n.k === 'tong') return talkTong();
   if(n.k === 'dan') return talkDan();
   if(n.k === 'ren') return talkRen();
+  if(n.k === 'bc') return talkBc();
 }
 function questSheet(atNpc){
   const q = curQuest();
@@ -2758,7 +2872,7 @@ function langSheet(){
     <div class="langs">${LANGS.map(([c, n, f]) => `<button class="btn ${c === LANG ? 'gold' : 'alt'}" data-lg="${c}">${f} ${n}</button>`).join('')}</div>`);
   document.querySelectorAll('[data-lg]').forEach(b => b.onclick = () => { if(b.dataset.lg === LANG) return closeSheet(); setLang(b.dataset.lg); });
 }
-const MAP_NEED = { madien:9, samac:21 };
+const MAP_NEED = { madien:9, samac:21, bangnguyen:27, damlay:31 };
 function partyHud(){ const el = document.getElementById('track'); if(el && P && me) el.innerHTML = trackHtml() + partyHtml(); }
 function partyHtml(){
   const mem = Party.code ? Object.entries(Party.mem) : [], n = Party.code ? mem.length : 1, onl = mem.filter(([id, m]) => id === Net.uid || Date.now() - (m.ct || 0) < 15000).length || 1, op = trOpen === 'p';
@@ -2941,7 +3055,7 @@ function expTip(){
 }
 
 /* ======================= TRUYỀN TỐNG TRẬN ======================= */
-const WPDEF = { thon:[[29, 19, Lx("Quảng Trường Thanh Vân")]], rung:[[5, 25, Lx("Bìa Rừng Hắc Mộc")], [34, 27, Lx("Cầu Gỗ Giữa Rừng")], [51, 22, Lx("Hang Lang Hoàng")]], madien:[[30, 38, Lx("Cổng Ma Điện")], [30, 24, Lx("Huyết Điện")]], samac:[[33, 7, Lx("Cửa Ải Hoàng Sa")], [40, 26, Lx("Ốc Đảo Giữa Sa Mạc")]] };
+const WPDEF = { thon:[[29, 19, Lx("Quảng Trường Thanh Vân")]], rung:[[5, 25, Lx("Bìa Rừng Hắc Mộc")], [34, 27, Lx("Cầu Gỗ Giữa Rừng")], [51, 22, Lx("Hang Lang Hoàng")]], madien:[[30, 38, Lx("Cổng Ma Điện")], [30, 24, Lx("Huyết Điện")]], samac:[[33, 7, Lx("Cửa Ải Hoàng Sa")], [40, 26, Lx("Ốc Đảo Giữa Sa Mạc")]], bangnguyen:[[5, 24, Lx("Cửa Tuyết Vực")], [34, 30, Lx("Hồ Băng")]], damlay:[[32, 6, Lx("Bờ Bắc Đầm Lầy")], [40, 37, Lx("Cầu Mục")]] };
 const WPS = {};
 function initWps(){
   for(const id in WPDEF){ const M2 = MAPS[id]; if(!M2) continue; M2.wps = WPDEF[id].map(([tx, ty, n], i) => {
@@ -2977,6 +3091,7 @@ function drawWps(ctx, cx, cy){
 
 /* ======================= MỞ KHOÁ & HƯỚNG DẪN ======================= */
 const UNL = [
+  { id:'bcx', ic:'🗝', t:Lx("Bí Cảnh"), b:() => Lx("Gặp Sứ Giả Bí Cảnh ở thôn để vào màn phiêu lưu: nhiều phòng khoá cửa, Tiểu Boss, rương báu và Boss cuối."), c:() => P.stage >= 3 },
   { id:'ctl', ic:'🎮', t:Lx("Điều khiển"), b:() => TOUCH ? Lx("Kéo cần gạt bên trái để đi. Nút lớn bên phải để đánh, giữ lâu một nút bất kỳ để xem thông tin.") : Lx("W A S D để đi, J hoặc Space để đánh, phím 1 2 3 dùng tuyệt kỹ. Rê chuột vào nút để xem thông tin."), el:() => TOUCH ? '#joy' : '#bAtk', c:() => true },
   { id:'map', ic:'🧭', t:Lx("Nhiệm vụ & bản đồ"), b:() => Lx("Nhiệm vụ hiện cạnh bản đồ tròn, kèm khoảng cách. Chạm vào bản đồ tròn để mở bản đồ lớn."), el:() => '#mmw', c:() => P.tips.ctl },
   { id:'talk', ic:'💬', t:Lx("Nói chuyện với NPC"), b:() => TOUCH ? Lx("Đứng gần NPC, nút đánh sẽ đổi thành Nói chuyện.") : Lx("Đứng gần NPC rồi bấm E (hoặc J) để nói chuyện."), el:() => '#bAtk', c:() => !!nearNpc() },
@@ -3212,15 +3327,15 @@ function tintC(src, t){
 }
 const wingImg = (k, fr, sid) => { const S = sid && CAT[sid]; return S && S.t ? cached('wt' + k + fr + sid, () => tintC(wingSprite(k, fr), S.t)) : wingSprite(k, fr); };
 const wpnSpr = (k, f, col) => f === 'kiem' || !f ? swordSprite(k, col) : weaponSprite(k, f, col);
-function mountSprite(id, fr){
-  return cached('mt' + id + fr, () => { const C = CAT[id], [b, d, m, a] = C.c, f = C.f || '';
+function mountSprite(id, fr, C0){
+  return cached('mt' + id + fr, () => { const C = C0 || CAT[id], [b, d, m, a] = C.c, f = C.f || '';
     if(f === 'kiem') return spr(40, 12, R => { R(2, 5, 30, 3, b); R(2, 5, 30, 1, m); R(32, 5, 4, 3, b); R(36, 6, 2, 1, m); R(0, 4, 3, 5, a); R(-2, 5, 3, 3, '#6A2A20'); R(4, 8, 26, 1, d); for(let i = 0; i < 4; i++) R(6 + i * 7, 6, 2, 1, fr ? '#FFFFFF' : d); });
     if(f === 'can') return spr(40, 18, R => { const pf = [[6, 8, 9], [13, 5, 11], [22, 6, 10], [29, 9, 8], [17, 10, 12]]; pf.forEach(([x, y, w], i) => { R(x, y, w, 5, i % 2 ? m : b); R(x + 1, y - 1, w - 2, 1, m); R(x + 1, y + 5, w - 2, 1, d); }); R(2, 11, 6, 2, d); R(0, 12 + fr, 3, 2, a); R(34, 12 - fr, 4, 2, d); R(38, 11, 2, 2, a); });
     if(f === 'rong') return spr(44, 28, R => { for(let i = 0; i < 30; i++){ const y = 15 + Math.round(Math.sin(i * .45 + fr) * 2); R(4 + i, y, 1, 5, i % 3 ? b : d); R(4 + i, y + 4, 1, 1, m); } R(33, 9, 9, 7, b); R(41, 12, 2, 2, d); R(38, 10, 1, 1, '#1A1226'); R(34, 7, 2, 2, m); R(37, 6, 1, 3, m); R(42, 15, 2, 4, a); R(0, 14, 5, 3, a);
       const wy = fr ? 2 : 0; for(let k = 0; k < 9; k++){ R(12 + k, 4 + wy + Math.floor(k / 2), 1, 11 - Math.floor(k / 2) - wy, k % 2 ? m : b); } R(11, 3 + wy, 3, 2, d); for(let i = 0; i < 6; i++) R(8 + i * 5, 13, 2, 2, m); });
     return spr(34, 24, R => {
       const lg = [[0, 0, 0, 0], [1, -1, -1, 1], [-1, 1, 1, -1]][fr] || [0, 0, 0, 0];
-      if(f === 'long'){ for(let i = 0; i < 26; i++){ const y = 11 + Math.round(Math.sin(i * .5 + fr) * 2); R(3 + i, y, 1, 5, i % 3 ? b : d); R(3 + i, y + 4, 1, 1, m); } R(27, 4, 7, 6, b); R(28, 3, 2, 2, a); R(32, 6, 2, 1, '#1A1226'); R(33, 9, 1, 3, a); R(29, 2, 1, 2, a); for(let i = 0; i < 5; i++) R(6 + i * 5, 9 + (i % 2), 2, 2, m); R(1, 15, 30, 4, 'rgba(255,255,255,.85)'); R(4, 18, 24, 3, '#E8F4FF'); return; }
+      if(f === 'long'){ for(let i = 0; i < 26; i++){ const y = 11 + Math.round(Math.sin(i * .5 + fr) * 2); R(3 + i, y, 1, 5, i % 3 ? b : d); R(3 + i, y + 4, 1, 1, m); } R(27, 4, 7, 6, b); R(28, 3, 2, 2, a); R(32, 6, 2, 1, '#1A1226'); R(33, 9, 1, 3, a); R(29, 2, 1, 2, a); for(let i = 0; i < 5; i++) R(6 + i * 5, 9 + (i % 2), 2, 2, m); if(!C.nc){ R(1, 15, 30, 4, 'rgba(255,255,255,.85)'); R(4, 18, 24, 3, '#E8F4FF'); } return; }
       R(7, 8, 18, 8, b); R(7, 14, 18, 2, d); R(22, 3, 5, 9, b); R(24, 1, 8, 6, b); R(31, 4, 2, 2, d); R(29, 2, 1, 1, '#1A1226');
       R(5 + (f === 'lan' ? -1 : 0), 8, 3, 6, m); R(3, 10, 3, 5, m);
       [[9, lg[0]], [12, lg[1]], [20, lg[2]], [23, lg[3]]].forEach(([x, o]) => { R(x + o, 16, 2, 6, d); R(x + o, 21, 2, 1, '#1A1226'); });
@@ -3367,6 +3482,181 @@ function adminSheet(){
   const say = t => $('#adM').textContent = t;
   $('#adGo').onclick = async () => { const c = $('#adC').value.trim().toUpperCase(), n = Math.round(+$('#adN').value); if(c.length !== 6 || !(n > 0)) return say('Mã hoặc số không hợp lệ'); try{ const r = await Net.adminCredit(c, n); say(`Đã cộng ${n} cho ${c}. Số dư mới: ${r}`); }catch(e){ say('Lỗi: ' + (e.message || e)); } };
   $('#adCat').onclick = async () => { const pr = {}; document.querySelectorAll('[data-pr]').forEach(e => { pr[e.dataset.pr] = Math.max(0, Math.round(+e.value || 0)); }); try{ await Net.adminCatalog(pr); toast('Đã lưu bảng giá'); adminSheet(); }catch(e){ toast('Lỗi: ' + (e.message || e)); } };
+}
+
+/* ======================= BÍ CẢNH (màn phiêu lưu nhiều phòng) ======================= */
+const BC = [
+  { id:'bc1', ic:'🐺', n:Lx("Hang Sói Máu"), d:Lx("Hang sâu dưới Rừng Hắc Mộc, bầy sói tụ về mỗi đêm trăng máu."), th:'forest', L:8, need:3, mobs:['tho', 'soi', 'nhen'], mini:'chumau', boss:'soivuong' },
+  { id:'bc2', ic:'🔥', n:Lx("Địa Lao Dung Nham"), d:Lx("Nhà ngục dưới Ma Điện, nơi giam giữ quỷ dữ ngàn năm."), th:'lava', L:18, need:10, mobs:['quy', 'hoama', 'xuong'], mini:'kiemthanh', boss:'mavuong' },
+  { id:'bc3', ic:'🏺', n:Lx("Cổ Mộ Hoàng Sa"), d:Lx("Lăng mộ vua cổ chôn vùi dưới cát, đầy bẫy và xác ướp."), th:'desert', L:30, need:21, mobs:['bocap', 'satrung', 'xacuop'], mini:'trungvuong', boss:'thivuong' },
+  { id:'bc4', ic:'❄️', n:Lx("Băng Cung Vĩnh Đông"), d:Lx("Cung điện băng của Long Hậu, gió lạnh cắt da cắt thịt."), th:'snow', L:36, need:27, mobs:['tuyetlang', 'bangtinh', 'tuyethung'], mini:'langvuong', boss:'banglong' },
+  { id:'bc5', ic:'☠️', n:Lx("U Minh Đầm Lầy"), d:Lx("Tầng sâu nhất của đầm lầy, cửa ngõ chín tầng U Minh."), th:'swamp', L:40, need:31, mobs:['docthiem', 'thuyquy', 'thima'], mini:'quytuong', boss:'doclong' },
+];
+const BCD = [{ n:Lx("Thường"), hp:1, atk:1, rw:1, c:'#7FE0A8' }, { n:Lx("Khó"), hp:1.7, atk:1.35, rw:1.8, c:'#F2C14E' }, { n:Lx("Ác Mộng"), hp:2.8, atk:1.8, rw:3, c:'#FF5A4A' }];
+let DG = null, bcSel = 0, bcDf = 0;
+function talkBc(){
+  const lines = [P.stage < 3 ? Lx("Ngươi còn non lắm. Đạt Lv 4 rồi quay lại tìm ta.") : pickR([Lx("Mỗi Bí Cảnh là một chuỗi phòng. Vào phòng thì cửa khoá lại, diệt sạch yêu ma mới mở."), Lx("Ngươi có ba mạng. Gục ngã ba lần thì Bí Cảnh đẩy ngươi ra ngoài."), Lx("Cuối mỗi Bí Cảnh là một Boss lớn, giữa đường còn có Tiểu Boss canh giữ.")])];
+  say('bc', lines, [[Lx("Chọn Bí Cảnh"), () => { closeDlg(true); bcSheet(); }], [Lx("Tạm biệt"), () => bye('bc')]]);
+}
+const bcBest = id => (P.bc && P.bc[id]) || 0;
+function bcSheet(){
+  const B = BC[bcSel], ok = P.stage >= B.need, best = bcBest(B.id); if(bcDf > best) bcDf = Math.min(best, 2);
+  const stars = n => '★'.repeat(n) + '☆'.repeat(3 - n);
+  sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>🗝 ${Lx("Bí Cảnh")}</h2><p class="sub">${Lx("Vượt qua từng phòng, hạ Tiểu Boss, mở rương báu và đánh bại Boss cuối. Có 3 mạng, chết không mất tu vi.")}</p>
+    <div class="bcl">${BC.map((b, i) => `<button class="bcc${i === bcSel ? ' on' : ''}${P.stage >= b.need ? '' : ' lk'}" data-bc="${i}"><i>${b.ic}</i><b>${b.n}</b><small>Lv ${b.need + 1}+ · <span class="st">${stars(bcBest(b.id))}</span></small></button>`).join('')}</div>
+    <div class="bcd"><div class="bch"><b>${B.ic} ${B.n}</b><small>${Lx("Quái cấp {0}", B.L)} · ${Lx("Tiểu Boss: {0}", MOBS[B.mini].n)} · ${Lx("Boss: {0}", MOBS[B.boss].n)}</small></div><p>${B.d}</p>
+      <div class="bcdf">${BCD.map((d, i) => `<button data-df="${i}" class="${i === bcDf ? 'on' : ''}" style="--dc:${d.c}" ${i > best ? 'disabled' : ''}>${i > best ? '🔒 ' : ''}${d.n}<small>${i ? `${Lx("Máu x{0}", d.hp)} · ${Lx("Thưởng x{0}", d.rw)}` : Lx("Thưởng x1")}</small></button>`).join('')}</div>
+      <p class="sub" style="font-size:11.5px">${Lx("Qua độ khó này để mở độ khó tiếp theo.")}</p>
+      ${ok ? `<button class="btn gold" id="bcGo">⚔ ${Lx("Vào Bí Cảnh")}</button>` : `<button class="btn" disabled>🔒 ${Lx("Cần đạt Lv {0}", B.need + 1)}</button>`}</div>`);
+  document.querySelectorAll('[data-bc]').forEach(b => b.onclick = () => { bcSel = +b.dataset.bc; sfx.tap(); bcSheet(); });
+  document.querySelectorAll('[data-df]').forEach(b => b.onclick = () => { bcDf = +b.dataset.df; sfx.tap(); bcSheet(); });
+  const g = $('#bcGo'); if(g) g.onclick = () => { closeSheet(); startDungeon(B, bcDf); };
+}
+function genDungeon(B, df){
+  const r = mulberry((Date.now() % 1e9) | 0), kinds = ['start', 'fight', 'fight', 'chest', 'mini', 'fight', 'fight', 'boss'], H = 44, rooms = [];
+  let x = 3;
+  kinds.forEach(k => { const w = k === 'boss' ? 22 : k === 'start' || k === 'chest' ? 10 : 15 + Math.floor(r() * 3), h = k === 'boss' ? 17 : k === 'start' || k === 'chest' ? 9 : 11 + Math.floor(r() * 3);
+    const y0 = clamp(Math.floor((H - h) / 2 + (r() - .5) * 16), 3, H - h - 3); rooms.push({ k, x, y:y0, w, h, cy:y0 + Math.floor(h / 2), st:k === 'start' || k === 'chest' ? 'done' : 'idle', doors:[] }); x += w + 7 + Math.floor(r() * 3); });
+  const W = x + 2, th = B.th, id = 'bc' + (Date.now() % 1e8);
+  const M = makeMap(id, W, H, T_.ROCK, (Date.now() % 9999) + 7); M.name = B.n; M.dg = 1; M.block = new Set(); M.chests = [];
+  if(th === 'lava') M.dark = true; if(th === 'desert'){ M.theme = 'desert'; M.bg = '#7A5A32'; } if(th === 'snow') M.theme = 'snow'; if(th === 'swamp') M.theme = 'swamp';
+  const FL = { forest:[T_.DGRASS, T_.GRASS, T_.PATH], lava:[T_.STONE, T_.ASH, T_.STONE], desert:[T_.SAND, T_.DUNE, T_.PLAZA], snow:[T_.GRASS, T_.DGRASS, T_.PATH], swamp:[T_.DGRASS, T_.GRASS, T_.PATH] }[th];
+  const N = makeNoise(M.seed);
+  rooms.forEach(R => { for(let yy = R.y; yy < R.y + R.h; yy++) for(let xx = R.x; xx < R.x + R.w; xx++) setT(M, xx, yy, N(xx / 4, yy / 4) > .58 ? FL[1] : FL[0]); if(R.k === 'boss' || R.k === 'start') for(let yy = R.y + 2; yy < R.y + R.h - 2; yy++) for(let xx = R.x + 2; xx < R.x + R.w - 2; xx++) if(((xx - R.x - R.w / 2) / (R.w / 2 - 2)) ** 2 + ((yy - R.cy) / (R.h / 2 - 2)) ** 2 < 1) setT(M, xx, yy, T_.PLAZA); });
+  const carve = (x0, y0, x1, y1) => { for(let yy = Math.min(y0, y1); yy <= Math.max(y0, y1); yy++) for(let xx = Math.min(x0, x1); xx <= Math.max(x0, x1); xx++) setT(M, xx, yy, FL[2]); };
+  for(let i = 0; i < rooms.length - 1; i++){ const a = rooms[i], b = rooms[i + 1], gap = b.x - (a.x + a.w), mx = a.x + a.w + 2 + Math.floor(r() * (gap - 4));
+    carve(a.x + a.w, a.cy - 1, mx + 1, a.cy + 1); carve(mx - 1, a.cy - 1, mx + 1, b.cy + 1); carve(mx - 1, b.cy - 1, b.x - 1, b.cy + 1);
+    for(let d = -1; d <= 1; d++){ a.doors.push([a.x + a.w, a.cy + d]); b.doors.push([b.x - 1, b.cy + d]); } }
+  // trang trí theo chủ đề, chừa giữa phòng và lối đi
+  const DEC = { forest:['pine', 'bush', 'rock', 'tree'], lava:['spike', 'lrock', 'skulls', 'dead'], desert:['cactus', 'drock', 'pillar'], snow:['pine', 'rock', 'dead'], swamp:['dead', 'mush', 'lrock'] }[th];
+  rooms.forEach(R => {
+    const free = (xx, yy) => Math.abs(yy - R.cy) > 2 && xx > R.x + 1 && xx < R.x + R.w - 2 && yy > R.y + 1 && yy < R.y + R.h - 2;
+    if(th === 'lava' || th === 'swamp'){ for(let i = 0; i < (R.k === 'boss' ? 0 : 2); i++){ const xx = R.x + 3 + Math.floor(r() * (R.w - 6)), yy = r() < .5 ? R.y + 2 : R.y + R.h - 4; if(free(xx, yy) && free(xx + 1, yy + 1)) rect(M, xx, yy, 2, 2, th === 'lava' ? T_.LAVA : T_.WATER); } }
+    for(let i = 0; i < (R.k === 'boss' ? 4 : 9); i++){ const xx = R.x + 2 + Math.floor(r() * (R.w - 4)), yy = R.y + 2 + Math.floor(r() * (R.h - 4)); if(free(xx, yy) && Math.hypot(xx - R.x - R.w / 2, yy - R.cy) > 4 && freeAt(M, xx, yy, 0)) addObj(M, pick2(DEC, r), xx, yy, i, true); }
+    if(th !== 'swamp' && th !== 'snow') [[R.x + 1, R.y + 1], [R.x + R.w - 2, R.y + 1], [R.x + 1, R.y + R.h - 2], [R.x + R.w - 2, R.y + R.h - 2]].forEach(([xx, yy]) => addObj(M, 'lantern', xx, yy, 0, true));
+    if(R.k === 'boss') [[R.x + 4, R.y + 3], [R.x + R.w - 5, R.y + 3], [R.x + 4, R.y + R.h - 4], [R.x + R.w - 5, R.y + R.h - 4]].forEach(([xx, yy], i) => addObj(M, 'pillar', xx, yy, i % 2));
+    if(R.k === 'chest') for(let i = 0; i < 3; i++) M.chests.push({ x:(R.x + 2.5 + i * 2.5) * TS, y:(R.cy + (i === 1 ? -1 : 1)) * TS + 8, open:0 });
+  });
+  const S = rooms[0];
+  M.portals.push({ x:(S.x + 2) * TS, y:S.cy * TS + 8, to:'__dgexit', tx:0, ty:0, label:Lx("Rời Bí Cảnh") });
+  bakeMap(M); MAPS[id] = M;
+  return { M, rooms, sx:(S.x + S.w - 3) * TS, sy:S.cy * TS + 8 };
+}
+function startDungeon(B, df){
+  if(DG) return; if(!me || me.dead) return;
+  const ret = M && !M.dg ? { map:M.id, x:me.x, y:me.y } : { map:'thon', x:25 * TS, y:21 * TS };
+  const G = genDungeon(B, df);
+  DG = { B, df, D:BCD[df], mid:G.M.id, rooms:G.rooms, lives:3, t0:Date.now(), ret, act:null, L:B.L + df * 2, won:0, tk:0 };
+  sfx.roar(); fade(() => { enterMap(G.M.id, G.sx, G.sy, true); DG.t0 = Date.now(); banner(B.n, `${DG.D.n} · ${Lx("Vượt {0} phòng, hạ Boss cuối", G.rooms.length - 1)}`); const bn = document.querySelector('.banner'); if(bn) bn.classList.add('cin'); cine(2600); camZoom(1.3, 1800); partyHud(); });
+}
+function exitDungeon(){ if(!DG) return; const R = DG.ret; fade(() => enterMap(R.map, R.x, R.y)); }
+function spawnDg(k, x, y, A){
+  const D = MOBS[k], L = D.boss ? Math.max(D.L, DG.L) : DG.L, el = !D.boss && Math.random() < .12 ? 1 : 0;
+  let hp = mobHp(L) * (D.hpM || 1) * DG.D.hp * (el ? 2.8 : 1) * (D.boss && !D.mini ? .8 : 1);
+  let px = x, py = y; for(let i = 0; i < 20 && !canStand(M, px, py); i++){ px = x + rnd(-24, 24); py = y + rnd(-16, 16); }
+  const m = { k, D, sp:null, x:px, y:py, hx:px, hy:py, hp, max:hp, L, st:'chase', aggro:true, t:0, cd:1, dir:1, fr:0, dead:0, hit:0, dg:A.id, temp:1, dgA:DG.D.atk, el, ls2:rnd(2, 5) };
+  mobs.push(m); fxBurst(px, py - 8, 14, '#B04AFF'); fx.push({ k:'wave', x:px, y:py, t:0, d:.5, c:'#C99BFF' }); return m;
+}
+function dgWave(A){
+  const R = A.room, w = A.waves.shift(), pts = [];
+  for(let i = 0; i < w.length; i++){ let x, y, t = 0; do { x = (R.x + 2 + Math.random() * (R.w - 4)) * TS; y = (R.y + 2 + Math.random() * (R.h - 4)) * TS; t++; } while(t < 20 && (Math.hypot(x - me.x, y - me.y) < 60 || !canStand(M, x, y))); pts.push([x, y]); }
+  w.forEach((k, i) => setTimeout(() => { if(DG && DG.act === A) spawnDg(k, pts[i][0], pts[i][1], A); }, i * 140));
+  A.wait = w.length * .14 + .3; A.wn++;
+  if(A.wn > 1) toast(Lx("Đợt {0}/{1}!", A.wn, A.wt));
+}
+function startRoom(R){
+  R.st = 'active'; const B = DG.B, df = DG.df, idx = DG.rooms.indexOf(R), pickM = n => Array.from({ length:n }, () => pick(B.mobs));
+  R.doors.forEach(([x, y]) => M.block.add(y * M.W + x));
+  const waves = R.k === 'boss' ? [[B.boss]] : R.k === 'mini' ? [[B.mini, ...pickM(2)], pickM(3 + df)] : Array.from({ length:2 + (df >= 2 ? 1 : 0) }, () => pickM(4 + df + Math.floor(Math.random() * 2)));
+  DG.act = { id:'r' + idx, room:R, waves, wn:0, wt:waves.length, wait:0 };
+  sfx.thunder(); shake(3); flash = .2;
+  if(R.k !== 'boss') banner(R.k === 'mini' ? Lx("Phòng Tiểu Boss") : Lx("Phòng {0}/{1}", idx, DG.rooms.length - 1), Lx("Cửa đã khoá · diệt sạch yêu ma để mở"));
+  dgWave(DG.act); partyHud();
+}
+function finishRoom(R){
+  R.st = 'done'; DG.act = null; R.doors.forEach(([x, y]) => M.block.delete(y * M.W + x)); sfx.lv();
+  const cx = (R.x + R.w / 2) * TS, cy = R.cy * TS + 8; fx.push({ k:'wave', x:cx, y:cy, t:0, d:.8, c:'#7FE0A8', big:1 });
+  if(R.k === 'boss') return dgWin(R);
+  drops.push({ x:cx, y:cy, k:'st', n:Math.round(mobStone(DG.L) * 6 * DG.D.rw), t:0 });
+  if(R.k === 'mini') M.chests.push({ x:cx, y:cy - 10, open:0, big:1 });
+  toast(Lx("Phòng đã sạch! Cửa mở rồi")); partyHud();
+}
+function dgLoot(n, big){
+  const t = clamp(Math.floor(DG.L / 7) + 1 + (DG.df >= 2 ? 1 : 0), 2, 6), out = [];
+  for(let i = 0; i < n; i++){ const sl = pick(['w', 'a', 'h', 'w', 'a', 'h', 'wi']), tt = sl === 'wi' ? clamp(t - 2, 1, 4) : clamp(t - (Math.random() < .3 ? 1 : 0), 2, 6); out.push(sl + tt); }
+  if(big) out.push(sl0());
+  function sl0(){ return pick(['w', 'a', 'h']) + t; }
+  return out;
+}
+function openChest(c){
+  c.open = 1; sfx.coin(); sfx.lv(); fxBurst(c.x, c.y - 8, c.big ? 30 : 18, '#F2C14E'); fx.push({ k:'pillar', x:c.x, y:c.y, t:0, d:.9, c:'#F2C14E' });
+  const rw = DG.D.rw, sc = (x, y) => [c.x + rnd(-18, 18), c.y + rnd(-8, 10)];
+  const push = (k, n) => { const [x, y] = sc(); drops.push({ x, y, k, n, t:0, b:1 }); };
+  push('st', Math.round(mobStone(DG.L) * (c.big ? 12 : 6) * rw));
+  push(pick(['hp', 'mp', 'hp']), 1 + (c.big ? 2 : 0)); if(Math.random() < .35 * rw) push('x2', 1); if(Math.random() < (c.big ? .5 : .15) * rw) push('pc', 1); if(Math.random() < .4) push('tp', 1);
+  if(Math.random() < (c.big ? 1 : .45) * Math.min(1.6, rw)) dgLoot(1).forEach(k => push(k, 1));
+  push('tt', Math.round(DG.L * (c.big ? 2 : 1) * rw));
+}
+function dgWin(R){
+  DG.won = 1; const B = DG.B, df = DG.df, rw = DG.D.rw, secs = Math.round((Date.now() - DG.t0) / 1000);
+  P.bc = P.bc || {}; const first = bcBest(B.id) <= df; P.bc[B.id] = Math.max(bcBest(B.id), df + 1);
+  const cx = (R.x + R.w / 2) * TS, cy = R.cy * TS + 8;
+  M.chests.push({ x:cx, y:cy + 12, open:0, big:1, gold:1 });
+  M.portals.push({ x:cx, y:cy - 34, to:'__dgexit', tx:0, ty:0, label:Lx("Rời Bí Cảnh") });
+  // phần thưởng hoàn thành
+  const xu = Math.round(mobStone(DG.L) * 40 * rw), tt = Math.round(DG.L * 6 * rw), pcN = 1 + df, items = dgLoot(2 + df, 1).map(k => addItem(k, 'boss')).filter(Boolean);
+  P.st += xu; P.inv.tt = (P.inv.tt || 0) + tt; P.inv.pc = (P.inv.pc || 0) + pcN;
+  const lockT = Object.keys(TYP).filter(t => !TYP[t].def && !TYP[t].it && !TYP[t].none && ['mount', 'wing', 'pet'].includes(TYP[t].k) && !tyOwn(t));
+  let ty = ''; if(lockT.length && Math.random() < (first ? .35 : .12) * rw){ ty = pick(lockT); gainTyp(ty, true); }
+  saveSoon(); Net.chat(Lx("đã chinh phục Bí Cảnh {0} ({1})!", B.n, DG.D.n), true);
+  setTimeout(() => { if(!DG) return; sfx.lv(); const mm = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
+    sheet(`<div class="bcwin"><small>${Lx("BÍ CẢNH HOÀN THÀNH")}</small><h2>${B.ic} ${B.n}</h2><p class="sub" style="color:${DG.D.c}">${DG.D.n} · ⏱ ${mm} · ❤ ${DG.lives}/3${first ? ' · ' + Lx("Lần đầu!") : ''}</p>
+      <div class="bcrw"><div>${iconHtml('st', 22)}<span>${Lx("{0} xu", fmt(xu))}</span></div><div>${iconHtml('tt', 22)}<span>${tt} Linh Tinh</span></div><div>${iconHtml('pc', 22)}<span>${pcN} ${PILLS.pc.n}</span></div>
+      ${items.map(it => `<div>${iconHtml(ik(it), 22)}<span style="color:${rarC(ITEMS[it.k].t)}">${esc(itName(it))}</span></div>`).join('')}${ty ? `<div>${iconHtml('ty:' + ty, 22)}<span style="color:#F2C14E">${Lx("Mở khoá {0}!", tyName(ty))}</span></div>` : ''}</div>
+      <p class="sub" style="font-size:11.5px">${df < 2 && P.bc[B.id] > df ? Lx("Đã mở độ khó {0}.", BCD[df + 1].n) : ''} ${Lx("Rương vàng giữa phòng còn chờ bạn mở.")}</p>
+      <div class="row2"><button class="btn alt" data-close>${Lx("Ở lại nhặt đồ")}</button><button class="btn gold" id="bcOut">${Lx("Về Thôn")}</button></div></div>`);
+    $('#bcOut').onclick = () => { closeSheet(); exitDungeon(); }; }, 2200);
+}
+function dgDie(){
+  me.dead = true; me.hp = 0; DG.lives--; sfx.bad(); P.deaths++;
+  if(DG.lives > 0){
+    sheet(`<h2>${Lx("Gục ngã!")}</h2><p class="sub">${Lx("Còn {0} mạng. Hồi sinh ở cửa phòng.", DG.lives)}</p><button class="btn gold" id="rev">${Lx("Hồi sinh")}</button>`, { dismiss:false });
+    $('#rev').onclick = () => { closeSheet(); const R = (DG.act && DG.act.room) || DG.rooms.find(r => r.st !== 'done') || DG.rooms[0]; me.dead = false; const S = stats(); me.hp = S.hp; me.mp = S.mp; me.x = (R.x + 2) * TS; me.y = R.cy * TS + 8; if(!canStand(M, me.x, me.y)) me.x = (R.x + R.w / 2) * TS; fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:'#7FE0A8' }); partyHud(); };
+  } else {
+    sheet(`<h2>${Lx("Bí Cảnh thất bại")}</h2><p class="sub">${Lx("Hết mạng rồi. Đồ đã nhặt vẫn được giữ, hãy mạnh hơn rồi quay lại.")}</p><button class="btn gold" id="rev">${Lx("Về Thôn")}</button>`, { dismiss:false });
+    $('#rev').onclick = () => { closeSheet(); me.dead = false; const S = stats(); me.hp = S.hp; me.mp = S.mp; exitDungeon(); };
+  }
+}
+function dgTick(dt){
+  if(!DG || !M || M.id !== DG.mid) return;
+  DG.tk += dt; if(DG.tk > 1){ DG.tk = 0; partyHud(); }
+  if(me.dead) return;
+  // cổng rời Bí Cảnh
+  for(const pt of M.portals) if(pt.to === '__dgexit' && Math.hypot(pt.x - me.x, pt.y - me.y) < 12 && !me.porting){ me.porting = true; exitDungeon(); setTimeout(() => me.porting = false, 800); return; }
+  const tx = me.x / TS, ty = me.y / TS;
+  if(!DG.act){ const R = DG.rooms.find(r => r.st === 'idle' && tx > r.x + .9 && tx < r.x + r.w - .9 && ty > r.y + .6 && ty < r.y + r.h - .6); if(R) startRoom(R); }
+  const A = DG.act;
+  if(A){ A.wait -= dt; if(A.wait <= 0){ const alive = mobs.some(m => !m.dead && m.dg === A.id); if(!alive){ if(A.waves.length) dgWave(A); else finishRoom(A.room); } } }
+  for(const c of M.chests) if(!c.open && Math.hypot(c.x - me.x, c.y - me.y) < 16) openChest(c);
+}
+function dgTrack(){
+  const R = DG.act && DG.act.room, idx = R ? DG.rooms.indexOf(R) : DG.rooms.filter(r => r.st === 'done').length, n = DG.rooms.length - 1, secs = Math.round((Date.now() - DG.t0) / 1000);
+  const alive = DG.act ? mobs.filter(m => !m.dead && m.dg === DG.act.id).length : 0;
+  const st = DG.won ? Lx("Đã chinh phục! Ra cổng để về") : R ? (R.k === 'boss' ? Lx("Phòng Boss") : `${Lx("Phòng {0}/{1}", idx, n)} · ${Lx("còn {0} yêu ma", alive)}${DG.act.wt > 1 ? ` · ${Lx("đợt {0}/{1}", DG.act.wn, DG.act.wt)}` : ''}`) : Lx("Tiến vào phòng kế tiếp →");
+  return `<div class="trq"><div class="qk"><i>🗝</i><b>${esc(DG.B.n)}</b><em style="color:${DG.D.c}">${DG.D.n}</em></div><div class="qd" style="margin-left:18px">${st}</div><div class="qm"><span>${'❤'.repeat(DG.lives)}${'🖤'.repeat(3 - DG.lives)}</span> · ⏱ ${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}</div><div class="qm" id="qDist"></div></div>`;
+}
+function chestSpr(open, big, gold){
+  return cached('chest' + (open ? 1 : 0) + (big ? 1 : 0) + (gold ? 1 : 0), () => { const w = big ? 22 : 16, h = big ? 18 : 14, b = gold ? '#C9912A' : '#7A4A22', d = gold ? '#8A5A10' : '#4A2A12', gd = gold ? '#FFF3C0' : '#F2C14E';
+    return spr(w, h, R => { R(1, h - 9, w - 2, 8, b); R(1, h - 2, w - 2, 1, d); R(1, h - 9, 2, 8, gd); R(w - 3, h - 9, 2, 8, gd); R(Math.floor(w / 2) - 1, h - 9, 2, 8, gd);
+      if(open){ R(1, h - 15, w - 2, 5, d); R(1, h - 15, w - 2, 1, gd); R(3, h - 10, w - 6, 2, '#FFE07A'); } else { R(1, h - 13, w - 2, 4, b); R(1, h - 13, w - 2, 1, gd); R(Math.floor(w / 2) - 2, h - 10, 4, 3, '#2A1A10'); R(Math.floor(w / 2) - 1, h - 9, 2, 2, gd); } }); });
+}
+function drawDg(ctx, cx, cy){
+  if(M.block && M.block.size){ ctx.globalCompositeOperation = 'lighter';
+    for(const k of M.block){ const X = (k % M.W) * TS - cx, Y = Math.floor(k / M.W) * TS - cy; if(X < -16 || Y < -16 || X > gw || Y > gh) continue; ctx.globalAlpha = .32 + Math.sin(tNow * 6 + k) * .1; ctx.fillStyle = '#B04AFF'; ctx.fillRect(X, Y, TS, TS); ctx.globalAlpha = .75; ctx.fillStyle = '#E8C8FF'; for(let i = 2; i < 16; i += 5) ctx.fillRect(X + i, Y + ((tNow * 20 + i * 3) % 16) - 4, 1, 6); if(frame % 10 === 0) fx.push({ k:'p', x:X + cx + rnd(0, 16), y:Y + cy + 16, vx:0, vy:-rnd(10, 24), t:0, d:.7, c:'#C99BFF', glow:1 }); }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
+  for(const c of (M.chests || [])){ const sp = chestSpr(c.open, c.big, c.gold), X = Math.round(c.x - cx - sp.width / 2), Y = Math.round(c.y - cy - sp.height); if(X < -30 || Y < -30 || X > gw + 30 || Y > gh + 30) continue;
+    if(!c.open){ ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .25 + Math.sin(tNow * 4) * .1; ctx.fillStyle = '#F2C14E'; ctx.beginPath(); ctx.ellipse(c.x - cx, c.y - cy - 2, sp.width * .7, 5, 0, 0, 7); ctx.fill(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; if(frame % 12 === 0) fx.push({ k:'p', x:c.x + rnd(-8, 8), y:c.y - rnd(4, 12), vx:0, vy:-12, t:0, d:.8, c:'#FFE07A', glow:1 }); }
+    ctx.drawImage(sp, X, Y); }
 }
 /* ======================= GIỮ ĐỂ XEM ======================= */
 let tipEl = null;
@@ -3958,7 +4248,7 @@ function begin(data, fresh){
   me = { x:P.x, y:P.y, dir:1, hp:0, mp:0, sit:false, tx:null };
   const S = stats(); me.hp = clamp(P.hp, 1, S.hp); me.mp = clamp(P.mp, 0, S.mp);
   $('#ui').classList.remove('hidden'); document.body.classList.add('ingame'); resize();
-  enterMap(MAPS[P.map] ? P.map : 'thon', P.x, P.y, true);
+  enterMap(MAPS[P.map] ? P.map : 'thon', MAPS[P.map] ? P.x : 25 * TS, MAPS[P.map] ? P.y : 21 * TS, true);
   if(P.inv.tbl === undefined) P.inv.tbl = 3; dailyGift();
   if(!canStand(M, me.x, me.y)){ me.x = 25 * TS; me.y = 21 * TS; enterMap('thon', me.x, me.y, true); }
   running = true; updAutoBtn();
@@ -3977,7 +4267,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : Lx("Không kết nối được máy chủ, bạn vẫn chơi offline được."));
 }
-window.__td = { partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
