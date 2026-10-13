@@ -573,6 +573,27 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .skb img{width:40px;height:40px;image-rendering:pixelated}.skb i{font-style:normal;font-size:10px;font-weight:800;color:#F2C14E;min-height:13px;line-height:13px}
 .skb .gg{position:absolute;top:1px;right:2px;font-style:normal;font-size:8.5px;font-weight:900;padding:0 3px;border-radius:2px}.gg.g1{background:#5EB8FF;color:#0B1A2A}.gg.g2{background:#C99BFF;color:#1A0A2A}.gg.g3{background:#F2C14E;color:#2A1A00}
 .sksel{margin:8px 0;font-size:13px}.sksel b{font-family:var(--serif);font-size:17px}.sksel p{margin:2px 0 0;color:var(--paper2);font-size:12px}
+
+/* nhiệm vụ & tổ đội gọn */
+#track{max-width:min(250px,40vw)!important}
+#track .trq,#track .trp{cursor:pointer;border-radius:4px;padding:1px 2px;margin:0 -2px;transition:background .15s}
+#track .trq:hover,#track .trp:hover,#track .trq.on,#track .trp.on{background:rgba(255,255,255,.07)}
+#track .qk{flex-wrap:nowrap;min-width:0}#track .qk b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#track .qk em{font-style:normal;font-size:11.5px;font-weight:800;color:#F2C14E;white-space:nowrap}#track .qk em.ok{color:#7FE0A8}
+#track s,#track .trp s{text-decoration:none;color:var(--paper2);font-size:10px;margin-left:auto;padding-left:4px}
+#track .qm:empty{display:none}
+#track .trp{display:flex;align-items:baseline;gap:6px;margin-top:5px!important;padding-top:4px;border-top:1px solid rgba(255,255,255,.12)}#track .trp>span{font-size:13px;font-weight:800;color:#9FD8FF}#track .trp small{font-size:11px;color:var(--paper2)}
+#track .trpop{margin:4px 0 2px;padding:7px 8px;background:rgba(8,8,12,.82);border:1px solid rgba(217,185,122,.35);border-radius:4px;animation:soft .2s;text-shadow:none!important;max-height:calc(100vh - 150px);overflow:auto}
+#track .trpop *{text-shadow:none!important}
+#track .qd2{margin:0 0 4px;font-size:11.5px;color:#E9E4D8;line-height:1.4}
+#track .trkv{display:flex;gap:6px;justify-content:space-between;font-size:11.5px;margin:3px 0}#track .trkv span{color:var(--paper2);white-space:nowrap}#track .trkv b{color:#FFF6E0;text-align:right;font-weight:700}
+#track .trbar{position:relative;height:12px;background:#1A1420;border:1px solid rgba(255,255,255,.12);border-radius:2px;margin:4px 0 6px;overflow:hidden}#track .trbar i{display:block;height:100%;background:linear-gradient(90deg,#B07A1A,#F2C14E)}#track .trbar span{position:absolute;inset:0;text-align:center;font-size:9.5px;line-height:11px;font-weight:800;color:#fff}
+#track .trrw{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;margin-bottom:6px}#track .trrw div{display:flex;align-items:center;gap:5px;font-size:11px;color:#F5EEDC;min-width:0}#track .trrw span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#track .trrw img,#track .ri{width:18px;height:18px;flex:none;font-size:14px;line-height:18px;text-align:center}
+#track .trbtn{display:flex;gap:5px}#track .trbtn button{flex:1;padding:5px 6px;font-size:11px;font-weight:700;color:#F5EEDC;background:rgba(255,255,255,.07);border:1px solid rgba(233,228,216,.25);border-radius:3px;white-space:nowrap}
+#track .trm{display:flex;align-items:center;gap:7px;padding:4px 3px;border-bottom:1px dotted rgba(255,255,255,.1)}#track .trm[data-pgo]{cursor:pointer}#track .trm[data-pgo]:hover{background:rgba(127,200,255,.12)}#track .trm.off{opacity:.45}
+#track .trm .ci{font-size:16px}#track .trm .g{flex:1;min-width:0}#track .trm .g b{display:block;font-size:12.5px;color:#FFF6E0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#track .trm .g b small{display:inline;font-weight:400}#track .trm .g small{display:block;font-size:10.5px;color:var(--paper2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#track .trm i{display:block;height:3px;margin-top:2px;background:#3A2030;border-radius:2px;overflow:hidden}#track .trm i u{display:block;height:100%;background:#E0453A}
+#track .trm .go{font-style:normal;color:#7FC8FF;font-size:12px}
 /* ===== NHIỆM VỤ DỄ ĐỌC ===== */
 #track{padding:7px 12px 8px 10px!important;background:linear-gradient(90deg,rgba(8,8,12,.62),rgba(8,8,12,.38) 70%,rgba(8,8,12,0))!important;border-left:2px solid rgba(217,185,122,.7);max-width:250px!important}
 #track .qk{font-size:14px!important}#track .qk b{font-weight:700!important;color:#FFF6E0!important}
@@ -633,7 +654,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=17"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=18"><\/script>');
 })();
 </script>
 <script>
@@ -2302,11 +2323,37 @@ function questEvent(type, arg){
   if(q){ if(q.k === 'kill' && type === 'kill' && arg === q.m && P.q.p < q.n) P.q.p++; if(q.k === 'med' && type === 'med' && P.q.p < q.n) P.q.p++; if(q.k === 'stage' && P.stage >= q.n) P.q.p = q.n; if(questReady() && !P._qTold){ P._qTold = 1; toast(`${Lx("Hoàn thành \"{0}\", về gặp Tông Chủ nhận thưởng", q.t)}`); } }
   if(type === 'kill'){ if(P.daily.d !== today()) P.daily = { d:today(), p:0, done:0 }; if(!P.daily.done && P.daily.p < DAILY.n) P.daily.p++; }
 }
+let trOpen = '';
+function rwList(rw){
+  const L = [];
+  if(rw.st) L.push([iconHtml('st', 18), Lx("{0} xu", fmt(rw.st))]);
+  ['hp', 'mp', 'x2', 'pc'].forEach(k => { if(rw[k]) L.push([iconHtml(k, 18), `${rw[k]} ${PILLS[k].n}`]); });
+  if(rw.item) L.push([iconHtml(rw.item, 18), ITEMS[rw.item].n]);
+  if(rw.ty) L.push([iconHtml('ty:' + rw.ty, 18), `${tyName(rw.ty)} (${CATK[TYP[rw.ty].k]})`]);
+  if(rw.tbl) L.push(['<span class="ri">🎫</span>', Lx('{0} Tầm Bảo Lệnh', rw.tbl)]);
+  return L;
+}
+function questWhere(q){
+  if(questReady() || q.k === 'talk') return [Lx("Gặp Tông Chủ"), MAPS.thon.name];
+  if(q.k === 'med' || q.k === 'stage') return [q.k === 'med' ? Lx("Ngồi thiền trên Đài Tu Luyện") : Lx("Tu luyện hoặc đánh quái lên cấp"), MAPS.thon.name];
+  if(q.k === 'kill'){ const g = questGoal(); return [Lx("Diệt {0}", MOBS[q.m].n), g && MAPS[g.map] ? MAPS[g.map].name : '']; }
+  return ['', ''];
+}
 function trackHtml(){
   const q = curQuest();
-  if(q){ const prog = q.k === 'stage' ? (P.stage >= q.n ? Lx("xong") : realmName(q.n)) : q.k === 'talk' ? '' : `${P.q.p}/${q.n}`; return `<div class="qk"><i>◈</i><b>${esc(q.t)}</b></div><div class="qd">${questReady() ? Lx("Về gặp Tông Chủ") : esc(q.d)}${prog && !questReady() ? ' · ' + prog : ''}</div><div class="qm" id="qDist"></div>`; }
-  if(P.daily.d === today() && P.daily.done) return `<div class="qk"><i>◈</i><b>${Lx("Đã xong nhiệm vụ hôm nay")}</b></div>`;
-  return `<div class="qk"><i>◈</i><b>${DAILY.t}</b></div><div class="qd">${P.daily.d === today() ? P.daily.p : 0}/${DAILY.n}</div>`;
+  if(q){
+    const ready = questReady(), prog = q.k === 'stage' ? (P.stage >= q.n ? Lx("xong") : realmName(q.n)) : q.k === 'talk' ? '' : `${P.q.p}/${q.n}`, op = trOpen === 'q';
+    let h = `<div class="trq${op ? ' on' : ''}" data-tr="q"><div class="qk"><i>◈</i><b>${esc(q.t)}</b>${ready ? `<em class="ok">✓</em>` : prog ? `<em>${prog}</em>` : ''}<s>${op ? '▴' : '▾'}</s></div><div class="qm" id="qDist"></div></div>`;
+    if(op){ const [what, where] = questWhere(q), pc = q.k === 'kill' || q.k === 'med' ? Math.min(1, P.q.p / q.n) : ready ? 1 : 0;
+      h += `<div class="trpop"><p class="qd2">${ready ? Lx("Đã xong, về gặp Tông Chủ nhận thưởng.") : esc(q.d)}</p>
+        <div class="trkv"><span>📍 ${Lx("Ở đâu")}</span><b>${esc(what)}${where ? ` · ${esc(where)}` : ''}</b></div>
+        ${q.k === 'kill' || q.k === 'med' ? `<div class="trbar"><i style="width:${Math.round(pc * 100)}%"></i><span>${P.q.p}/${q.n}</span></div>` : ''}
+        <div class="trkv"><span>🎁 ${Lx("Phần thưởng")}</span></div><div class="trrw">${rwList(q.rw).map(([ic, t]) => `<div>${ic}<span>${esc(t)}</span></div>`).join('')}</div>
+        <div class="trbtn"><button data-tra="map">🗺 ${Lx("Chỉ đường")}</button><button data-tra="all">📜 ${Lx("Tất cả nhiệm vụ")}</button></div></div>`; }
+    return h;
+  }
+  if(P.daily.d === today() && P.daily.done) return `<div class="trq"><div class="qk"><i>◈</i><b>${Lx("Đã xong nhiệm vụ hôm nay")}</b></div></div>`;
+  return `<div class="trq" data-tr="d"><div class="qk"><i>◈</i><b>${DAILY.t}</b><em>${P.daily.d === today() ? P.daily.p : 0}/${DAILY.n}</em></div></div>`;
 }
 function questGoal(){
   const q = curQuest(); if(!q) return null;
@@ -2714,9 +2761,15 @@ function langSheet(){
 const MAP_NEED = { madien:9, samac:21 };
 function partyHud(){ const el = document.getElementById('track'); if(el && P && me) el.innerHTML = trackHtml() + partyHtml(); }
 function partyHtml(){
-  if(!Party.code) return '';
-  const rows = Object.entries(Party.mem).filter(([id]) => id !== Net.uid).map(([id, m]) => { const on = Date.now() - (m.ct || 0) < 15000; return `<div style="opacity:${on ? 1 : .45}"${on ? ` data-pgo="${id}" class="pgo"` : ''}>${(CLASSES[m.cl] || CLASSES.kiem).ic} ${esc(m.n)}${talking(id) ? '<span class="vs">🔊</span>' : m.vc && m.mu ? ' 🔇' : ''} <i><u style="width:${Math.round((m.hp || 0) * 100)}%"></u></i>${M && m.map === M.id ? '' : ' 🗺'}${on ? '<em class="go">➤</em>' : ''}</div>`; }).join('');
-  return `<div class="pt"><b>👥 ${Lx("Tổ đội")} ${Party.code}</b>${curPN > 1 ? ` · ${Lx("Độ khó")} x${diffHp().toFixed(1)}` : ''}${rows || `<div style="opacity:.6">${Lx("Đang chờ đồng đội…")}</div>`}</div>`;
+  const mem = Party.code ? Object.entries(Party.mem) : [], n = Party.code ? mem.length : 1, onl = mem.filter(([id, m]) => id === Net.uid || Date.now() - (m.ct || 0) < 15000).length || 1, op = trOpen === 'p';
+  const talk = mem.some(([id]) => id !== Net.uid && talking(id));
+  let h = `<div class="trp${op ? ' on' : ''}" data-tr="p"><span>👥 ${n}/4</span>${Party.code ? `<small>${onl < n ? Lx("{0} trực tuyến", onl) : Lx("Tổ đội")}${curPN > 1 ? ' · x' + diffHp().toFixed(1) : ''}</small>` : `<small>${Lx("Một mình")}</small>`}${talk ? '<span class="vs">🔊</span>' : ''}<s>${op ? '▴' : '▾'}</s></div>`;
+  if(op){
+    const rows = mem.map(([id, m]) => { const on = id === Net.uid || Date.now() - (m.ct || 0) < 15000, mine = id === Net.uid, mp = MAPS[m.map];
+      return `<div class="trm${on ? '' : ' off'}"${!mine && on ? ` data-pgo="${id}"` : ''}><b class="ci">${(CLASSES[m.cl] || CLASSES.kiem).ic}</b><div class="g"><b>${esc(m.n)}${mine ? ` <small>(${Lx("bạn")})</small>` : ''}${talking(id) ? ' <span class="vs">🔊</span>' : ''}</b><small>${realmName(m.s || 0)} · ${mp ? (M && m.map === M.id ? '📍 ' : '') + mp.name : '?'}${on ? '' : ' · ' + Lx("ngoại tuyến")}</small><i><u style="width:${Math.round((m.hp || 0) * 100)}%"></u></i></div>${!mine && on ? '<em class="go">➤</em>' : ''}</div>`; }).join('');
+    h += `<div class="trpop">${Party.code ? `<div class="trkv"><span>${Lx("Mã tổ đội")}</span><b>${Party.code}</b></div>${rows}<p class="qd2">${Lx("Bấm vào đồng đội để dịch chuyển tới chỗ họ.")}</p>` : `<p class="qd2">${Lx("Đang đi một mình. Mời bạn bè hoặc ghép đội nhanh, tối đa 4 người.")}</p>`}<div class="trbtn"><button data-tra="party">👥 ${Party.code ? Lx("Quản lý tổ đội") : Lx("Lập / vào tổ đội")}</button></div></div>`;
+  }
+  return h;
 }
 let _pgoT = 0;
 function partyGo(id){
@@ -3501,7 +3554,11 @@ $('#bRide').onclick = toggleRide; holdTip($('#bRide'), () => `<h4>🐎 ${Lx("Cư
 $('#mmw').onclick = bigMap; holdTip($('#expw'), expTip);
 $('#bChat').onclick = () => { sfx.tap(); chatSheet(); };
 $('#bMenu').onclick = () => { sfx.tap(); menuSheet(); };
-$('#track').addEventListener('click', e => { const r = e.target.closest('[data-pgo]'); if(r){ e.stopPropagation(); sfx.tap(); partyGo(r.dataset.pgo); } });
+$('#track').addEventListener('click', e => {
+  const r = e.target.closest('[data-pgo]'); if(r){ e.stopPropagation(); sfx.tap(); trOpen = ''; partyHud(); partyGo(r.dataset.pgo); return; }
+  const a = e.target.closest('[data-tra]'); if(a){ e.stopPropagation(); sfx.tap(); const k = a.dataset.tra; trOpen = ''; partyHud(); if(k === 'map') bigMap(); else if(k === 'all') questSheet(); else if(k === 'party') partySheet(); return; }
+  const t = e.target.closest('[data-tr]'); if(t){ e.stopPropagation(); sfx.tap(); const k = t.dataset.tr; trOpen = trOpen === k || k === 'd' ? '' : k; if(k === 'd') questSheet(); partyHud(); }
+});
 $('#bAtk').onclick = attackPress; $('#bPot').onclick = drinkHp; $('#bAuto').onclick = toggleAuto; $('#bMed').onclick = toggleMed;
 document.querySelectorAll('[data-sk]').forEach(b => { b.onclick = () => useSkill(b.dataset.sk); holdTip(b, () => skillTip(b.dataset.sk)); });
 holdTip($('#bAtk'), () => { const nn = nearNpc(); return nn ? `<h4>${nn.n}</h4><p>${Lx("Bấm để nói chuyện.")}</p>` : skillTip('atk'); });
