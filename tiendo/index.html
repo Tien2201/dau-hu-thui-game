@@ -580,7 +580,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=8"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=9"><\/script>');
 })();
 </script>
 <script>
@@ -1349,6 +1349,7 @@ const AFX_POOL = { w:['atk', 'crit', 'critd', 'ls', 'boss', 'exp'], a:['hp', 'de
 const AFX_N = [0, 0, 1, 1, 2, 2, 3];
 function rollItem(k, src = 'drop'){
   const I = ITEMS[k], it = { id:P.nid++, k, plus:0, r:[] };
+  if(I.slot === 'w' && I.t >= 2){ const fams = Object.keys(WFAM); it.wc = src === 'shop' || src === 'start' || Math.random() < .75 ? myFam() : fams[Math.floor(Math.random() * fams.length)]; }
   let n = AFX_N[I.t] + (I.t >= 3 && Math.random() < .35 ? 1 : 0);
   if(src === 'shop') n = Math.min(n, 1); if(src === 'boss') n = Math.max(n, AFX_N[I.t] + 1); n = Math.min(4, n);
   const pool = [...AFX_POOL[I.slot]];
@@ -1387,7 +1388,7 @@ function look(p = P){
   const it = sl => itemOf(p.eq[sl]) || null, kk = sl => (it(sl) || {}).k;
   const w = kk('w') || 'w1', a = kk('a'), wi = kk('wi') || '', h = kk('h') || '';
   const tiers = [w, a, wi, h].filter(Boolean).map(k => ITEMS[k].t), pl = Math.max(0, ...['w', 'a', 'wi', 'h'].map(sl => (it(sl) || { plus:0 }).plus));
-  return { g:p.g, hair:p.hair, robe:p.robe, trim:a ? (ITEMS[a].t >= 3 ? ITEMS[a].c : '#F2C14E') : '#F2C14E', w, wi, h, at:a ? ITEMS[a].t : 1, ac:a ? ITEMS[a].c : '#9A8A7A', bw:ITEMS[w].t >= 2 ? w : '', au:Math.max(0, ...tiers), pl, st:p.stage || 0, sw:Math.min(8, 1 + Math.floor((p.stage || 0) / 4)) + (_cl === 'kiem' ? 2 : 0), cls:_cl, cos:_co };
+  return { g:p.g, hair:p.hair, robe:p.robe, trim:a ? (ITEMS[a].t >= 3 ? ITEMS[a].c : '#F2C14E') : '#F2C14E', w, wi, h, at:a ? ITEMS[a].t : 1, ac:a ? ITEMS[a].c : '#9A8A7A', bw:ITEMS[w].t >= 2 && ['kiem', 'pham', 'dao'].includes(_cl) ? w : '', au:Math.max(0, ...tiers), pl, st:p.stage || 0, sw:Math.min(8, 1 + Math.floor((p.stage || 0) / 4)) + (_cl === 'kiem' ? 2 : 0), cls:_cl, cos:_co };
 }
 
 /* ======================= TRẠNG THÁI CHẠY ======================= */
@@ -2037,18 +2038,53 @@ function drawBubble(id, x, y){
 const ICONS = {};
 function itemIcon(k){
   if(ICONS[k]) return ICONS[k];
-  let c;
+  let c; let fam = ''; if(k.includes('@')){ [k, fam] = [k.split('@')[0], k.split('@')[1]]; }
   if(k === 'tt') c = spr(16, 16, R => { R(7, 1, 2, 2, '#F4E8FF'); R(5, 3, 6, 4, '#C99BFF'); R(4, 7, 8, 4, '#9B6BE0'); R(6, 11, 4, 3, '#6A3AB0'); R(6, 4, 2, 5, '#F4E8FF'); R(10, 6, 1, 4, '#E0C8FF'); });
   else if(k === 'st') c = spr(16, 16, R => { R(5, 3, 6, 10, '#7FE0F0'); R(6, 2, 4, 1, '#BFF4FF'); R(6, 4, 2, 6, '#E8FFFF'); R(4, 6, 1, 4, '#4FB0D0'); R(11, 6, 1, 4, '#4FB0D0'); });
   else if(PILLS[k]) c = spr(16, 16, R => { const col = PILLS[k].c; R(4, 5, 8, 8, col); R(5, 4, 6, 10, col); R(6, 5, 2, 2, '#FFFFFF'); R(9, 10, 2, 2, shade(col, -.3)); });
   else {
     const I = ITEMS[k]; c = cnv(28, 28); const x = c.getContext('2d'); x.imageSmoothingEnabled = false;
-    if(I.slot === 'w'){ x.translate(14, 14); x.rotate(Math.PI / 4); x.drawImage(swordSprite(k), -5, -14); }
+    if(I.slot === 'w'){ x.translate(14, 14); if(fam !== 'the' && fam !== 'cung') x.rotate(Math.PI / 4); x.drawImage(fam && fam !== 'kiem' ? weaponSprite(k, fam) : swordSprite(k), -5, -14); }
     else if(I.slot === 'wi'){ const w = wingSprite(k, 0); x.drawImage(w, 3, 3, 11, 12); x.drawImage(flipCached(w), 14, 3, 11, 12); }
     else if(I.slot === 'h'){ const sp = heroSprite({ g:'m', hair:'#1E1622', robe:'#3A2C52', trim:'#3A2C52', h:k }, 0); x.drawImage(sp, 3, 0, 18, 16, 2, 4, 24, 21); }
     else { const sp = heroSprite({ g:'m', hair:'#1E1622', robe:I.t >= 4 ? shade(I.c, -.3) : I.c, trim:I.t >= 3 ? I.c : '#F2C14E', at:I.t, ac:I.c }, 0); x.drawImage(sp, 0, 11, 24, 22, 2, 4, 24, 22); }
   }
-  return ICONS[k] = c;
+  return ICONS[fam ? k + '@' + fam : k] = c;
+}
+
+/* ======================= VŨ KHÍ THEO MÔN PHÁI ======================= */
+const FAM_OF = { kiem:'kiem', pham:'kiem', dao:'dao', the:'the', phap:'phap', hoa:'hoa', cung:'cung', y:'y', ma:'ma' };
+const WPRE = [Lx("Mộc"), Lx("Thiết"), Lx("Thanh Phong"), Lx("Xích Diễm"), Lx("Huyền Băng"), Lx("Tru Ma")];
+const WFAM = {
+  kiem:{ n:Lx("Kiếm"), pre:WPRE },
+  dao:{ n:Lx("Đao"), pre:[WPRE[0], WPRE[1], Lx("Thanh Long"), WPRE[3], WPRE[4], WPRE[5]], d:Lx("Trường đao bản rộng, một nhát quét cả vùng.") },
+  the:{ n:Lx("Quyền Thủ"), pre:[Lx("Bố"), WPRE[1], Lx("Thanh Ngọc"), WPRE[3], WPRE[4], WPRE[5]], d:Lx("Găng quyền bọc khớp, đấm vỡ cả đá tảng.") },
+  phap:{ n:Lx("Trượng"), pre:[WPRE[0], WPRE[1], Lx("Thanh Lôi"), WPRE[3], WPRE[4], WPRE[5]], d:Lx("Pháp trượng gắn linh châu, dẫn lôi khí vào tay.") },
+  hoa:{ n:Lx("Phù Bút"), pre:[Lx("Trúc"), WPRE[1], WPRE[2], WPRE[3], WPRE[4], WPRE[5]], d:Lx("Bút lông vẽ bùa, mực chu sa không bao giờ khô.") },
+  cung:{ n:Lx("Cung"), pre:WPRE, d:Lx("Cung dài dây gân rồng, mũi tên đi không tiếng động.") },
+  y:{ n:Lx("Phiến"), pre:[Lx("Trúc"), WPRE[1], WPRE[2], WPRE[3], WPRE[4], WPRE[5]], d:Lx("Quạt gấp giấu ngân châm, phẩy nhẹ là châm bay.") },
+  ma:{ n:Lx("Tiên"), pre:[Lx("Đằng"), WPRE[1], Lx("Thanh Xà"), WPRE[3], WPRE[4], WPRE[5]], d:Lx("Huyết tiên tẩm máu yêu thú, quất đâu rách đó.") },
+};
+const myFam = () => FAM_OF[(P && P.cls) || 'kiem'] || 'kiem';
+const wfam = it => it && ITEMS[it.k] && ITEMS[it.k].slot === 'w' ? (it.wc || myFam()) : '';
+const famOk = it => !it.wc || it.wc === myFam();
+const famClasses = f => Object.keys(FAM_OF).filter(c => FAM_OF[c] === f).map(c => CLASSES[c].ic + ' ' + CLASSES[c].n).join(', ');
+function itName(it){ const I = ITEMS[it.k], f = wfam(it); if(!f || f === 'kiem') return I.n; return Lx("{0} {1}", WFAM[f].pre[I.t - 1], WFAM[f].n); }
+function itDesc(it){ const I = ITEMS[it.k], f = wfam(it); return f && f !== 'kiem' ? WFAM[f].d : I.d; }
+const ik = it => { const f = wfam(it); return f && f !== 'kiem' ? it.k + '@' + f : it.k; };
+function weaponSprite(k, f){
+  return cached('wp' + k + f, () => {
+    const I = ITEMS[k] || { t:3, c:'#BFE8FF' }, t = I.t, c = t === 4 ? '#FF8A4A' : I.c, hi = shade(c, .55), dk = shade(c, -.35), gold = t >= 6 ? '#3A1A2A' : '#F2C14E';
+    return spr(11, 26, R => {
+      if(f === 'dao'){ const L = 9 + t; for(let i = 0; i < L; i++){ const w = i < 3 ? 2 + i : 4 + (i > L - 4 ? -1 : 0); R(3, 21 - L + i, w, 1, c); R(3, 21 - L + i, 1, 1, hi); } R(2, 21, 7, 1, gold); R(4, 22, 2, 3, '#6A2A20'); R(3, 25, 4, 1, gold); if(t >= 5) R(6, 21 - L + 4, 1, L - 6, '#F4FCFF'); }
+      else if(f === 'phap'){ R(5, 6, 1, 19, t >= 3 ? dk : '#7A5230'); R(4, 6, 3, 1, gold); R(3, 1, 5, 5, c); R(4, 0, 3, 7, c); R(4, 2, 1, 2, '#FFFFFF'); if(t >= 4){ R(2, 3, 1, 1, gold); R(8, 3, 1, 1, gold); } R(4, 25, 3, 1, gold); }
+      else if(f === 'hoa'){ R(5, 2, 1, 16, t >= 3 ? c : '#9A7A4A'); R(5, 4, 1, 1, dk); R(5, 9, 1, 1, dk); R(5, 14, 1, 1, dk); R(4, 18, 3, 2, gold); R(4, 20, 3, 4, '#1E1622'); R(5, 24, 1, 2, '#E0453A'); R(6, 21, 1, 2, '#3A2C52'); if(t >= 4){ R(7, 6, 3, 5, '#F4E2B0'); R(8, 7, 1, 3, '#E0453A'); } }
+      else if(f === 'cung'){ for(let i = 0; i < 22; i++){ const o = Math.round(Math.sin(i / 21 * Math.PI) * 4); R(2 + o, 2 + i, 2, 1, i === 11 ? gold : c); } R(2, 2, 1, 22, '#E8E0D0'); R(4, 12, 2, 2, gold); if(t >= 5){ R(7, 6, 1, 2, hi); R(7, 17, 1, 2, hi); } }
+      else if(f === 'y'){ for(let r = 0; r < 12; r++){ const w = Math.round(r * .8) + 1; R(5 - Math.floor(w / 2), 6 + r, w, 1, r % 3 ? c : hi); } for(let i = 0; i < 4; i++) R(2 + i * 2, 6, 1, 6, dk); R(4, 18, 3, 5, '#6A4A2A'); R(5, 23, 1, 2, gold); if(t >= 4) R(3, 8, 5, 1, gold); }
+      else if(f === 'the'){ R(2, 8, 7, 10, c); R(2, 8, 7, 2, hi); for(let i = 0; i < 4; i++) R(2 + i * 2, 7, 1, 2, dk); R(1, 12, 2, 4, c); R(3, 18, 5, 5, dk); R(3, 18, 5, 1, gold); if(t >= 4){ R(3, 10, 1, 1, gold); R(5, 10, 1, 1, gold); R(7, 10, 1, 1, gold); } }
+      else if(f === 'ma'){ for(let i = 0; i < 18; i++){ const o = Math.round(Math.sin(i * .7) * 2.5); R(4 + o, 2 + i, 2, 1, i % 4 ? c : '#3A0A14'); } R(4, 20, 3, 5, '#2A1A1A'); R(3, 20, 5, 1, gold); R(5, 25, 1, 1, '#E0203A'); }
+    });
+  });
 }
 /* ======================= HUD ======================= */
 let _hk = '';
@@ -2131,7 +2167,7 @@ function grant(rw){
   const parts = [];
   if(rw.st){ P.st += rw.st; parts.push(`${Lx("{0} linh thạch", fmt(rw.st))}`); }
   ['hp', 'mp', 'x2', 'pc'].forEach(k => { if(rw[k]){ P.inv[k] = (P.inv[k] || 0) + rw[k]; parts.push(`${rw[k]} ${PILLS[k].n}`); } });
-  if(rw.item){ P.bag.push(rollItem(rw.item, 'boss')); parts.push(ITEMS[rw.item].n); }
+  if(rw.item){ const it2 = rollItem(rw.item, 'boss'); P.bag.push(it2); parts.push(itName(it2)); }
   if(rw.tbl){ P.inv.tbl = (P.inv.tbl || 0) + rw.tbl; parts.push(Lx('{0} Tầm Bảo Lệnh', rw.tbl)); }
   if(rw.exp){ gainExp(rw.exp); parts.push(`${fmt(rw.exp)} tu vi`); }
   return parts.join(', ');
@@ -2147,7 +2183,7 @@ function sheet(html, opt = {}){
 function closeSheet(){ hideTip(); document.querySelectorAll('.sbg').forEach(x => x.remove()); if(P && me && !me.dead) running = true; lastT = performance.now(); saveSoon(); }
 let toastT; function toast(t){ document.querySelectorAll('.toast').forEach(x => x.remove()); const e = document.createElement('div'); e.className = 'toast'; e.textContent = t; document.body.appendChild(e); clearTimeout(toastT); toastT = setTimeout(() => e.remove(), 2600); }
 function bossBanner(m){ document.querySelectorAll('.bossban').forEach(x => x.remove()); const e = document.createElement('div'); e.className = 'bossban'; e.innerHTML = `<small>${esc(m.D.title || 'Boss')}</small><div class="ln"></div><b>${esc(m.D.n.toUpperCase())}</b><div class="ln"></div>`; document.body.appendChild(e); setTimeout(() => e.remove(), 3100); }
-function lootBanner(I, it){ document.querySelectorAll('.banner').forEach(x => x.remove()); const c = rarC(I.t), e = document.createElement('div'); e.className = 'banner'; e.style.color = c; e.style.textShadow = `0 3px 0 #000,0 0 22px ${c}`; e.innerHTML = `${iconHtml(Object.keys(ITEMS).find(k => ITEMS[k] === I), 48)}<br>${esc(I.n)}<small>${RAR[I.t][0]} · ${SLOTN[I.slot]}${it && it.r && it.r.length ? ' · ' + it.r.length + Lx(" dòng phụ") : ''}${it && perfect(it) ? Lx(" · ✦ Hoàn mỹ") : ''}</small>`; document.body.appendChild(e); setTimeout(() => e.remove(), 2700); }
+function lootBanner(I, it){ document.querySelectorAll('.banner').forEach(x => x.remove()); const c = rarC(I.t), e = document.createElement('div'); e.className = 'banner'; e.style.color = c; e.style.textShadow = `0 3px 0 #000,0 0 22px ${c}`; e.innerHTML = `${iconHtml(it ? ik(it) : Object.keys(ITEMS).find(k => ITEMS[k] === I), 48)}<br>${esc(it ? itName(it) : I.n)}<small>${RAR[I.t][0]} · ${SLOTN[I.slot]}${it && it.r && it.r.length ? ' · ' + it.r.length + Lx(" dòng phụ") : ''}${it && perfect(it) ? Lx(" · ✦ Hoàn mỹ") : ''}</small>`; document.body.appendChild(e); setTimeout(() => e.remove(), 2700); }
 function banner(t, s){ document.querySelectorAll('.banner').forEach(x => x.remove()); const e = document.createElement('div'); e.className = 'banner'; e.innerHTML = `${esc(t)}${s ? `<small>${esc(s)}</small>` : ''}`; document.body.appendChild(e); setTimeout(() => e.remove(), 2700); }
 function fade(fn){ const f = $('#fade'); f.classList.add('on'); setTimeout(() => { fn(); setTimeout(() => f.classList.remove('on'), 80); }, 360); }
 const ICON_URL = {};
@@ -2263,8 +2299,8 @@ function talkDan(){
 function talkRen(){
   const w = itemOf(P.eq.w), I = w ? ITEMS[w.k] : null, lines = [];
   if(!I) lines.push(Lx("Tay không mà đòi đi trừ ma à, {tt}?"));
-  else if(w.plus >= 7) lines.push(`${Lx("{0} +{1}… Hừm. Cả đời ta chưa rèn được mấy thanh như vậy.", I.n, w.plus)}`);
-  else if(w.plus < 3) lines.push(`${Lx("{0} mà mới +{1}? Còn non lắm. Để ta tôi thêm vài lửa.", I.n, w.plus)}`);
+  else if(w.plus >= 7) lines.push(`${Lx("{0} +{1}… Hừm. Cả đời ta chưa rèn được mấy thanh như vậy.", itName(w), w.plus)}`);
+  else if(w.plus < 3) lines.push(`${Lx("{0} mà mới +{1}? Còn non lắm. Để ta tôi thêm vài lửa.", itName(w), w.plus)}`);
   else lines.push(pickR([Lx("Lại đây. Để ta xem lưỡi kiếm của ngươi mẻ chỗ nào."), Lx("Hừ, đến rồi à. Đưa đồ đây."), Lx("Thép tốt cần lửa lớn. Linh thạch mang đủ chưa?")]));
   const forge = [Lx("Rèn & cường hoá"), () => { closeDlg(true); shopSheet('forge'); }];
   say('ren', lines, [forge, [Lx("Trò chuyện"), () => say('ren', pickR([[Lx("Cường hoá càng cao càng dễ thất bại. Đó là đạo của thép."), Lx("Muốn chắc ăn thì đừng tiếc linh thạch.")], [Lx("Hồi trẻ ta cũng từng muốn tu tiên."), Lx("Rồi ta nhận ra… cầm búa hợp với ta hơn cầm kiếm.")], [Lx("Vảy của Ma Tôn nghe nói nóng hơn cả lò của ta."), Lx("Nếu ngươi lấy được một mảnh… hừ, mang về đây xem.")]]), [forge, [Lx("Tạm biệt"), () => bye('ren')]])], [Lx("Tạm biệt"), () => bye('ren')]]);
@@ -2304,10 +2340,10 @@ function shopSheet(kind, tab){
   if(!forge){
     body = Object.entries(PILLS).map(([k, p]) => { const price = k === 'pc' ? p.p + P.stage * 40 : p.p; return `<div class="line">${iconHtml(k).replace('<img', '<img class="ic"')}<div class="g"><b>${p.n} <span style="color:var(--ink2);font-weight:600">${Lx("(có {0})", P.inv[k] || 0)}</span></b><small>${p.d}</small></div><button class="s" data-buy="${k}" data-p="${price}">${fmt(price)}</button></div>`; }).join('');
   } else if(tab === 'buy'){
-    body = Object.entries(ITEMS).filter(([k, I]) => I.p > 0).map(([k, I]) => { const lock = P.stage < I.s; return `<div class="line" style="${lock ? 'opacity:.5' : ''}">${iconHtml(k, 44)}<div class="g"><b style="color:${rarC(I.t)}">${I.n}</b><small>${Lx("{0} · cần {1}", itemDesc(I), realmName(I.s))}</small></div><button class="s" data-eqbuy="${k}" ${lock ? 'disabled' : ''}>${fmt(I.p)}</button></div>`; }).join('') + Lx("<p class=\"sub\">Trang bị phẩm cấp 5–6 chỉ rơi ra từ yêu ma ở Ma Điện.</p>");
+    body = Object.entries(ITEMS).filter(([k, I]) => I.p > 0).map(([k, I]) => { const lock = P.stage < I.s, fake = { k, wc:I.slot === 'w' && I.t >= 2 ? myFam() : undefined }; return `<div class="line" style="${lock ? 'opacity:.5' : ''}">${iconHtml(ik(fake), 44)}<div class="g"><b style="color:${rarC(I.t)}">${itName(fake)}</b><small>${Lx("{0} · cần {1}", itemDesc(I), realmName(I.s))}</small></div><button class="s" data-eqbuy="${k}" ${lock ? 'disabled' : ''}>${fmt(I.p)}</button></div>`; }).join('') + Lx("<p class=\"sub\">Trang bị phẩm cấp 5–6 chỉ rơi ra từ yêu ma ở Ma Điện.</p>");
   } else {
     const eqs = ['w', 'h', 'a', 'wi'].map(s => itemOf(P.eq[s])).filter(Boolean);
-    body = `<p class="sub">${Lx("Có")} <span class="mat">${iconHtml('tt', 14)} ${fmt(P.inv.tt || 0)} Linh Tinh</span>${Lx(". Từ +4 trở lên cần Linh Tinh, lấy bằng cách phân giải đồ thừa.")}</p>` + (eqs.length ? eqs.map(b => { const I = ITEMS[b.k], cost = 60 * (b.plus + 1) ** 2 * I.t, ch = [1, 1, .95, .9, .8, .7, .6, .5, .4, .3][b.plus] || 0, mt = b.plus >= 3 ? (b.plus - 1) * I.t * 2 : 0; return `<div class="line">${iconHtml(b.k)}<div class="g"><b>${I.n} +${b.plus}</b><small>${b.plus >= 10 ? Lx("Đã cường hoá tối đa") : `${Lx("Lên +{0}: tỉ lệ {1}%{2} · mỗi cấp +10% chỉ số", b.plus + 1, Math.round(ch * 100), mt ? ` ${Lx("· cần")} <span class="mat">${iconHtml('tt', 12)} ${mt}</span>` : '')}`}</small></div>${b.plus < 10 ? `<button class="s" data-up="${b.id}" data-c="${cost}" data-ch="${ch}" data-m="${mt}">${fmt(cost)}</button>` : ''}</div>`; }).join('') : Lx("<p class=\"sub\">Chưa mang trang bị nào.</p>"));
+    body = `<p class="sub">${Lx("Có")} <span class="mat">${iconHtml('tt', 14)} ${fmt(P.inv.tt || 0)} Linh Tinh</span>${Lx(". Từ +4 trở lên cần Linh Tinh, lấy bằng cách phân giải đồ thừa.")}</p>` + (eqs.length ? eqs.map(b => { const I = ITEMS[b.k], cost = 60 * (b.plus + 1) ** 2 * I.t, ch = [1, 1, .95, .9, .8, .7, .6, .5, .4, .3][b.plus] || 0, mt = b.plus >= 3 ? (b.plus - 1) * I.t * 2 : 0; return `<div class="line">${iconHtml(ik(b))}<div class="g"><b>${I.n} +${b.plus}</b><small>${b.plus >= 10 ? Lx("Đã cường hoá tối đa") : `${Lx("Lên +{0}: tỉ lệ {1}%{2} · mỗi cấp +10% chỉ số", b.plus + 1, Math.round(ch * 100), mt ? ` ${Lx("· cần")} <span class="mat">${iconHtml('tt', 12)} ${mt}</span>` : '')}`}</small></div>${b.plus < 10 ? `<button class="s" data-up="${b.id}" data-c="${cost}" data-ch="${ch}" data-m="${mt}">${fmt(cost)}</button>` : ''}</div>`; }).join('') : Lx("<p class=\"sub\">Chưa mang trang bị nào.</p>"));
   }
   sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button><h2>${forge ? Lx("Thợ Rèn Lão Thiết") : Lx("Đan Sư Lam Nhi")}</h2><p class="sub">${Lx("Linh thạch:")} <b style="color:#7FE0F0">${fmt(P.st)}</b></p>
     ${forge ? `<div class="tabs"><button data-t="buy" class="${tab === 'buy' ? 'on' : ''}">${Lx("Mua trang bị")}</button><button data-t="up" class="${tab === 'up' ? 'on' : ''}">${Lx("Cường hoá")}</button></div>` : ''}${body}`);
@@ -2317,19 +2353,19 @@ function shopSheet(kind, tab){
   document.querySelectorAll('[data-up]').forEach(b => b.onclick = () => { const c = +b.dataset.c, mt = +b.dataset.m, it = itemOf(+b.dataset.up); if(P.st < c) return toast(Lx("Không đủ linh thạch")); if((P.inv.tt || 0) < mt) return toast(`${Lx("Thiếu Linh Tinh (cần {0}). Phân giải đồ thừa trong túi để có.", mt)}`); P.st -= c; P.inv.tt = (P.inv.tt || 0) - mt; if(Math.random() < +b.dataset.ch){ it.plus++; sfx.lv(); toast(`${Lx("Cường hoá thành công! {0} +{1}", ITEMS[it.k].n, it.plus)}`); Net.pushLook(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(ITEMS[it.k].t) }); if(it.plus >= 8) Net.chat(`${Lx("cường hoá {0} lên +{1}!", ITEMS[it.k].n, it.plus)}`, true); } else { sfx.bad(); toast(Lx("Cường hoá thất bại, linh thạch đã mất")); } shopSheet(kind, tab); });
 }
 function itemDesc(I){ return I.slot === 'w' ? `${Lx("Công +{0}", I.atk)}` : (I.slot === 'a' || I.slot === 'h') ? `${Lx("Sinh lực +{0}, Phòng +{1}", I.hp, I.def)}` : `${Lx("Công & Sinh lực +{0}%", Math.round(I.pct * 100))}`; }
-function equip(id){ const it = itemOf(id); if(!it) return; const I = ITEMS[it.k]; if(P.stage < I.s){ toast(`${Lx("Cần {0}", realmName(I.s))}`); return false; } P.eq[I.slot] = id; const S = stats(); me.hp = Math.min(me.hp, S.hp); Net.pushLook(); _hk = ''; return true; }
+function equip(id){ const it = itemOf(id); if(!it) return; const I = ITEMS[it.k]; if(!famOk(it)){ toast(Lx("Chỉ {0} dùng được", famClasses(it.wc))); return false; } if(P.stage < I.s){ toast(`${Lx("Cần {0}", realmName(I.s))}`); return false; } P.eq[I.slot] = id; const S = stats(); me.hp = Math.min(me.hp, S.hp); Net.pushLook(); _hk = ''; return true; }
 function itemCard(it){
   const I = ITEMS[it.k], m = 1 + it.plus * .1, c = rarC(I.t), rows = [];
   if(I.atk) rows.push([Lx("Công kích"), Math.round(I.atk * m)]);
   if(I.hp) rows.push([Lx("Sinh lực"), Math.round(I.hp * m)]);
   if(I.def) rows.push([Lx("Phòng ngự"), Math.round(I.def * m)]);
   if(I.pct) rows.push([Lx("Công & Sinh lực"), Math.round(I.pct * m * 100) + '%']);
-  return `<div class="icard" style="border-color:${c};background:linear-gradient(160deg,${shade(c, -.75)},#1A1226 70%)"><div class="top"><div class="big" style="background:radial-gradient(${shade(c, -.5)},#120C1C)">${iconHtml(it.k, 60)}</div>
-    <div><b style="color:${c}">${I.n}${it.plus ? ' +' + it.plus : ''}</b><span class="rr" style="color:${c}">${RAR[I.t][0]} · ${SLOTN[I.slot]}</span><br><small style="color:var(--ink2)">${Lx("Yêu cầu {0}", realmName(I.s))}</small></div></div>
+  return `<div class="icard" style="border-color:${c};background:linear-gradient(160deg,${shade(c, -.75)},#1A1226 70%)"><div class="top"><div class="big" style="background:radial-gradient(${shade(c, -.5)},#120C1C)">${iconHtml(ik(it), 60)}</div>
+    <div><b style="color:${c}">${itName(it)}${it.plus ? ' +' + it.plus : ''}</b><span class="rr" style="color:${c}">${RAR[I.t][0]} · ${SLOTN[I.slot]}</span><br><small style="color:var(--ink2)">${Lx("Yêu cầu {0}", realmName(I.s))}</small></div></div>
     <ul>${rows.map(([a, b]) => `<li><span>${a}</span><b>+${typeof b === 'number' ? fmt(b) : b}</b></li>`).join('')}${it.plus ? `<li><span>${Lx("Cường hoá")}</span><b style="color:var(--gold)">+${it.plus} (x${m.toFixed(1)})</b></li>` : ''}</ul>
     ${(it.r || []).length ? `<ul class="afx">${it.r.map(([k, v, q]) => `<li class="${q >= .9 ? 'pf' : ''}"><span>${q >= .9 ? '✦ ' : '◆ '}${AFX[k].n}</span><b>+${v}${AFX[k].u}</b></li>`).join('')}</ul>` : ''}
     ${SETS[I.t] ? (() => { const S = SETS[I.t], n = setCount(I.t); return `<div class="set"><b style="color:${S.c}">${Lx("Bộ {0}", S.n)}</b> <span style="color:var(--ink2)">${Lx("({0}/4 đang mặc)", n)}</span>${S.b.map(([need], i) => `<div class="${n >= need ? 'on' : ''}">${Lx("{0} món: {1}", need, S.d[i])}</div>`).join('')}</div>`; })() : ''}
-    ${I.d ? `<div class="fl">"${I.d}"</div>` : ''}</div>`;
+    ${itDesc(it) ? `<div class="fl">"${itDesc(it)}"</div>` : ''}</div>`;
 }
 let invF = '', invSel = null, invSort = 'tier';
 function heroPreview(){
@@ -2340,7 +2376,7 @@ function heroPreview(){
   return pv.toDataURL();
 }
 function itemTip(it){
-  const I = ITEMS[it.k], c = rarC(I.t), on = isEq(it), cur = itemOf(P.eq[I.slot]), ok = P.stage >= I.s, m = 1 + it.plus * .1;
+  const I = ITEMS[it.k], c = rarC(I.t), on = isEq(it), cur = itemOf(P.eq[I.slot]), ok = P.stage >= I.s && famOk(it), m = 1 + it.plus * .1;
   const rows = [];
   const cm = (lbl, v, cv) => rows.push(`<div class="kv"><span>${lbl}</span><b>+${fmt(Math.round(v))}${!on && cur && cv !== undefined ? (() => { const d = Math.round(v) - Math.round(cv); return d ? ` <span class="${d > 0 ? 'up' : 'dn'}">${d > 0 ? '▲' : '▼'}${fmt(Math.abs(d))}</span>` : ''; })() : ''}</b></div>`);
   const cI = cur && ITEMS[cur.k], cmm = cur ? 1 + cur.plus * .1 : 1;
@@ -2349,12 +2385,13 @@ function itemTip(it){
   if(I.def) cm(Lx("Phòng ngự"), I.def * m, cI ? (cI.def || 0) * cmm : 0);
   if(I.pct) rows.push(`<div class="kv"><span>${Lx("Công & Sinh lực")}</span><b>+${Math.round(I.pct * m * 100)}%</b></div>`);
   const d = on ? 0 : powerWith(it) - power();
-  return `<h4 style="color:${c}">${I.n}${it.plus ? ' +' + it.plus : ''}</h4><div class="sub2" style="color:${c}">${RAR[I.t][0]} · ${SLOTN[I.slot]}${on ? ' · ' + Lx("Đang mặc") : ''}</div>
+  return `<h4 style="color:${c}">${itName(it)}${it.plus ? ' +' + it.plus : ''}</h4><div class="sub2" style="color:${c}">${RAR[I.t][0]} · ${SLOTN[I.slot]}${on ? ' · ' + Lx("Đang mặc") : ''}</div>
     ${rows.join('')}${(it.r || []).map(([k, v, q]) => `<div class="kv"><span style="color:${q >= .9 ? '#F2C14E' : '#9FC8FF'}">${q >= .9 ? '✦' : '◆'} ${AFX[k].n}</span><b>+${v}${AFX[k].u}</b></div>`).join('')}
-    <div class="kv"><span>${Lx("Yêu cầu")}</span><b class="${ok ? 'ok' : 'no'}">${realmName(I.s)}${ok ? ' ✓' : ''}</b></div>
-    ${!ok ? `<p class="no">${Lx("Còn thiếu {0} tầng cảnh giới để dùng được", I.s - P.stage)}</p>` : ''}
-    ${!on ? `<p class="${d >= 0 ? 'up' : 'dn'}">${Lx("{0} Chiến lực {1}{2} nếu mặc món này", d >= 0 ? '▲' : '▼', d >= 0 ? '+' : '', fmt(d))}</p>` : ''}
-    ${I.d ? `<p style="font-style:italic;color:var(--paper2)">"${I.d}"</p>` : ''}`;
+    <div class="kv"><span>${Lx("Yêu cầu")}</span><b class="${P.stage >= I.s ? 'ok' : 'no'}">${realmName(I.s)}${P.stage >= I.s ? ' ✓' : ''}</b></div>
+    ${P.stage < I.s ? `<p class="no">${Lx("Còn thiếu {0} tầng cảnh giới để dùng được", I.s - P.stage)}</p>` : ''}${!famOk(it) ? `<p class="no">${Lx("Vũ khí này không hợp môn phái của bạn")}</p>` : ''}
+    ${!on && famOk(it) ? `<p class="${d >= 0 ? 'up' : 'dn'}">${Lx("{0} Chiến lực {1}{2} nếu mặc món này", d >= 0 ? '▲' : '▼', d >= 0 ? '+' : '', fmt(d))}</p>` : ''}
+    ${I.slot === 'w' ? `<div class="kv"><span>${Lx("Môn phái")}</span><b class="${famOk(it) ? 'ok' : 'no'}">${famClasses(wfam(it))}</b></div>` : ''}
+    ${itDesc(it) ? `<p style="font-style:italic;color:var(--paper2)">"${itDesc(it)}"</p>` : ''}`;
 }
 function bagSheet(filter){
   if(filter !== undefined && typeof filter === 'string') invF = filter; else if(filter === undefined) invF = invF || '';
@@ -2363,11 +2400,11 @@ function bagSheet(filter){
   if(invF) list = list.filter(b => ITEMS[b.k].slot === invF);
   list.sort(invSort === 'tier' ? (a, b) => ITEMS[b.k].t - ITEMS[a.k].t || b.plus - a.plus : (a, b) => ITEMS[a.k].slot.localeCompare(ITEMS[b.k].slot) || ITEMS[b.k].t - ITEMS[a.k].t);
   const free = bagCap() - P.bag.length, nEmpty = invF ? 0 : Math.max(0, free);
-  const cell = b => { const I = ITEMS[b.k], c = rarC(I.t), no = P.stage < I.s; return `<button class="ic${invSel === b.id ? ' sel' : ''}${no ? ' no' : ''}" data-ii="${b.id}" style="--rc:${c}">${iconHtml(b.k, 40)}${b.plus ? `<span class="pl">+${b.plus}</span>` : ''}${b.lk ? '<span class="lk">🔒</span>' : ''}${(b.r || []).length ? `<span class="ax">${b.r.map(r => `<i class="${r[2] >= .9 ? 'pf' : ''}"></i>`).join('')}</span>` : ''}</button>`; };
-  const slot = (sl, cls_) => { const it = itemOf(P.eq[sl]), I = it && ITEMS[it.k]; return `<button class="ic es ${cls_}${it && invSel === it.id ? ' sel' : ''}" data-es="${sl}" style="--rc:${I ? rarC(I.t) : 'rgba(233,228,216,.25)'}">${it ? iconHtml(it.k, 40) + (it.plus ? `<span class="pl">+${it.plus}</span>` : '') : `<small>${SLOTN[sl]}</small>`}</button>`; };
+  const cell = b => { const I = ITEMS[b.k], c = rarC(I.t), no = P.stage < I.s || !famOk(b); return `<button class="ic${invSel === b.id ? ' sel' : ''}${no ? ' no' : ''}" data-ii="${b.id}" style="--rc:${c}">${iconHtml(ik(b), 40)}${b.plus ? `<span class="pl">+${b.plus}</span>` : ''}${b.lk ? '<span class="lk">🔒</span>' : ''}${(b.r || []).length ? `<span class="ax">${b.r.map(r => `<i class="${r[2] >= .9 ? 'pf' : ''}"></i>`).join('')}</span>` : ''}</button>`; };
+  const slot = (sl, cls_) => { const it = itemOf(P.eq[sl]), I = it && ITEMS[it.k]; return `<button class="ic es ${cls_}${it && invSel === it.id ? ' sel' : ''}" data-es="${sl}" style="--rc:${I ? rarC(I.t) : 'rgba(233,228,216,.25)'}">${it ? iconHtml(ik(it), 40) + (it.plus ? `<span class="pl">+${it.plus}</span>` : '') : `<small>${SLOTN[sl]}</small>`}</button>`; };
   const sel = invSel != null ? itemOf(invSel) : null;
-  const panel = sel ? (() => { const I = ITEMS[sel.k], on = isEq(sel), no = P.stage < I.s; return `<div class="ipanel"><button class="x" id="ipX" aria-label="${Lx("Đóng")}">×</button><div class="htip" style="position:static;width:auto;border:none;box-shadow:none;padding:0;background:none;animation:none">${itemTip(sel)}</div>
-      <div class="brow">${on ? `<button class="btn alt" id="iUn">${Lx("Tháo ra")}</button>` : `<button class="btn gold" id="iEq" ${no ? 'disabled' : ''}>${no ? Lx("Chưa đủ cảnh giới") : Lx("Trang bị")}</button>`}<button class="btn alt" id="iLk">${sel.lk ? Lx("🔓 Mở khoá") : Lx("🔒 Khoá")}</button></div>
+  const panel = sel ? (() => { const I = ITEMS[sel.k], on = isEq(sel), no = P.stage < I.s || !famOk(sel); return `<div class="ipanel"><button class="x" id="ipX" aria-label="${Lx("Đóng")}">×</button><div class="htip" style="position:static;width:auto;border:none;box-shadow:none;padding:0;background:none;animation:none">${itemTip(sel)}</div>
+      <div class="brow">${on ? `<button class="btn alt" id="iUn">${Lx("Tháo ra")}</button>` : `<button class="btn gold" id="iEq" ${no ? 'disabled' : ''}>${!famOk(sel) ? Lx("Sai môn phái") : no ? Lx("Chưa đủ cảnh giới") : Lx("Trang bị")}</button>`}<button class="btn alt" id="iLk">${sel.lk ? Lx("🔓 Mở khoá") : Lx("🔒 Khoá")}</button></div>
       ${on || sel.lk ? '' : `<div class="brow"><button class="btn red" id="iSell">${Lx("Bán {0}", fmt(sellPrice(sel)))}</button><button class="btn" id="iSalv" style="background:#6A3AB0">${Lx("Phân giải +{0}", salvageVal(sel))}</button></div>`}</div>`; })() : '';
   sheetFs(`<div class="fsh"><div class="fst"><span class="on">${Lx("Túi đồ")}</span><span class="ivst">💎 ${fmt(P.st)} · ${iconHtml('tt', 14)} ${fmt(P.inv.tt || 0)} · ${P.bag.length}/${bagCap()} ${Lx("ô")}</span></div><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div>
     <div class="fsl ivdoll"><div class="doll2">${slot('h', 'sh')}${slot('wi', 'swi')}<img src="${heroPreview()}" alt="">${slot('w', 'sw')}${slot('a', 'sa')}</div>
@@ -2380,9 +2417,9 @@ function bagSheet(filter){
       ${panel}</div>
     <div class="fsb"><button class="fbtn" data-close>‹ ${Lx("Quay lại")}</button><span class="fsT">${Lx("Chạm để xem · giữ để xem nhanh · chạm 2 lần để mặc")}</span></div>`);
   document.querySelector('.fs').classList.add('inv');
-  const pick = id => { invSel = invSel === id ? null : id; sfx.tap(); bagSheet(null); };
+  const pick = id => { window._noTip = Date.now(); invSel = invSel === id ? null : id; sfx.tap(); bagSheet(null); };
   document.querySelectorAll('[data-ii]').forEach(b => { const id = +b.dataset.ii; let lastT = 0;
-    b.onclick = () => { const now = Date.now(); if(now - lastT < 330){ const it = itemOf(id); if(it && P.stage >= ITEMS[it.k].s && equip(id) !== false){ sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(ITEMS[it.k].t) }); invSel = null; saveSoon(); bagSheet(null); } return; } lastT = now; pick(id); };
+    b.onclick = () => { const now = Date.now(); if(now - lastT < 330){ const it = itemOf(id); if(it && P.stage >= ITEMS[it.k].s && famOk(it) && equip(id) !== false){ sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(ITEMS[it.k].t) }); invSel = null; saveSoon(); bagSheet(null); } return; } lastT = now; pick(id); };
     holdTip(b, () => { const it = itemOf(id); return it ? itemTip(it) : ''; }); });
   document.querySelectorAll('[data-es]').forEach(b => { const sl = b.dataset.es; b.onclick = () => { const it = itemOf(P.eq[sl]); if(it) pick(it.id); else { invF = sl; bagSheet(null); } }; holdTip(b, () => { const it = itemOf(P.eq[sl]); return it ? itemTip(it) : `<h4>${SLOTN[sl]}</h4><p>${Lx("Chưa trang bị")}</p>`; }); });
   document.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { invF = b.dataset.f; sfx.tap(); bagSheet(null); });
@@ -2396,7 +2433,7 @@ function bagSheet(filter){
     const e = $('#iEq'); if(e) e.onclick = () => { if(equip(sel.id) !== false){ sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(I.t) }); saveSoon(); bagSheet(null); } };
     const u = $('#iUn'); if(u) u.onclick = () => { if(free <= 0) return toast(Lx("Túi đầy")); P.eq[I.slot] = null; _sk = ''; Net.pushLook(); _hk = ''; sfx.tap(); saveSoon(); bagSheet(null); };
     $('#iLk').onclick = () => { sel.lk = !sel.lk; saveSoon(); bagSheet(null); };
-    const sv = $('#iSalv'); if(sv) sv.onclick = () => { const n = salvage(sel); invSel = null; sfx.lv(); toast(`${Lx("Phân giải {0}, +{1} Linh Tinh", I.n, n)}`); saveSoon(); bagSheet(null); };
+    const sv = $('#iSalv'); if(sv) sv.onclick = () => { const n = salvage(sel); invSel = null; sfx.lv(); toast(`${Lx("Phân giải {0}, +{1} Linh Tinh", itName(sel), n)}`); saveSoon(); bagSheet(null); };
     const so = $('#iSell'); if(so) so.onclick = () => { P.st += sellPrice(sel); P.bag = P.bag.filter(x => x !== sel); invSel = null; sfx.coin(); saveSoon(); bagSheet(null); };
   }
 }
@@ -2405,7 +2442,7 @@ const bagCost = () => Math.round(2000 * ((bagCap() - 30) / 10) ** 2);
 const isEq = it => Object.values(P.eq).includes(it.id);
 const salvageVal = it => { const t = ITEMS[it.k].t; return Math.round((t * t + (it.r || []).length * t) * (1 + it.plus * .5)); };
 function salvage(it){ const n = salvageVal(it); P.inv.tt = (P.inv.tt || 0) + n; P.bag = P.bag.filter(x => x !== it); return n; }
-function addItem(k, src){ const I = ITEMS[k], it = rollItem(k, src); if(P.autoJunk && I.t <= P.autoJunk && !perfect(it)){ P.bag.push(it); const n = salvage(it); texts.push({ x:me.x, y:me.y - 34, t:0, s:`${Lx("Phân giải {0} +{1} Linh Tinh", I.n, n)}`, c:'#C99BFF' }); sfx.coin(); return null; } P.bag.push(it); return it; }
+function addItem(k, src){ const I = ITEMS[k], it = rollItem(k, src); if(P.autoJunk && I.t <= P.autoJunk && !perfect(it)){ P.bag.push(it); const n = salvage(it); texts.push({ x:me.x, y:me.y - 34, t:0, s:`${Lx("Phân giải {0} +{1} Linh Tinh", itName(it), n)}`, c:'#C99BFF' }); sfx.coin(); return null; } P.bag.push(it); return it; }
 function bulkSheet(){
   invSel = null; const pick = t => P.bag.filter(b => !isEq(b) && !b.lk && ITEMS[b.k].t <= t);
   const row = (t, lbl) => { const L = pick(t), g = L.reduce((a, b) => a + sellPrice(b), 0), m = L.reduce((a, b) => a + salvageVal(b), 0); return `<div class="line"><div class="g"><b style="color:${rarC(t)}">${lbl}</b><small>${Lx("{0} món · bán {1} linh thạch hoặc phân giải {2} Linh Tinh", L.length, fmt(g), fmt(m))}</small></div><button class="s" data-bs="${t}" ${L.length ? '' : 'disabled'}>${Lx("Bán")}</button><button class="s" data-bg="${t}" ${L.length ? '' : 'disabled'} style="background:#6A3AB0">${Lx("Phân giải")}</button></div>`; };
@@ -2430,7 +2467,7 @@ function classSheet(){
       <div class="fsb"><button class="fbtn" id="fBack">‹ ${Lx("Quay lại")}</button><button class="fbtn gold" id="fNext" ${sel === (P.cls || 'kiem') ? 'disabled' : ''}>${price ? Lx("Đổi môn phái tốn {0} linh thạch.", fmt(price)) : Lx("Lần đổi đầu tiên miễn phí.")}</button></div>`);
     document.querySelectorAll('[data-cl]').forEach(b => b.onclick = () => { sel = b.dataset.cl; sfx.tap(); draw(); });
     $('#fBack').onclick = charSheet;
-    $('#fNext').onclick = () => { if(P.st < price) return toast(Lx("Không đủ linh thạch")); P.st -= price; P.cls = sel; P.clsChg = (P.clsChg || 0) + 1; _sk = ''; const S = stats(); me.hp = Math.min(me.hp, S.hp); Net.pushLook(); sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:cls().c }); toast(Lx("Đã chuyển sang {0}", cls().n)); saveSoon(); charSheet(); };
+    $('#fNext').onclick = () => { if(P.st < price) return toast(Lx("Không đủ linh thạch")); P.st -= price; P.cls = sel; P.clsChg = (P.clsChg || 0) + 1; { const cw = itemOf(P.eq.w); if(cw && !famOk(cw)){ P.eq.w = null; toast(Lx("Vũ khí cũ không hợp môn phái mới, đã tháo ra")); } } _sk = ''; const S = stats(); me.hp = Math.min(me.hp, S.hp); Net.pushLook(); sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:cls().c }); toast(Lx("Đã chuyển sang {0}", cls().n)); saveSoon(); charSheet(); };
   };
   draw();
 }
@@ -2444,7 +2481,7 @@ function charSheet(){
   pos.filter(p => p[2] < 0).forEach(p => x.drawImage(miniSword(L.w), p[0], p[1]));
   x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw }, 0), 24, 19);
   pos.filter(p => p[2] >= 0).forEach(p => x.drawImage(miniSword(L.w), p[0], p[1]));
-  const card = sl => { const it = itemOf(P.eq[sl]), I = it && ITEMS[it.k]; return `<button class="fcard${it ? ' on' : ''}" data-slot="${sl}" style="--cc:${I ? rarC(I.t) : '#555'}">${it ? iconHtml(it.k, 40) : `<span class="fi" style="opacity:.35">＋</span>`}<span class="fn"><b style="color:${I ? rarC(I.t) : 'var(--paper2)'}">${I ? I.n + (it.plus ? ' +' + it.plus : '') : SLOTN[sl]}</b><small>${I ? `${RAR[I.t][0]} · ${SLOTN[sl]}${(it.r || []).length ? ' · ' + it.r.length + '✦' : ''}` : Lx("Chưa trang bị")}</small></span></button>`; };
+  const card = sl => { const it = itemOf(P.eq[sl]), I = it && ITEMS[it.k]; return `<button class="fcard${it ? ' on' : ''}" data-slot="${sl}" style="--cc:${I ? rarC(I.t) : '#555'}">${it ? iconHtml(ik(it), 40) : `<span class="fi" style="opacity:.35">＋</span>`}<span class="fn"><b style="color:${I ? rarC(I.t) : 'var(--paper2)'}">${I ? itName(it) + (it.plus ? ' +' + it.plus : '') : SLOTN[sl]}</b><small>${I ? `${RAR[I.t][0]} · ${SLOTN[sl]}${(it.r || []).length ? ' · ' + it.r.length + '✦' : ''}` : Lx("Chưa trang bị")}</small></span></button>`; };
   let left = '';
   if(charTab === 'eq') left = `<div class="fsec" style="margin-top:2px">${Lx("Trang bị")}</div>${card('w')}${card('a')}${card('h')}${card('wi')}<button class="fbtn" id="cBag" style="width:100%;margin-top:4px">${Lx("Túi đồ")}</button>${S.sets.map(([t, n]) => `<div class="fsec">${Lx("Bộ {0} ({1}/4)", SETS[t].n, n)}</div><p class="fp" style="color:${SETS[t].c}">${SETS[t].d.filter((_, i) => n >= SETS[t].b[i][0]).join('<br>')}</p>`).join('')}`;
   else if(charTab === 'at') left = `<div class="fsec" style="margin-top:2px">${Lx("Thuộc tính")} <span>${C.ic} ${C.n}</span></div>${attrRows(C)}<div class="fsec">${Lx("Chỉ số")}</div><div class="drv"><span>${Lx("Công kích")}<b>${fmt(S.atk)}</b></span><span>${Lx("Sinh lực")}<b>${fmt(S.hp)}</b></span><span>${Lx("Phòng ngự")}<b>${fmt(S.def)}</b></span><span>${Lx("Linh lực")}<b>${fmt(S.mp)}</b></span><span>${Lx("Bạo kích")}<b>${Math.round(S.crit * 100)}%</b></span><span>${Lx("Bạo thương")}<b>${Math.round(S.critd * 100)}%</b></span>${[['spd', Lx("Tốc độ")], ['ls', Lx("Hút máu")], ['rg', Lx("Hồi máu/giây")], ['boss', Lx("ST lên boss")], ['exp', Lx("Tu vi nhận")], ['gold', Lx("Linh thạch rơi")]].filter(([k]) => S[k]).map(([k, n]) => `<span>${n}<b>+${Math.round(S[k] * 10) / 10}%</b></span>`).join('')}<span>${Lx("Đã diệt")}<b>${fmt(P.kills)}</b></span></div>`;
@@ -2667,7 +2704,7 @@ function holdTip(el, fn, opt = {}){
   el.addEventListener('pointerdown', e => { held = false; clearTimeout(t); t = setTimeout(() => { held = true; el._held = Date.now(); const h = fn(); if(h) showTip(h, el); if(navigator.vibrate) try{ navigator.vibrate(12); }catch(er){} }, opt.ms || 420); });
   const end = () => { clearTimeout(t); if(held && !opt.keep) setTimeout(hideTip, 60); };
   el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end); el.addEventListener('pointerleave', () => { clearTimeout(t); if(!opt.keep) hideTip(); });
-  if(matchMedia('(hover:hover)').matches){ el.addEventListener('mouseenter', () => { const h = fn(); if(h) showTip(h, el); }); el.addEventListener('mouseleave', hideTip); }
+  if(matchMedia('(hover:hover)').matches){ el.addEventListener('mouseenter', () => { if(Date.now() - (window._noTip || 0) < 700) return; const h = fn(); if(h) showTip(h, el); }); el.addEventListener('mouseleave', hideTip); }
   el.addEventListener('click', e => { if(el._held && Date.now() - el._held < 900){ e.stopImmediatePropagation(); e.preventDefault(); el._held = 0; } }, true);
   el.addEventListener('contextmenu', e => e.preventDefault());
 }
@@ -2764,8 +2801,8 @@ function gachaRoll(){
   const owned = P.cos || [];
   if(tier === 6 && Math.random() < .5 && owned.length < Object.keys(COS).length){ const k = Object.keys(COS).filter(x => !owned.includes(x))[Math.floor(Math.random() * (Object.keys(COS).length - owned.length))]; P.cos = [...owned, k]; return { t:6, txt:COS[k].n, cos:k }; }
   const keys = Object.keys(ITEMS).filter(k => ITEMS[k].t === tier); const k = keys[Math.floor(Math.random() * keys.length)];
-  if(P.bag.length >= bagCap()){ const it = rollItem(k, tier >= 5 ? 'boss' : 'drop'); P.bag.push(it); const n = salvage(it); return { t:tier, txt:`${ITEMS[k].n} → ${n} Linh Tinh`, ic:k }; }
-  const it = rollItem(k, tier >= 5 ? 'boss' : 'drop'); P.bag.push(it); return { t:tier, txt:ITEMS[k].n + ((it.r || []).length ? ` · ${it.r.length}✦` : ''), ic:k, pf:perfect(it) };
+  if(P.bag.length >= bagCap()){ const it = rollItem(k, tier >= 5 ? 'boss' : 'drop'); P.bag.push(it); const n = salvage(it); return { t:tier, txt:`${itName(it)} → ${n} Linh Tinh`, ic:k }; }
+  const it = rollItem(k, tier >= 5 ? 'boss' : 'drop'); P.bag.push(it); return { t:tier, txt:itName(it) + ((it.r || []).length ? ` · ${it.r.length}✦` : ''), ic:k, pf:perfect(it) };
 }
 function gachaSheet(res){
   const n = P.inv.tbl || 0, owned = P.cos || [];
