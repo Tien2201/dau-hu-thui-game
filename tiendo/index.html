@@ -555,6 +555,19 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .tpinfo .btn{display:block;text-align:center;margin-top:8px;text-decoration:none}
 .tpwait{display:flex;gap:8px;align-items:center;font-size:12px;color:#EAD7A8;margin:6px 0}.tpwait i{width:12px;height:12px;flex:none;border:2px solid #F2C14E;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 @media (max-width:560px){.tpbox{flex-direction:column;align-items:center}.tpbox .qr{width:200px}}
+
+/* tủ ngoại trang: loại → skin */
+.fcard.lk{opacity:.55;filter:grayscale(.7)}.fcard.lk.on{opacity:.85;filter:none}
+.fcard .fn small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fsc.lkd img{filter:brightness(.55) grayscale(.5)}
+.tysrc{margin:8px 0;padding:8px 10px;border:1px dashed rgba(242,193,78,.45);background:rgba(242,193,78,.06);font-size:12.5px;line-height:1.55}.tysrc b{display:block;color:#F2C14E;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2px}.tysrc small{display:block;color:var(--paper2);font-size:11px;margin-top:4px}
+.skh{margin:10px 0 6px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--paper2)}
+.skg{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:6px}
+.skb{position:relative;display:flex;flex-direction:column;align-items:center;padding:5px 2px 3px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-bottom:2px solid var(--cc);border-radius:3px;color:var(--paper);cursor:pointer;transition:transform .15s,background .2s}
+.skb:hover{transform:translateY(-2px)}.skb.on{background:color-mix(in srgb,var(--cc) 22%,transparent);box-shadow:0 0 0 1px var(--cc) inset,0 0 12px color-mix(in srgb,var(--cc) 40%,transparent)}
+.skb img{width:40px;height:40px;image-rendering:pixelated}.skb i{font-style:normal;font-size:10px;font-weight:800;color:#F2C14E;min-height:13px;line-height:13px}
+.skb .gg{position:absolute;top:1px;right:2px;font-style:normal;font-size:8.5px;font-weight:900;padding:0 3px;border-radius:2px}.gg.g1{background:#5EB8FF;color:#0B1A2A}.gg.g2{background:#C99BFF;color:#1A0A2A}.gg.g3{background:#F2C14E;color:#2A1A00}
+.sksel{margin:8px 0;font-size:13px}.sksel b{font-family:var(--serif);font-size:17px}.sksel p{margin:2px 0 0;color:var(--paper2);font-size:12px}
 /* ===== NHIỆM VỤ DỄ ĐỌC ===== */
 #track{padding:7px 12px 8px 10px!important;background:linear-gradient(90deg,rgba(8,8,12,.62),rgba(8,8,12,.38) 70%,rgba(8,8,12,0))!important;border-left:2px solid rgba(217,185,122,.7);max-width:250px!important}
 #track .qk{font-size:14px!important}#track .qk b{font-weight:700!important;color:#FFF6E0!important}
@@ -615,7 +628,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=14"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=15"><\/script>');
 })();
 </script>
 <script>
@@ -701,16 +714,16 @@ const SKILLS = {
 const MOBS = {
   tho:{ n:Lx("Thỏ Yêu"), L:1, sp:34, w:14, h:12, drop:[['hp', .25]] },
   soi:{ n:Lx("Sói Xám Yêu"), L:4, sp:46, w:18, h:13, drop:[['hp', .25], ['w2', .03], ['a2', .03], ['h2', .02]] },
-  nhen:{ n:Lx("Độc Chu"), L:7, sp:40, w:18, h:12, drop:[['mp', .25], ['a2', .04], ['w3', .01]] },
-  cay:{ n:Lx("Thụ Yêu"), L:10, sp:26, w:18, h:22, drop:[['hp', .3], ['w3', .02], ['a3', .015], ['h3', .015]] },
-  soivuong:{ n:Lx("Huyết Nguyệt Lang Hoàng"), title:Lx("Kẻ Nuốt Trăng · Rừng Hắc Mộc"), L:12, sp:52, w:44, h:18, boss:1, hpM:7, atkM:1.1, re:150, drop:[['pc', 1], ['w3', .35], ['a3', .35], ['h3', .3], ['x2', .5]] },
+  nhen:{ n:Lx("Độc Chu"), L:7, sp:40, w:18, h:12, drop:[['mp', .25], ['a2', .04], ['w3', .01], ['ty:w_tien', .012]] },
+  cay:{ n:Lx("Thụ Yêu"), L:10, sp:26, w:18, h:22, drop:[['hp', .3], ['w3', .02], ['a3', .015], ['h3', .015], ['ty:p_gau', .015]] },
+  soivuong:{ n:Lx("Huyết Nguyệt Lang Hoàng"), title:Lx("Kẻ Nuốt Trăng · Rừng Hắc Mộc"), L:12, sp:52, w:44, h:18, boss:1, hpM:7, atkM:1.1, re:150, drop:[['pc', 1], ['w3', .35], ['a3', .35], ['h3', .3], ['x2', .5], ['ty:p_ho', .15]] },
   quy:{ n:Lx("Tiểu Quỷ"), L:13, sp:44, w:14, h:16, drop:[['hp', .3], ['w4', .01], ['a4', .01], ['h4', .008]] },
-  hoama:{ n:Lx("Hỏa Ma"), L:16, sp:38, w:16, h:20, drop:[['mp', .3], ['wi3', .006], ['a4', .015], ['h5', .008]] },
-  xuong:{ n:Lx("Cốt Kiếm Sĩ"), L:19, sp:42, w:14, h:20, drop:[['hp', .3], ['w5', .012], ['a5', .012], ['h5', .01]] },
+  hoama:{ n:Lx("Hỏa Ma"), L:16, sp:38, w:16, h:20, drop:[['mp', .3], ['wi3', .006], ['a4', .015], ['h5', .008], ['ty:p_phuong', .008]] },
+  xuong:{ n:Lx("Cốt Kiếm Sĩ"), L:19, sp:42, w:14, h:20, drop:[['hp', .3], ['w5', .012], ['a5', .012], ['h5', .01], ['wi2', .006]] },
   bocap:{ n:Lx("Sa Hạt Yêu"), L:26, sp:48, w:18, h:12, drop:[['hp', .3], ['w5', .014], ['a5', .014], ['h5', .012]] },
   satrung:{ n:Lx("Sa Trùng"), L:29, sp:30, w:20, h:18, drop:[['mp', .3], ['h6', .007], ['wi3', .01], ['a5', .015]] },
   xacuop:{ n:Lx("Cổ Thi Vương Vệ"), L:32, sp:36, w:14, h:22, drop:[['hp', .3], ['w6', .008], ['a6', .008], ['wi4', .003]] },
-  mavuong:{ n:Lx("Xích Viêm Ma Tôn"), title:Lx("Chúa Tể Luyện Ngục · Dung Nham Điện"), L:24, sp:40, w:50, h:32, boss:1, hpM:9, atkM:1.2, re:240, drop:[['pc', 1], ['wi4', .2], ['w6', .25], ['a6', .25], ['h6', .25], ['wi3', .3], ['x2', 1]] },
+  mavuong:{ n:Lx("Xích Viêm Ma Tôn"), title:Lx("Chúa Tể Luyện Ngục · Dung Nham Điện"), L:24, sp:40, w:50, h:32, boss:1, hpM:9, atkM:1.2, re:240, drop:[['pc', 1], ['wi4', .2], ['w6', .25], ['a6', .25], ['h6', .25], ['wi3', .3], ['x2', 1], ['ty:m_rong', .06], ['ty:p_kylan', .1]] },
 };
 const mobHp = L => Math.round(baseAtk(L) * 4.5);
 const mobAtk = L => baseHp(L) * .07 + baseDef(L) * .5;
@@ -757,20 +770,20 @@ const COS = {
 };
 const QUESTS = [
   { t:Lx("Bái kiến Tông Chủ"), d:Lx("Đến quảng trường gặp Tông Chủ Thanh Vân."), k:'talk', n:1, rw:{ st:50, hp:5, item:'h1' } },
-  { t:Lx("Trừ hại Thỏ Yêu"), d:Lx("Ra Rừng Hắc Mộc (cổng phía đông thôn) diệt 6 Thỏ Yêu."), k:'kill', m:'tho', n:6, rw:{ st:120, hp:5, mp:3 } },
+  { t:Lx("Trừ hại Thỏ Yêu"), d:Lx("Ra Rừng Hắc Mộc (cổng phía đông thôn) diệt 6 Thỏ Yêu."), k:'kill', m:'tho', n:6, rw:{ st:120, hp:5, mp:3, ty:'p_tho' } },
   { t:Lx("Ngồi thiền tụ khí"), d:Lx("Ngồi tu luyện trên Đài Tu Luyện giữa thôn 30 giây."), k:'med', n:30, rw:{ st:100, x2:1 } },
   { t:Lx("Đạt Luyện Khí Tầng 3"), d:Lx("Tu luyện tới Luyện Khí Tầng 3."), k:'stage', n:2, rw:{ st:200, item:'w2' } },
-  { t:Lx("Sói Xám quấy làng"), d:Lx("Diệt 10 Sói Xám Yêu trong rừng."), k:'kill', m:'soi', n:10, rw:{ st:300, hp:8 } },
+  { t:Lx("Sói Xám quấy làng"), d:Lx("Diệt 10 Sói Xám Yêu trong rừng."), k:'kill', m:'soi', n:10, rw:{ st:300, hp:8, ty:'p_meo' } },
   { t:Lx("Độc Chu nhả tơ"), d:Lx("Diệt 10 Độc Chu ở phía bắc rừng."), k:'kill', m:'nhen', n:10, rw:{ st:450, mp:8, item:'a2' } },
   { t:Lx("Thụ Yêu thành tinh"), d:Lx("Diệt 8 Thụ Yêu ở phía nam rừng."), k:'kill', m:'cay', n:8, rw:{ st:600, x2:1 } },
-  { t:Lx("Săn Huyết Nguyệt Lang Hoàng"), d:Lx("Hạ Huyết Nguyệt Lang Hoàng ở sâu trong rừng phía đông."), k:'kill', m:'soivuong', n:1, rw:{ st:1000, pc:1 } },
-  { t:Lx("Trúc Cơ thành công"), d:Lx("Đột phá lên Trúc Cơ Sơ Kỳ."), k:'stage', n:9, rw:{ st:1500, item:'wi1' } },
-  { t:Lx("Thám hiểm Ma Điện"), d:Lx("Vào Ma Điện Dung Nham diệt 15 Tiểu Quỷ."), k:'kill', m:'quy', n:15, rw:{ st:1800, hp:10 } },
+  { t:Lx("Săn Huyết Nguyệt Lang Hoàng"), d:Lx("Hạ Huyết Nguyệt Lang Hoàng ở sâu trong rừng phía đông."), k:'kill', m:'soivuong', n:1, rw:{ st:1000, pc:1, ty:'m_ho' } },
+  { t:Lx("Trúc Cơ thành công"), d:Lx("Đột phá lên Trúc Cơ Sơ Kỳ."), k:'stage', n:9, rw:{ st:1500, item:'wi1', ty:'p_long' } },
+  { t:Lx("Thám hiểm Ma Điện"), d:Lx("Vào Ma Điện Dung Nham diệt 15 Tiểu Quỷ."), k:'kill', m:'quy', n:15, rw:{ st:1800, hp:10, ty:'m_lan' } },
   { t:Lx("Dập tắt Hỏa Ma"), d:Lx("Diệt 15 Hỏa Ma."), k:'kill', m:'hoama', n:15, rw:{ st:2500, mp:10, item:'a4' } },
-  { t:Lx("Cốt Kiếm Sĩ"), d:Lx("Diệt 15 Cốt Kiếm Sĩ."), k:'kill', m:'xuong', n:15, rw:{ st:3500, x2:2 } },
-  { t:Lx("Trảm Xích Viêm Ma Tôn"), d:Lx("Hạ Xích Viêm Ma Tôn trước Dung Nham Điện."), k:'kill', m:'mavuong', n:1, rw:{ st:8000, pc:2 } },
-  { t:Lx("Gió cát Hoàng Sa"), d:Lx("Đạt Hóa Thần Sơ Kỳ, đi cổng phía nam Rừng Hắc Mộc vào Hoàng Sa Cổ Mạc."), k:'stage', n:21, rw:{ st:9000, hp:15, mp:15 } },
-  { t:Lx("Sa Hạt độc vĩ"), d:Lx("Diệt 20 Sa Hạt Yêu giữa sa mạc."), k:'kill', m:'bocap', n:20, rw:{ st:11000, x2:2, item:'h5' } },
+  { t:Lx("Cốt Kiếm Sĩ"), d:Lx("Diệt 15 Cốt Kiếm Sĩ."), k:'kill', m:'xuong', n:15, rw:{ st:3500, x2:2, ty:'w_kiem' } },
+  { t:Lx("Trảm Xích Viêm Ma Tôn"), d:Lx("Hạ Xích Viêm Ma Tôn trước Dung Nham Điện."), k:'kill', m:'mavuong', n:1, rw:{ st:8000, pc:2, ty:'m_kiem' } },
+  { t:Lx("Gió cát Hoàng Sa"), d:Lx("Đạt Hóa Thần Sơ Kỳ, đi cổng phía nam Rừng Hắc Mộc vào Hoàng Sa Cổ Mạc."), k:'stage', n:21, rw:{ st:9000, hp:15, mp:15, ty:'m_may' } },
+  { t:Lx("Sa Hạt độc vĩ"), d:Lx("Diệt 20 Sa Hạt Yêu giữa sa mạc."), k:'kill', m:'bocap', n:20, rw:{ st:11000, x2:2, item:'h5', ty:'m_vlong' } },
   { t:Lx("Sa Trùng dưới cát"), d:Lx("Diệt 15 Sa Trùng gần ốc đảo."), k:'kill', m:'satrung', n:15, rw:{ st:14000, pc:1 } },
   { t:Lx("Cổ Mộ thức tỉnh"), d:Lx("Diệt 15 Cổ Thi Vương Vệ quanh Kim Tự Tháp."), k:'kill', m:'xacuop', n:15, rw:{ st:20000, pc:2, item:'wi4' } },
 ];
@@ -861,7 +874,7 @@ const HAIRS = ['#1E1622', '#5A3A2A', '#E8E4F0', '#8A2A3A', '#2A3A6A', '#C9A04A']
 const ROBES = ['#E8E4F0', '#3E8EDE', '#B0302A', '#2E9A70', '#7A4AC0', '#2A2433'];
 function heroSprite(L, fr){
   // L: {g, hair, robe, trim, skin, beard, npc, at (phẩm giáp), ac (màu giáp), h (mũ), bw (kiếm sau lưng)}
-  const key = 'h' + [L.g, L.hair, L.robe, L.trim, L.skin, L.beard, L.npc, L.at, L.ac, L.h, L.bw].join('|') + fr;
+  const key = 'h' + [L.g, L.hair, L.robe, L.trim, L.skin, L.beard, L.npc, L.at, L.ac, L.h, L.bw, L.bc].join('|') + fr;
   return cached(key, () => spr(24, 34, (R0, x) => {
     const R = (a, b, w, h, c) => R0(a + 3, b + 4, w, h, c), C = (a, b) => x.clearRect(a + 3, b + 4, 1, 1);
     const sk = L.skin || '#F2C9A0', rb = L.robe || '#4A5A7A', rd = shade(rb, -.25), tr = L.trim || '#F2C14E', hr = L.hair || '#1E1622', oy = 1, at = L.at || 1, ac = L.ac || tr;
@@ -869,7 +882,7 @@ function heroSprite(L, fr){
     // áo choàng sau lưng (Địa phẩm trở lên)
     if(at >= 4){ const cp = at >= 6 ? '#7A1A1A' : at === 5 ? '#4A2A7A' : shade(ac, -.35); R(1, 12 + oy, 4, 12 + flap, cp); R(0, 15 + oy, 2, 10 - flap, cp); R(1, 23 + oy + flap, 3, 1, shade(cp, -.3)); if(at >= 5) R(0, 18 + oy, 1, 4, shade(cp, .3)); }
     // kiếm đeo sau lưng
-    if(L.bw && ITEMS[L.bw]){ const bc = ITEMS[L.bw].c; for(let i = 0; i < 13; i++) R(2 + i, 6 + i + oy, 1, 2, i < 3 ? '#F2C14E' : bc); R(1, 7 + oy, 3, 1, '#C9912A'); R(0, 4 + oy, 2, 3, '#6A2A20'); if(ITEMS[L.bw].t >= 3) R(-1, 7 + oy, 1, 4, '#E0453A'); }
+    if(L.bw && ITEMS[L.bw]){ const bc = L.bc || ITEMS[L.bw].c; for(let i = 0; i < 13; i++) R(2 + i, 6 + i + oy, 1, 2, i < 3 ? '#F2C14E' : bc); R(1, 7 + oy, 3, 1, '#C9912A'); R(0, 4 + oy, 2, 3, '#6A2A20'); if(ITEMS[L.bw].t >= 3) R(-1, 7 + oy, 1, 4, '#E0453A'); }
     // chân
     R(6 + leg, 20 + oy, 2, 4, '#3A2A40'); R(10 - leg, 20 + oy, 2, 4, '#3A2A40');
     R(6 + leg, 23 + oy, 3, 2, at >= 4 ? shade(ac, -.4) : '#2A1A14'); R(10 - leg, 23 + oy, 3, 2, at >= 4 ? shade(ac, -.4) : '#2A1A14');
@@ -910,7 +923,7 @@ function heroSprite(L, fr){
 }// cánh (24x22 mỗi bên), vẽ sau lưng
 function wingSprite(k, fr){
   // mỗi cánh vẽ theo đúng hình dạng tên gọi; (u,v) = toạ độ từ gốc cánh (u ra ngoài, v xuống dưới)
-  return cached('wi' + k + fr, () => { const I = ITEMS[k], [c1, c2] = I.c, W = 30, H = 34, RX = 29, RY = 13;
+  return cached('wi' + k + fr, () => { const I = WSH[k] || ITEMS[k], [c1, c2] = I.c, W = 30, H = 34, RX = 29, RY = 13;
     const a = [0, -.26, .2][fr], ca = Math.cos(a), sa = Math.sin(a);
     const lerp = (p, q, t) => { const A = parseInt(p.slice(1), 16), B = parseInt(q.slice(1), 16), m = (s) => Math.round(((A >> s) & 255) * (1 - t) + ((B >> s) & 255) * t); return '#' + ((1 << 24) | (m(16) << 16) | (m(8) << 8) | m(0)).toString(16).slice(1); };
     const seg = (u, v, x0, y0, x1, y1) => { const dx = x1 - x0, dy = y1 - y0, l2 = dx * dx + dy * dy, t = Math.max(0, Math.min(1, ((u - x0) * dx + (v - y0) * dy) / l2)); return [Math.hypot(u - x0 - t * dx, v - y0 - t * dy), t]; };
@@ -955,17 +968,35 @@ function wingSprite(k, fr){
         if(Math.abs(Math.sin(u * .9 + v * .4)) < .08) c = lerp(c, c1, .6);
         for(const s of sags){ if(Math.hypot(u - s[0], v - s[1]) < 2.2) c = shade(c, -.25); }
         return c; },
+      wi5(u, v){ // cánh tiên: hai cặp cánh mỏng dài như chuồn chuồn, trong suốt có gân
+        const wing = (a, L, w) => { const ca2 = Math.cos(a), sa2 = Math.sin(a), t = u * ca2 + v * sa2, d = -u * sa2 + v * ca2; if(t < 1) return null; const e = ((t - L / 2) / (L / 2)) ** 2 + (d / w) ** 2; return e <= 1 ? [t, d, e] : null; };
+        const r = wing(-.42, 28, 4.8) || wing(.32, 22, 4);
+        if(!r) return null; const [t, d, e] = r;
+        if(e > .72) return c2; if(Math.abs(d) < .55) return shade(c2, -.1);
+        if(Math.abs(Math.sin(t * .85)) < .12) return lerp(c1, c2, .55);
+        if((Math.round(t * 2 + d * 3) % 11) === 0) return '#FFFFFF';
+        return lerp('#FFFFFF', c1, .35 + Math.min(1, t / 30) * .55); },
+      wi6(u, v){ // kiếm dực: năm thanh phi kiếm xoè ra như cánh
+        const bl = [[-1.05, 25], [-.7, 28], [-.35, 27], [0, 23], [.35, 18]];
+        for(const [a, L] of bl){ const ca2 = Math.cos(a), sa2 = Math.sin(a), t = u * ca2 + v * sa2, d = -u * sa2 + v * ca2;
+          if(t < 1 || t > L) continue;
+          if(t < 3.2){ if(Math.abs(d) < .8) return '#3A2A20'; continue; }
+          if(t < 4.4){ if(Math.abs(d) < 2.6) return '#F2C14E'; continue; }
+          const w = t > L - 5 ? 1.7 * (L - t) / 5 + .2 : 1.7; if(Math.abs(d) > w) continue;
+          if(Math.abs(d) < .45 && t < L - 2) return '#FFFFFF';
+          return d < 0 ? c1 : c2; }
+        return null; },
     }[k] || (() => null);
     return spr(W, H, R => { for(let y = 0; y < H; y++) for(let x = 0; x < W; x++){ const du = RX - x, dv = y - RY, u = du * ca - dv * sa, v = du * sa + dv * ca; const c = shape(u, v); if(c) R(x, y, 1, 1, c); } });
   }); }
 // phi kiếm (5x15, mũi hướng lên)
-function miniSword(k){
-  return cached('ms' + k, () => { const I = ITEMS[k] || { t:1, c:'#BFE8FF' }, c = I.t === 4 ? '#FFB04A' : I.c;
+function miniSword(k, col){
+  return cached('ms' + k + (col || ''), () => { const I = ITEMS[k] || { t:1, c:'#BFE8FF' }, c = col || (I.t === 4 ? '#FFB04A' : I.c);
     return spr(7, 15, R => { R(3, 0, 1, 1, shade(c, .6)); R(2, 1, 3, 8, c); R(3, 1, 1, 8, shade(c, .55)); R(1, 9, 5, 1, I.t >= 6 ? '#3A1A2A' : '#F2C14E'); if(I.t >= 4){ R(0, 8, 1, 2, '#F2C14E'); R(6, 8, 1, 2, '#F2C14E'); } R(3, 10, 1, 3, I.t >= 5 ? '#2A2A4A' : '#6A2A20'); R(2, 13, 3, 1, '#F2C14E'); }); });
 }
-function swordSprite(k){
-  return cached('sw' + k, () => {
-    const I = ITEMS[k] || { t:3, c:'#BFE8FF' }, t = I.t, c = I.c;
+function swordSprite(k, col){
+  return cached('sw' + k + (col || ''), () => {
+    const I = ITEMS[k] || { t:3, c:'#BFE8FF' }, t = I.t, c = col || I.c;
     return spr(11, 26, (R) => {
       const L = [0, 9, 11, 13, 14, 15, 17][t], top = 21 - L;
       if(t === 4){ for(let i = 0; i < L; i++){ const o = Math.round(Math.sin(i * .9)); R(4 + o, top + i, 3, 1, i % 3 ? c : '#FFB04A'); R(5 + o, top + i, 1, 1, '#FFE07A'); } }
@@ -1426,8 +1457,9 @@ function look(p = P){
   const it = sl => itemOf(p.eq[sl]) || null, kk = sl => (it(sl) || {}).k;
   const w = kk('w') || 'w1', a = kk('a'), wi = kk('wi') || '', h = kk('h') || '';
   const tiers = [w, a, wi, h].filter(Boolean).map(k => ITEMS[k].t), pl = Math.max(0, ...['w', 'a', 'wi', 'h'].map(sl => (it(sl) || { plus:0 }).plus));
-  const W_ = p.wear || {}, sk = CAT[W_.skin] || {}, wg = CAT[W_.wing] || {}, mt = CAT[W_.mount] || {}, ptc = CAT[W_.pet] || {};
-  return { g:p.g, hair:p.hair, robe:sk.robe || p.robe, trim:sk.trim || (a ? (ITEMS[a].t >= 3 ? ITEMS[a].c : '#F2C14E') : '#F2C14E'), w, wi:wg.wi || wi, h, at:sk.at || (a ? ITEMS[a].t : 1), ac:sk.ac || (a ? ITEMS[a].c : '#9A8A7A'), mt:mt.c && p.ride ? W_.mount : '', pt:ptc.c ? W_.pet : '', sfx:sk.fx || '', bw:ITEMS[w].t >= 2 && ['kiem', 'pham', 'dao'].includes(_cl) ? w : '', au:Math.max(0, ...tiers), pl, st:p.stage || 0, sw:Math.min(8, 1 + Math.floor((p.stage || 0) / 4)) + (_cl === 'kiem' ? 2 : 0), cls:_cl, cos:_co };
+  const W_ = p.wr || WR0, sk = CAT[W_.as] || {}, xs = CAT[W_.ws] || {}, wg = CAT[W_.wing], mt = CAT[W_.mount], ptc = CAT[W_.pet];
+  const a2 = W_.at && ITEMS[W_.at] ? W_.at : a, w2 = W_.wt && ITEMS[W_.wt] ? W_.wt : w;
+  return { g:p.g, hair:p.hair, robe:sk.robe || p.robe, trim:sk.trim || (a2 ? (ITEMS[a2].t >= 3 ? ITEMS[a2].c : '#F2C14E') : '#F2C14E'), w:w2, wi:wg ? wg.wi : wi, wt:wg && wg.t ? W_.wing : '', h, at:a2 ? ITEMS[a2].t : 1, ac:sk.ac || (a2 ? ITEMS[a2].c : '#9A8A7A'), mt:mt && p.ride ? W_.mount : '', pt:ptc ? W_.pet : '', sfx:sk.fx || '', wc:xs.c || '', wfx:xs.fx || '', bw:ITEMS[w2].t >= 2 && ['kiem', 'pham', 'dao'].includes(_cl) ? w2 : '', au:Math.max(0, ...tiers), pl, st:p.stage || 0, sw:Math.min(8, 1 + Math.floor((p.stage || 0) / 4)) + (_cl === 'kiem' ? 2 : 0), cls:_cl, cos:_co };
 }
 
 /* ======================= TRẠNG THÁI CHẠY ======================= */
@@ -1581,7 +1613,7 @@ function killMob(m){
   const lvGap = P.stage - m.L; if(lvGap > 6) exp = Math.max(1, Math.round(exp * Math.max(.1, 1 - (lvGap - 6) * .15)));
   gainExp(exp); texts.push({ x:m.x, y:m.y - 30, t:0, s:`+${fmt(exp)} tu vi`, c:'#C9A0FF' });
   const st = Math.round(mobStone(m.L) * rnd(.8, 1.3) * (m.D.boss ? 15 : 1) * (1 + SS.gold / 100) * diffRw()); drops.push({ x:m.x + rnd(-6, 6), y:m.y + rnd(-3, 3), k:'st', n:st, t:0 });
-  m.D.drop.forEach(([k, p]) => { if(Math.random() < p * (1 + .1 * (curPN - 1)) * (1 + (cls().drop || 0))) drops.push({ x:m.x + rnd(-10, 10), y:m.y + rnd(-6, 6), k, n:1, t:0, b:!!m.D.boss }); });
+  m.D.drop.forEach(([k, p]) => { if(k.startsWith('ty:') && tyOwn(k.slice(3))) return; if(Math.random() < p * (1 + .1 * (curPN - 1)) * (1 + (cls().drop || 0))) drops.push({ x:m.x + rnd(-10, 10), y:m.y + rnd(-6, 6), k, n:1, t:0, b:!!m.D.boss }); });
   if(Math.random() < (m.D.boss ? 1 : .035)) drops.push({ x:m.x + rnd(-8, 8), y:m.y + rnd(-5, 5), k:'tp', n:m.D.boss ? 2 : 1, t:0 });
   P.kills++; questEvent('kill', m.k); fxBurst(m.x, m.y - 8, m.D.boss ? 40 : 14, m.k === 'hoama' || m.k === 'mavuong' ? '#FF8A2A' : '#C9A0FF');
   for(let i = 0; i < (m.D.boss ? 16 : 5); i++) fx.push({ k:'soul', x:m.x + rnd(-6, 6), y:m.y - rnd(4, 14), vx:rnd(-40, 40), vy:-rnd(30, 70), t:0, d:2.5, c:'#C9A0FF' });
@@ -1778,6 +1810,7 @@ function update(dt){
   Net.tick(dt); Net.partyTick(dt); if(frame % 30 === 0) partyUpdate();
 }
 function pickDrop(d){
+  if(d.k.startsWith('ty:')){ gainTyp(d.k.slice(3)); return; }
   if(d.k === 'st'){ P.st += d.n; texts.push({ x:me.x, y:me.y - 30, t:0, s:`${Lx("+{0} xu", d.n)}`, c:'#7FE0F0' }); sfx.coin(); return; }
   if(d.k === 'tt'){ P.inv.tt = (P.inv.tt || 0) + d.n; texts.push({ x:me.x, y:me.y - 34, t:0, s:`+${d.n} Linh Tinh`, c:'#C99BFF' }); sfx.coin(); return; }
   if(PILLS[d.k]){ P.inv[d.k] = (P.inv[d.k] || 0) + d.n; texts.push({ x:me.x, y:me.y - 34, t:0, s:`+${PILLS[d.k].n}`, c:'#FFE07A' }); sfx.coin(); return; }
@@ -1799,7 +1832,7 @@ function drawHero(ctx, x, y, L, st){
   ctx.fillStyle = 'rgba(0,0,0,.28)'; ctx.fillRect(sx - 6, sy - 1, 12, 3);
   // phi kiếm hộ thân: kiếm nhỏ xoay vòng quanh eo, có chiều sâu
   if(L.cos) drawCos(ctx, L.cos, sx, sy + bob, 0);
-  const n = L.sw === 0 || (L.cls && L.cls !== 'kiem') ? 0 : Math.min(4, 1 + Math.floor(((L.sw || 1) - 1) / 2)), wt = ITEMS[L.w] ? ITEMS[L.w].t : 1, ms = miniSword(L.w || 'w1'), wc = ITEMS[L.w] ? ITEMS[L.w].c : '#BFE8FF';
+  const n = L.sw === 0 || (L.cls && L.cls !== 'kiem') ? 0 : Math.min(4, 1 + Math.floor(((L.sw || 1) - 1) / 2)), wt = ITEMS[L.w] ? ITEMS[L.w].t : 1, ms = miniSword(L.w || 'w1', L.wc), wc = L.wc || (ITEMS[L.w] ? ITEMS[L.w].c : '#BFE8FF');
   const behind = [], front = [], spd = st.sit ? .7 : 1.4;
   for(let i = 0; i < n; i++){ const a = tNow * spd + i * Math.PI * 2 / n, px = sx + Math.cos(a) * 19, py = sy - 12 + Math.sin(a) * 5 + Math.sin(tNow * 3 + i) * 1 + bob; (Math.sin(a) < 0 ? behind : front).push([px, py, a]); }
   const drawSw = ([a, b, an]) => { const X = Math.round(a - 3), Y = Math.round(b - 13);
@@ -1812,9 +1845,13 @@ function drawHero(ctx, x, y, L, st){
   if(L.cls === 'ma' && Math.random() < .15) fx.push({ k:'p', x:x + rnd(-8, 8), y:y - rnd(0, 20), vx:rnd(-4, 4), vy:-rnd(6, 16), t:0, d:.9, c:pick(['#5A0A1A', '#8A0A1A', '#2A0A10']) });
   if(L.cls === 'the' && !st.sit && Math.random() < .12) fx.push({ k:'p', x:x + rnd(-7, 7), y:y - rnd(2, 22), vx:rnd(-4, 4), vy:-rnd(14, 28), t:0, d:.7, c:pick(['#FFB04A', '#FF7A2A', '#FFD25A']), glow:1 });
   // cánh
-  if(L.wi && ITEMS[L.wi]){ const wf = [0, 1, 0, 2][Math.floor(tNow * (st.moving ? 9 : 5) + x * .01) % 4], ws = wingSprite(L.wi, wf), wy = sy - 35 + bob; ctx.drawImage(ws, sx - 30, wy); ctx.drawImage(flipCached(ws), sx, wy);
-    if(ITEMS[L.wi].t >= 5 && frame % 7 === 0) fx.push({ k:'p', x:x + rnd(-24, 24), y:y - rnd(14, 30), vx:rnd(-6, 6), vy:rnd(5, 20), t:0, d:1.2, c:ITEMS[L.wi].c[1], glow:1 }); }
-  let sp = heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, beard:L.beard, npc:L.npc, skin:L.skin, at:L.at, ac:L.ac, h:L.h, bw:L.bw }, st.sit ? 0 : fr);
+  if(L.wi && (ITEMS[L.wi] || WSH[L.wi])){ const wf = [0, 1, 0, 2][Math.floor(tNow * (st.moving ? 9 : 5) + x * .01) % 4], ws = wingImg(L.wi, wf, L.wt), wy = sy - 35 + bob; ctx.drawImage(ws, sx - 30, wy); ctx.drawImage(flipCached(ws), sx, wy);
+    const WS_ = L.wt && CAT[L.wt], WB = ITEMS[L.wi] || WSH[L.wi];
+    if((WS_ ? WS_.g >= 2 : WB.t >= 5) && frame % (WS_ && WS_.g >= 3 ? 4 : 7) === 0) fx.push({ k:'p', x:x + rnd(-24, 24), y:y - rnd(14, 30), vx:rnd(-6, 6), vy:rnd(5, 20), t:0, d:1.2, c:WS_ ? WS_.fx || '#FFE07A' : WB.c[1], glow:1 }); }
+  // vũ khí sau lưng cho môn phái không đeo kiếm
+  { const f = FAM_OF[L.cls || 'kiem']; if(!L.bw && ITEMS[L.w] && ['phap', 'cung', 'y', 'ma', 'hoa'].includes(f) && !st.sit){ let wsp = weaponSprite(L.w, f, L.wc); if(st.dir < 0) wsp = flipCached(wsp); ctx.drawImage(wsp, sx - 5 - (st.dir < 0 ? -5 : 5), sy - 33 + bob); } }
+  if(L.wfx && frame % 5 === 0) fx.push({ k:'p', x:x - (st.dir || 1) * rnd(2, 8), y:y - rnd(12, 30) - (L.mt ? 14 : 0), vx:rnd(-4, 4), vy:-rnd(6, 16), t:0, d:.8, c:L.wfx, glow:1 });
+  let sp = heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, beard:L.beard, npc:L.npc, skin:L.skin, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc }, st.sit ? 0 : fr);
   if(st.dir < 0) sp = flipCached(sp);
   if(st.sit){ ctx.drawImage(sp, 0, 0, 24, 25, sx - 12, sy - 25 + bob + 2, 24, 25); ctx.fillStyle = L.robe; ctx.fillRect(sx - 8, sy - 3, 16, 3); }
   else ctx.drawImage(sp, sx - 12, sy - 32 + bob);
@@ -2084,7 +2121,8 @@ const ICONS = {};
 function itemIcon(k){
   if(ICONS[k]) return ICONS[k];
   let c; let fam = ''; if(k.includes('@')){ [k, fam] = [k.split('@')[0], k.split('@')[1]]; }
-  if(k === 'tt') c = spr(16, 16, R => { R(7, 1, 2, 2, '#F4E8FF'); R(5, 3, 6, 4, '#C99BFF'); R(4, 7, 8, 4, '#9B6BE0'); R(6, 11, 4, 3, '#6A3AB0'); R(6, 4, 2, 5, '#F4E8FF'); R(10, 6, 1, 4, '#E0C8FF'); });
+  if(k.startsWith('ty:')) c = typIcon(k.slice(3));
+  else if(k === 'tt') c = spr(16, 16, R => { R(7, 1, 2, 2, '#F4E8FF'); R(5, 3, 6, 4, '#C99BFF'); R(4, 7, 8, 4, '#9B6BE0'); R(6, 11, 4, 3, '#6A3AB0'); R(6, 4, 2, 5, '#F4E8FF'); R(10, 6, 1, 4, '#E0C8FF'); });
   else if(k === 'st') c = spr(16, 16, R => { R(4, 2, 8, 12, '#C9912A'); R(2, 4, 12, 8, '#C9912A'); R(3, 3, 10, 10, '#F2C14E'); R(5, 4, 6, 8, '#FFE07A'); R(6, 6, 4, 4, '#C9912A'); R(7, 7, 2, 2, '#FFE07A'); R(4, 3, 3, 1, '#FFF3C0'); });
   else if(k === 'tp') c = spr(16, 16, R => { R(4, 1, 8, 14, '#F4E2B0'); R(4, 1, 8, 1, '#C9A464'); R(4, 14, 8, 1, '#C9A464'); R(7, 3, 2, 9, '#2A6FB5'); R(5, 5, 6, 1, '#2A6FB5'); R(5, 9, 6, 1, '#2A6FB5'); R(6, 7, 4, 1, '#7FC8FF'); R(7, 12, 2, 1, '#E0453A'); });
   else if(PILLS[k]) c = spr(16, 16, R => { const col = PILLS[k].c; R(4, 5, 8, 8, col); R(5, 4, 6, 10, col); R(6, 5, 2, 2, '#FFFFFF'); R(9, 10, 2, 2, shade(col, -.3)); });
@@ -2118,9 +2156,9 @@ const famClasses = f => Object.keys(FAM_OF).filter(c => FAM_OF[c] === f).map(c =
 function itName(it){ const I = ITEMS[it.k], f = wfam(it); if(!f || f === 'kiem') return I.n; return Lx("{0} {1}", WFAM[f].pre[I.t - 1], WFAM[f].n); }
 function itDesc(it){ const I = ITEMS[it.k], f = wfam(it); return f && f !== 'kiem' ? WFAM[f].d : I.d; }
 const ik = it => { const f = wfam(it); return f && f !== 'kiem' ? it.k + '@' + f : it.k; };
-function weaponSprite(k, f){
-  return cached('wp' + k + f, () => {
-    const I = ITEMS[k] || { t:3, c:'#BFE8FF' }, t = I.t, c = t === 4 ? '#FF8A4A' : I.c, hi = shade(c, .55), dk = shade(c, -.35), gold = t >= 6 ? '#3A1A2A' : '#F2C14E';
+function weaponSprite(k, f, col){
+  return cached('wp' + k + f + (col || ''), () => {
+    const I = ITEMS[k] || { t:3, c:'#BFE8FF' }, t = I.t, c = col || (t === 4 ? '#FF8A4A' : I.c), hi = shade(c, .55), dk = shade(c, -.35), gold = t >= 6 ? '#3A1A2A' : '#F2C14E';
     return spr(11, 26, R => {
       if(f === 'dao'){ const L = 9 + t; for(let i = 0; i < L; i++){ const w = i < 3 ? 2 + i : 4 + (i > L - 4 ? -1 : 0); R(3, 21 - L + i, w, 1, c); R(3, 21 - L + i, 1, 1, hi); } R(2, 21, 7, 1, gold); R(4, 22, 2, 3, '#6A2A20'); R(3, 25, 4, 1, gold); if(t >= 5) R(6, 21 - L + 4, 1, L - 6, '#F4FCFF'); }
       else if(f === 'phap'){ R(5, 6, 1, 19, t >= 3 ? dk : '#7A5230'); R(4, 6, 3, 1, gold); R(3, 1, 5, 5, c); R(4, 0, 3, 7, c); R(4, 2, 1, 2, '#FFFFFF'); if(t >= 4){ R(2, 3, 1, 1, gold); R(8, 3, 1, 1, gold); } R(4, 25, 3, 1, gold); }
@@ -2214,7 +2252,8 @@ function grant(rw){
   const parts = [];
   if(rw.st){ P.st += rw.st; parts.push(`${Lx("{0} xu", fmt(rw.st))}`); }
   ['hp', 'mp', 'x2', 'pc'].forEach(k => { if(rw[k]){ P.inv[k] = (P.inv[k] || 0) + rw[k]; parts.push(`${rw[k]} ${PILLS[k].n}`); } });
-  if(rw.item){ const it2 = rollItem(rw.item, 'boss'); P.bag.push(it2); parts.push(itName(it2)); }
+  if(rw.item){ const it2 = rollItem(rw.item, 'boss'); P.bag.push(it2); seeItem(rw.item); parts.push(itName(it2)); }
+  if(rw.ty && gainTyp(rw.ty, true)){ parts.push(`${tyName(rw.ty)} (${CATK[TYP[rw.ty].k]})`); setTimeout(() => typAnnounce(rw.ty), 2600); }
   if(rw.tbl){ P.inv.tbl = (P.inv.tbl || 0) + rw.tbl; parts.push(Lx('{0} Tầm Bảo Lệnh', rw.tbl)); }
   if(rw.exp){ gainExp(rw.exp); parts.push(`${fmt(rw.exp)} tu vi`); }
   return parts.join(', ');
@@ -2364,7 +2403,7 @@ function questSheet(atNpc){
   const ready = questReady();
   let body = '';
   if(q){
-    const rw = q.rw, rwt = [rw.st && `${Lx("{0} xu", fmt(rw.st))}`, rw.hp && `${Lx("{0} Hồi Huyết Đan", rw.hp)}`, rw.mp && `${Lx("{0} Hồi Linh Đan", rw.mp)}`, rw.x2 && `${Lx("{0} Tụ Khí Đan", rw.x2)}`, rw.pc && `${Lx("{0} Phá Cảnh Đan", rw.pc)}`, rw.item && ITEMS[rw.item].n].filter(Boolean).join(', ');
+    const rw = q.rw, rwt = [rw.st && `${Lx("{0} xu", fmt(rw.st))}`, rw.hp && `${Lx("{0} Hồi Huyết Đan", rw.hp)}`, rw.mp && `${Lx("{0} Hồi Linh Đan", rw.mp)}`, rw.x2 && `${Lx("{0} Tụ Khí Đan", rw.x2)}`, rw.pc && `${Lx("{0} Phá Cảnh Đan", rw.pc)}`, rw.item && ITEMS[rw.item].n, rw.ty && `${tyName(rw.ty)} (${CATK[TYP[rw.ty].k]})`].filter(Boolean).join(', ');
     body = `<div class="line"><div class="g"><b>${esc(q.t)}</b><small>${esc(q.d)}</small><small style="color:#F2C14E">${Lx("Thưởng: {0}", rwt)}</small></div></div>
       ${ready ? (atNpc ? Lx("<button class=\"btn gold\" id=\"qDone\">Nhận thưởng</button>") : Lx("<p class=\"sub\">Đã hoàn thành, về gặp Tông Chủ ở quảng trường Thôn Thanh Vân nhận thưởng.</p>")) : `<p class="sub">${Lx("Tiến độ: {0}", q.k === 'stage' ? realmName(P.stage) + ' / ' + realmName(q.n) : q.k === 'talk' ? Lx("chưa gặp") : P.q.p + '/' + q.n)}</p>`}`;
   } else {
@@ -2418,8 +2457,8 @@ let invF = '', invSel = null, invSort = 'tier';
 function heroPreview(){
   const C = cls(), L = look(), pv = cnv(72, 60), x = pv.getContext('2d'); x.imageSmoothingEnabled = false;
   const gr = x.createRadialGradient(36, 52, 2, 36, 52, 30); gr.addColorStop(0, (L.au >= 3 ? AURA_C[L.au] : C.c) + '99'); gr.addColorStop(1, '#00000000'); x.fillStyle = gr; x.fillRect(0, 26, 72, 34);
-  if(L.wi){ x.drawImage(wingSprite(L.wi, 0), 6, 2); x.drawImage(flip(wingSprite(L.wi, 0)), 36, 2); }
-  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw }, 0), 24, 19);
+  if(L.wi){ x.drawImage(wingImg(L.wi, 0, L.wt), 6, 2); x.drawImage(flip(wingImg(L.wi, 0, L.wt)), 36, 2); }
+  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc }, 0), 24, 19);
   return pv.toDataURL();
 }
 function itemTip(it){
@@ -2489,7 +2528,7 @@ const bagCost = () => Math.round(2000 * ((bagCap() - 30) / 10) ** 2);
 const isEq = it => Object.values(P.eq).includes(it.id);
 const salvageVal = it => { const t = ITEMS[it.k].t; return Math.round((t * t + (it.r || []).length * t) * (1 + it.plus * .5)); };
 function salvage(it){ const n = salvageVal(it); P.inv.tt = (P.inv.tt || 0) + n; P.bag = P.bag.filter(x => x !== it); return n; }
-function addItem(k, src){ const I = ITEMS[k], it = rollItem(k, src); if(P.autoJunk && I.t <= P.autoJunk && !perfect(it)){ P.bag.push(it); const n = salvage(it); texts.push({ x:me.x, y:me.y - 34, t:0, s:`${Lx("Phân giải {0} +{1} Linh Tinh", itName(it), n)}`, c:'#C99BFF' }); sfx.coin(); return null; } P.bag.push(it); return it; }
+function addItem(k, src){ seeItem(k); const I = ITEMS[k], it = rollItem(k, src); if(P.autoJunk && I.t <= P.autoJunk && !perfect(it)){ P.bag.push(it); const n = salvage(it); texts.push({ x:me.x, y:me.y - 34, t:0, s:`${Lx("Phân giải {0} +{1} Linh Tinh", itName(it), n)}`, c:'#C99BFF' }); sfx.coin(); return null; } P.bag.push(it); return it; }
 function bulkSheet(){
   invSel = null; const pick = t => P.bag.filter(b => !isEq(b) && !b.lk && ITEMS[b.k].t <= t);
   const row = (t, lbl) => { const L = pick(t), g = L.reduce((a, b) => a + sellPrice(b), 0), m = L.reduce((a, b) => a + salvageVal(b), 0); return `<div class="line"><div class="g"><b style="color:${rarC(t)}">${lbl}</b><small>${Lx("{0} món · bán {1} xu hoặc phân giải {2} Linh Tinh", L.length, fmt(g), fmt(m))}</small></div><button class="s" data-bs="${t}" ${L.length ? '' : 'disabled'}>${Lx("Bán")}</button><button class="s" data-bg="${t}" ${L.length ? '' : 'disabled'} style="background:#6A3AB0">${Lx("Phân giải")}</button></div>`; };
@@ -2523,11 +2562,11 @@ function charSheet(){
   const S = stats(), s = P.stage, gate = isGate(s), full = P.exp >= needExp(s), C = cls(), L = look();
   const pv = cnv(72, 60), x = pv.getContext('2d'); x.imageSmoothingEnabled = false;
   const gr = x.createRadialGradient(36, 52, 2, 36, 52, 30); gr.addColorStop(0, (L.au >= 3 ? AURA_C[L.au] : C.c) + '99'); gr.addColorStop(1, '#00000000'); x.fillStyle = gr; x.fillRect(0, 26, 72, 34);
-  if(L.wi){ x.drawImage(wingSprite(L.wi, 0), 6, 2); x.drawImage(flip(wingSprite(L.wi, 0)), 36, 2); }
+  if(L.wi){ x.drawImage(wingImg(L.wi, 0, L.wt), 6, 2); x.drawImage(flip(wingImg(L.wi, 0, L.wt)), 36, 2); }
   const nS = (P.cls || 'kiem') === 'kiem' ? Math.min(4, 1 + Math.floor(((L.sw || 1) - 1) / 2)) : 0, pos = [...Array(nS)].map((_, i) => { const a = .6 + i * Math.PI * 2 / nS; return [Math.round(36 + Math.cos(a) * 20 - 3), Math.round(44 + Math.sin(a) * 4 - 10), Math.sin(a)]; });
-  pos.filter(p => p[2] < 0).forEach(p => x.drawImage(miniSword(L.w), p[0], p[1]));
-  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw }, 0), 24, 19);
-  pos.filter(p => p[2] >= 0).forEach(p => x.drawImage(miniSword(L.w), p[0], p[1]));
+  pos.filter(p => p[2] < 0).forEach(p => x.drawImage(miniSword(L.w, L.wc), p[0], p[1]));
+  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc }, 0), 24, 19);
+  pos.filter(p => p[2] >= 0).forEach(p => x.drawImage(miniSword(L.w, L.wc), p[0], p[1]));
   const card = sl => { const it = itemOf(P.eq[sl]), I = it && ITEMS[it.k]; return `<button class="fcard${it ? ' on' : ''}" data-slot="${sl}" style="--cc:${I ? rarC(I.t) : '#555'}">${it ? iconHtml(ik(it), 40) : `<span class="fi" style="opacity:.35">＋</span>`}<span class="fn"><b style="color:${I ? rarC(I.t) : 'var(--paper2)'}">${I ? itName(it) + (it.plus ? ' +' + it.plus : '') : SLOTN[sl]}</b><small>${I ? `${RAR[I.t][0]} · ${SLOTN[sl]}${(it.r || []).length ? ' · ' + it.r.length + '✦' : ''}` : Lx("Chưa trang bị")}</small></span></button>`; };
   let left = '';
   if(charTab === 'eq') left = `<div class="fsec" style="margin-top:2px">${Lx("Trang bị")}</div>${card('w')}${card('a')}${card('h')}${card('wi')}<button class="fbtn" id="cBag" style="width:100%;margin-top:4px">${Lx("Túi đồ")}</button>${S.sets.map(([t, n]) => `<div class="fsec">${Lx("Bộ {0} ({1}/4)", SETS[t].n, n)}</div><p class="fp" style="color:${SETS[t].c}">${SETS[t].d.filter((_, i) => n >= SETS[t].b[i][0]).join('<br>')}</p>`).join('')}`;
@@ -2807,48 +2846,210 @@ function showUnl(u){
 }
 
 /* ======================= NGOẠI TRANG · NGÂN LƯỢNG ======================= */
-const CAT = {
-  sk_def:{ k:'skin', g:0, n:Lx("Theo trang bị"), p:0, d:Lx("Hiện đúng y phục đang mặc.") },
-  sk_bach:{ k:'skin', g:0, n:Lx("Bạch Y Thiếu Hiệp"), p:0, robe:'#EEEAE0', trim:'#B0302A', at:2, ac:'#D8D0C0', d:Lx("Áo trắng thắt đai đỏ, giản dị mà thanh thoát.") },
-  sk_thanh:{ k:'skin', g:0, n:Lx("Thanh Sam Thư Sinh"), p:0, robe:'#3E8E6E', trim:'#E9E4D8', at:2, ac:'#4FB35E', d:Lx("Áo xanh nho nhã của kẻ sĩ lên núi tu đạo.") },
-  sk_lien:{ k:'skin', g:1, n:Lx("Hồng Liên Tiên Tử"), p:300, robe:'#F08AB0', trim:'#FFF0F6', at:4, ac:'#FFB3D0', d:Lx("Tà áo hồng như cánh sen nở trên mặt hồ.") },
-  sk_hac:{ k:'skin', g:1, n:Lx("Hắc Long Bào"), p:400, robe:'#16161E', trim:'#F2C14E', at:5, ac:'#F2C14E', d:Lx("Áo đen thêu rồng vàng, khí thế bá đạo.") },
-  sk_bang:{ k:'skin', g:2, n:Lx("Băng Tuyết Thần Y"), p:700, robe:'#CFEFFF', trim:'#5EB8FF', at:5, ac:'#A8D8FF', fx:'#CFF4FF', d:Lx("Áo dệt từ tơ băng tằm, lạnh lẽo mà kiêu sa.") },
-  sk_ma:{ k:'skin', g:2, n:Lx("Huyết Ma Chiến Giáp"), p:800, robe:'#3A0A14', trim:'#E0203A', at:6, ac:'#7A0A1A', fx:'#E0203A', d:Lx("Chiến giáp tẩm huyết, sát khí ngút trời.") },
-  sk_de:{ k:'skin', g:3, n:Lx("Hoàng Bào Đế Quân"), p:1500, robe:'#E8B23A', trim:'#9A1A1A', at:6, ac:'#FFC83D', fx:'#FFE07A', d:Lx("Long bào của bậc đế quân, vạn người ngước nhìn.") },
-  sk_thien:{ k:'skin', g:3, n:Lx("Thiên Tôn Tiên Bào"), p:2000, robe:'#FBF8F0', trim:'#F2C14E', at:6, ac:'#FFE7A8', fx:'#FFF3C0', d:Lx("Tiên bào của bậc Thiên Tôn, kim quang lượn quanh không dứt.") },
-  wg_none:{ k:'wing', g:0, n:Lx("Không đeo"), p:0, d:Lx("Hiện đúng đôi cánh trang bị (nếu có).") },
-  wg_buom:{ k:'wing', g:0, n:Lx("Cánh Bướm Linh"), p:0, wi:'wi1', d:Lx("Đôi cánh bướm nhỏ xinh, ai mới nhập môn cũng có.") },
-  wg_bang:{ k:'wing', g:1, n:Lx("Cánh Băng Phượng"), p:500, wi:'wi2', d:Lx("Mỗi lần vỗ cánh rơi bông tuyết.") },
-  wg_hoa:{ k:'wing', g:2, n:Lx("Cánh Hỏa Hoàng"), p:900, wi:'wi3', d:Lx("Cánh lửa niết bàn, toả hạt lửa thiêng.") },
-  wg_long:{ k:'wing', g:3, n:Lx("Cánh Ma Long"), p:1500, wi:'wi4', d:Lx("Cánh ma long cổ đại, uy áp vạn yêu.") },
-  mt_none:{ k:'mount', g:0, n:Lx("Đi bộ"), p:0, d:Lx("Không cưỡi thú.") },
-  mt_ngua:{ k:'mount', g:0, n:Lx("Tuấn Mã"), p:0, c:['#8A5A30', '#5A3A1E', '#2A1A10', '#B0302A'], d:Lx("Ngựa nâu khoẻ mạnh của môn phái.") },
-  mt_bach:{ k:'mount', g:1, n:Lx("Bạch Long Mã"), p:500, c:['#F2F0EA', '#C8C4B8', '#E8E0D0', '#F2C14E'], d:Lx("Ngựa trắng yên vàng, phi như gió.") },
-  mt_ho:{ k:'mount', g:1, n:Lx("Bạch Hổ"), p:800, c:['#F2F0EA', '#C8C4B8', '#2A2A30', '#4FA8FF'], f:'ho', d:Lx("Thần thú phương tây, gầm một tiếng núi rừng im bặt.") },
-  mt_lan:{ k:'mount', g:2, n:Lx("Hỏa Kỳ Lân"), p:1200, c:['#E0453A', '#9A2A1A', '#FFB04A', '#FFE07A'], f:'lan', d:Lx("Kỳ lân lửa, bước tới đâu hoa sen nở tới đó.") },
-  mt_kiem:{ k:'mount', g:2, n:Lx("Ngự Kiếm Phi Hành"), p:1400, c:['#CFEFFF', '#5EB8FF', '#F4FCFF', '#F2C14E'], f:'kiem', fly:1, d:Lx("Đứng trên phi kiếm khổng lồ, lướt giữa trời mây.") },
-  mt_van:{ k:'mount', g:2, n:Lx("Thanh Vân Long"), p:1800, c:['#7FC8FF', '#3E7AB8', '#F4FCFF', '#F2C14E'], f:'long', fly:1, d:Lx("Rồng mây xanh cuộn mình, cưỡi gió mà đi.") },
-  mt_rong:{ k:'mount', g:3, n:Lx("Kim Long Phi Thiên"), p:2600, c:['#F2C14E', '#B07A1A', '#FFF3C0', '#E0453A'], f:'rong', fly:1, d:Lx("Kim long dang cánh bay lượn, vảy rồng toả kim quang.") },
-  mt_can:{ k:'mount', g:3, n:Lx("Cân Đẩu Vân"), p:2600, c:['#FFE07A', '#F2A93A', '#FFFBEA', '#FF7A2A'], f:'can', fly:1, d:Lx("Áng mây vàng một cái lộn nhào vạn tám ngàn dặm.") },
-  pt_none:{ k:'pet', g:0, n:Lx("Không mang"), p:0, d:Lx("Không có linh thú đi theo.") },
-  pt_cho:{ k:'pet', g:0, n:Lx("Cún Vàng"), p:0, c:['#D8A050', '#8A5A30', '#2A1A10'], f:'cho', d:Lx("Chú cún trung thành, theo bạn khắp giang hồ.") },
-  pt_meo:{ k:'pet', g:1, n:Lx("Mèo Mướp"), p:250, c:['#E8A060', '#9A5A2A', '#2A1A10'], f:'meo', d:Lx("Lười biếng nhưng cực kỳ dễ thương.") },
-  pt_gau:{ k:'pet', g:1, n:Lx("Gấu Trúc Con"), p:400, c:['#F2F0EA', '#1E1E24', '#1E1E24'], f:'gau', d:Lx("Tròn ủng, lắc lư theo sau ăn tre.") },
-  pt_ho:{ k:'pet', g:2, n:Lx("Cửu Vĩ Hồ"), p:800, c:['#F4F0F8', '#C8C0D8', '#E0453A'], f:'ho', d:Lx("Hồ ly chín đuôi, mắt đỏ như hồng ngọc.") },
-  pt_long:{ k:'pet', g:2, n:Lx("Tiểu Long"), p:1000, c:['#5ED37A', '#2E8A4A', '#F2C14E'], f:'long', d:Lx("Rồng con biết bay, thỉnh thoảng phun lửa nhỏ.") },
-  pt_phuong:{ k:'pet', g:3, n:Lx("Phượng Hoàng Non"), p:1500, c:['#FF7A2A', '#C0302A', '#FFE07A'], f:'phuong', d:Lx("Chim lửa nhỏ, lông đuôi rực rỡ như ráng chiều.") },
-  pt_kylan:{ k:'pet', g:3, n:Lx("Kỳ Lân Con"), p:1800, c:['#7FE0F0', '#2E8AA8', '#F2C14E'], f:'ho', d:Lx("Kỳ lân nhỏ mang điềm lành, chạy tới đâu sáng tới đó.") },
+// LOẠI (ngựa, hổ, cánh bướm, cánh rồng...) có được nhờ đánh quái / làm nhiệm vụ, không bán.
+// SKIN của từng loại mua bằng ngân lượng. Đồ đánh quái ra không kèm skin.
+const CATK = { mount:Lx("Thú cưỡi"), wing:Lx("Cánh"), pet:Lx("Linh thú"), outfit:Lx("Y phục"), weapon:Lx("Vũ khí") };
+const WSH = { wi5:{ t:0, c:['#BFF4FF', '#3FA8C8'] }, wi6:{ t:0, c:['#EAF4FF', '#7FA8D8'] } };
+const TYP = {
+  m_ngua:{ k:'mount', n:Lx("Ngựa"), f:'', def:1, d:Lx("Thú cưỡi đầu tiên của mọi đệ tử, chạy bền mà hiền.") },
+  m_ho:{ k:'mount', n:Lx("Hổ"), f:'ho', d:Lx("Chúa sơn lâm, gầm một tiếng núi rừng im bặt.") },
+  m_lan:{ k:'mount', n:Lx("Kỳ Lân"), f:'lan', d:Lx("Thần thú mang điềm lành, bước tới đâu hoa nở tới đó.") },
+  m_kiem:{ k:'mount', n:Lx("Phi Kiếm"), f:'kiem', fly:1, d:Lx("Ngự kiếm phi hành, lướt giữa trời mây.") },
+  m_may:{ k:'mount', n:Lx("Mây Tiên"), f:'can', fly:1, d:Lx("Áng mây tiên chở người tu đạo đi vạn dặm.") },
+  m_vlong:{ k:'mount', n:Lx("Vân Long"), f:'long', fly:1, d:Lx("Rồng mây cuộn mình, cưỡi gió mà đi.") },
+  m_rong:{ k:'mount', n:Lx("Rồng"), f:'rong', fly:1, d:Lx("Cự long dang cánh, vảy rồng toả hào quang.") },
+  w_none:{ k:'wing', n:Lx("Không đeo"), none:1, def:1, d:Lx("Ẩn cánh ngoại trang, chỉ hiện cánh trang bị nếu có.") },
+  w_buom:{ k:'wing', n:Lx("Cánh Bướm"), wi:'wi1', def:1, d:Lx("Đôi cánh bướm nhỏ xinh, ai mới nhập môn cũng có.") },
+  w_tien:{ k:'wing', n:Lx("Cánh Tiên"), wi:'wi5', d:Lx("Cánh mỏng như sương, trong suốt như cánh chuồn chuồn.") },
+  w_vu:{ k:'wing', n:Lx("Cánh Lông Vũ"), wi:'wi2', it:'wi2', d:Lx("Lông vũ nhiều lớp, mỗi lần vỗ cánh rơi bông tuyết.") },
+  w_kiem:{ k:'wing', n:Lx("Kiếm Dực"), wi:'wi6', d:Lx("Năm thanh phi kiếm xoè sau lưng như đôi cánh.") },
+  w_phuong:{ k:'wing', n:Lx("Cánh Phượng Hoàng"), wi:'wi3', it:'wi3', d:Lx("Cánh lửa niết bàn, đầu lông bốc lửa thiêng.") },
+  w_rong:{ k:'wing', n:Lx("Cánh Rồng"), wi:'wi4', it:'wi4', d:Lx("Cánh rồng cổ đại, uy áp vạn yêu.") },
+  p_none:{ k:'pet', n:Lx("Không mang"), none:1, def:1, d:Lx("Không có linh thú đi theo.") },
+  p_cho:{ k:'pet', n:Lx("Chó"), f:'cho', def:1, d:Lx("Chú cún trung thành, theo bạn khắp giang hồ.") },
+  p_tho:{ k:'pet', n:Lx("Thỏ"), f:'tho', d:Lx("Thỏ con tai dài, nhảy lon ton sau lưng.") },
+  p_meo:{ k:'pet', n:Lx("Mèo"), f:'meo', d:Lx("Lười biếng nhưng cực kỳ dễ thương.") },
+  p_gau:{ k:'pet', n:Lx("Gấu"), f:'gau', d:Lx("Tròn ủng, lắc lư theo sau.") },
+  p_ho:{ k:'pet', n:Lx("Hồ Ly"), f:'ho', d:Lx("Hồ ly tinh ranh, đuôi xù như mây.") },
+  p_long:{ k:'pet', n:Lx("Tiểu Long"), f:'long', d:Lx("Rồng con biết bay, thỉnh thoảng phun lửa nhỏ.") },
+  p_phuong:{ k:'pet', n:Lx("Phượng Hoàng"), f:'phuong', d:Lx("Chim lửa nhỏ, lông đuôi rực rỡ như ráng chiều.") },
+  p_kylan:{ k:'pet', n:Lx("Kỳ Lân Con"), f:'ho', d:Lx("Kỳ lân nhỏ mang điềm lành, chạy tới đâu sáng tới đó.") },
+  o_eq:{ k:'outfit', n:Lx("Theo trang bị"), eq:1, def:1, d:Lx("Hiện đúng kiểu y phục đang mặc.") },
+  wp_eq:{ k:'weapon', n:Lx("Theo trang bị"), eq:1, def:1, d:Lx("Hiện đúng kiểu vũ khí đang cầm.") },
 };
+['a1', 'a2', 'a3', 'a4', 'a5', 'a6'].forEach(k => TYP['o_' + k] = { k:'outfit', it:k });
+['w1', 'w2', 'w3', 'w4', 'w5', 'w6'].forEach(k => TYP['wp_' + k] = { k:'weapon', it:k });
+const CAT = {
+  // thú cưỡi · c = [thân, tối, bờm, điểm nhấn]
+  mt_ngua:{ ty:'m_ngua', g:0, p:0, def:1, n:Lx("Tuấn Mã"), c:['#8A5A30', '#5A3A1E', '#2A1A10', '#B0302A'], d:Lx("Ngựa nâu khoẻ mạnh của môn phái.") },
+  mt_otruy:{ ty:'m_ngua', g:1, p:350, n:Lx("Ô Truy Mã"), c:['#24242C', '#121218', '#3A3A48', '#B0302A'], d:Lx("Ngựa đen tuyền, phi đêm không ai thấy bóng.") },
+  mt_bach:{ ty:'m_ngua', g:1, p:450, n:Lx("Bạch Long Mã"), c:['#F2F0EA', '#C8C4B8', '#E8E0D0', '#F2C14E'], d:Lx("Ngựa trắng yên vàng, phi như gió.") },
+  mt_xich:{ ty:'m_ngua', g:2, p:900, n:Lx("Xích Thố"), c:['#C0302A', '#7A1A14', '#2A0A0A', '#F2C14E'], d:Lx("Ngựa đỏ như than hồng, một ngày ngàn dặm.") },
+  mt_thienma:{ ty:'m_ngua', g:3, p:1800, n:Lx("Thiên Mã Kim Quang"), c:['#FFF3C0', '#E8C46A', '#FFFFFF', '#F2C14E'], d:Lx("Ngựa trời toả kim quang, vó chạm đất nở hoa sen.") },
+  mt_hovan:{ ty:'m_ho', g:0, p:0, def:1, n:Lx("Mãnh Hổ"), c:['#E8902A', '#A0581A', '#1A1410', '#B0302A'], d:Lx("Hổ vằn lửa, bước chân nặng như núi.") },
+  mt_ho:{ ty:'m_ho', g:1, p:500, n:Lx("Bạch Hổ"), c:['#F2F0EA', '#C8C4B8', '#2A2A30', '#4FA8FF'], d:Lx("Thần thú phương tây, lông trắng như tuyết.") },
+  mt_hohac:{ ty:'m_ho', g:2, p:1000, n:Lx("Hắc Sát Hổ"), c:['#2A2A34', '#14141C', '#E0203A', '#E0203A'], d:Lx("Hổ đen mắt đỏ, sát khí ngùn ngụt.") },
+  mt_hokim:{ ty:'m_ho', g:3, p:2000, n:Lx("Kim Giáp Thần Hổ"), c:['#F2C14E', '#B07A1A', '#3A2A10', '#FF5A2A'], d:Lx("Hổ mặc giáp vàng, vua của muôn thú.") },
+  mt_lanthanh:{ ty:'m_lan', g:0, p:0, def:1, n:Lx("Thanh Kỳ Lân"), c:['#4FB37A', '#2E7A4A', '#E8E0B0', '#F2C14E'], d:Lx("Kỳ lân xanh ngọc, hiền hoà mà linh thiêng.") },
+  mt_lanbang:{ ty:'m_lan', g:1, p:500, n:Lx("Băng Kỳ Lân"), c:['#CFEFFF', '#7AB8E0', '#FFFFFF', '#5EB8FF'], d:Lx("Kỳ lân băng, hơi thở hoá sương.") },
+  mt_lan:{ ty:'m_lan', g:2, p:1100, n:Lx("Hỏa Kỳ Lân"), c:['#E0453A', '#9A2A1A', '#FFB04A', '#FFE07A'], d:Lx("Kỳ lân lửa, bước tới đâu hoa sen nở tới đó.") },
+  mt_lankim:{ ty:'m_lan', g:3, p:2200, n:Lx("Thánh Quang Kỳ Lân"), c:['#FFF3C0', '#E8C46A', '#FFFFFF', '#FFD25A'], d:Lx("Kỳ lân thánh quang, đi tới đâu sáng tới đó.") },
+  mt_kiemthiet:{ ty:'m_kiem', g:0, p:0, def:1, n:Lx("Thiết Kiếm"), c:['#B8C0CC', '#6A7280', '#E8EEF4', '#B0302A'], d:Lx("Phi kiếm thép rèn, vững vàng giữa gió.") },
+  mt_kiem:{ ty:'m_kiem', g:1, p:500, n:Lx("Băng Phách Kiếm"), c:['#CFEFFF', '#5EB8FF', '#F4FCFF', '#F2C14E'], d:Lx("Kiếm băng ngàn năm, lướt qua để lại vệt sương.") },
+  mt_kiemhuyet:{ ty:'m_kiem', g:2, p:1100, n:Lx("Huyết Ảnh Kiếm"), c:['#E0203A', '#7A0A1A', '#FFB0B0', '#2A0A10'], d:Lx("Kiếm máu, bay qua để lại vệt đỏ.") },
+  mt_kiemtu:{ ty:'m_kiem', g:3, p:2200, n:Lx("Tử Tiêu Thần Kiếm"), c:['#C99BFF', '#6A3AB0', '#F4E8FF', '#F2C14E'], d:Lx("Thần kiếm tím, sấm sét quấn quanh thân kiếm.") },
+  mt_maybach:{ ty:'m_may', g:0, p:0, def:1, n:Lx("Bạch Vân"), c:['#F4F8FF', '#C8D4E4', '#FFFFFF', '#9AB8D8'], d:Lx("Áng mây trắng bồng bềnh.") },
+  mt_mayhong:{ ty:'m_may', g:1, p:400, n:Lx("Ráng Hồng Vân"), c:['#FFB3C8', '#E07A9A', '#FFF0F4', '#FF7A9A'], d:Lx("Mây hồng như ráng chiều.") },
+  mt_maytu:{ ty:'m_may', g:2, p:1000, n:Lx("Tử Khí Đông Lai"), c:['#C99BFF', '#7A4AC0', '#F4E8FF', '#F2C14E'], d:Lx("Mây tím từ phương đông, điềm thánh nhân giáng thế.") },
+  mt_can:{ ty:'m_may', g:3, p:2600, n:Lx("Cân Đẩu Vân"), c:['#FFE07A', '#F2A93A', '#FFFBEA', '#FF7A2A'], d:Lx("Áng mây vàng một cái lộn nhào vạn tám ngàn dặm.") },
+  mt_vlbach:{ ty:'m_vlong', g:0, p:0, def:1, n:Lx("Bạch Vân Long"), c:['#E8EEF4', '#A8B8C8', '#FFFFFF', '#7FC8FF'], d:Lx("Rồng mây trắng, hiền như gió thoảng.") },
+  mt_van:{ ty:'m_vlong', g:1, p:600, n:Lx("Thanh Vân Long"), c:['#7FC8FF', '#3E7AB8', '#F4FCFF', '#F2C14E'], d:Lx("Rồng mây xanh cuộn mình trên trời.") },
+  mt_vlhac:{ ty:'m_vlong', g:2, p:1200, n:Lx("Mặc Long"), c:['#2A2A3A', '#14141E', '#9A9AB8', '#E0203A'], d:Lx("Rồng mực, ẩn mình trong mây đen.") },
+  mt_vlxich:{ ty:'m_vlong', g:3, p:2400, n:Lx("Xích Diễm Long"), c:['#E0453A', '#9A2A1A', '#FFE07A', '#FFB04A'], d:Lx("Rồng lửa, mây quanh thân cũng hoá ráng đỏ.") },
+  mt_rongthanh:{ ty:'m_rong', g:0, p:0, def:1, n:Lx("Thanh Long"), c:['#4FB37A', '#2E7A4A', '#E8F4D0', '#F2C14E'], d:Lx("Rồng xanh phương đông.") },
+  mt_rongbang:{ ty:'m_rong', g:2, p:1300, n:Lx("Băng Long"), c:['#CFEFFF', '#5E9AD8', '#FFFFFF', '#5EB8FF'], d:Lx("Rồng băng, vỗ cánh trời đổ tuyết.") },
+  mt_ronghac:{ ty:'m_rong', g:2, p:1300, n:Lx("Hắc Long"), c:['#2A2438', '#14101E', '#9A7AE0', '#E0203A'], d:Lx("Rồng đen vực thẳm, mắt như hai đốm lửa.") },
+  mt_rong:{ ty:'m_rong', g:3, p:2600, n:Lx("Kim Long Phi Thiên"), c:['#F2C14E', '#B07A1A', '#FFF3C0', '#E0453A'], d:Lx("Kim long dang cánh, vảy rồng toả kim quang.") },
+  // cánh · t = đổi màu {h: sắc độ, s: độ đậm, l: độ sáng}
+  wg_buom:{ ty:'w_buom', g:0, p:0, def:1, n:Lx("Cánh Bướm Linh"), d:Lx("Hồng tím lấp lánh linh quang.") },
+  wg_bmlam:{ ty:'w_buom', g:1, p:300, n:Lx("Lam Điệp"), t:{ h:205 }, d:Lx("Bướm xanh biển, bay qua như sóng.") },
+  wg_bmhac:{ ty:'w_buom', g:2, p:800, n:Lx("Hắc Điệp"), t:{ s:.25, l:-.28 }, fx:'#C99BFF', d:Lx("Bướm đêm đen huyền, rắc bụi tím.") },
+  wg_bmkim:{ ty:'w_buom', g:3, p:1500, n:Lx("Kim Điệp"), t:{ h:44, s:1.15, l:.04 }, fx:'#FFE07A', d:Lx("Bướm vàng ròng, rơi kim phấn sau lưng.") },
+  wg_tien:{ ty:'w_tien', g:0, p:0, def:1, n:Lx("Thủy Tinh Dực"), d:Lx("Trong như nước suối.") },
+  wg_tnhong:{ ty:'w_tien', g:1, p:400, n:Lx("Đào Hoa Dực"), t:{ h:330 }, d:Lx("Hồng như cánh hoa đào.") },
+  wg_tnluc:{ ty:'w_tien', g:2, p:900, n:Lx("Bích Lục Dực"), t:{ h:125, s:1.1 }, fx:'#7FE0A8', d:Lx("Xanh như lá non, thơm mùi cỏ.") },
+  wg_tnkim:{ ty:'w_tien', g:3, p:1800, n:Lx("Nguyệt Quang Dực"), t:{ h:48, s:.7, l:.08 }, fx:'#FFF3C0', d:Lx("Dệt từ ánh trăng, đêm toả sáng.") },
+  wg_bang:{ ty:'w_vu', g:0, p:0, def:1, n:Lx("Băng Vũ"), d:Lx("Lông vũ băng, rơi tuyết.") },
+  wg_vubach:{ ty:'w_vu', g:1, p:400, n:Lx("Bạch Hạc Vũ"), t:{ s:.08, l:.12 }, d:Lx("Trắng tinh như hạc tiên.") },
+  wg_vuhong:{ ty:'w_vu', g:2, p:900, n:Lx("Hồng Hạc Vũ"), t:{ h:335, s:1.1 }, fx:'#FFB3D0', d:Lx("Hồng phấn, rơi cánh hoa khi bay.") },
+  wg_vuhac:{ ty:'w_vu', g:3, p:1600, n:Lx("Đọa Thiên Hắc Vũ"), t:{ s:.2, l:-.38 }, fx:'#9A7AE0', d:Lx("Cánh thiên thần sa ngã, đen như mực.") },
+  wg_kiemduc:{ ty:'w_kiem', g:0, p:0, def:1, n:Lx("Thanh Cương Kiếm Dực"), d:Lx("Năm thanh kiếm thép sáng loáng.") },
+  wg_kdbang:{ ty:'w_kiem', g:1, p:500, n:Lx("Băng Phách Kiếm Dực"), t:{ h:195, s:1.3 }, d:Lx("Kiếm băng, lạnh thấu xương.") },
+  wg_kdhuyet:{ ty:'w_kiem', g:2, p:1100, n:Lx("Huyết Sát Kiếm Dực"), t:{ h:355, s:1.6, l:-.05 }, fx:'#E0203A', d:Lx("Kiếm nhuốm máu, sát khí bừng bừng.") },
+  wg_kdkim:{ ty:'w_kiem', g:3, p:2200, n:Lx("Vạn Kiếm Kim Dực"), t:{ h:44, s:1.4 }, fx:'#FFE07A', d:Lx("Kiếm vàng toả kim quang, vạn kiếm quy tông.") },
+  wg_hoa:{ ty:'w_phuong', g:0, p:0, def:1, n:Lx("Hỏa Hoàng Dực"), d:Lx("Lửa đỏ niết bàn.") },
+  wg_phlam:{ ty:'w_phuong', g:1, p:500, n:Lx("Lam Diễm Dực"), t:{ h:205 }, d:Lx("Lửa xanh, nóng hơn lửa đỏ.") },
+  wg_phluc:{ ty:'w_phuong', g:2, p:1000, n:Lx("Bích Hỏa Dực"), t:{ h:130 }, fx:'#7FE0A8', d:Lx("Lửa ngọc bích của phượng hoàng rừng sâu.") },
+  wg_phtu:{ ty:'w_phuong', g:3, p:1800, n:Lx("Tử Diễm Niết Bàn"), t:{ h:280, s:1.1 }, fx:'#C99BFF', d:Lx("Lửa tím, cháy cả hư không.") },
+  wg_long:{ ty:'w_rong', g:0, p:0, def:1, n:Lx("Ma Long Dực"), d:Lx("Màng cánh tím than.") },
+  wg_rghuyet:{ ty:'w_rong', g:1, p:500, n:Lx("Huyết Long Dực"), t:{ h:356, s:1.1 }, d:Lx("Màng cánh đỏ máu.") },
+  wg_rgluc:{ ty:'w_rong', g:2, p:1100, n:Lx("Bích Long Dực"), t:{ h:150 }, fx:'#7FE0A8', d:Lx("Rồng xanh rừng sâu.") },
+  wg_rgkim:{ ty:'w_rong', g:3, p:2200, n:Lx("Hoàng Long Dực"), t:{ h:42, s:1.15, l:.05 }, fx:'#FFE07A', d:Lx("Cánh hoàng long, vạn thú cúi đầu.") },
+  // linh thú · c = [thân, tối, điểm nhấn]
+  pt_cho:{ ty:'p_cho', g:0, p:0, def:1, n:Lx("Cún Vàng"), c:['#D8A050', '#8A5A30', '#2A1A10'], d:Lx("Chú cún lông vàng, vẫy đuôi suốt ngày.") },
+  pt_choden:{ ty:'p_cho', g:1, p:250, n:Lx("Hắc Khuyển"), c:['#2A2A30', '#14141A', '#E0203A'], d:Lx("Chó đen canh cổng, ai cũng phải nể.") },
+  pt_chotuyet:{ ty:'p_cho', g:1, p:400, n:Lx("Tuyết Lang"), c:['#F2F4F8', '#A8B0C0', '#5EB8FF'], d:Lx("Sói tuyết con, mắt xanh như băng.") },
+  pt_chohao:{ ty:'p_cho', g:2, p:900, n:Lx("Hao Thiên Khuyển"), c:['#3A3A48', '#1A1A24', '#F2C14E'], d:Lx("Thần khuyển sủa một tiếng trời rung.") },
+  pt_chokim:{ ty:'p_cho', g:3, p:1600, n:Lx("Kim Mao Thần Khuyển"), c:['#F2C14E', '#B07A1A', '#FFFFFF'], fx:'#FFE07A', d:Lx("Lông vàng óng như tơ trời.") },
+  pt_tho:{ ty:'p_tho', g:0, p:0, def:1, n:Lx("Thỏ Trắng"), c:['#F2F0F0', '#C8C0C8', '#E0607A'], d:Lx("Thỏ trắng mắt hồng.") },
+  pt_thongoc:{ ty:'p_tho', g:1, p:400, n:Lx("Ngọc Thố"), c:['#CFEFFF', '#7AB8E0', '#F2C14E'], d:Lx("Thỏ ngọc trong veo.") },
+  pt_thohong:{ ty:'p_tho', g:2, p:800, n:Lx("Đào Hoa Thố"), c:['#FFB3C8', '#E07A9A', '#FFFFFF'], d:Lx("Thỏ hồng ăn hoa đào mà lớn.") },
+  pt_thonguyet:{ ty:'p_tho', g:3, p:1500, n:Lx("Nguyệt Cung Ngọc Thố"), c:['#FFF8E0', '#E8D8A0', '#F2C14E'], fx:'#FFF3C0', d:Lx("Thỏ ngọc giã thuốc trên cung trăng.") },
+  pt_meo:{ ty:'p_meo', g:0, p:0, def:1, n:Lx("Mèo Mướp"), c:['#E8A060', '#9A5A2A', '#2A1A10'], d:Lx("Mèo mướp lười biếng.") },
+  pt_meoden:{ ty:'p_meo', g:1, p:300, n:Lx("Hắc Miêu"), c:['#1E1E24', '#0E0E14', '#F2C14E'], d:Lx("Mèo đen mắt vàng, bí ẩn.") },
+  pt_meobt:{ ty:'p_meo', g:2, p:800, n:Lx("Tuyết Miêu"), c:['#F4F0F0', '#C8B8C8', '#5EB8FF'], d:Lx("Mèo lông trắng muốt, mắt xanh.") },
+  pt_meokim:{ ty:'p_meo', g:3, p:1500, n:Lx("Chiêu Tài Miêu"), c:['#F2C14E', '#B07A1A', '#E0203A'], fx:'#FFE07A', d:Lx("Mèo vàng vẫy tay gọi lộc.") },
+  pt_gau:{ ty:'p_gau', g:0, p:0, def:1, n:Lx("Gấu Trúc Con"), c:['#F2F0EA', '#1E1E24', '#1E1E24'], d:Lx("Tròn ủng, ăn tre cả ngày.") },
+  pt_gaunau:{ ty:'p_gau', g:1, p:300, n:Lx("Gấu Nâu"), c:['#8A5A30', '#4A2A14', '#2A1A10'], d:Lx("Gấu nâu ham mật ong.") },
+  pt_gaubang:{ ty:'p_gau', g:2, p:900, n:Lx("Băng Hùng"), c:['#F4F8FF', '#7AB8E0', '#5EB8FF'], d:Lx("Gấu tuyết vùng cực bắc.") },
+  pt_gaukim:{ ty:'p_gau', g:3, p:1600, n:Lx("Kim Cang Hùng"), c:['#F2C14E', '#7A4A10', '#E0203A'], fx:'#FFE07A', d:Lx("Gấu vàng hộ pháp.") },
+  pt_holua:{ ty:'p_ho', g:0, p:0, def:1, n:Lx("Hỏa Hồ"), c:['#E8802A', '#A0501A', '#FFFFFF'], d:Lx("Hồ ly lông cam như lửa.") },
+  pt_hotim:{ ty:'p_ho', g:1, p:450, n:Lx("Tử Hồ"), c:['#B07CE0', '#6A3AB0', '#F2C14E'], d:Lx("Hồ ly tím, giỏi ảo thuật.") },
+  pt_ho:{ ty:'p_ho', g:2, p:900, n:Lx("Cửu Vĩ Bạch Hồ"), c:['#F4F0F8', '#C8C0D8', '#E0453A'], d:Lx("Hồ ly chín đuôi, mắt đỏ như hồng ngọc.") },
+  pt_hokim:{ ty:'p_ho', g:3, p:1800, n:Lx("Thiên Hồ"), c:['#FFF3C0', '#E8C46A', '#E0453A'], fx:'#FFF3C0', d:Lx("Hồ ly ngàn năm tu thành tiên.") },
+  pt_long:{ ty:'p_long', g:0, p:0, def:1, n:Lx("Tiểu Thanh Long"), c:['#5ED37A', '#2E8A4A', '#F2C14E'], d:Lx("Rồng con xanh lá.") },
+  pt_longhong:{ ty:'p_long', g:1, p:500, n:Lx("Tiểu Hồng Long"), c:['#E0453A', '#9A2A1A', '#F2C14E'], d:Lx("Rồng con đỏ, nóng tính.") },
+  pt_longbang:{ ty:'p_long', g:2, p:1000, n:Lx("Tiểu Băng Long"), c:['#CFEFFF', '#5E9AD8', '#FFFFFF'], d:Lx("Rồng con băng, hắt xì ra tuyết.") },
+  pt_longkim:{ ty:'p_long', g:3, p:1800, n:Lx("Tiểu Kim Long"), c:['#F2C14E', '#B07A1A', '#E0203A'], fx:'#FFE07A', d:Lx("Rồng con vàng, quý như ngọc.") },
+  pt_phuong:{ ty:'p_phuong', g:0, p:0, def:1, n:Lx("Phượng Hoàng Non"), c:['#FF7A2A', '#C0302A', '#FFE07A'], fx:'#FFB04A', d:Lx("Chim lửa nhỏ.") },
+  pt_phbang:{ ty:'p_phuong', g:2, p:1000, n:Lx("Băng Phượng Non"), c:['#CFEFFF', '#5E9AD8', '#FFFFFF'], fx:'#CFF4FF', d:Lx("Phượng băng, rơi tuyết khi bay.") },
+  pt_phtu:{ ty:'p_phuong', g:2, p:1000, n:Lx("Tử Phượng Non"), c:['#C99BFF', '#7A4AC0', '#F2C14E'], fx:'#C99BFF', d:Lx("Phượng tím, lông đuôi như dải lụa.") },
+  pt_phkim:{ ty:'p_phuong', g:3, p:2000, n:Lx("Kim Ô"), c:['#FFE07A', '#E8902A', '#FFFFFF'], fx:'#FFE07A', d:Lx("Quạ vàng ba chân sống trong mặt trời.") },
+  pt_kylan:{ ty:'p_kylan', g:0, p:0, def:1, n:Lx("Thanh Lân Con"), c:['#7FE0F0', '#2E8AA8', '#F2C14E'], d:Lx("Kỳ lân nhỏ xanh ngọc.") },
+  pt_klhoa:{ ty:'p_kylan', g:2, p:1000, n:Lx("Hỏa Lân Con"), c:['#E0453A', '#9A2A1A', '#FFE07A'], fx:'#FFB04A', d:Lx("Kỳ lân lửa nhỏ, chạy đâu cháy đó.") },
+  pt_klkim:{ ty:'p_kylan', g:3, p:1800, n:Lx("Kim Lân Con"), c:['#F2C14E', '#B07A1A', '#FFFFFF'], fx:'#FFE07A', d:Lx("Kỳ lân vàng, điềm đại cát.") },
+  // y phục (dùng chung cho mọi kiểu áo) · đổi màu áo
+  sk_def:{ ty:'*o', g:0, p:0, def:1, n:Lx("Màu gốc"), d:Lx("Màu nguyên bản của y phục.") },
+  sk_bach:{ ty:'*o', g:0, p:0, n:Lx("Bạch Y"), robe:'#EEEAE0', trim:'#B0302A', ac:'#D8D0C0', d:Lx("Áo trắng thắt đai đỏ, giản dị mà thanh thoát.") },
+  sk_thanh:{ ty:'*o', g:0, p:0, n:Lx("Thanh Sam"), robe:'#3E8E6E', trim:'#E9E4D8', ac:'#4FB35E', d:Lx("Áo xanh nho nhã của kẻ sĩ.") },
+  sk_lien:{ ty:'*o', g:1, p:300, n:Lx("Hồng Liên"), robe:'#F08AB0', trim:'#FFF0F6', ac:'#FFB3D0', d:Lx("Tà áo hồng như cánh sen.") },
+  sk_hac:{ ty:'*o', g:1, p:400, n:Lx("Hắc Long"), robe:'#16161E', trim:'#F2C14E', ac:'#F2C14E', d:Lx("Áo đen viền vàng, khí thế bá đạo.") },
+  sk_bang:{ ty:'*o', g:2, p:700, n:Lx("Băng Tuyết"), robe:'#CFEFFF', trim:'#5EB8FF', ac:'#A8D8FF', fx:'#CFF4FF', d:Lx("Dệt từ tơ băng tằm, toả sương lạnh.") },
+  sk_ma:{ ty:'*o', g:2, p:800, n:Lx("Huyết Ma"), robe:'#3A0A14', trim:'#E0203A', ac:'#7A0A1A', fx:'#E0203A', d:Lx("Nhuộm huyết, sát khí ngút trời.") },
+  sk_de:{ ty:'*o', g:3, p:1500, n:Lx("Hoàng Bào"), robe:'#E8B23A', trim:'#9A1A1A', ac:'#FFC83D', fx:'#FFE07A', d:Lx("Màu long bào của bậc đế quân.") },
+  sk_thien:{ ty:'*o', g:3, p:2000, n:Lx("Thiên Tôn"), robe:'#FBF8F0', trim:'#F2C14E', ac:'#FFE7A8', fx:'#FFF3C0', d:Lx("Tiên bào trắng vàng, kim quang lượn quanh.") },
+  // vũ khí (dùng chung cho mọi kiểu vũ khí) · đổi màu lưỡi
+  wsk_def:{ ty:'*w', g:0, p:0, def:1, n:Lx("Màu gốc"), d:Lx("Màu nguyên bản của vũ khí.") },
+  wsk_bang:{ ty:'*w', g:1, p:300, n:Lx("Băng Phách"), c:'#9BE8FF', d:Lx("Lưỡi băng xanh lạnh.") },
+  wsk_ngoc:{ ty:'*w', g:1, p:300, n:Lx("Bích Ngọc"), c:'#5ED37A', d:Lx("Ngọc bích mài thành lưỡi.") },
+  wsk_hoa:{ ty:'*w', g:2, p:700, n:Lx("Liệt Diễm"), c:'#FF7A2A', fx:'#FFB04A', d:Lx("Lưỡi lửa, toả tàn lửa khi cầm.") },
+  wsk_loi:{ ty:'*w', g:2, p:700, n:Lx("Tử Lôi"), c:'#C99BFF', fx:'#C99BFF', d:Lx("Sấm tím quấn quanh.") },
+  wsk_huyet:{ ty:'*w', g:2, p:800, n:Lx("Huyết Sát"), c:'#E0203A', fx:'#FF5A6A', d:Lx("Uống máu yêu ma mà đỏ.") },
+  wsk_kim:{ ty:'*w', g:3, p:1500, n:Lx("Hoàng Kim"), c:'#FFD25A', fx:'#FFE07A', d:Lx("Vàng ròng, chói loá như mặt trời.") },
+  wsk_hu:{ ty:'*w', g:3, p:1500, n:Lx("Hư Không"), c:'#3A2A5A', fx:'#9A7AE0', d:Lx("Đen như vực sâu, nuốt cả ánh sáng.") },
+};
+for(const id in CAT){ const C = CAT[id], T = TYP[C.ty]; C.k = T ? T.k : C.ty === '*o' ? 'outfit' : 'weapon'; if(T){ if(T.f !== undefined) C.f = T.f; if(T.fly) C.fly = 1; if(T.wi) C.wi = T.wi; } }
 const GRADE = [['', '#9A9AAA'], ['S', '#5EB8FF'], ['SS', '#C99BFF'], ['SSS', '#F2C14E']];
 const gradeTag = g => g ? `<i class="gr g${g}">${GRADE[g][0]}</i>` : `<i class="gr g0">${Lx("Thường")}</i>`;
-const CATK = { skin:Lx("Thời trang"), wing:Lx("Cánh"), mount:Lx("Thú cưỡi"), pet:Lx("Linh thú") };
 const NLPACK = [[20000, 200], [50000, 520], [100000, 1100], [200000, 2300], [500000, 6000]];
 const Wallet = { nl:0, own:{}, admin:false, live:false, cat:0 };
 const ADMIN_ACC = ['cutuva'];
-const owns = id => !CAT[id].p || !!Wallet.own[id] || !!(P.ownC && P.ownC[id]);
-const wear = () => (P.wear = P.wear || { skin:'sk_def', wing:'wg_none', mount:'mt_ngua', pet:'pt_cho' });
+const ownsSk = id => { const C = CAT[id]; return !!C && (!!C.def || !C.p || !!Wallet.own[id] || !!(P.ownC && P.ownC[id])); };
+const owns = ownsSk;
+const tyOwn = tid => { const T = TYP[tid], o = (P && P.typ) || {}; return !!T && (!!T.def || !!o[tid] || (!!T.it && !!o[T.it])); };
+const tyName = tid => { const T = TYP[tid]; if(!T) return ''; if(T.n) return T.n; if(T.k === 'weapon') return itName({ k:T.it, wc:myFam() }); return ITEMS[T.it].n; };
+const tyDesc = tid => { const T = TYP[tid]; return T.d || (T.k === 'weapon' ? itDesc({ k:T.it, wc:myFam() }) : ITEMS[T.it].d); };
+const tyDef = tid => { const T = TYP[tid]; if(!T || T.none) return ''; if(T.k === 'outfit') return 'sk_def'; if(T.k === 'weapon') return 'wsk_def'; return Object.keys(CAT).find(id => CAT[id].ty === tid && CAT[id].def) || ''; };
+const tyList = k => Object.keys(TYP).filter(t => TYP[t].k === k);
+function skList(tid){ const T = TYP[tid]; if(!T || T.none) return []; const sh = T.k === 'outfit' ? '*o' : T.k === 'weapon' ? '*w' : tid; return Object.keys(CAT).filter(id => CAT[id].ty === sh).sort((a, b) => (CAT[b].def | 0) - (CAT[a].def | 0) || CAT[a].g - CAT[b].g || CAT[a].p - CAT[b].p); }
+function tySrc(tid){
+  const T = TYP[tid], out = []; if(T.def) return [Lx("Có sẵn từ đầu")];
+  QUESTS.forEach(q => { if(q.rw.ty === tid || (T.it && q.rw.item === T.it)) out.push('📜 ' + Lx("Nhiệm vụ: {0}", q.t)); });
+  for(const m in MOBS) MOBS[m].drop.forEach(([k]) => { if(k === 'ty:' + tid || (T.it && k === T.it)) out.push((MOBS[m].boss ? '👑 ' : '⚔️ ') + Lx("Đánh {0}", MOBS[m].n)); });
+  if(T.it && ITEMS[T.it].p) out.push('🏪 ' + Lx("Mua ở tiệm trang bị"));
+  if(!out.length) out.push('⚔️ ' + Lx("Đánh quái để nhận"));
+  return out;
+}
+const WR0 = { mount:'mt_ngua', wing:'wg_buom', pet:'pt_cho', at:'', as:'sk_def', wt:'', ws:'wsk_def' };
+function wr(){
+  const W = P.wr || (P.wr = Object.assign({}, WR0)); W.mem = W.mem || {};
+  if(!CAT[W.mount]) W.mount = 'mt_ngua'; if(W.wing && !CAT[W.wing]) W.wing = 'wg_buom'; if(W.pet && !CAT[W.pet]) W.pet = 'pt_cho';
+  if(!CAT[W.as]) W.as = 'sk_def'; if(!CAT[W.ws]) W.ws = 'wsk_def'; return W;
+}
+const wear = wr;
+function curTy(k, W = wr()){ if(k === 'outfit') return W.at ? 'o_' + W.at : 'o_eq'; if(k === 'weapon') return W.wt ? 'wp_' + W.wt : 'wp_eq'; const id = W[k]; return id && CAT[id] ? CAT[id].ty : k === 'wing' ? 'w_none' : 'p_none'; }
+function curSk(tid, W = wr()){ const T = TYP[tid]; if(T.none) return ''; if(T.k === 'outfit') return W.as; if(T.k === 'weapon') return W.ws; if(curTy(T.k, W) === tid) return W[T.k]; return W.mem && CAT[W.mem[tid]] ? W.mem[tid] : tyDef(tid); }
+const inUse = (tid, sid) => { const T = TYP[tid]; return curTy(T.k) === tid && (T.none || curSk(tid) === sid); };
+function wearSet(W, tid, sid){ const T = TYP[tid];
+  if(T.k === 'outfit'){ W.at = T.it || ''; W.as = sid || 'sk_def'; }
+  else if(T.k === 'weapon'){ W.wt = T.it || ''; W.ws = sid || 'wsk_def'; }
+  else { W[T.k] = T.none ? '' : sid; }
+  return W; }
+function typAnnounce(tid){
+  const T = TYP[tid]; sfx.lv(); banner(Lx("Mở khoá {0}!", tyName(tid)), Lx("{0} mới · mở Tủ Ngoại Trang để dùng và đổi skin", CATK[T.k]));
+  if(me) fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1.2, c:'#F2C14E' }); Net.chat(Lx("vừa nhận được {0}!", tyName(tid)), true);
+}
+function gainTyp(tid, quiet){ if(!TYP[tid] || tyOwn(tid)) return false; P.typ = P.typ || {}; P.typ[tid] = 1; if(!quiet) typAnnounce(tid); saveSoon(); return true; }
+function seeItem(k, quiet){
+  if(!ITEMS[k]) return; P.typ = P.typ || {}; if(P.typ[k]) return;
+  const nw = Object.keys(TYP).filter(t => TYP[t].it === k && TYP[t].k === 'wing' && !tyOwn(t)); P.typ[k] = 1;
+  if(!quiet) nw.forEach(typAnnounce);
+}
+function syncSeen(){ P.typ = P.typ || {}; (P.bag || []).forEach(it => it && seeItem(it.k, true)); for(const sl in (P.eq || {})){ const it = itemOf(P.eq[sl]); if(it) seeItem(it.k, true); } }
 const myCode = () => (Net.uid || '').replace(/[^A-Za-z0-9]/g, '').slice(0, 6).toUpperCase();
+// đổi màu sprite theo HSL (dùng cho skin cánh)
+function tintC(src, t){
+  const c = cnv(src.width, src.height), x = c.getContext('2d'); x.drawImage(src, 0, 0); const d = x.getImageData(0, 0, c.width, c.height), a = d.data;
+  for(let i = 0; i < a.length; i += 4){ if(!a[i + 3]) continue;
+    const r = a[i] / 255, g = a[i + 1] / 255, b = a[i + 2] / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b); let h = 0, s = 0, l = (mx + mn) / 2;
+    if(mx !== mn){ const dd = mx - mn; s = l > .5 ? dd / (2 - mx - mn) : dd / (mx + mn); h = mx === r ? (g - b) / dd + (g < b ? 6 : 0) : mx === g ? (b - r) / dd + 2 : (r - g) / dd + 4; h /= 6; }
+    if(t.h !== undefined) h = t.h / 360; s = Math.min(1, s * (t.s === undefined ? 1 : t.s)); l = Math.max(0, Math.min(1, l + (t.l || 0) * (l > .08 ? 1 : 0)));
+    const q = l < .5 ? l * (1 + s) : l + s - l * s, pp = 2 * l - q, f = tt => { tt = (tt + 1) % 1; return tt < 1 / 6 ? pp + (q - pp) * 6 * tt : tt < .5 ? q : tt < 2 / 3 ? pp + (q - pp) * (2 / 3 - tt) * 6 : pp; };
+    a[i] = Math.round(f(h + 1 / 3) * 255); a[i + 1] = Math.round(f(h) * 255); a[i + 2] = Math.round(f(h - 1 / 3) * 255); }
+  x.putImageData(d, 0, 0); return c;
+}
+const wingImg = (k, fr, sid) => { const S = sid && CAT[sid]; return S && S.t ? cached('wt' + k + fr + sid, () => tintC(wingSprite(k, fr), S.t)) : wingSprite(k, fr); };
+const wpnSpr = (k, f, col) => f === 'kiem' || !f ? swordSprite(k, col) : weaponSprite(k, f, col);
 function mountSprite(id, fr){
   return cached('mt' + id + fr, () => { const C = CAT[id], [b, d, m, a] = C.c, f = C.f || '';
     if(f === 'kiem') return spr(40, 12, R => { R(2, 5, 30, 3, b); R(2, 5, 30, 1, m); R(32, 5, 4, 3, b); R(36, 6, 2, 1, m); R(0, 4, 3, 5, a); R(-2, 5, 3, 3, '#6A2A20'); R(4, 8, 26, 1, d); for(let i = 0; i < 4; i++) R(6 + i * 7, 6, 2, 1, fr ? '#FFFFFF' : d); });
@@ -2877,6 +3078,7 @@ function petSprite(id, fr){
       if(f === 'meo'){ R(5, 6, 1, 4, d); R(8, 6, 1, 4, d); R(0, 4, 2, 1, b); R(1, 3, 1, 4, b); }
       else if(f === 'ho'){ for(let i = 0; i < 3; i++){ R(0, 2 + i * 2, 4, 2, b); R(0, 2 + i * 2, 1, 1, a); } }
       else if(f === 'cho'){ R(1, 5, 2, 3, b); R(11, 3 + up, 2, 3, d); }
+      else if(f === 'tho'){ R(11, 0 + up, 1, 3, b); R(13, 0 + up, 1, 3, b); R(11, 1 + up, 1, 1, a); R(13, 1 + up, 1, 1, a); R(1, 6, 3, 3, '#FFFFFF'); R(14, 6 + up, 1, 1, a); }
     });
   });
 }
@@ -2895,49 +3097,70 @@ function drawMountPet(ctx, sx, sy, L, st, ent, front){
     const mv = d > 3, fl = ['phuong', 'long'].includes(CAT[L.pt].f), fr = (mv || fl) ? Math.floor(tNow * (fl ? 6 : 8)) % 2 : 0; let sp = petSprite(L.pt, fr); if(tx > ps.x + .5 ? false : (st.dir || 1) < 0) sp = flipCached(sp);
     const X = Math.round(ps.x - cam.x), Y = Math.round(ps.y - cam.y) - (fl ? 16 + Math.round(Math.sin(tNow * 3) * 2) : 0);
     ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.fillRect(X - 5, Math.round(ps.y - cam.y) - 1, 10, 2); ctx.drawImage(sp, X - 8, Y - 13);
-    if(CAT[L.pt].f === 'phuong' && frame % 6 === 0) fx.push({ k:'p', x:ps.x + rnd(-3, 3), y:ps.y - 14 - (fl ? 16 : 0), vx:rnd(-6, 6), vy:rnd(4, 14), t:0, d:.7, c:'#FFB04A', glow:1 }); }
+    const PC = CAT[L.pt]; if((PC.f === 'phuong' || PC.g >= 3) && PC.fx && frame % (PC.f === 'phuong' ? 6 : 9) === 0) fx.push({ k:'p', x:ps.x + rnd(-4, 4), y:ps.y - rnd(4, 12) - (fl ? 16 : 0), vx:rnd(-6, 6), vy:PC.f === 'phuong' ? rnd(4, 14) : -rnd(6, 14), t:0, d:.7, c:PC.fx, glow:1 }); }
 }
-function cosPreview(o){
-  const C = cls(), L = look(), c = cnv(96, 74), x = c.getContext('2d'); x.imageSmoothingEnabled = false;
-  const sk = CAT[o.skin] || {}, wg = CAT[o.wing] || {}, mt = CAT[o.mount] || {}, pt = CAT[o.pet] || {};
-  const gr = x.createRadialGradient(48, 66, 2, 48, 66, 40); gr.addColorStop(0, C.c + '77'); gr.addColorStop(1, '#00000000'); x.fillStyle = gr; x.fillRect(0, 30, 96, 44);
-  const riding = !!mt.c, hy = riding ? (mt.fly ? (mt.f === 'rong' ? 14 : 20) : 26) : 34;
-  const wi = wg.wi || (o.wing === 'wg_none' ? L.wi : ''); if(wi){ x.drawImage(wingSprite(wi, 0), 18, hy - 22); x.drawImage(flip(wingSprite(wi, 0)), 48, hy - 22); }
-  if(riding){ const ms = mountSprite(o.mount, 0); x.drawImage(ms, Math.round(48 - ms.width / 2), mt.fly ? 52 - ms.height + 4 : 46); }
-  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:sk.robe || L.robe, trim:sk.trim || L.trim, at:sk.at || L.at, ac:sk.ac || L.ac, h:L.h, bw:L.bw }, 0), 36, hy);
-  if(pt.c){ const ps = petSprite(o.pet, 0); x.drawImage(ps, 14, 56 - (['phuong', 'long'].includes(pt.f) ? 14 : 0)); }
+function cosPreview(o, ride){
+  const C = cls(), L = look(Object.assign({}, P, { wr:o, ride:ride ? 1 : 0 })), c = cnv(104, 78), x = c.getContext('2d'); x.imageSmoothingEnabled = false;
+  const gr = x.createRadialGradient(52, 70, 2, 52, 70, 42); gr.addColorStop(0, C.c + '77'); gr.addColorStop(1, '#00000000'); x.fillStyle = gr; x.fillRect(0, 32, 104, 46);
+  const mt = CAT[L.mt] || {}, riding = !!L.mt, hy = riding ? (mt.fly ? (mt.f === 'rong' ? 16 : 22) : 28) : 36, cx = 40;
+  if(L.wi){ const w = wingImg(L.wi, 0, L.wt); x.drawImage(w, cx - 22, hy - 3); x.drawImage(flip(w), cx + 8, hy - 3); }
+  if(riding){ const ms = mountSprite(L.mt, 0); x.drawImage(ms, Math.round(cx + 12 - ms.width / 2), mt.fly ? 56 - ms.height + 4 : 50); }
+  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc }, 0), cx - 4, hy);
+  if(L.pt){ const ps = petSprite(L.pt, 0), pc = CAT[L.pt]; x.drawImage(ps, 8, 60 - (['phuong', 'long'].includes(pc.f) ? 14 : 0)); }
+  if(cosTab === 'weapon'){ const f = myFam(), ws = wpnSpr(L.w, f, L.wc); x.save(); x.translate(86, 40); x.rotate(f === 'the' || f === 'cung' ? 0 : .35); x.drawImage(ws, -Math.round(ws.width / 2), -13); x.restore(); }
   return c.toDataURL();
 }
 function catIcon(id){
-  return cached('ci' + id, () => { const C = CAT[id], c = cnv(28, 28), x = c.getContext('2d'); x.imageSmoothingEnabled = false;
-    if(C.k === 'skin'){ if(C.robe){ const sp = heroSprite({ g:'m', hair:'#1E1622', robe:C.robe, trim:C.trim, at:C.at, ac:C.ac }, 0); x.drawImage(sp, 0, 6, 24, 24, 2, 3, 24, 24); } else { x.fillStyle = '#9A8A7A'; x.font = '16px sans-serif'; x.fillText('👘', 5, 20); } }
-    else if(C.k === 'wing'){ if(C.wi){ const w = wingSprite(C.wi, 0); x.drawImage(w, 2, 4, 12, 14); x.drawImage(flip(w), 14, 4, 12, 14); } else { x.font = '15px sans-serif'; x.fillText('🚫', 5, 20); } }
-    else if(C.k === 'mount'){ if(C.c){ const ms = mountSprite(id, 0), k = Math.min(28 / ms.width, 24 / ms.height); x.drawImage(ms, 0, 0, ms.width, ms.height, Math.round((28 - ms.width * k) / 2), Math.round((28 - ms.height * k) / 2), ms.width * k, ms.height * k); } else { x.font = '15px sans-serif'; x.fillText('🚶', 5, 20); } }
-    else { if(C.c) x.drawImage(petSprite(id, 0), 0, 0, 16, 14, 2, 4, 24, 21); else { x.font = '15px sans-serif'; x.fillText('🚫', 5, 20); } }
+  const C = CAT[id];
+  if(C.k === 'weapon') return cached('ci' + id + myFam(), () => { const c = cnv(28, 28), x = c.getContext('2d'); x.imageSmoothingEnabled = false; const f = myFam(), ws = wpnSpr('w3', f, C.c); x.translate(14, 14); if(f !== 'the' && f !== 'cung') x.rotate(Math.PI / 4); x.drawImage(ws, -5, -14); return c; });
+  return cached('ci' + id, () => { const c = cnv(28, 28), x = c.getContext('2d'); x.imageSmoothingEnabled = false;
+    if(C.k === 'outfit'){ const sp = heroSprite({ g:'m', hair:'#1E1622', robe:C.robe || '#4A5A7A', trim:C.trim || '#F2C14E', at:3, ac:C.ac || '#3E8E6E' }, 0); x.drawImage(sp, 0, 6, 24, 24, 2, 3, 24, 24); }
+    else if(C.k === 'wing'){ const w = wingImg(C.wi, 0, id); x.drawImage(w, 1, 3, 13, 15); x.drawImage(flip(w), 14, 3, 13, 15); }
+    else if(C.k === 'mount'){ const ms = mountSprite(id, 0), k = Math.min(28 / ms.width, 24 / ms.height); x.drawImage(ms, 0, 0, ms.width, ms.height, Math.round((28 - ms.width * k) / 2), Math.round((28 - ms.height * k) / 2), ms.width * k, ms.height * k); }
+    else x.drawImage(petSprite(id, 0), 0, 0, 16, 14, 2, 4, 24, 21);
     return c; });
 }
-let cosTab = 'skin', cosSel = null;
+function typIcon(tid){
+  const T = TYP[tid];
+  const mk = draw => { const c = cnv(28, 28), x = c.getContext('2d'); x.imageSmoothingEnabled = false; draw(x); return c; };
+  if(T.none) return cached('tyn' + tid, () => mk(x => { x.strokeStyle = '#8A8A9A'; x.lineWidth = 2; x.beginPath(); x.arc(14, 14, 8, 0, 7); x.moveTo(8, 20); x.lineTo(20, 8); x.stroke(); }));
+  if(T.k === 'outfit'){ const L = look(), a = T.it || null, I = a ? ITEMS[a] : null; return mk(x => x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:P.robe, trim:I ? (I.t >= 3 ? I.c : '#F2C14E') : L.trim, at:I ? I.t : L.at, ac:I ? I.c : L.ac }, 0), 0, 6, 24, 24, 2, 3, 24, 24)); }
+  if(T.k === 'weapon'){ const f = myFam(), k = T.it || look().w || 'w1'; return mk(x => { x.translate(14, 14); if(f !== 'the' && f !== 'cung') x.rotate(Math.PI / 4); x.drawImage(wpnSpr(k, f), -5, -14); }); }
+  return catIcon(tyDef(tid));
+}
+let cosTab = 'mount', cosTy = null, cosSel = null;
 function cosShop(){
-  const W = wear(), list = Object.entries(CAT).filter(([, c]) => c.k === cosTab).sort((a, b) => a[1].g - b[1].g || a[1].p - b[1].p); if(!cosSel || CAT[cosSel].k !== cosTab) cosSel = W[cosTab];
-  const S = CAT[cosSel], own = owns(cosSel), on = W[cosTab] === cosSel, o = Object.assign({}, W, { [cosTab]:cosSel });
-  const price = c => c.p ? `<span class="nl">🪙 ${fmt(c.p)}</span>` : `<span class="free">${Lx("Miễn phí")}</span>`;
+  syncSeen(); const W = wr(), tys = tyList(cosTab);
+  if(!cosTy || !TYP[cosTy] || TYP[cosTy].k !== cosTab) cosTy = curTy(cosTab);
+  const T = TYP[cosTy], sks = skList(cosTy); if(!sks.includes(cosSel)) cosSel = curSk(cosTy) || sks[0] || '';
+  const S = CAT[cosSel], tOwn = tyOwn(cosTy), sOwn = !S || ownsSk(cosSel), on = inUse(cosTy, cosSel), g = S ? S.g : 0;
+  const prev = wearSet(Object.assign({}, W), cosTy, cosSel), share = T.k === 'outfit' || T.k === 'weapon';
+  const NOTE = { mount:Lx("Mọi thú cưỡi đều tăng 15% tốc độ khi cưỡi (phím M hoặc nút 🐎), chỉ khác nhau về ngoại hình."), wing:Lx("Cánh ngoại trang che cánh trang bị, chỉ số vẫn theo cánh đang mặc."), pet:Lx("Linh thú chỉ để làm đẹp, đi theo bạn khắp nơi. Người chơi khác cũng nhìn thấy."), outfit:Lx("Chọn kiểu áo từ những bộ từng nhặt được, skin đổi màu áo. Chỉ số vẫn theo đồ đang mặc."), weapon:Lx("Chọn kiểu vũ khí từ những món từng nhặt được, skin đổi màu lưỡi. Chỉ số vẫn theo vũ khí đang cầm.") };
+  let act;
+  if(!tOwn) act = `<button class="fbtn" style="width:100%" disabled>🔒 ${Lx("Chưa có {0}", tyName(cosTy))}</button>`;
+  else if(on) act = `<button class="fbtn" style="width:100%" disabled>✓ ${Lx("Đang dùng")}</button>`;
+  else if(sOwn) act = `<button class="fbtn gold" id="shUse" style="width:100%">${Lx("Dùng")}</button>`;
+  else act = `<button class="fbtn gold" id="shBuy" style="width:100%">${Lx("Mua skin")} · 🪙 ${fmt(S.p)}</button>${Net.ok ? '' : `<p class="fp" style="color:#FF8A7A">${Lx("Cần đăng nhập tài khoản để mua đồ VIP.")}</p>`}`;
   sheetFs(`<div class="fsh"><div class="fst">${Object.entries(CATK).map(([k, n]) => `<button data-st="${k}" class="${cosTab === k ? 'on' : ''}">${n}</button>`).join('')}</div><div style="display:flex;gap:8px;align-items:center"><span class="nlbal">${Lx("Ngân lượng")} <b>${fmt(Wallet.nl)}</b></span><button class="fbtn gold" id="shTop">＋ ${Lx("Nạp")}</button><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div></div>
-    <div class="fsl">${list.map(([id, c]) => `<button class="fcard${cosSel === id ? ' on' : ''}" data-ci="${id}" style="--cc:${GRADE[c.g][1]}"><img src="${catIcon(id).toDataURL()}" alt=""><span class="fn"><b>${gradeTag(c.g)} ${c.n}</b><small>${W[cosTab] === id ? '✓ ' + Lx("Đang dùng") : owns(id) ? Lx("Đã có") : ''}</small></span>${owns(id) ? '' : price(c)}</button>`).join('')}</div>
-    <div class="fsc g${S.g}"><img src="${cosPreview(o)}" alt=""><div class="fsfloor" style="--cc:${GRADE[S.g][1]}"></div></div>
-    <div class="fsr"><div class="fsname" style="color:${GRADE[S.g][1]}">${S.n}</div><div class="fsrole">${gradeTag(S.g)} ${CATK[S.k]} · ${S.p ? Lx("Hàng VIP") : Lx("Miễn phí")}${S.fly ? ' · ' + Lx("Bay") : ''}</div><p class="lore">${S.d}</p>
-      ${S.k === 'mount' && S.c ? `<p class="fp">${Lx("Mọi thú cưỡi đều tăng 15% tốc độ khi cưỡi (phím M hoặc nút 🐎). Chỉ khác nhau về ngoại hình.")}</p>` : ''}
-      ${S.k === 'pet' && S.c ? `<p class="fp">${Lx("Linh thú chỉ để làm đẹp, đi theo bạn khắp nơi. Người chơi khác cũng nhìn thấy.")}</p>` : ''}
-      ${own ? (on ? `<button class="fbtn" style="width:100%" disabled>✓ ${Lx("Đang dùng")}</button>` : `<button class="fbtn gold" id="shUse" style="width:100%">${Lx("Dùng")}</button>`) : `<button class="fbtn gold" id="shBuy" style="width:100%">${Lx("Mua")} · 🪙 ${fmt(S.p)}</button>${Net.ok ? '' : `<p class="fp" style="color:#FF8A7A">${Lx("Cần đăng nhập tài khoản để mua đồ VIP.")}</p>`}`}
-      <p class="fp" style="color:var(--paper2);margin-top:10px">${Lx("Đồ ngoại trang chỉ thay đổi hình dáng, không tăng sức mạnh.")}</p></div>
-    <div class="fsb"><button class="fbtn" data-close>‹ ${Lx("Quay lại")}</button><span class="fsT">${Lx("Tiệm Ngoại Trang")}</span></div>`);
-  document.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { cosTab = b.dataset.st; cosSel = null; sfx.tap(); cosShop(); });
-  document.querySelectorAll('[data-ci]').forEach(b => b.onclick = () => { cosSel = b.dataset.ci; sfx.tap(); cosShop(); });
+    <div class="fsl">${tys.map(t => { const own = tyOwn(t), use = curTy(cosTab) === t, nS = TYP[t].none ? 0 : skList(t).length; return `<button class="fcard${cosTy === t ? ' on' : ''}${own ? '' : ' lk'}" data-ty="${t}" style="--cc:${own ? '#F2C14E' : '#6A6A78'}"><img src="${typIcon(t).toDataURL()}" alt=""><span class="fn"><b>${tyName(t)}</b><small>${use ? '✓ ' + Lx("Đang dùng") : own ? (nS && !TYP[t].eq && !TYP[t].it ? Lx("{0} skin", nS) : Lx("Đã có")) : '🔒 ' + tySrc(t)[0]}</small></span></button>`; }).join('')}</div>
+    <div class="fsc g${g}${tOwn ? '' : ' lkd'}"><img src="${cosPreview(prev, cosTab === 'mount')}" alt=""><div class="fsfloor" style="--cc:${GRADE[g][1]}"></div></div>
+    <div class="fsr"><div class="fsname">${tyName(cosTy)}</div><div class="fsrole">${CATK[cosTab]} · ${tOwn ? Lx("Đã sở hữu") : '🔒 ' + Lx("Chưa sở hữu")}${T.fly ? ' · ' + Lx("Bay") : ''}</div><p class="lore">${tyDesc(cosTy)}</p>
+      ${tOwn ? '' : `<div class="tysrc"><b>${Lx("Cách nhận")}</b>${tySrc(cosTy).slice(0, 4).map(x => `<div>${x}</div>`).join('')}<small>${Lx("Thú, cánh, đồ trang bị lấy từ đánh quái và nhiệm vụ. Skin thì mua bằng ngân lượng.")}</small></div>`}
+      ${sks.length ? `<div class="skh">${share ? Lx("Skin màu (dùng chung cho mọi kiểu)") : Lx("Skin {0}", tyName(cosTy))}</div><div class="skg">${sks.map(id => { const C = CAT[id], ow = ownsSk(id); return `<button class="skb${cosSel === id ? ' on' : ''}" data-sk="${id}" style="--cc:${GRADE[C.g][1]}" aria-label="${C.n}"><img src="${catIcon(id).toDataURL()}" alt="">${C.g ? `<em class="gg g${C.g}">${GRADE[C.g][0]}</em>` : ''}<i>${inUse(cosTy, id) ? '✓' : ow ? '' : '🪙' + fmt(C.p)}</i></button>`; }).join('')}</div>
+      <div class="sksel"><b style="color:${GRADE[g][1]}">${gradeTag(g)} ${S.n}</b><p>${S.d}</p></div>` : ''}
+      ${act}
+      <p class="fp">${NOTE[cosTab]}</p><p class="fp" style="color:var(--paper2)">${Lx("Đồ ngoại trang chỉ thay đổi hình dáng, không tăng sức mạnh.")}</p></div>
+    <div class="fsb"><button class="fbtn" data-close>‹ ${Lx("Quay lại")}</button><span class="fsT">${Lx("Tủ Ngoại Trang")}</span></div>`);
+  document.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { cosTab = b.dataset.st; cosTy = null; cosSel = null; sfx.tap(); cosShop(); });
+  document.querySelectorAll('[data-ty]').forEach(b => b.onclick = () => { cosTy = b.dataset.ty; cosSel = null; sfx.tap(); cosShop(); });
+  document.querySelectorAll('[data-sk]').forEach(b => b.onclick = () => { cosSel = b.dataset.sk; sfx.tap(); cosShop(); });
   $('#shTop').onclick = topupSheet;
-  const u = $('#shUse'); if(u) u.onclick = () => { W[cosTab] = cosSel; if(cosTab === 'mount') P.ride = !!S.c; _sk = ''; Net.pushLook(); _hk = ''; sfx.lv(); saveSoon(); cosShop(); };
+  const use = () => { wearSet(W, cosTy, cosSel); if(!share && cosSel) W.mem[cosTy] = cosSel; if(cosTab === 'mount') P.ride = true; _sk = ''; _hk = ''; Net.pushLook(); saveSoon(); };
+  const u = $('#shUse'); if(u) u.onclick = () => { use(); sfx.lv(); cosShop(); };
   const by = $('#shBuy'); if(by) by.onclick = async () => {
     if(!Net.ok) return toast(Lx("Cần đăng nhập tài khoản để mua đồ VIP."));
     if(Wallet.nl < S.p) return topupSheet(S.p - Wallet.nl);
-    by.disabled = true; try{ await Net.buyCos(cosSel, S.p); sfx.lv(); toast(Lx("Đã mua {0}!", S.n)); W[cosTab] = cosSel; if(cosTab === 'mount') P.ride = true; Net.pushLook(); saveSoon(); cosShop(); }
+    by.disabled = true; try{ await Net.buyCos(cosSel, S.p); sfx.lv(); toast(Lx("Đã mua {0}!", S.n)); use(); cosShop(); }
     catch(e){ console.warn(e); by.disabled = false; toast(Lx("Giao dịch chưa thành công, thử lại sau nha")); } };
 }
 const AUTO_TOPUP = false; // bật true khi máy chủ tự cộng (server/worker.js) đã chạy
@@ -2971,13 +3194,13 @@ function nlGained(n){
 }
 function adminSheet(){
   if(!Wallet.admin) return;
-  const row = ([id, c]) => `<div class="admr"><span>${gradeTag(c.g)} ${c.n}</span><input class="inp" type="number" min="0" step="10" data-pr="${id}" value="${c.p}"></div>`;
+  const row = ([id, c]) => `<div class="admr"><span>${gradeTag(c.g)} ${TYP[c.ty] ? tyName(c.ty) + ' · ' : ''}${c.n}</span><input class="inp" type="number" min="0" step="10" data-pr="${id}" value="${c.p}"></div>`;
   sheet(`<button class="x" data-close aria-label="Đóng">×</button><h2>🛠 Quản trị</h2>
     <h3>Cộng ngân lượng</h3><p class="sub">Nhập mã người chơi (6 ký tự sau chữ NL trong nội dung chuyển khoản) và số ngân lượng.</p>
     <div class="row2"><input class="inp" id="adC" maxlength="6" placeholder="Mã người chơi" autocapitalize="characters" style="text-transform:uppercase;margin:0"><input class="inp" id="adN" type="number" placeholder="Ngân lượng" style="margin:0"></div>
     <div class="msg" id="adM"></div><button class="btn gold" id="adGo">Cộng ngân lượng</button>
     <h3>Bảng giá ngoại trang ${Wallet.cat ? '' : '<span style="color:#FF8A7A">(chưa đồng bộ, chưa ai mua được)</span>'}</h3><p class="sub">Giá tính bằng ngân lượng. Đặt 0 là miễn phí cho mọi người.</p>
-    ${Object.entries(CATK).map(([k, n]) => `<h3 style="font-size:15px">${n}</h3>${Object.entries(CAT).filter(([, c]) => c.k === k && (c.c || c.robe || c.wi)).sort((a, b) => a[1].g - b[1].g).map(row).join('')}`).join('')}
+    ${Object.entries(CATK).map(([k, n]) => `<h3 style="font-size:15px">${n}</h3>${Object.entries(CAT).filter(([, c]) => c.k === k && !c.def).sort((a, b) => a[1].ty.localeCompare(b[1].ty) || a[1].g - b[1].g).map(row).join('')}`).join('')}
     <button class="btn gold" id="adCat">Lưu bảng giá lên máy chủ</button>`);
   const say = t => $('#adM').textContent = t;
   $('#adGo').onclick = async () => { const c = $('#adC').value.trim().toUpperCase(), n = Math.round(+$('#adN').value); if(c.length !== 6 || !(n > 0)) return say('Mã hoặc số không hợp lệ'); try{ const r = await Net.adminCredit(c, n); say(`Đã cộng ${n} cho ${c}. Số dư mới: ${r}`); }catch(e){ say('Lỗi: ' + (e.message || e)); } };
@@ -3164,7 +3387,7 @@ $('#bGacha').onclick = () => { sfx.tap(); gachaSheet(); };
 $('#bParty').onclick = () => { sfx.tap(); partySheet(); };
 $('#bMic').onclick = () => { voiceMuteToggle(); };
 $('#bShop').onclick = () => { sfx.tap(); cosShop(); };
-function toggleRide(){ const W = wear(); if(!CAT[W.mount] || !CAT[W.mount].c){ toast(Lx("Chưa chọn thú cưỡi, mở Tiệm Ngoại Trang")); return; } P.ride = !P.ride; _hk = ''; Net.pushLook(); sfx.tap(); fx.push({ k:'ring', x:me.x, y:me.y, t:0, d:.4, c:'#F2C14E' }); saveSoon(); }
+function toggleRide(){ const W = wr(); if(!CAT[W.mount]){ toast(Lx("Chưa chọn thú cưỡi, mở Tủ Ngoại Trang")); return; } P.ride = !P.ride; _hk = ''; Net.pushLook(); sfx.tap(); fx.push({ k:'ring', x:me.x, y:me.y, t:0, d:.4, c:'#F2C14E' }); saveSoon(); }
 $('#bRide').onclick = toggleRide; holdTip($('#bRide'), () => `<h4>🐎 ${Lx("Cưỡi thú")}</h4><div class="sub2">${Lx("Phím M")}</div><p>${Lx("Lên/xuống thú cưỡi. Khi cưỡi đi nhanh hơn 15%.")}</p>`);
 $('#mmw').onclick = bigMap; holdTip($('#expw'), expTip);
 $('#bChat').onclick = () => { sfx.tap(); chatSheet(); };
@@ -3215,14 +3438,14 @@ const Net = {
   async loadSave(){ const s = await this.D.get(this.D.ref(this.db, 'tt_save/' + this.uid)); return s.exists() ? JSON.parse(s.val()) : null; },
   async save(json){ if(!this.ok || this.noCloud) return; try{ await this.D.set(this.D.ref(this.db, 'tt_save/' + this.uid), json); await this.D.set(this.D.ref(this.db, 'tt_rank/' + this.uid), { n:P.name, p:power(), s:P.stage, t:this.D.serverTimestamp() }); }catch(e){ console.warn(e); } },
   async rank(){ if(!this.ok) return null; try{ const s = await this.D.get(this.D.query(this.D.ref(this.db, 'tt_rank'), this.D.orderByChild('p'), this.D.limitToLast(20))); const out = []; s.forEach(c => { out.push(c.val()); }); return out.reverse(); }catch(e){ console.warn(e); return []; } },
-  me(){ const L = look(); return { n:P.name, s:P.stage, p:power(), x:Math.round(me.x), y:Math.round(me.y), d:me.dir, sit:me.sit ? 1 : 0, plat:onPlatform() ? 1 : 0, g:L.g, h:L.hair, r:L.robe, tr:L.trim, w:L.w, wi:L.wi, sw:L.sw, ht:L.h, at:L.at, ac:L.ac, au:L.au, pl:L.pl, cl:L.cls, co:L.cos || '', mt:L.mt || '', pt:L.pt || '', sf:L.sfx || '', t:this.D.serverTimestamp() }; },
+  me(){ const L = look(); return { n:P.name, s:P.stage, p:power(), x:Math.round(me.x), y:Math.round(me.y), d:me.dir, sit:me.sit ? 1 : 0, plat:onPlatform() ? 1 : 0, g:L.g, h:L.hair, r:L.robe, tr:L.trim, w:L.w, wi:L.wi, wt:L.wt || '', wc:L.wc || '', wx:L.wfx || '', sw:L.sw, ht:L.h, at:L.at, ac:L.ac, au:L.au, pl:L.pl, cl:L.cls, co:L.cos || '', mt:L.mt || '', pt:L.pt || '', sf:L.sfx || '', t:this.D.serverTimestamp() }; },
   async leave(){ for(const u of this.unsubMap || []) u(); this.unsubMap = []; if(this.mapRef){ const r = this.mapRef; this.mapRef = null; try{ await this.D.onDisconnect(r).cancel(); await this.D.remove(r); }catch(e){} } },
   async changeMap(id){
     if(!this.ok) return; const D = this.D;
     await this.leave(); for(const k in others) delete others[k];
     this.mapRef = D.ref(this.db, `tt_online/${id}/${this.uid}`);
     D.onDisconnect(this.mapRef).remove(); D.set(this.mapRef, this.me());
-    const room = D.ref(this.db, 'tt_online/' + id), up = s => { if(s.key === this.uid) return; const v = s.val(); if(!v) return; let o = others[s.key]; if(!o){ o = others[s.key] = { id:s.key, x:v.x, y:v.y }; } Object.assign(o, { n:v.n, s:v.s, p:v.p, nx:v.x, ny:v.y, dir:v.d, sit:v.sit, plat:v.plat, seen:Date.now(), L:{ g:v.g, hair:v.h, robe:v.r, trim:v.tr, w:v.w, wi:v.wi, sw:v.sw, h:v.ht || '', at:v.at || 1, ac:v.ac, bw:v.w && ITEMS[v.w] && ITEMS[v.w].t >= 2 ? v.w : '', au:v.au || 0, pl:v.pl || 0, st:v.s || 0, cls:v.cl || 'kiem', cos:v.co || '', mt:CAT[v.mt] ? v.mt : '', pt:CAT[v.pt] ? v.pt : '', sfx:typeof v.sf === 'string' ? v.sf.slice(0, 7) : '' } }); };
+    const room = D.ref(this.db, 'tt_online/' + id), up = s => { if(s.key === this.uid) return; const v = s.val(); if(!v) return; let o = others[s.key]; if(!o){ o = others[s.key] = { id:s.key, x:v.x, y:v.y }; } Object.assign(o, { n:v.n, s:v.s, p:v.p, nx:v.x, ny:v.y, dir:v.d, sit:v.sit, plat:v.plat, seen:Date.now(), L:{ g:v.g, hair:v.h, robe:v.r, trim:v.tr, w:v.w, wi:ITEMS[v.wi] || WSH[v.wi] ? v.wi : '', wt:CAT[v.wt] ? v.wt : '', wc:/^#[0-9A-Fa-f]{6}$/.test(v.wc || '') ? v.wc : '', wfx:/^#[0-9A-Fa-f]{6}$/.test(v.wx || '') ? v.wx : '', sw:v.sw, h:v.ht || '', at:v.at || 1, ac:v.ac, bw:v.w && ITEMS[v.w] && ITEMS[v.w].t >= 2 ? v.w : '', au:v.au || 0, pl:v.pl || 0, st:v.s || 0, cls:v.cl || 'kiem', cos:v.co || '', mt:CAT[v.mt] ? v.mt : '', pt:CAT[v.pt] ? v.pt : '', sfx:typeof v.sf === 'string' ? v.sf.slice(0, 7) : '' } }); };
     this.unsubMap = [D.onChildAdded(room, up), D.onChildChanged(room, up), D.onChildRemoved(room, s => { delete others[s.key]; })];
   },
   pushPos(force){ if(!this.ok || !this.mapRef) return; const x = Math.round(me.x), y = Math.round(me.y), k = `${x},${y},${me.dir},${me.sit}`; if(!force && k === this.lastSent) return; this.lastSent = k; this.D.update(this.mapRef, { x, y, d:me.dir, sit:me.sit ? 1 : 0, plat:onPlatform() ? 1 : 0, t:this.D.serverTimestamp() }).catch(() => {}); },
@@ -3232,7 +3455,7 @@ const Net = {
     D.onValue(D.ref(this.db, 'tt_wallet/' + uid + '/nl'), s => { const v = s.val() || 0, old = Wallet.nl; Wallet.nl = v; if(Wallet.live && v > old) nlGained(v - old); Wallet.live = true; }, () => {});
     D.onValue(D.ref(this.db, 'tt_own/' + uid), s => { Wallet.own = s.val() || {}; P.ownC = Object.assign({}, Wallet.own); }, () => {});
     Wallet.admin = ADMIN_ACC.includes((this.acc || '').toLowerCase()); D.get(D.ref(this.db, 'tt_admin/' + uid)).then(s => { if(s.exists()) Wallet.admin = true; }).catch(() => {});
-    D.onValue(D.ref(this.db, 'tt_cat'), s => { const v = s.val() || {}; for(const id in v) if(CAT[id] && typeof v[id].p === 'number') CAT[id].p = v[id].p; Wallet.cat = Object.keys(v).length; }, () => {});
+    D.onValue(D.ref(this.db, 'tt_cat'), s => { const v = s.val() || {}; for(const id in v) if(CAT[id] && !CAT[id].def && typeof v[id].p === 'number') CAT[id].p = v[id].p; Wallet.cat = Object.keys(v).length; }, () => {});
   },
   async buyCos(id, price){
     const D = this.D, uid = this.uid, cur = (await D.get(D.ref(this.db, 'tt_wallet/' + uid + '/nl'))).val() || 0;
@@ -3245,7 +3468,7 @@ const Net = {
     const uid = s.val(), r = await D.runTransaction(D.ref(this.db, 'tt_wallet/' + uid + '/nl'), v => (v || 0) + n);
     await D.push(D.ref(this.db, 'tt_topup'), { code, uid, n, by:this.uid, t:Date.now() }); return r.snapshot ? r.snapshot.val() : '';
   },
-  async adminCatalog(pr){ const o = {}; for(const id in CAT){ const v = pr && id in pr ? pr[id] : CAT[id].p; if(v > 0 || (pr && id in pr)) o[id] = { p:v }; } await this.D.set(this.D.ref(this.db, 'tt_cat'), o); for(const id in o) CAT[id].p = o[id].p; },
+  async adminCatalog(pr){ const o = {}; for(const id in CAT){ if(CAT[id].def) continue; const v = pr && id in pr ? pr[id] : CAT[id].p; if(v > 0 || (pr && id in pr)) o[id] = { p:v }; } await this.D.set(this.D.ref(this.db, 'tt_cat'), o); for(const id in o) CAT[id].p = o[id].p; },
   pushLook(){ if(!this.ok || !this.mapRef) return; this.D.set(this.mapRef, this.me()).catch(() => {}); },
   tick(dt){ if(!this.ok) return; this.sendT += dt; this.hb += dt; if(this.sendT > .15){ this.sendT = 0; this.pushPos(false); } if(this.hb > 20){ this.hb = 0; this.pushPos(true); } },
   partyRef(sub){ return this.D.ref(this.db, 'tt_party/' + Party.code + (sub ? '/' + sub : '')); },
@@ -3426,7 +3649,7 @@ function sheetFs(html, opt = {}){
     // cột trái: giữ nguyên nút cũ để chuyển màu mượt
     { const [a, b] = part('.fsl'); if(a && b){ if(stepCh){ a.replaceWith(b); replay(b, 'in'); } else if(!morph(a, b)) a.replaceWith(b); } }
     // nhân vật: hoà tan ảnh cũ sang ảnh mới
-    { const [a, b] = part('.fsc'); if(a && b){ const oi = a.querySelector('img'), ni = b.querySelector('img'), fl = a.querySelector('.fsfloor');
+    { const [a, b] = part('.fsc'); if(a && b){ a.querySelectorAll('img.ghost').forEach(g => g.remove()); a.className = b.className; const oi = a.querySelector('img'), ni = b.querySelector('img'), fl = a.querySelector('.fsfloor');
       if(fl) fl.style.setProperty('--cc', cc);
       if(!oi || !ni){ if(!morph(a, b)) a.replaceWith(b); }
       if(oi && ni && oi.getAttribute('src') !== ni.getAttribute('src')){
@@ -3561,7 +3784,9 @@ function begin(data, fresh){
   P = Object.assign(newPlayer({ name:data.name, g:data.g, hair:data.hair, robe:data.robe }), data);
   P.inv = Object.assign({ hp:0, mp:0, x2:0, pc:0 }, P.inv);
   if(P.inv.tp === undefined) P.inv.tp = 3;
-  wear();
+  if(!P.wr){ const o = P.wear || {}, ok = (id, k) => CAT[id] && CAT[id].k === k ? id : '';
+    P.wr = Object.assign({}, WR0, { mount:ok(o.mount, 'mount') || 'mt_ngua', wing:ok(o.wing, 'wing') || 'wg_buom', pet:o.pet === 'pt_none' ? '' : ok(o.pet, 'pet') || 'pt_cho', as:ok(o.skin, 'outfit') || 'sk_def', mem:{} }); }
+  P.typ = P.typ || {}; wr(); syncSeen();
   if(!P.tips){ P.tips = {}; if(!fresh){ ['ctl', 'map', 'talk', 'bag', 'van', 'party', 'ho', 'gacha', 'hoa', 'madien', 'samac'].forEach(id => { const u = UNL.find(x => x.id === id); try{ if(u.c()) P.tips[id] = 1; }catch(e){} }); P.tips.ctl = P.tips.map = P.tips.talk = 1; } }
   me = { x:P.x, y:P.y, dir:1, hp:0, mp:0, sit:false, tx:null };
   const S = stats(); me.hp = clamp(P.hp, 1, S.hp); me.mp = clamp(P.mp, 0, S.mp);
@@ -3585,7 +3810,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : Lx("Không kết nối được máy chủ, bạn vẫn chơi offline được."));
 }
-window.__td = { Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
