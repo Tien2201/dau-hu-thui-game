@@ -446,6 +446,95 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .pm .spk{color:#7FE0A8}
 @media (orientation:landscape){#bossbar{top:auto;bottom:calc(60px + env(safe-area-inset-bottom,0px));width:min(46vw,440px)}}
 #bossbar b{white-space:nowrap;font-size:18px}#bossbar small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--body);font-size:10.5px;color:var(--paper2);min-width:0}#bossbar .bbh{justify-content:space-between;margin-bottom:3px}
+/* ===== NÚT CHIÊU TO + GIỮ XEM THÔNG TIN ===== */
+#acts{width:270px;height:240px}
+#bAtk{width:84px!important;height:84px!important;right:22px!important;bottom:18px!important}
+#bS1{right:140px!important;bottom:16px!important;width:58px!important;height:58px!important}
+#bS2{right:124px!important;bottom:100px!important;width:58px!important;height:58px!important}
+#bS3{right:42px!important;bottom:134px!important;width:58px!important;height:58px!important}
+#bPot{right:218px!important;bottom:20px!important;width:42px!important;height:42px!important}
+#bAuto{right:206px!important;bottom:100px!important;width:40px!important;height:40px!important}
+#bMed{right:128px!important;bottom:184px!important;width:40px!important;height:40px!important}
+.sk svg{width:56%;height:56%}
+#bAtk .tk{display:none;font-family:var(--serif);font-weight:700;font-size:13px;color:#2A2418;line-height:1;text-align:center}
+#bAtk.talk svg{display:none}#bAtk.talk .tk{display:block}#bAtk.talk{background:linear-gradient(135deg,#FFF3D2,#EAD7A8);border-color:#F2C14E;box-shadow:0 0 18px rgba(242,193,78,.6)}
+.sk .lv2{position:absolute;right:6px;bottom:4px;font-size:9px;font-weight:800;color:#F2C14E;text-shadow:0 1px 2px #000}
+.htip{position:fixed;z-index:80;width:min(280px,78vw);padding:10px 12px;background:linear-gradient(180deg,rgba(22,20,30,.97),rgba(12,11,18,.97));border:1px solid var(--edge);box-shadow:0 12px 30px rgba(0,0,0,.6);color:var(--paper);font-size:12px;line-height:1.45;pointer-events:none;animation:htin .15s ease-out}
+@keyframes htin{from{opacity:0;transform:translateY(4px)}}
+.htip h4{margin:0 0 2px;font-family:var(--serif);font-size:18px;color:#EBD6A6}.htip .sub2{color:var(--paper2);font-size:11px;margin-bottom:6px}
+.htip .kv{display:flex;justify-content:space-between;border-bottom:1px dotted rgba(255,255,255,.1);padding:1px 0}.htip .kv b{color:#fff}
+.htip .kv b.no,.htip .no{color:#FF6B5E}.htip .kv b.ok{color:#7FE0A8}.htip .up{color:#7FE0A8}.htip .dn{color:#FF6B5E}.htip .no{color:#FF6B5E}.htip .ok{color:#7FE0A8}.htip .gold{color:#F2C14E}
+.htip p{margin:6px 0 0;color:#D8D0BE}
+
+/* cây kỹ năng */
+.fsc.tree{flex-direction:column;justify-content:space-evenly;align-items:stretch;gap:0;padding:2px 4px 6px;overflow:auto}.fsc.tree::before,.fsc.tree::after{display:none}
+.trow{position:relative;display:flex;justify-content:center;align-items:center;gap:10px;padding:8px 0 2px}
+.trow .tl{position:absolute;left:4px;top:0;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--paper2)}
+.trow em{font-style:normal;color:var(--paper2);font-family:var(--serif);font-size:20px}
+.trow:not(.tr1)::after{content:'';position:absolute;left:50%;bottom:-10px;width:2px;height:12px;background:linear-gradient(var(--gl),transparent)}
+.nd{display:flex;flex-direction:column;align-items:center;gap:0;width:auto;min-width:80px;padding:0 4px;color:var(--paper);background:none;border:none}
+.nd .di{width:36px;height:36px;transform:rotate(45deg);display:grid;place-items:center;background:rgba(14,16,22,.8);border:1px solid rgba(233,228,216,.35);transition:all .25s;margin:7px 0 5px}
+.nd .di i{transform:rotate(-45deg);font-style:normal;font-size:16px}
+.nd b{font-family:var(--serif);font-size:12.5px;line-height:1.1;text-align:center;white-space:nowrap}.nd small{font-size:11px;color:var(--paper2)}
+.nd.got .di{border-color:var(--gl);background:radial-gradient(circle,rgba(217,185,122,.35),rgba(14,16,22,.85));box-shadow:0 0 14px rgba(217,185,122,.35)}
+.nd.max .di{border-color:#FFE7A8;box-shadow:0 0 18px rgba(242,193,78,.7)}.nd.max small{color:#F2C14E}
+.nd.sel .di{outline:2px solid #fff;outline-offset:3px}
+.nd.lk{opacity:.42}.nd.lk .di{filter:grayscale(1)}
+.tlk .trow{filter:grayscale(.8);opacity:.5}.tlkm{text-align:center;color:#FF8A7A;font-weight:700;margin-top:4px}
+
+/* túi đồ kiểu Diablo */
+.fs.inv{grid-template-columns:minmax(220px,30%) 1fr}
+.fs.inv .fsh,.fs.inv .fsb{grid-column:1/-1}
+.ivst{margin-left:14px;font-size:12px;color:var(--paper2);display:inline-flex;align-items:center;gap:4px}
+.ivdoll{display:flex;flex-direction:column;gap:6px}
+.doll2{position:relative;display:grid;grid-template-columns:56px 1fr 56px;grid-template-rows:56px 56px;gap:8px 4px;align-items:center;justify-items:center;padding:4px 0}
+.doll2 img{grid-column:2;grid-row:1/3;width:100%;max-width:150px;image-rendering:pixelated;filter:drop-shadow(0 8px 14px rgba(0,0,0,.6))}
+.doll2 .sh{grid-column:1;grid-row:1}.doll2 .swi{grid-column:3;grid-row:1}.doll2 .sw{grid-column:1;grid-row:2}.doll2 .sa{grid-column:3;grid-row:2}
+.ivw{position:relative;display:flex;flex-direction:column;min-height:0;padding:4px max(18px,env(safe-area-inset-right)) 6px 10px}
+.ivbar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.chips,.tools{display:flex;gap:4px}
+.chips button,.tools button{font-size:12px;padding:5px 10px;border:1px solid rgba(233,228,216,.2);background:rgba(255,255,255,.04);color:var(--paper2)}
+.chips button.on{color:#1C1408;background:linear-gradient(180deg,#EAD7A8,#C9A464);border-color:#F2E2B8;font-weight:700}
+.igrid{flex:1;min-height:0;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(50px,1fr));gap:4px;align-content:start;padding:4px;background:rgba(0,0,0,.35);border:1px solid rgba(233,228,216,.12);box-shadow:inset 0 0 20px rgba(0,0,0,.6)}
+.ic{position:relative;aspect-ratio:1;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--rc) 30%,#0D0C12),#0D0C12 75%);border:1px solid color-mix(in srgb,var(--rc) 70%,transparent);box-shadow:inset 0 0 10px color-mix(in srgb,var(--rc) 25%,transparent);padding:0;transition:transform .12s,box-shadow .2s}
+.ic img{width:72%!important;height:72%!important}
+.ic:hover{box-shadow:inset 0 0 14px color-mix(in srgb,var(--rc) 45%,transparent),0 0 10px color-mix(in srgb,var(--rc) 40%,transparent)}
+.ic.sel{outline:2px solid #fff;outline-offset:1px;z-index:1}
+.ic.no::after{content:'';position:absolute;inset:0;background:rgba(200,30,30,.28);pointer-events:none}
+.ic.em{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);box-shadow:none}
+.ic .pl{position:absolute;right:2px;top:1px;font-size:9px;font-weight:800;color:#F2C14E;text-shadow:0 1px 2px #000}
+.ic .lk{position:absolute;left:2px;top:0;font-size:9px}
+.ic .ax{position:absolute;left:3px;bottom:3px;display:flex;gap:2px}.ic .ax i{width:4px;height:4px;background:#9FC8FF;transform:rotate(45deg)}.ic .ax i.pf{background:#F2C14E}
+.ic .q{position:absolute;right:3px;bottom:1px;font-size:10px;font-weight:800;text-shadow:0 1px 2px #000}
+.ic.es{width:56px;height:56px}.ic.es small{font-size:10px;color:var(--paper2)}
+.belt{display:flex;align-items:center;gap:6px;margin-top:6px}.belt span{font-size:11px;color:var(--paper2);margin-right:4px}.belt .ic{width:44px;height:44px}
+.ipanel{position:absolute;right:max(18px,env(safe-area-inset-right));top:4px;bottom:6px;width:min(290px,48%);overflow:auto;padding:12px 12px 10px;background:linear-gradient(180deg,rgba(24,22,32,.98),rgba(12,11,18,.98));border:1px solid var(--edge);box-shadow:-10px 0 30px rgba(0,0,0,.5);z-index:3;animation:fright .25s cubic-bezier(.2,.8,.2,1)}
+.ipanel .x{position:absolute!important;right:6px;top:6px}
+.ipanel .brow{display:flex;gap:6px;margin-top:8px}.ipanel .brow .btn{margin:0;flex:1;padding:9px 6px;font-size:13px}
+@media (orientation:portrait){.fs.inv{grid-template-columns:1fr;grid-template-rows:auto auto 1fr auto}.fs.inv .fsl{grid-row:2}.fs.inv .ivw{grid-row:3}.doll2{grid-template-rows:50px 50px}.ivdoll .drv{display:none}.ipanel{left:10px;right:10px;width:auto;top:auto;max-height:70%}}
+
+/* bản đồ lớn */
+.bm{position:relative;width:100%;height:100%;display:flex;flex-direction:column;background:radial-gradient(ellipse at 50% 40%,#1C2230,#07090C);color:var(--paper);animation:fsin .25s}
+.bmh{display:flex;justify-content:space-between;align-items:center;padding:calc(8px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right)) 4px max(24px,env(safe-area-inset-left))}
+.bmh b{font-family:var(--serif);font-size:26px;color:#EBD6A6;display:block;line-height:1}.bmh small{font-size:11px;color:var(--paper2);letter-spacing:2px;text-transform:uppercase}
+.bmh .x{position:static!important}
+.bmw{flex:1;min-height:0;display:grid;place-items:center;padding:4px 16px}
+.bmw canvas{border:1px solid var(--edge);box-shadow:0 10px 40px rgba(0,0,0,.6);image-rendering:pixelated}
+.bml{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;padding:4px 16px calc(10px + env(safe-area-inset-bottom,0px));font-size:11.5px;color:var(--paper2)}
+.bml span{display:inline-flex;align-items:center;gap:5px}.bml i{width:9px;height:9px;border-radius:50%;border:1px solid #000}.bml i.dm{border-radius:0;transform:rotate(45deg)}
+/* ===== NHIỆM VỤ DỄ ĐỌC ===== */
+#track{padding:7px 12px 8px 10px!important;background:linear-gradient(90deg,rgba(8,8,12,.62),rgba(8,8,12,.38) 70%,rgba(8,8,12,0))!important;border-left:2px solid rgba(217,185,122,.7);max-width:250px!important}
+#track .qk{font-size:14px!important}#track .qk b{font-weight:700!important;color:#FFF6E0!important}
+#track .qd{font-size:12.5px!important;color:#E9E4D8!important;line-height:1.35}#track .qm{font-size:12.5px!important;font-weight:700;color:#F2C14E!important}
+#track,#track *{text-shadow:0 1px 2px #000,0 0 4px rgba(0,0,0,.9)!important}
+/* ===== THANH KINH NGHIỆM ===== */
+#expw{height:7px!important;bottom:0;background:rgba(0,0,0,.55)!important;pointer-events:auto;border-top:1px solid rgba(233,228,216,.15)}
+#expw::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 1px),rgba(0,0,0,.6) calc(10% - 1px),rgba(0,0,0,.6) 10%);pointer-events:none}
+#expw i{background:linear-gradient(90deg,#8E7AB8,#D9B97A,#FFE7A8)!important;box-shadow:0 0 8px rgba(242,193,78,.5)}
+#expL{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(9px + env(safe-area-inset-bottom,0px));font-size:10px;font-weight:700;color:#EAD7A8;text-shadow:0 1px 2px #000;pointer-events:none;white-space:nowrap;display:none}
+#me{bottom:calc(20px + env(safe-area-inset-bottom,0px))!important}
+#mmw{pointer-events:auto!important;cursor:pointer}
+#gc{will-change:translate}
 </style>
 </head>
 <body>
@@ -473,7 +562,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   <div id="chatlog" class="hud"></div>
   <div id="joy" class="hud"><i id="knob"></i></div>
   <div id="acts" class="hud">
-    <button class="sk" id="bAtk" aria-label="Ngự kiếm tấn công"><svg viewBox="0 0 24 24"><path d="M12 2l2 3v11h-4V5z" fill="#E8F4FF" stroke="#1A1226" stroke-width="1.2"/><path d="M7 16h10v2H7z" fill="#F2C14E"/><path d="M11 18h2v4h-2z" fill="#8A3A20"/></svg><span class="lb">Ngự Kiếm</span></button>
+    <button class="sk" id="bAtk" aria-label="Ngự kiếm tấn công"><span class="tk"></span><svg viewBox="0 0 24 24"><path d="M12 2l2 3v11h-4V5z" fill="#E8F4FF" stroke="#1A1226" stroke-width="1.2"/><path d="M7 16h10v2H7z" fill="#F2C14E"/><path d="M11 18h2v4h-2z" fill="#8A3A20"/></svg><span class="lb">Ngự Kiếm</span></button>
     <button class="sk" id="bS1" data-sk="van"><svg viewBox="0 0 24 24" fill="#BFE8FF" stroke="#1A1226" stroke-width="1"><path d="M5 2l1.5 2v8h-3V4zM12 1l1.5 2v9h-3V3zM19 2l1.5 2v8h-3V4z"/><path d="M3 18q9-6 18 0" stroke="#7FD0FF" stroke-width="2" fill="none"/></svg><span class="lb">Vạn Kiếm</span><i class="cd"></i></button>
     <button class="sk" id="bS2" data-sk="ho"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#F2C14E" stroke-width="2.4"/><path d="M12 6v12M6 12h12" stroke="#FFF2B0" stroke-width="2"/></svg><span class="lb">Hộ Thể</span><i class="cd"></i></button>
     <button class="sk" id="bS3" data-sk="hoa"><svg viewBox="0 0 24 24"><path d="M12 2c3 5 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 3-7 1 2 2 3 3 3 0-3 0-5 1-8z" fill="#FF7A2A" stroke="#1A1226" stroke-width="1"/><path d="M12 12c1.5 2 3 3 3 5a3 3 0 0 1-6 0c0-1.5 1.5-3 3-5z" fill="#FFD66B"/></svg><span class="lb">Liệt Hỏa</span><i class="cd"></i></button>
@@ -481,7 +570,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
     <button class="sk" id="bAuto" aria-label="Tự động đánh"><svg viewBox="0 0 24 24" fill="none" stroke="#F2C14E" stroke-width="2.2" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-3-6.2"/><path d="M20 4v5h-5"/></svg><span class="lb">Tự đánh</span></button>
     <button class="sk" id="bMed" aria-label="Tu luyện"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#F5EEDC"/><path d="M12 3a9 9 0 0 1 0 18 4.5 4.5 0 0 1 0-9 4.5 4.5 0 0 0 0-9z" fill="#1A1226"/><circle cx="12" cy="7.5" r="1.6" fill="#1A1226"/><circle cx="12" cy="16.5" r="1.6" fill="#F5EEDC"/></svg><span class="lb">Tu luyện</span></button>
   </div>
-  <div id="expw" class="hud"><i id="expI"></i><b id="expB"></b></div>
+  <div id="expw" class="hud"><i id="expI"></i><b id="expB"></b></div><span id="expL" class="hud"></span>
 </div>
 <div class="rot" id="rot"><svg viewBox="0 0 64 64" fill="none" stroke="#F2C14E" stroke-width="3.5" stroke-linejoin="round"><rect x="18" y="6" width="28" height="52" rx="5"/><path d="M28 50h8" stroke-linecap="round"/></svg><b>Xoay ngang điện thoại</b><p>Immortal Ascent chơi đẹp nhất khi cầm ngang. Nhớ tắt khoá xoay màn hình.</p><button class="btn alt" id="rotNo" style="width:auto;padding:10px 18px">Vẫn chơi dọc</button></div>
 <div class="fade" id="fade"></div>
@@ -491,7 +580,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=7"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=8"><\/script>');
 })();
 </script>
 <script>
@@ -1276,7 +1365,7 @@ const SETS = {
 function setCount(t){ return ['w', 'a', 'h', 'wi'].filter(sl => { const b = itemOf(P.eq[sl]); return b && ITEMS[b.k].t === t; }).length; }
 let _sk = '', _sv = null;
 function stats(){
-  const key = P.name + P.stage + (P.cls || '') + '|' + ['w', 'a', 'h', 'wi'].map(sl => { const b = itemOf(P.eq[sl]); return b ? b.id + ':' + b.plus : '-'; }).join(',');
+  const key = P.name + P.stage + (P.cls || '') + JSON.stringify(P.skt || 0) + '|' + ['w', 'a', 'h', 'wi'].map(sl => { const b = itemOf(P.eq[sl]); return b ? b.id + ':' + b.plus : '-'; }).join(',');
   if(key === _sk && _sv) return _sv;
   const s = P.stage, w = eqStat('w'), a = eqStat('a'), wi = eqStat('wi'), pct = wi ? wi.I.pct * wi.m : 0;
   const hh = eqStat('h');
@@ -1284,7 +1373,7 @@ function stats(){
   [w, a, hh, wi].forEach(e => { if(e) (e.b.r || []).forEach(([k, v]) => { if(k in B) B[k] += v; }); });
   const sets = [];
   for(const t in SETS){ const n = setCount(+t); if(n >= 2){ sets.push([+t, n]); SETS[t].b.forEach(([need, bonus]) => { if(n >= need) for(const k in bonus) B[k] += bonus[k]; }); } }
-  const C = cls(); B.ls += C.ls || 0; B.spd += C.spd || 0; B.rg += C.rg || 0; B.exp += (C.exp || 0) + (P.keep === 'ngoc' ? 5 : 0);
+  const C = cls(); B.ls += (C.ls || 0) + 1.5 * skv('atk3'); B.atk += 4 * skv('atk1'); B.spd += C.spd || 0; B.rg += C.rg || 0; B.exp += (C.exp || 0) + (P.keep === 'ngoc' ? 5 : 0);
   const atk = (baseAtk(s) + (w ? w.I.atk * w.m : 0)) * (1 + pct) * (1 + B.atk / 100) * C.atk;
   const hp = (baseHp(s) + (a ? a.I.hp * a.m : 0) + (hh ? hh.I.hp * hh.m : 0)) * (1 + pct) * (1 + B.hp / 100) * C.hp;
   const def = (baseDef(s) + (a ? a.I.def * a.m : 0) + (hh ? hh.I.def * hh.m : 0)) * (1 + B.def / 100) * C.def;
@@ -1308,7 +1397,7 @@ const gc = $('#gc'), g = gc.getContext('2d'), oc = $('#oc'), o2 = oc.getContext(
 function resize(){
   const w = innerWidth, h = innerHeight;
   scale = Math.max(2, Math.floor(Math.min(w, h) / 175));
-  gw = Math.ceil(w / scale); gh = Math.ceil(h / scale); gc.width = gw; gc.height = gh; gc.style.width = gw * scale + 'px'; gc.style.height = gh * scale + 'px';
+  gw = Math.ceil(w / scale); gh = Math.ceil(h / scale); gc.width = gw + 1; gc.height = gh + 1; gc.style.width = (gw + 1) * scale + 'px'; gc.style.height = (gh + 1) * scale + 'px';
   const d = Math.min(2, devicePixelRatio || 1); oc.width = w * d; oc.height = h * d; o2.setTransform(d, 0, 0, d, 0, 0);
   g.imageSmoothingEnabled = false;
 }
@@ -1428,11 +1517,16 @@ function bossAI(m, dt, d){
 }
 const shake = a => { shakeA = Math.max(shakeA, a); };
 function nearestMob(r = 150){ let b = null, bd = r; for(const m of mobs){ if(m.dead) continue; const d = Math.hypot(m.x - me.x, m.y - me.y); if(d < bd){ bd = d; b = m; } } return b; }
-function attackPress(){ if(me.sit) toggleMed(); if(!me.target || me.target.dead) me.target = nearestMob(170); if(!me.target){ toast(Lx("Không có yêu ma ở gần")); return; } }
+function basicDone(){
+  cds.atk = tNow + (cds.atk - tNow) * (1 - .06 * skv('atk2')); me.bc = (me.bc || 0) + 1; const t = me.target, S = stats();
+  if(skv('atkA') && me.bc % 4 === 0 && t && !t.dead){ hitMob(t, 1.5, '#F2C14E'); fx.push({ k:'ring', x:t.x, y:t.y, t:0, d:.35, c:'#F2C14E' }); }
+  if(skv('atkB')) me.mp = Math.min(S.mp, me.mp + S.mp * .02);
+}
+function attackPress(){ const nn = nearNpc(); if(nn && !DLG){ npcTalk(nn); return; } if(me.sit) toggleMed(); if(!me.target || me.target.dead) me.target = nearestMob(170); if(!me.target){ toast(Lx("Không có yêu ma ở gần")); return; } }
 function dmgRoll(atk, def, mul = 1){ const S = stats(); let d = Math.max(1, atk * mul * rnd(.9, 1.1) - def * .5); let crit = Math.random() < S.crit; if(crit) d *= S.critd; return [Math.round(d), crit]; }
 function hitMob(m, mul, color){
   if(m.dead) return;
-  const S = stats(), [d, crit] = dmgRoll(S.atk, m.L * 1.5, mul * (m.D.boss ? 1 + S.boss / 100 : 1) * (P.cls === 'ma' && me.hp < S.hp * .4 ? 1.35 : 1));
+  const S = stats(), [d, crit] = dmgRoll(S.atk, m.L * 1.5, mul * (m.D.boss ? 1 + S.boss / 100 : 1) * (P.cls === 'ma' && me.hp < S.hp * .4 ? 1.35 : 1) * (skv('hoB') && shield > 0 ? 1.25 : 1));
   if(S.ls && !me.dead) me.hp = Math.min(S.hp, me.hp + Math.min(d * S.ls / 100, S.hp * .04));
   m.hp -= d; m.hit = .15; if(m.D.boss && Party.code && curPN > 1) Party.bdmg += d / m.max; m.aggro = true; if(m.st !== 'chase') m.st = 'chase';
   texts.push({ x:m.x + rnd(-6, 6), y:m.y - m.D.h * (m.D.boss ? 2 : 1), t:0, s:d, c:crit ? '#FFD25A' : color || '#FFFFFF', big:crit, crit });
@@ -1472,7 +1566,7 @@ function levelUp(){
 function hurtMe(d){
   if(me.dead) return;
   const S = stats(); d = d * diffAtk() * (1 - S.dr); d = Math.max(1, Math.round(d * rnd(.9, 1.1) - S.def * .5));
-  if(shield > 0){ const a = Math.min(shield, d); shield -= a; d -= a; texts.push({ x:me.x, y:me.y - 26, t:0, s:Lx("chặn ") + a, c:'#F2C14E' }); }
+  if(shield > 0){ const a = Math.min(shield, d); shield -= a; d -= a; texts.push({ x:me.x, y:me.y - 26, t:0, s:Lx("chặn ") + a, c:'#F2C14E' }); if(skv('hoA') && (me.rfT || 0) < tNow){ me.rfT = tNow + .5; fx.push({ k:'ring', x:me.x, y:me.y, t:0, d:.35, c:'#F2C14E' }); mobs.forEach(o => { if(!o.dead && Math.hypot(o.x - me.x, o.y - me.y) < 34) hitMob(o, .4, '#F2C14E'); }); } }
   if(d <= 0) return;
   me.hp -= d; lastHurt = tNow; texts.push({ x:me.x + rnd(-4, 4), y:me.y - 26, t:0, s:'-' + d, c:'#FF6B5E' });
   if(me.sit) toggleMed();
@@ -1488,14 +1582,15 @@ function useSkill(k){
   const S = SKILLS[k]; if(me.dead) return;
   if(P.stage < S.s){ toast(`${Lx("Cần {0} để dùng {1}", realmName(S.s), S.n)}`); return; }
   if(cds[k] > tNow){ return; }
-  if(me.mp < S.mp){ toast(Lx("Linh lực không đủ")); return; }
+  if(me.mp < skMp(k)){ toast(Lx("Linh lực không đủ")); return; }
   if(me.sit) toggleMed();
-  if(k === 'ho'){ me.mp -= S.mp; cds[k] = tNow + S.cd * (1 - stats().cdr); const st = stats(); shield = Math.round(st.hp * .3); fx.push({ k:'wave', x:me.x, y:me.y, t:0, d:.6, c:'#F2C14E' }); me.hp = Math.min(st.hp, me.hp + st.hp * .2); fx.push({ k:'ring', x:me.x, y:me.y, t:0, d:.8, c:'#F2C14E' }); sfx.skill(); return; }
+  if(k === 'ho'){ me.mp -= skMp(k); cds[k] = tNow + skCd(k); const st = stats(); shield = Math.round(st.hp * (.3 + .06 * skv('ho1'))); fx.push({ k:'wave', x:me.x, y:me.y, t:0, d:.6, c:'#F2C14E' }); me.hp = Math.min(st.hp, me.hp + st.hp * (.2 + .06 * skv('ho3'))); fx.push({ k:'ring', x:me.x, y:me.y, t:0, d:.8, c:'#F2C14E' }); sfx.skill(); return; }
   const t = (me.target && !me.target.dead) ? me.target : nearestMob(170);
   if(!t){ toast(Lx("Không có mục tiêu")); return; }
-  me.target = t; me.mp -= S.mp; cds[k] = tNow + S.cd * (1 - stats().cdr); sfx.skill(); me.dir = t.x >= me.x ? 1 : -1;
-  if(k === 'van'){ fx.push({ k:'circle', x:t.x, y:t.y, t:0, d:1.3, c:'#9BE0FF' }); for(let i = 0; i < 9; i++){ const a = rnd(0, 6.28), r = rnd(0, 26); projs.push({ k:'rain', x:t.x + Math.cos(a) * r, y:t.y + Math.sin(a) * r * .6, h:150 + i * 20, vy:360, tx:t.x, ty:t.y, mul:2.2 / 3, c:look().w }); } }
-  if(k === 'hoa'){ const a = Math.atan2(t.y - me.y, t.x - me.x); projs.push({ k:'fire', x:me.x, y:me.y - 6, vx:Math.cos(a) * 190, vy:Math.sin(a) * 190, life:.9, hitSet:new Set(), mul:3.2 }); }
+  me.target = t; me.mp -= skMp(k); cds[k] = tNow + skCd(k); sfx.skill(); me.dir = t.x >= me.x ? 1 : -1;
+  if(k === 'van'){ const ice = skv('vanA'), thu = skv('vanB'), nS = 9 + 2 * skv('van3'), R = thu ? 40 : 26; fx.push({ k:'circle', x:t.x, y:t.y, t:0, d:1.3, c:ice ? '#CFF4FF' : thu ? '#C9A0FF' : '#9BE0FF' }); for(let i = 0; i < nS; i++){ const a = rnd(0, 6.28), r = rnd(0, R); projs.push({ k:'rain', x:t.x + Math.cos(a) * r, y:t.y + Math.sin(a) * r * .6, h:150 + i * 16, vy:360, tx:t.x, ty:t.y, mul:2.2 / 3 * (1 + .12 * skv('van1')), c:ice ? '#CFF4FF' : look().w, ice }); }
+    if(thu) setTimeout(() => { if(!M || t.dead) return; fx.push({ k:'bolt', x:t.x, y:t.y, t:0, d:.4 }); sfx.thunder && sfx.thunder(); shake(3); hitMob(t, 1, '#C9A0FF'); mobs.forEach(o => { if(o !== t && !o.dead && Math.hypot(o.x - t.x, o.y - t.y) < 34) hitMob(o, .5, '#C9A0FF'); }); }, 1100); }
+  if(k === 'hoa'){ const a0 = Math.atan2(t.y - me.y, t.x - me.x), fan = skv('hoaA'), sp = 190 * (1 + .25 * skv('hoa3')), mul = 3.2 * (1 + .12 * skv('hoa1')) * (fan ? .75 : 1); (fan ? [-.28, 0, .28] : [0]).forEach(da => { const a = a0 + da; projs.push({ k:'fire', x:me.x, y:me.y - 6, vx:Math.cos(a) * sp, vy:Math.sin(a) * sp, life:.9 * (1 + .15 * skv('hoa3')), hitSet:new Set(), mul, trail:skv('hoaB'), tt:0 }); }); }
 }
 function drinkHp(){ if(!P.inv.hp){ toast(Lx("Hết Hồi Huyết Đan, mua ở Đan Sư nha")); return; } const S = stats(); if(me.hp >= S.hp){ toast(Lx("Sinh lực đang đầy")); return; } P.inv.hp--; me.hp = Math.min(S.hp, me.hp + S.hp * .4 * (P.cls === 'y' ? 1.6 : 1)); fx.push({ k:'ring', x:me.x, y:me.y, t:0, d:.5, c:'#FF6B5E' }); beep(700, .1, 'triangle'); }
 function drinkMp(){ if(!P.inv.mp) return false; const S = stats(); P.inv.mp--; me.mp = Math.min(S.mp, me.mp + S.mp * .5); return true; }
@@ -1550,7 +1645,7 @@ function update(dt){
       else if(P.cls === 'hoa'){ cds.atk = tNow + .7; projs.push({ k:'shot', s:'tal', x:me.x + me.dir * 5, y:me.y - 16, tgt:me.target, sp:230, mul:.85, tr:[] }); sfx.swish(); }
       else if(P.cls === 'y'){ cds.atk = tNow + .6; projs.push({ k:'shot', s:'ndl', x:me.x + me.dir * 5, y:me.y - 15, tgt:me.target, sp:320, mul:.95, tr:[] }); sfx.swish(); }
       else if(P.cls === 'phap'){ cds.atk = tNow + .65; projs.push({ k:'orb', x:me.x + me.dir * 6, y:me.y - 18, tgt:me.target, sp:210, mul:1.05, tr:[] }); sfx.swish(); }
-      else { cds.atk = tNow + .55; projs.push({ k:'sword', x:me.x, y:me.y - 14, tgt:me.target, sp:250, mul:1, c:look().w }); sfx.swish(); } }
+      else { cds.atk = tNow + .55; projs.push({ k:'sword', x:me.x, y:me.y - 14, tgt:me.target, sp:250, mul:1, c:look().w }); sfx.swish(); } basicDone(); }
   } else if(me.tx !== null && me.tx !== undefined){
     const d = Math.hypot(me.tx - me.x, me.ty - me.y);
     if(d < 4){ me.tx = null; if(me.talk){ npcTalk(me.talk); me.talk = null; } } else { mx = (me.tx - me.x) / d; my = (me.ty - me.y) / d; }
@@ -1588,7 +1683,7 @@ function update(dt){
     else if(m.st === 'home'){ if(home > 4){ vx = (m.hx - m.x) / home; vy = (m.hy - m.y) / home; m.hp = Math.min(m.max, m.hp + m.max * .2 * dt); } else m.st = 'idle'; }
     else if(m.t <= 0){ m.t = rnd(1.5, 4); m.wx = m.hx + rnd(-30, 30); m.wy = m.hy + rnd(-30, 30); }
     if(m.st === 'idle' && m.wx !== undefined){ const dd = Math.hypot(m.wx - m.x, m.wy - m.y); if(dd > 3){ vx = (m.wx - m.x) / dd * .5; vy = (m.wy - m.y) / dd * .5; } }
-    if(vx || vy){ const sp = m.D.sp * dt * (m.st === 'home' ? 1.6 : 1), nx = m.x + vx * sp, ny = m.y + vy * sp; if(canStand(M, nx, m.y)) m.x = nx; if(canStand(M, m.x, ny)) m.y = ny; if(Math.abs(vx) > .05) m.dir = vx > 0 ? 1 : -1; m.fr += dt * 6; }
+    if(vx || vy){ const sp = m.D.sp * dt * (m.st === 'home' ? 1.6 : 1) * (m.slow > tNow ? .55 : 1), nx = m.x + vx * sp, ny = m.y + vy * sp; if(canStand(M, nx, m.y)) m.x = nx; if(canStand(M, m.x, ny)) m.y = ny; if(Math.abs(vx) > .05) m.dir = vx > 0 ? 1 : -1; m.fr += dt * 6; }
     m.lunge = Math.max(0, (m.lunge || 0) - dt);
   }
   if(mobs.some(m => m.gone)) mobs = mobs.filter(m => !m.gone);
@@ -1602,8 +1697,8 @@ function update(dt){
       p.x += (tx - p.x) / d * p.sp * dt; p.y += (ty - p.y) / d * p.sp * dt; }
     else if(p.k === 'zone'){ p.life -= dt; p.tk += dt; if(frame % 4 === 0) fx.push({ k:'burn', x:p.x + rnd(-12, 12), y:p.y + rnd(-5, 5), t:0, d:1 }); if(p.tk > .5){ p.tk = 0; mobs.forEach(o => { if(!o.dead && Math.hypot(o.x - p.x, o.y - p.y) < 20) hitMob(o, .22, '#FF9A3A'); }); } if(p.life <= 0) projs.splice(i, 1); }
     else if(p.k === 'orb'){ const t = p.tgt; if(!t || t.dead){ projs.splice(i, 1); continue; } const tx = t.x, ty = t.y - 8, d = Math.hypot(tx - p.x, ty - p.y); p.tr.push([p.x, p.y]); if(p.tr.length > 8) p.tr.shift(); if(d < 6){ hitMob(t, p.mul, '#C99BFF'); mobs.forEach(o => { if(o !== t && !o.dead && Math.hypot(o.x - t.x, o.y - t.y) < 22) hitMob(o, .5, '#C99BFF'); }); fx.push({ k:'ring', x:t.x, y:t.y, t:0, d:.4, c:'#C99BFF' }); for(let j = 0; j < 8; j++) fx.push({ k:'p', x:t.x, y:t.y - 8, vx:rnd(-70, 70), vy:rnd(-70, 30), t:0, d:.35, c:pick(['#E8D8FF', '#C99BFF', '#9BE0FF']), glow:1 }); sfx.hit(); projs.splice(i, 1); continue; } p.x += (tx - p.x) / d * p.sp * dt; p.y += (ty - p.y) / d * p.sp * dt + Math.sin(tNow * 20) * .3; }
-    else if(p.k === 'rain'){ p.h -= p.vy * dt; if(p.h <= 0){ mobs.forEach(m => { if(!m.dead && Math.hypot(m.x - p.x, m.y - p.y) < 22) hitMob(m, p.mul, '#9BE0FF'); }); fxBurst(p.x, p.y, 6, '#BFE8FF'); fx.push({ k:'ring', x:p.x, y:p.y + 6, t:0, d:.35, c:'#BFE8FF' }); shake(1); sfx.hit(); projs.splice(i, 1); } }
-    else if(p.k === 'fire'){ p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; if(frame % 3 === 0) fx.push({ k:'burn', x:p.x, y:p.y + 6, t:0, d:1.6 }); if(frame % 2 === 0) fx.push({ k:'p', x:p.x + rnd(-4, 4), y:p.y + rnd(-3, 3), vx:rnd(-15, 15), vy:rnd(-40, -10), t:0, d:.5, c:pick(['#FF8A2A', '#FFD25A', '#E8541C']) }); mobs.forEach(m => { if(!m.dead && !p.hitSet.has(m) && Math.hypot(m.x - p.x, m.y - 6 - p.y) < 16){ p.hitSet.add(m); hitMob(m, p.mul, '#FF9A3A'); } }); if(p.life <= 0) projs.splice(i, 1); }
+    else if(p.k === 'rain'){ p.h -= p.vy * dt; if(p.h <= 0){ mobs.forEach(m => { if(!m.dead && Math.hypot(m.x - p.x, m.y - p.y) < 22){ hitMob(m, p.mul, p.ice ? '#CFF4FF' : '#9BE0FF'); if(p.ice) m.slow = tNow + 2; } }); fxBurst(p.x, p.y, 6, '#BFE8FF'); fx.push({ k:'ring', x:p.x, y:p.y + 6, t:0, d:.35, c:'#BFE8FF' }); shake(1); sfx.hit(); projs.splice(i, 1); } }
+    else if(p.k === 'fire'){ p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; if(p.trail){ p.tt += dt; if(p.tt > .12){ p.tt = 0; projs.push({ k:'zone', x:p.x, y:p.y + 4, life:2.2, tk:0 }); } } if(frame % 3 === 0) fx.push({ k:'burn', x:p.x, y:p.y + 6, t:0, d:1.6 }); if(frame % 2 === 0) fx.push({ k:'p', x:p.x + rnd(-4, 4), y:p.y + rnd(-3, 3), vx:rnd(-15, 15), vy:rnd(-40, -10), t:0, d:.5, c:pick(['#FF8A2A', '#FFD25A', '#E8541C']) }); mobs.forEach(m => { if(!m.dead && !p.hitSet.has(m) && Math.hypot(m.x - p.x, m.y - 6 - p.y) < 16){ p.hitSet.add(m); hitMob(m, p.mul, '#FF9A3A'); } }); if(p.life <= 0) projs.splice(i, 1); }
   }
   // hiệu ứng
   for(let i = fx.length - 1; i >= 0; i--){ const f = fx[i]; f.t += dt;
@@ -1764,8 +1859,14 @@ function drawSky(ctx, cx, cy){
     ctx.globalCompositeOperation = 'source-over'; }
 }
 function render(){
+  const GW = gw, GH = gh; gw++; gh++;
+  const fxp = cam.x - Math.floor(cam.x), fyp = cam.y - Math.floor(cam.y);
+  try{ renderW(); } finally{ gw = GW; gh = GH; }
+  if(!shakeA){ const t = `${-(fxp * scale).toFixed(2)}px ${-(fyp * scale).toFixed(2)}px`; if(gc._tr !== t){ gc._tr = t; gc.style.translate = t; } } else if(gc._tr !== '0px 0px'){ gc._tr = '0px 0px'; gc.style.translate = '0px 0px'; }
+}
+function renderW(){
   const ctx = g; ctx.fillStyle = M.bg || (M.dark ? '#120A14' : '#2A4A2A'); ctx.fillRect(0, 0, gw, gh);
-  const cx = Math.round(cam.x + (shakeA ? rnd(-shakeA, shakeA) : 0)), cy = Math.round(cam.y + (shakeA ? rnd(-shakeA, shakeA) : 0));
+  const cx = Math.floor(cam.x) + (shakeA ? Math.round(rnd(-shakeA, shakeA)) : 0), cy = Math.floor(cam.y) + (shakeA ? Math.round(rnd(-shakeA, shakeA)) : 0);
   ctx.drawImage(M.layers[0], cx, cy, gw, gh, 0, 0, gw, gh);
   if(M.hasLiq) drawLiquids(ctx, cx, cy);
   if(M.glow){ ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .75 + Math.sin(tNow * 2.2) * .25; ctx.drawImage(M.glow, cx, cy, gw, gh, 0, 0, gw, gh); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
@@ -1951,15 +2052,18 @@ function itemIcon(k){
 }
 /* ======================= HUD ======================= */
 let _hk = '';
+const _dw = {}; function setW(sel, v){ if(_dw[sel] === v) return; _dw[sel] = v; const e = $(sel); if(e) e.style.width = v; }
+function setTx(sel, v){ if(_dw['t' + sel] === v) return; _dw['t' + sel] = v; const e = $(sel); if(e) e.textContent = v; }
 function hud(){
   const S = stats(), mp = Math.round(me.mp), hp = Math.round(me.hp);
-  $('#hpT').textContent = `${fmt(hp)} / ${fmt(S.hp)}`; if(frame % 2 === 0) drawMini();
-  $('#hpb i').style.width = (hp / S.hp * 100) + '%'; $('#hpb b').textContent = `${fmt(hp)}/${fmt(S.hp)}`; $('#shb').style.width = Math.min(100, shield / S.hp * 100) + '%';
-  $('#mpb i').style.width = (mp / S.mp * 100) + '%'; $('#mpb b').textContent = `${fmt(mp)}/${fmt(S.mp)}`;
-  $('#mmN').textContent = M.name + (curPN > 1 ? ` · ×${diffHp().toFixed(1)}` : '');
-  const need = needExp(P.stage); $('#expI').style.width = Math.min(100, P.exp / need * 100) + '%'; $('#expB').textContent = `${realmName(P.stage)} · ${Lx("Tu vi")} ${fmt(P.exp)}/${fmt(need)} (${(P.exp / need * 100).toFixed(1)}%)${isGate(P.stage) && P.exp >= need ? Lx(" · CÓ THỂ ĐỘT PHÁ") : ''}`;
+  setTx('#hpT', `${fmt(hp)} / ${fmt(S.hp)}`); if(frame % 3 === 0) drawMini();
+  setW('#hpb i', (hp / S.hp * 100).toFixed(1) + '%'); setW('#shb', Math.min(100, shield / S.hp * 100).toFixed(1) + '%');
+  setW('#mpb i', (mp / S.mp * 100).toFixed(1) + '%');
+  setTx('#mmN', M.name + (curPN > 1 ? ` · ×${diffHp().toFixed(1)}` : ''));
+  const need = needExp(P.stage); setW('#expI', Math.min(100, P.exp / need * 100).toFixed(2) + '%');
+  { const nn = !DLG && running && nearNpc(), ba = $('#bAtk'), want = nn ? nn.k : ''; if(ba._t !== want){ ba._t = want; ba.classList.toggle('talk', !!nn); ba.querySelector('.tk').innerHTML = nn ? Lx("Nói<br>chuyện") : ''; } }
   const k = `${P.name}|${P.stage}|${P.inv.hp}|${P.buff.x2 > Date.now()}|${P.q.i}|${P.q.p}|${P.daily.p}`;
-  ['van', 'ho', 'hoa'].forEach((s, i) => { const b = $('#bS' + (i + 1)), sk = SKILLS[s]; b.classList.toggle('lock', P.stage < sk.s); const rem = Math.max(0, cds[s] - tNow); b.querySelector('.cd').style.transform = `scaleY(${rem / sk.cd})`; });
+  ['van', 'ho', 'hoa'].forEach((s, i) => { const b = $('#bS' + (i + 1)), sk = SKILLS[s]; const lk = P.stage < sk.s; if(b._lk !== lk){ b._lk = lk; b.classList.toggle('lock', lk); } const rem = Math.max(0, cds[s] - tNow), v = (rem / (skCd(s) || sk.cd)).toFixed(2); if(b._cd !== v){ b._cd = v; b.querySelector('.cd').style.transform = `scaleY(${v})`; } });
   const bo = mobs.find(m => m.D.boss && !m.dead && (m.st === 'chase' || Math.hypot(m.x - me.x, m.y - me.y) < 200)), bb = $('#bossbar');
   bb.classList.toggle('hidden', !bo);
   if(bo){ const pc = bo.hp / bo.max * 100; $('#bbN').textContent = bo.D.n; $('#bbT').textContent = bo.D.title || ''; $('#bbI').style.width = pc + '%'; $('#bbW').style.width = pc + '%'; $('#bbP').textContent = `${fmt(bo.hp)} / ${fmt(bo.max)}${bo.ph2 ? Lx(" · CUỒNG BẠO") : ''}`; bb.classList.toggle('p2', !!bo.ph2); }
@@ -1968,7 +2072,7 @@ function hud(){
   $('#potN').textContent = P.inv.hp || 0;
   $('#buffs').innerHTML = P.buff.x2 > Date.now() ? Lx("<span>Tụ Khí x2</span>") : '';
   $('#track').innerHTML = trackHtml() + partyHtml(); $('#dtQuest').classList.toggle('hidden', !questReady());
-  $('#dtChar').classList.toggle('hidden', !(isGate(P.stage) && P.exp >= needExp(P.stage)));
+  $('#dtChar').classList.toggle('hidden', !((isGate(P.stage) && P.exp >= needExp(P.stage)) || skAvail() > 0));
   drawAva();
 }
 function drawAva(){ const a = $('#ava').getContext('2d'); a.clearRect(0, 0, 16, 16); a.imageSmoothingEnabled = false; const L = look(), sp = heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h }, 0); a.drawImage(sp, 4, 3, 16, 16, 0, 0, 16, 16); }
@@ -2035,12 +2139,12 @@ function grant(rw){
 
 /* ======================= BẢNG GIAO DIỆN ======================= */
 function sheet(html, opt = {}){
-  closeSheet(); running = false;
+  hideTip(); closeSheet(); running = false;
   const bg = document.createElement('div'); bg.className = 'sbg'; bg.innerHTML = `<div class="sheet" role="dialog">${html}</div>`;
   bg.addEventListener('click', e => { if((e.target === bg && opt.dismiss !== false) || e.target.closest('[data-close]')){ closeSheet(); opt.onClose && opt.onClose(); } });
   document.body.appendChild(bg); joy.x = joy.y = 0; return bg;
 }
-function closeSheet(){ document.querySelectorAll('.sbg').forEach(x => x.remove()); if(P && me && !me.dead) running = true; lastT = performance.now(); saveSoon(); }
+function closeSheet(){ hideTip(); document.querySelectorAll('.sbg').forEach(x => x.remove()); if(P && me && !me.dead) running = true; lastT = performance.now(); saveSoon(); }
 let toastT; function toast(t){ document.querySelectorAll('.toast').forEach(x => x.remove()); const e = document.createElement('div'); e.className = 'toast'; e.textContent = t; document.body.appendChild(e); clearTimeout(toastT); toastT = setTimeout(() => e.remove(), 2600); }
 function bossBanner(m){ document.querySelectorAll('.bossban').forEach(x => x.remove()); const e = document.createElement('div'); e.className = 'bossban'; e.innerHTML = `<small>${esc(m.D.title || 'Boss')}</small><div class="ln"></div><b>${esc(m.D.n.toUpperCase())}</b><div class="ln"></div>`; document.body.appendChild(e); setTimeout(() => e.remove(), 3100); }
 function lootBanner(I, it){ document.querySelectorAll('.banner').forEach(x => x.remove()); const c = rarC(I.t), e = document.createElement('div'); e.className = 'banner'; e.style.color = c; e.style.textShadow = `0 3px 0 #000,0 0 22px ${c}`; e.innerHTML = `${iconHtml(Object.keys(ITEMS).find(k => ITEMS[k] === I), 48)}<br>${esc(I.n)}<small>${RAR[I.t][0]} · ${SLOTN[I.slot]}${it && it.r && it.r.length ? ' · ' + it.r.length + Lx(" dòng phụ") : ''}${it && perfect(it) ? Lx(" · ✦ Hoàn mỹ") : ''}</small>`; document.body.appendChild(e); setTimeout(() => e.remove(), 2700); }
@@ -2227,31 +2331,74 @@ function itemCard(it){
     ${SETS[I.t] ? (() => { const S = SETS[I.t], n = setCount(I.t); return `<div class="set"><b style="color:${S.c}">${Lx("Bộ {0}", S.n)}</b> <span style="color:var(--ink2)">${Lx("({0}/4 đang mặc)", n)}</span>${S.b.map(([need], i) => `<div class="${n >= need ? 'on' : ''}">${Lx("{0} món: {1}", need, S.d[i])}</div>`).join('')}</div>`; })() : ''}
     ${I.d ? `<div class="fl">"${I.d}"</div>` : ''}</div>`;
 }
+let invF = '', invSel = null, invSort = 'tier';
+function heroPreview(){
+  const C = cls(), L = look(), pv = cnv(72, 60), x = pv.getContext('2d'); x.imageSmoothingEnabled = false;
+  const gr = x.createRadialGradient(36, 52, 2, 36, 52, 30); gr.addColorStop(0, (L.au >= 3 ? AURA_C[L.au] : C.c) + '99'); gr.addColorStop(1, '#00000000'); x.fillStyle = gr; x.fillRect(0, 26, 72, 34);
+  if(L.wi){ x.drawImage(wingSprite(L.wi, 0), 6, 2); x.drawImage(flip(wingSprite(L.wi, 0)), 36, 2); }
+  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw }, 0), 24, 19);
+  return pv.toDataURL();
+}
+function itemTip(it){
+  const I = ITEMS[it.k], c = rarC(I.t), on = isEq(it), cur = itemOf(P.eq[I.slot]), ok = P.stage >= I.s, m = 1 + it.plus * .1;
+  const rows = [];
+  const cm = (lbl, v, cv) => rows.push(`<div class="kv"><span>${lbl}</span><b>+${fmt(Math.round(v))}${!on && cur && cv !== undefined ? (() => { const d = Math.round(v) - Math.round(cv); return d ? ` <span class="${d > 0 ? 'up' : 'dn'}">${d > 0 ? '▲' : '▼'}${fmt(Math.abs(d))}</span>` : ''; })() : ''}</b></div>`);
+  const cI = cur && ITEMS[cur.k], cmm = cur ? 1 + cur.plus * .1 : 1;
+  if(I.atk) cm(Lx("Công kích"), I.atk * m, cI ? (cI.atk || 0) * cmm : 0);
+  if(I.hp) cm(Lx("Sinh lực"), I.hp * m, cI ? (cI.hp || 0) * cmm : 0);
+  if(I.def) cm(Lx("Phòng ngự"), I.def * m, cI ? (cI.def || 0) * cmm : 0);
+  if(I.pct) rows.push(`<div class="kv"><span>${Lx("Công & Sinh lực")}</span><b>+${Math.round(I.pct * m * 100)}%</b></div>`);
+  const d = on ? 0 : powerWith(it) - power();
+  return `<h4 style="color:${c}">${I.n}${it.plus ? ' +' + it.plus : ''}</h4><div class="sub2" style="color:${c}">${RAR[I.t][0]} · ${SLOTN[I.slot]}${on ? ' · ' + Lx("Đang mặc") : ''}</div>
+    ${rows.join('')}${(it.r || []).map(([k, v, q]) => `<div class="kv"><span style="color:${q >= .9 ? '#F2C14E' : '#9FC8FF'}">${q >= .9 ? '✦' : '◆'} ${AFX[k].n}</span><b>+${v}${AFX[k].u}</b></div>`).join('')}
+    <div class="kv"><span>${Lx("Yêu cầu")}</span><b class="${ok ? 'ok' : 'no'}">${realmName(I.s)}${ok ? ' ✓' : ''}</b></div>
+    ${!ok ? `<p class="no">${Lx("Còn thiếu {0} tầng cảnh giới để dùng được", I.s - P.stage)}</p>` : ''}
+    ${!on ? `<p class="${d >= 0 ? 'up' : 'dn'}">${Lx("{0} Chiến lực {1}{2} nếu mặc món này", d >= 0 ? '▲' : '▼', d >= 0 ? '+' : '', fmt(d))}</p>` : ''}
+    ${I.d ? `<p style="font-style:italic;color:var(--paper2)">"${I.d}"</p>` : ''}`;
+}
 function bagSheet(filter){
-  const list = P.bag.filter(b => !filter || ITEMS[b.k].slot === filter).sort((a, b) => ITEMS[b.k].t - ITEMS[a.k].t || b.plus - a.plus);
-  sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button><h2>${filter ? Lx("Chọn ") + SLOTN[filter].toLowerCase() : Lx("Túi đồ")}</h2><p class="sub">${Lx("Linh thạch")} <b style="color:#7FE0F0">${fmt(P.st)}</b> ${Lx("· {0}/{1} ô ·", P.bag.length, bagCap())} <span class="mat">${iconHtml('tt', 14)} ${fmt(P.inv.tt || 0)} Linh Tinh</span></p>
-    ${filter ? '' : `<div class="brow"><button class="btn alt" id="bulk">${Lx("🧹 Dọn túi nhanh")}</button>${bagCap() < 120 ? `<button class="btn alt" id="exp">${Lx("＋10 ô ({0} linh thạch)", fmt(bagCost()))}</button>` : ''}</div>`}
-    ${filter ? '' : `<h3>${Lx("Đan dược")}</h3><div class="grid">${Object.entries(PILLS).map(([k, p]) => `<button class="it" data-pill="${k}">${iconHtml(k)}<span class="q">${P.inv[k] || 0}</span></button>`).join('')}</div>`}
-    <h3>${Lx("Trang bị")}</h3><div class="grid">${list.map(b => { const I = ITEMS[b.k], on = Object.values(P.eq).includes(b.id); return `<button class="it t${I.t}${on ? ' eq' : ''}" data-it="${b.id}">${iconHtml(b.k, 44)}${b.plus ? `<span class="pl">+${b.plus}</span>` : ''}${on ? '<span class="q" style="top:2px;bottom:auto;right:4px;color:var(--gold)">✓</span>' : b.lk ? '<span class="lk">🔒</span>' : ''}${(b.r || []).length ? `<span class="ax">${b.r.map(r => `<i class="${r[2] >= .9 ? 'pf' : ''}"></i>`).join('')}</span>` : ''}<span class="nm2" style="color:${rarC(I.t)}">${I.n}</span></button>`; }).join('') || Lx("<p class=\"sub\">Chưa có trang bị nào loại này.</p>")}</div>
-    ${filter ? Lx("<button class=\"btn alt\" id=\"bkC\">Quay lại nhân vật</button>") : ''}`);
-  const bk = $('#bkC'); if(bk) bk.onclick = charSheet;
-  const bu = $('#bulk'); if(bu) bu.onclick = bulkSheet;
-  const ex = $('#exp'); if(ex) ex.onclick = () => { const c = bagCost(); if(P.st < c) return toast(Lx("Không đủ linh thạch")); P.st -= c; P.bagMax = bagCap() + 10; sfx.lv(); toast(`${Lx("Túi đồ mở rộng lên {0} ô", P.bagMax)}`); saveSoon(); bagSheet(); };
-  document.querySelectorAll('[data-pill]').forEach(b => b.onclick = () => { const k = b.dataset.pill, p = PILLS[k];
-    sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button><h2>${p.n}</h2><p class="sub">${Lx("{0} Đang có {1}.", p.d, P.inv[k] || 0)}</p>${(k === 'hp' || k === 'mp' || k === 'x2') ? `<button class="btn gold" id="use" ${P.inv[k] ? '' : 'disabled'}>${Lx("Dùng")}</button>` : Lx("<p class=\"sub\">Tự dùng khi đột phá đại cảnh giới.</p>")}<button class="btn alt" id="back">${Lx("Quay lại")}</button>`);
-    $('#back').onclick = () => bagSheet(); const u = $('#use'); if(u) u.onclick = () => { if(k === 'hp') drinkHp(); else if(k === 'mp'){ drinkMp(); } else { P.inv.x2--; P.buff.x2 = Math.max(Date.now(), P.buff.x2 || 0) + 600000; toast(Lx("Tụ Khí Đan: tu vi x2 trong 10 phút")); } bagSheet(); };
-  });
-  document.querySelectorAll('[data-it]').forEach(b => b.onclick = () => { const it = itemOf(+b.dataset.it), I = ITEMS[it.k], on = Object.values(P.eq).includes(it.id), cur = itemOf(P.eq[I.slot]);
-    sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button>${itemCard(it)}
-      ${!on && cur ? `<p class="sub">${Lx("Đang mặc:")} <b style="color:${rarC(ITEMS[cur.k].t)}">${ITEMS[cur.k].n}${cur.plus ? ' +' + cur.plus : ''}</b></p>` : ''}
-      ${!on ? (() => { const d = powerWith(it) - power(); return `<p class="cmp ${d >= 0 ? 'up' : 'dn'}">${Lx("{0} Chiến lực {1}{2} nếu mặc món này", d >= 0 ? '▲' : '▼', d >= 0 ? '+' : '', fmt(d))}</p>`; })() : ''}
-      ${on ? Lx("<p class=\"sub\">Đang mang trên người.</p>") : `<button class="btn gold" id="eq" ${P.stage < I.s ? 'disabled' : ''}>${P.stage < I.s ? Lx("Chưa đủ cảnh giới") : Lx("Trang bị")}</button>`}
-      <div class="brow"><button class="btn alt" id="lock">${it.lk ? Lx("🔓 Mở khoá") : Lx("🔒 Khoá")}</button>${on || it.lk ? '' : `<button class="btn red" id="sell">${Lx("Bán {0}", fmt(sellPrice(it)))}</button><button class="btn" id="salv" style="background:#6A3AB0">${Lx("Phân giải +{0}", salvageVal(it))}</button>`}</div><button class="btn alt" id="back">${Lx("Quay lại")}</button>`);
-    $('#lock').onclick = () => { it.lk = !it.lk; saveSoon(); b.onclick(); };
-    const sv = $('#salv'); if(sv) sv.onclick = () => { const n = salvage(it); sfx.lv(); toast(`${Lx("Phân giải {0}, +{1} Linh Tinh", I.n, n)}`); saveSoon(); bagSheet(filter); };
-    $('#back').onclick = () => bagSheet(filter); const e = $('#eq'); if(e) e.onclick = () => { if(equip(it.id) !== false){ sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(I.t) }); filter ? charSheet() : bagSheet(); } };
-    const s = $('#sell'); if(s) s.onclick = () => { P.st += sellPrice(it); P.bag = P.bag.filter(x => x !== it); sfx.coin(); bagSheet(filter); };
-  });
+  if(filter !== undefined && typeof filter === 'string') invF = filter; else if(filter === undefined) invF = invF || '';
+  const S = stats(), eqIds = Object.values(P.eq);
+  let list = P.bag.filter(b => !eqIds.includes(b.id));
+  if(invF) list = list.filter(b => ITEMS[b.k].slot === invF);
+  list.sort(invSort === 'tier' ? (a, b) => ITEMS[b.k].t - ITEMS[a.k].t || b.plus - a.plus : (a, b) => ITEMS[a.k].slot.localeCompare(ITEMS[b.k].slot) || ITEMS[b.k].t - ITEMS[a.k].t);
+  const free = bagCap() - P.bag.length, nEmpty = invF ? 0 : Math.max(0, free);
+  const cell = b => { const I = ITEMS[b.k], c = rarC(I.t), no = P.stage < I.s; return `<button class="ic${invSel === b.id ? ' sel' : ''}${no ? ' no' : ''}" data-ii="${b.id}" style="--rc:${c}">${iconHtml(b.k, 40)}${b.plus ? `<span class="pl">+${b.plus}</span>` : ''}${b.lk ? '<span class="lk">🔒</span>' : ''}${(b.r || []).length ? `<span class="ax">${b.r.map(r => `<i class="${r[2] >= .9 ? 'pf' : ''}"></i>`).join('')}</span>` : ''}</button>`; };
+  const slot = (sl, cls_) => { const it = itemOf(P.eq[sl]), I = it && ITEMS[it.k]; return `<button class="ic es ${cls_}${it && invSel === it.id ? ' sel' : ''}" data-es="${sl}" style="--rc:${I ? rarC(I.t) : 'rgba(233,228,216,.25)'}">${it ? iconHtml(it.k, 40) + (it.plus ? `<span class="pl">+${it.plus}</span>` : '') : `<small>${SLOTN[sl]}</small>`}</button>`; };
+  const sel = invSel != null ? itemOf(invSel) : null;
+  const panel = sel ? (() => { const I = ITEMS[sel.k], on = isEq(sel), no = P.stage < I.s; return `<div class="ipanel"><button class="x" id="ipX" aria-label="${Lx("Đóng")}">×</button><div class="htip" style="position:static;width:auto;border:none;box-shadow:none;padding:0;background:none;animation:none">${itemTip(sel)}</div>
+      <div class="brow">${on ? `<button class="btn alt" id="iUn">${Lx("Tháo ra")}</button>` : `<button class="btn gold" id="iEq" ${no ? 'disabled' : ''}>${no ? Lx("Chưa đủ cảnh giới") : Lx("Trang bị")}</button>`}<button class="btn alt" id="iLk">${sel.lk ? Lx("🔓 Mở khoá") : Lx("🔒 Khoá")}</button></div>
+      ${on || sel.lk ? '' : `<div class="brow"><button class="btn red" id="iSell">${Lx("Bán {0}", fmt(sellPrice(sel)))}</button><button class="btn" id="iSalv" style="background:#6A3AB0">${Lx("Phân giải +{0}", salvageVal(sel))}</button></div>`}</div>`; })() : '';
+  sheetFs(`<div class="fsh"><div class="fst"><span class="on">${Lx("Túi đồ")}</span><span class="ivst">💎 ${fmt(P.st)} · ${iconHtml('tt', 14)} ${fmt(P.inv.tt || 0)} · ${P.bag.length}/${bagCap()} ${Lx("ô")}</span></div><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div>
+    <div class="fsl ivdoll"><div class="doll2">${slot('h', 'sh')}${slot('wi', 'swi')}<img src="${heroPreview()}" alt="">${slot('w', 'sw')}${slot('a', 'sa')}</div>
+      <div class="fspow" style="font-size:30px;text-align:center"><small>${Lx("CHIẾN LỰC")}</small>${fmt(power())}</div>
+      <div class="drv"><span>${Lx("Công kích")}<b>${fmt(S.atk)}</b></span><span>${Lx("Sinh lực")}<b>${fmt(S.hp)}</b></span><span>${Lx("Phòng ngự")}<b>${fmt(S.def)}</b></span><span>${Lx("Bạo kích")}<b>${Math.round(S.crit * 100)}%</b></span></div></div>
+    <div class="ivw"><div class="ivbar"><div class="chips">${[['', Lx("Tất cả")], ['w', SLOTN.w], ['a', SLOTN.a], ['h', SLOTN.h], ['wi', SLOTN.wi]].map(([k, n]) => `<button data-f="${k}" class="${invF === k ? 'on' : ''}">${n}</button>`).join('')}</div>
+        <div class="tools"><button id="iSort" title="${Lx("Sắp xếp")}">⇅ ${invSort === 'tier' ? Lx("Phẩm") : Lx("Loại")}</button><button id="bulk">🧹 ${Lx("Dọn")}</button>${bagCap() < 120 ? `<button id="exp">＋10 ${Lx("ô")}</button>` : ''}</div></div>
+      <div class="igrid">${list.map(cell).join('')}${'<div class="ic em"></div>'.repeat(nEmpty)}</div>
+      <div class="belt"><span>${Lx("Đan dược")}</span>${Object.entries(PILLS).map(([k, p]) => `<button class="ic pill" data-pill="${k}" style="--rc:${p.c}">${iconHtml(k, 30)}<span class="q">${P.inv[k] || 0}</span></button>`).join('')}</div>
+      ${panel}</div>
+    <div class="fsb"><button class="fbtn" data-close>‹ ${Lx("Quay lại")}</button><span class="fsT">${Lx("Chạm để xem · giữ để xem nhanh · chạm 2 lần để mặc")}</span></div>`);
+  document.querySelector('.fs').classList.add('inv');
+  const pick = id => { invSel = invSel === id ? null : id; sfx.tap(); bagSheet(null); };
+  document.querySelectorAll('[data-ii]').forEach(b => { const id = +b.dataset.ii; let lastT = 0;
+    b.onclick = () => { const now = Date.now(); if(now - lastT < 330){ const it = itemOf(id); if(it && P.stage >= ITEMS[it.k].s && equip(id) !== false){ sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(ITEMS[it.k].t) }); invSel = null; saveSoon(); bagSheet(null); } return; } lastT = now; pick(id); };
+    holdTip(b, () => { const it = itemOf(id); return it ? itemTip(it) : ''; }); });
+  document.querySelectorAll('[data-es]').forEach(b => { const sl = b.dataset.es; b.onclick = () => { const it = itemOf(P.eq[sl]); if(it) pick(it.id); else { invF = sl; bagSheet(null); } }; holdTip(b, () => { const it = itemOf(P.eq[sl]); return it ? itemTip(it) : `<h4>${SLOTN[sl]}</h4><p>${Lx("Chưa trang bị")}</p>`; }); });
+  document.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { invF = b.dataset.f; sfx.tap(); bagSheet(null); });
+  $('#iSort').onclick = () => { invSort = invSort === 'tier' ? 'type' : 'tier'; bagSheet(null); };
+  $('#bulk').onclick = bulkSheet;
+  const ex = $('#exp'); if(ex) ex.onclick = () => { const c = bagCost(); if(P.st < c) return toast(Lx("Không đủ linh thạch")); P.st -= c; P.bagMax = bagCap() + 10; sfx.lv(); toast(`${Lx("Túi đồ mở rộng lên {0} ô", P.bagMax)}`); saveSoon(); bagSheet(null); };
+  document.querySelectorAll('[data-pill]').forEach(b => { const k = b.dataset.pill, p = PILLS[k]; holdTip(b, () => `<h4>${p.n}</h4><div class="sub2">${Lx("Còn {0}", P.inv[k] || 0)}</div><p>${p.d}</p>`);
+    b.onclick = () => { if(!P.inv[k]) return toast(Lx("Hết {0}", p.n)); if(k === 'hp') drinkHp(); else if(k === 'mp') drinkMp(); else if(k === 'x2'){ P.inv.x2--; P.buff.x2 = Math.max(Date.now(), P.buff.x2 || 0) + 600000; toast(Lx("Tụ Khí Đan: tu vi x2 trong 10 phút")); } else return toast(Lx("Tự dùng khi đột phá đại cảnh giới.")); saveSoon(); bagSheet(null); }; });
+  if(sel){ const I = ITEMS[sel.k];
+    $('#ipX').onclick = () => { invSel = null; bagSheet(null); };
+    const e = $('#iEq'); if(e) e.onclick = () => { if(equip(sel.id) !== false){ sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(I.t) }); saveSoon(); bagSheet(null); } };
+    const u = $('#iUn'); if(u) u.onclick = () => { if(free <= 0) return toast(Lx("Túi đầy")); P.eq[I.slot] = null; _sk = ''; Net.pushLook(); _hk = ''; sfx.tap(); saveSoon(); bagSheet(null); };
+    $('#iLk').onclick = () => { sel.lk = !sel.lk; saveSoon(); bagSheet(null); };
+    const sv = $('#iSalv'); if(sv) sv.onclick = () => { const n = salvage(sel); invSel = null; sfx.lv(); toast(`${Lx("Phân giải {0}, +{1} Linh Tinh", I.n, n)}`); saveSoon(); bagSheet(null); };
+    const so = $('#iSell'); if(so) so.onclick = () => { P.st += sellPrice(sel); P.bag = P.bag.filter(x => x !== sel); invSel = null; sfx.coin(); saveSoon(); bagSheet(null); };
+  }
 }
 const bagCap = () => P.bagMax || 40;
 const bagCost = () => Math.round(2000 * ((bagCap() - 30) / 10) ** 2);
@@ -2260,7 +2407,7 @@ const salvageVal = it => { const t = ITEMS[it.k].t; return Math.round((t * t + (
 function salvage(it){ const n = salvageVal(it); P.inv.tt = (P.inv.tt || 0) + n; P.bag = P.bag.filter(x => x !== it); return n; }
 function addItem(k, src){ const I = ITEMS[k], it = rollItem(k, src); if(P.autoJunk && I.t <= P.autoJunk && !perfect(it)){ P.bag.push(it); const n = salvage(it); texts.push({ x:me.x, y:me.y - 34, t:0, s:`${Lx("Phân giải {0} +{1} Linh Tinh", I.n, n)}`, c:'#C99BFF' }); sfx.coin(); return null; } P.bag.push(it); return it; }
 function bulkSheet(){
-  const pick = t => P.bag.filter(b => !isEq(b) && !b.lk && ITEMS[b.k].t <= t);
+  invSel = null; const pick = t => P.bag.filter(b => !isEq(b) && !b.lk && ITEMS[b.k].t <= t);
   const row = (t, lbl) => { const L = pick(t), g = L.reduce((a, b) => a + sellPrice(b), 0), m = L.reduce((a, b) => a + salvageVal(b), 0); return `<div class="line"><div class="g"><b style="color:${rarC(t)}">${lbl}</b><small>${Lx("{0} món · bán {1} linh thạch hoặc phân giải {2} Linh Tinh", L.length, fmt(g), fmt(m))}</small></div><button class="s" data-bs="${t}" ${L.length ? '' : 'disabled'}>${Lx("Bán")}</button><button class="s" data-bg="${t}" ${L.length ? '' : 'disabled'} style="background:#6A3AB0">${Lx("Phân giải")}</button></div>`; };
   sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button><h2>${Lx("Dọn túi nhanh")}</h2><p class="sub">${Lx("Không đụng tới đồ đang mặc và đồ đã khoá 🔒.")}</p>
     ${row(1, Lx("Phàm phẩm"))}${row(2, Lx("Từ Linh phẩm trở xuống"))}${row(3, Lx("Từ Huyền phẩm trở xuống"))}${row(4, Lx("Từ Địa phẩm trở xuống"))}
@@ -2301,7 +2448,7 @@ function charSheet(){
   let left = '';
   if(charTab === 'eq') left = `<div class="fsec" style="margin-top:2px">${Lx("Trang bị")}</div>${card('w')}${card('a')}${card('h')}${card('wi')}<button class="fbtn" id="cBag" style="width:100%;margin-top:4px">${Lx("Túi đồ")}</button>${S.sets.map(([t, n]) => `<div class="fsec">${Lx("Bộ {0} ({1}/4)", SETS[t].n, n)}</div><p class="fp" style="color:${SETS[t].c}">${SETS[t].d.filter((_, i) => n >= SETS[t].b[i][0]).join('<br>')}</p>`).join('')}`;
   else if(charTab === 'at') left = `<div class="fsec" style="margin-top:2px">${Lx("Thuộc tính")} <span>${C.ic} ${C.n}</span></div>${attrRows(C)}<div class="fsec">${Lx("Chỉ số")}</div><div class="drv"><span>${Lx("Công kích")}<b>${fmt(S.atk)}</b></span><span>${Lx("Sinh lực")}<b>${fmt(S.hp)}</b></span><span>${Lx("Phòng ngự")}<b>${fmt(S.def)}</b></span><span>${Lx("Linh lực")}<b>${fmt(S.mp)}</b></span><span>${Lx("Bạo kích")}<b>${Math.round(S.crit * 100)}%</b></span><span>${Lx("Bạo thương")}<b>${Math.round(S.critd * 100)}%</b></span>${[['spd', Lx("Tốc độ")], ['ls', Lx("Hút máu")], ['rg', Lx("Hồi máu/giây")], ['boss', Lx("ST lên boss")], ['exp', Lx("Tu vi nhận")], ['gold', Lx("Linh thạch rơi")]].filter(([k]) => S[k]).map(([k, n]) => `<span>${n}<b>+${Math.round(S[k] * 10) / 10}%</b></span>`).join('')}<span>${Lx("Đã diệt")}<b>${fmt(P.kills)}</b></span></div>`;
-  else left = `<div class="fsec" style="margin-top:2px">${Lx("Đòn đánh")}</div><p class="fp">${C.att}</p><div class="fsec">${Lx("Thiên phú")}</div><p class="fp">${C.pas}</p><div class="fsec">${Lx("Tuyệt kỹ")}</div>${Object.values(SKILLS).map(k => `<div class="fcard${s >= k.s ? ' on' : ''}" style="--cc:#D9B97A;${s < k.s ? 'opacity:.5' : ''}"><span class="fn"><b>${k.n}</b><small>${Lx("{0} Tốn {1} linh lực, hồi {2}s.{3}", k.d, k.mp, Math.round(k.cd * (1 - S.cdr) * 10) / 10, s < k.s ? ` ${Lx("Lĩnh ngộ ở {0}.", realmName(k.s))}` : '')}</small></span></div>`).join('')}${P.keep && P.keep !== 'none' ? `<div class="fsec">${Lx("Tín vật")}</div><p class="fp">${KEEPS[P.keep].ic} ${KEEPS[P.keep].n}: ${KEEPS[P.keep].d}</p>` : ''}`;
+  else left = `<button class="fbtn gold" id="cTree" style="width:100%;margin-bottom:6px">🌳 ${Lx("Cây kỹ năng")}${skAvail() ? ` · ${Lx("{0} điểm", skAvail())}` : ''}</button><div class="fsec" style="margin-top:2px">${Lx("Đòn đánh")}</div><p class="fp">${C.att}</p><div class="fsec">${Lx("Thiên phú")}</div><p class="fp">${C.pas}</p><div class="fsec">${Lx("Tuyệt kỹ")}</div>${Object.values(SKILLS).map(k => `<div class="fcard${s >= k.s ? ' on' : ''}" style="--cc:#D9B97A;${s < k.s ? 'opacity:.5' : ''}"><span class="fn"><b>${k.n}</b><small>${Lx("{0} Tốn {1} linh lực, hồi {2}s.{3}", skDesc(Object.keys(SKILLS).find(q => SKILLS[q] === k)), skMp(Object.keys(SKILLS).find(q => SKILLS[q] === k)), Math.round(skCd(Object.keys(SKILLS).find(q => SKILLS[q] === k)) * 10) / 10, s < k.s ? ` ${Lx("Lĩnh ngộ ở {0}.", realmName(k.s))}` : '')}</small></span></div>`).join('')}${P.keep && P.keep !== 'none' ? `<div class="fsec">${Lx("Tín vật")}</div><p class="fp">${KEEPS[P.keep].ic} ${KEEPS[P.keep].n}: ${KEEPS[P.keep].d}</p>` : ''}`;
   const right = `<div class="fspow"><small>${Lx("CHIẾN LỰC")}</small>⫽ ${fmt(power())}</div>
     <div class="fsname" style="color:${majorOf(s).c};font-size:24px;margin-top:8px">${realmName(s)}</div>
     <div class="fsx"><i style="width:${Math.min(100, P.exp / needExp(s) * 100)}%"></i></div><div class="fsrole">${Lx("Tu vi")} ${fmt(P.exp)} / ${fmt(needExp(s))}</div>
@@ -2313,7 +2460,7 @@ function charSheet(){
     <div class="fsb"><button class="fbtn" data-close>‹ ${Lx("Quay lại")}</button><span class="fsT">${C.ic} ${C.n} · ${realmName(s)}</span></div>`);
   document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { charTab = b.dataset.tab; sfx.tap(); charSheet(); });
   const b = $('#bt'); if(b) b.onclick = breakthrough;
-  $('#chCls').onclick = classSheet; const cb = $('#cBag'); if(cb) cb.onclick = () => bagSheet();
+  $('#chCls').onclick = classSheet; const ct = $('#cTree'); if(ct) ct.onclick = treeSheet; const cb = $('#cBag'); if(cb) cb.onclick = () => bagSheet('');
   document.querySelectorAll('[data-slot]').forEach(e => e.onclick = () => { const it = itemOf(P.eq[e.dataset.slot]); if(it){ sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button>${itemCard(it)}<button class="btn gold" id="chg">${Lx("Đổi trang bị khác")}</button><button class="btn alt" id="bkC">${Lx("Quay lại")}</button>`); $('#chg').onclick = () => bagSheet(e.dataset.slot); $('#bkC').onclick = charSheet; } else bagSheet(e.dataset.slot); });
 }
 function rankSheet(){
@@ -2385,6 +2532,145 @@ function partySheet(){
   document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { const m = Party.mem[b.dataset.go]; if(!m) return; if(MAP_NEED[m.map] && P.stage < MAP_NEED[m.map]) return toast(Lx("Cần đạt {0} mới vào được {1}", realmName(MAP_NEED[m.map]), MAPS[m.map].name)); closeSheet(); fade(() => enterMap(m.map, m.x, m.y)); });
 }
 
+
+
+/* ======================= CÂY KỸ NĂNG ======================= */
+const SKT = {
+  atk:{ n:Lx("Đòn đánh"), ic:'⚔️', nodes:[
+    { id:'atk1', n:Lx("Lợi Khí"), ic:'🗡', max:5, tier:1, d:Lx("+4% công kích mỗi cấp.") },
+    { id:'atk2', n:Lx("Thần Tốc"), ic:'💨', max:3, tier:1, d:Lx("Đòn thường nhanh hơn 6% mỗi cấp.") },
+    { id:'atk3', n:Lx("Hút Hồn"), ic:'🩸', max:3, tier:2, d:Lx("+1.5% hút máu mỗi cấp.") },
+    { id:'atkA', n:Lx("Liên Kích"), ic:'✴️', max:1, tier:3, alt:'atkB', d:Lx("Cứ 4 đòn thường, đòn thứ 4 gây thêm 150% sát thương.") },
+    { id:'atkB', n:Lx("Linh Hồi"), ic:'💧', max:1, tier:3, alt:'atkA', d:Lx("Mỗi đòn thường hồi 2% linh lực.") } ] },
+  van:{ n:Lx("Vạn Kiếm Quy Tông"), ic:'🗡', sk:'van', nodes:[
+    { id:'van1', n:Lx("Kiếm Thế"), ic:'⚔️', max:5, tier:1, d:Lx("+12% sát thương Vạn Kiếm mỗi cấp.") },
+    { id:'van2', n:Lx("Tâm Kiếm"), ic:'⏳', max:3, tier:1, d:Lx("Giảm 8% thời gian hồi mỗi cấp.") },
+    { id:'van3', n:Lx("Kiếm Vũ"), ic:'🌧', max:3, tier:2, d:Lx("Thêm 2 phi kiếm rơi xuống mỗi cấp.") },
+    { id:'vanA', n:Lx("Băng Phong Kiếm Trận"), ic:'❄️', max:1, tier:3, alt:'vanB', d:Lx("Phi kiếm hoá băng, làm chậm kẻ địch 45% trong 2 giây.") },
+    { id:'vanB', n:Lx("Lôi Đình Vạn Kiếm"), ic:'⚡', max:1, tier:3, alt:'vanA', d:Lx("Kiếm trận rộng hơn, cuối chiêu giáng sét gây thêm 100% sát thương.") } ] },
+  ho:{ n:Lx("Kim Cang Hộ Thể"), ic:'🛡', sk:'ho', nodes:[
+    { id:'ho1', n:Lx("Kim Cương"), ic:'🛡', max:5, tier:1, d:Lx("Lá chắn +6% sinh lực tối đa mỗi cấp.") },
+    { id:'ho2', n:Lx("Tĩnh Tâm"), ic:'⏳', max:3, tier:1, d:Lx("Giảm 10% thời gian hồi mỗi cấp.") },
+    { id:'ho3', n:Lx("Hồi Xuân"), ic:'🌿', max:3, tier:2, d:Lx("Hồi thêm 6% sinh lực mỗi cấp.") },
+    { id:'hoA', n:Lx("Phản Chấn"), ic:'💥', max:1, tier:3, alt:'hoB', d:Lx("Khi lá chắn đỡ đòn, phản chấn gây 40% sát thương lên quái xung quanh.") },
+    { id:'hoB', n:Lx("Bất Động Minh Vương"), ic:'🔥', max:1, tier:3, alt:'hoA', d:Lx("Khi còn lá chắn, gây thêm 25% sát thương.") } ] },
+  hoa:{ n:Lx("Liệt Hỏa Phù"), ic:'🔥', sk:'hoa', nodes:[
+    { id:'hoa1', n:Lx("Hỏa Lực"), ic:'🔥', max:5, tier:1, d:Lx("+12% sát thương Liệt Hỏa mỗi cấp.") },
+    { id:'hoa2', n:Lx("Tiết Linh"), ic:'💠', max:3, tier:1, d:Lx("Giảm 15% linh lực tiêu hao mỗi cấp.") },
+    { id:'hoa3', n:Lx("Hỏa Tốc"), ic:'☄️', max:3, tier:2, d:Lx("Lửa bay nhanh và xa hơn 25% mỗi cấp.") },
+    { id:'hoaA', n:Lx("Tam Muội Chân Hỏa"), ic:'🔱', max:1, tier:3, alt:'hoaB', d:Lx("Phóng 3 đường lửa hình quạt, mỗi đường 75% sát thương.") },
+    { id:'hoaB', n:Lx("Hỏa Long Lộ"), ic:'🐉', max:1, tier:3, alt:'hoaA', d:Lx("Đường lửa để lại vệt cháy thiêu đốt kẻ địch.") } ] },
+};
+const SKN = {}; for(const t in SKT) SKT[t].nodes.forEach(n => { n.tree = t; SKN[n.id] = n; });
+const skv = id => (P && P.skt && P.skt[id]) || 0;
+const skPts = () => P.stage + 1;
+const skSpent = () => Object.values(P.skt || {}).reduce((a, b) => a + b, 0);
+const skAvail = () => Math.max(0, skPts() - skSpent());
+const treeSpent = t => SKT[t].nodes.reduce((a, n) => a + skv(n.id), 0);
+function skCan(id){
+  const n = SKN[id], T = SKT[n.tree];
+  if(T.sk && P.stage < SKILLS[T.sk].s) return [false, Lx("Cần {0} để lĩnh ngộ {1}", realmName(SKILLS[T.sk].s), SKILLS[T.sk].n)];
+  if(skv(id) >= n.max) return [false, Lx("Đã tối đa")];
+  if(n.tier === 2 && treeSpent(n.tree) < 3) return [false, Lx("Cần 3 điểm trong nhánh này")];
+  if(n.tier === 3 && treeSpent(n.tree) < 6) return [false, Lx("Cần 6 điểm trong nhánh này")];
+  if(n.alt && skv(n.alt)) return [false, Lx("Đã chọn {0}, chỉ được chọn 1", SKN[n.alt].n)];
+  if(!skAvail()) return [false, Lx("Hết điểm tu luyện, đột phá cảnh giới để có thêm")];
+  return [true, ''];
+}
+const skMp = k => Math.round(SKILLS[k].mp * (k === 'hoa' ? 1 - .15 * skv('hoa2') : 1));
+const skCd = k => SKILLS[k].cd * (1 - stats().cdr) * (1 - (k === 'van' ? .08 * skv('van2') : k === 'ho' ? .1 * skv('ho2') : 0));
+function skDesc(k){
+  const S = SKILLS[k];
+  if(k === 'van') return Lx("{0} phi kiếm giáng xuống, mỗi kiếm gây {1}% sát thương vùng.", 9 + 2 * skv('van3'), Math.round(220 / 3 * (1 + .12 * skv('van1'))));
+  if(k === 'ho') return Lx("Lá chắn bằng {0}% sinh lực, hồi {1}% sinh lực.", 30 + 6 * skv('ho1'), 20 + 6 * skv('ho3'));
+  if(k === 'hoa') return Lx("Đường lửa gây {0}% sát thương lên mọi kẻ địch trên đường đi.", Math.round(320 * (1 + .12 * skv('hoa1')) * (skv('hoaA') ? .75 : 1))) + (skv('hoaA') ? ' ×3' : '');
+  return S.d;
+}
+function skillTip(k){
+  if(k === 'atk'){ const C = cls(), ch = SKT.atk.nodes.filter(n => skv(n.id)); return `<h4>${C.ic} ${Lx("Đòn đánh")} · ${C.n}</h4><div class="sub2">${Lx("Tầm đánh")} ${C.rng || 80} · J / Space</div><p>${C.att}</p>${ch.length ? `<p class="gold">${ch.map(n => `${n.ic} ${n.n} ${skv(n.id)}/${n.max}`).join('<br>')}</p>` : ''}<p class="sub2">${Lx("Đứng gần NPC, nút này đổi thành Nói chuyện.")}</p>`; }
+  const S = SKILLS[k], lk = P.stage < S.s, ch = SKT[k].nodes.filter(n => skv(n.id)), key = { van:'1', ho:'2', hoa:'3' }[k];
+  return `<h4>${S.n}</h4><div class="sub2">${lk ? `<span class="no">${Lx("Lĩnh ngộ ở {0}", realmName(S.s))}</span>` : Lx("Phím {0}", key)}</div>
+    <div class="kv"><span>${Lx("Linh lực")}</span><b>${skMp(k)}</b></div><div class="kv"><span>${Lx("Hồi chiêu")}</span><b>${(Math.round(skCd(k) * 10) / 10)}s</b></div>
+    <p>${skDesc(k)}</p>${ch.length ? `<p class="gold">${ch.map(n => `${n.ic} ${n.n} ${skv(n.id)}/${n.max}`).join('<br>')}</p>` : `<p class="sub2">${Lx("Mở Cây kỹ năng để nâng cấp chiêu này.")}</p>`}`;
+}
+let treeTab = 'atk', treeSel = null;
+function treeSheet(){
+  P.skt = P.skt || {}; const T = SKT[treeTab]; if(!treeSel || SKN[treeSel].tree !== treeTab) treeSel = T.nodes[0].id;
+  const nd = n => { const v = skv(n.id), [ok] = skCan(n.id), locked = !v && !ok; return `<button class="nd${treeSel === n.id ? ' sel' : ''}${v ? ' got' : ''}${locked ? ' lk' : ''}${v >= n.max ? ' max' : ''}" data-nd="${n.id}"><span class="di"><i>${n.ic}</i></span><b>${n.n}</b><small>${v}/${n.max}</small></button>`; };
+  const tier = t => T.nodes.filter(n => n.tier === t);
+  const N = SKN[treeSel], [ok, why] = skCan(treeSel), lk = T.sk && P.stage < SKILLS[T.sk].s;
+  const right = `<div class="fsname" style="font-size:26px">${N.ic} ${N.n}</div><div class="fsrole">${N.tier === 3 ? Lx("Biến chiêu · chọn 1 trong 2") : Lx("Bậc {0}", N.tier)} · ${Lx("Cấp")} ${skv(N.id)}/${N.max}</div>
+    <p class="fp" style="font-size:14px">${N.d}</p>
+    ${!ok && why ? `<p class="fp" style="color:#FF8A7A">${why}</p>` : ''}
+    <button class="fbtn gold" id="tUp" style="width:100%;margin-top:6px" ${ok ? '' : 'disabled'}>${Lx("Lĩnh ngộ")} (+1)</button>
+    <div class="fsec">${T.sk ? SKILLS[T.sk].n : Lx("Đòn đánh")}</div><p class="fp">${T.sk ? skDesc(T.sk) : cls().att}</p>
+    ${T.sk ? `<div class="drv"><span>${Lx("Linh lực")}<b>${skMp(T.sk)}</b></span><span>${Lx("Hồi chiêu")}<b>${Math.round(skCd(T.sk) * 10) / 10}s</b></span></div>` : ''}`;
+  sheetFs(`<div class="fsh"><div class="fst">${Object.entries(SKT).map(([k, t]) => `<button data-tt="${k}" class="${treeTab === k ? 'on' : ''}">${t.n}</button>`).join('')}</div><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div>
+    <div class="fsl"><div class="fsec" style="margin-top:0">${Lx("Điểm tu luyện")}</div><div class="fspow" style="font-size:44px">${skAvail()}<small>${Lx("còn lại · tổng {0}", skPts())}</small></div>
+      <p class="fp" style="color:var(--paper2)">${Lx("Mỗi tầng cảnh giới được 1 điểm. Bậc 2 cần 3 điểm trong nhánh, bậc 3 cần 6 điểm và chỉ được chọn 1 biến chiêu.")}</p>
+      ${Object.entries(SKT).map(([k, t]) => `<button class="fcard${treeTab === k ? ' on' : ''}" data-tt="${k}" style="--cc:#D9B97A"><span class="fi">${t.ic}</span><span class="fn"><b>${t.n}</b><small>${Lx("Đã dùng {0} điểm", treeSpent(k))}</small></span></button>`).join('')}
+      <button class="fbtn" id="tReset" style="width:100%;margin-top:6px" ${skSpent() ? '' : 'disabled'}>${Lx("Tẩy điểm ({0} linh thạch)", fmt(200 * skPts()))}</button></div>
+    <div class="fsc tree${lk ? ' tlk' : ''}"><div class="trow tr3"><span class="tl">${Lx("Bậc 3 · Biến chiêu")}</span>${tier(3).map(nd).join('<em>/</em>')}</div><div class="trow tr2"><span class="tl">${Lx("Bậc 2")}</span>${tier(2).map(nd).join('')}</div><div class="trow tr1"><span class="tl">${Lx("Bậc 1")}</span>${tier(1).map(nd).join('')}</div>${lk ? `<div class="tlkm">🔒 ${Lx("Lĩnh ngộ ở {0}", realmName(SKILLS[T.sk].s))}</div>` : ''}</div>
+    <div class="fsr">${right}</div>
+    <div class="fsb"><button class="fbtn" data-close>‹ ${Lx("Quay lại")}</button><span class="fsT">${Lx("Cây kỹ năng")}</span></div>`);
+  document.querySelectorAll('[data-tt]').forEach(b => b.onclick = () => { treeTab = b.dataset.tt; treeSel = null; sfx.tap(); treeSheet(); });
+  document.querySelectorAll('[data-nd]').forEach(b => b.onclick = () => { treeSel = b.dataset.nd; sfx.tap(); treeSheet(); });
+  $('#tUp').onclick = () => { const [ok2] = skCan(treeSel); if(!ok2) return; P.skt[treeSel] = skv(treeSel) + 1; _sk = ''; sfx.lv(); fx.push({ k:'ring', x:me.x, y:me.y, t:0, d:.6, c:'#F2C14E' }); saveSoon(); _hk = ''; treeSheet(); };
+  $('#tReset').onclick = () => { const c = 200 * skPts(); if(P.st < c) return toast(Lx("Không đủ linh thạch")); P.st -= c; P.skt = {}; _sk = ''; sfx.coin(); toast(Lx("Đã tẩy điểm, điểm tu luyện được hoàn lại")); saveSoon(); _hk = ''; treeSheet(); };
+}
+
+function bigMap(){
+  if(!M || !running) return; drawMini(); sfx.tap();
+  const gh2 = goalHere(), q = curQuest();
+  const bg = sheet(`<div class="bmh"><div><b>${M.name}</b><small>${M.safe ? Lx("Vùng an toàn") : M.dark ? Lx("Nguy hiểm, yêu ma cấp cao") : Lx("Vùng săn yêu thú")}</small></div><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div>
+    <div class="bmw"><canvas id="bmc"></canvas></div>
+    <div class="bml"><span><i style="background:#fff"></i>${Lx("Bạn")}</span><span><i style="background:#EAD7A8"></i>NPC</span><span><i class="dm" style="background:#C9A0FF"></i>${Lx("Cổng")}</span><span><i style="background:#FF4A3A"></i>Boss</span><span><i style="background:#7FC8FF"></i>${Lx("Tổ đội")}</span>${gh2 ? `<span><i class="dm" style="background:#F2C14E"></i>${q ? esc(q.t) : Lx("Nhiệm vụ")}</span>` : ''}</div>`);
+  bg.classList.add('fsbg'); bg.firstElementChild.className = 'bm';
+  const c = $('#bmc'), wrap = c.parentElement, W = wrap.clientWidth, H = wrap.clientHeight, dpr = Math.min(2, devicePixelRatio || 1);
+  const k = Math.max(2, Math.floor(Math.min(W / M.W, H / M.H))), cw = M.W * k, ch = M.H * k;
+  c.width = cw * dpr; c.height = ch * dpr; c.style.width = cw + 'px'; c.style.height = ch + 'px';
+  const x = c.getContext('2d'); x.setTransform(dpr, 0, 0, dpr, 0, 0); x.imageSmoothingEnabled = false;
+  x.drawImage(M.mini, 0, 0, cw, ch);
+  const g = x.createRadialGradient(cw / 2, ch / 2, Math.min(cw, ch) * .3, cw / 2, ch / 2, Math.max(cw, ch) * .7); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.45)'); x.fillStyle = g; x.fillRect(0, 0, cw, ch);
+  const P2 = (wx, wy) => [wx / TS * k, wy / TS * k];
+  const label = (t, X, Y, col) => { x.font = '600 11px "Be Vietnam Pro",sans-serif'; x.textAlign = 'center'; x.lineWidth = 3; x.strokeStyle = 'rgba(0,0,0,.85)'; x.strokeText(t, X, Y); x.fillStyle = col; x.fillText(t, X, Y); };
+  const dia = (X, Y, r, col) => { x.save(); x.translate(X, Y); x.rotate(Math.PI / 4); x.fillStyle = col; x.strokeStyle = '#000'; x.lineWidth = 1.5; x.fillRect(-r, -r, r * 2, r * 2); x.strokeRect(-r, -r, r * 2, r * 2); x.restore(); };
+  const dot = (X, Y, r, col) => { x.fillStyle = col; x.strokeStyle = '#000'; x.lineWidth = 1.5; x.beginPath(); x.arc(X, Y, r, 0, 7); x.fill(); x.stroke(); };
+  M.portals.forEach(pt => { const [X, Y] = P2(pt.x, pt.y); dia(X, Y, 5, '#C9A0FF'); label('→ ' + pt.label, X, Y - 10, '#D9C2FF'); });
+  M.npcs.forEach(n => { const [X, Y] = P2(n.x, n.y); dot(X, Y, 4, '#EAD7A8'); label(n.n, X, Y - 9, '#EAD7A8'); });
+  mobs.forEach(m => { if(!m.dead && m.D.boss){ const [X, Y] = P2(m.x, m.y); dot(X, Y, 6, '#FF4A3A'); label(m.D.n, X, Y - 11, '#FF8A7A'); } });
+  for(const id in others){ const o = others[id], pm = Party.mem && Party.mem[id]; const [X, Y] = P2(o.x, o.y); dot(X, Y, pm ? 4.5 : 3, pm ? '#7FC8FF' : '#E9E4D8'); if(pm) label(o.n || '', X, Y - 8, '#9FD8FF'); }
+  if(gh2){ const [X, Y] = P2(gh2.x, gh2.y); dia(X, Y, 7, '#F2C14E'); }
+  const [X, Y] = P2(me.x, me.y); x.save(); x.translate(X, Y); x.rotate(me.dir > 0 ? Math.PI / 2 : -Math.PI / 2); x.fillStyle = '#fff'; x.strokeStyle = '#000'; x.lineWidth = 2; x.beginPath(); x.moveTo(0, -9); x.lineTo(7, 7); x.lineTo(0, 3); x.lineTo(-7, 7); x.closePath(); x.stroke(); x.fill(); x.restore();
+  label(Lx("Bạn"), X, Y + 20, '#fff');
+}
+function expTip(){
+  const need = needExp(P.stage), pc = P.exp / need * 100, gate = isGate(P.stage);
+  return `<h4 style="color:${majorOf(P.stage).c}">${realmName(P.stage)}</h4><div class="sub2">${Lx("Tu vi")} ${fmt(P.exp)} / ${fmt(need)} · ${pc.toFixed(1)}%</div>
+    <div class="kv"><span>${Lx("Còn thiếu")}</span><b>${fmt(Math.max(0, need - P.exp))}</b></div>
+    <div class="kv"><span>${Lx("Cảnh giới kế tiếp")}</span><b>${realmName(P.stage + 1)}</b></div>
+    <div class="kv"><span>${Lx("Điểm tu luyện")}</span><b class="gold">${skAvail()}</b></div>
+    <p>${gate ? (P.exp >= need ? `<span class="gold">${Lx("Đủ tu vi! Mở Nhân vật để độ thiên kiếp.")}</span>` : Lx("Lên đại cảnh giới mới cần độ thiên kiếp ở màn Nhân vật.")) : Lx("Đủ tu vi sẽ tự lên tầng tiếp theo.")}</p>`;
+}
+/* ======================= GIỮ ĐỂ XEM ======================= */
+let tipEl = null;
+function showTip(html, anchor){
+  hideTip(); const e = document.createElement('div'); e.className = 'htip'; e.innerHTML = html; document.body.appendChild(e); tipEl = e;
+  const r = anchor.getBoundingClientRect(), w = e.offsetWidth, h = e.offsetHeight;
+  let x = r.left + r.width / 2 - w / 2, y = r.top - h - 10; if(y < 8) y = r.bottom + 10;
+  x = clamp(x, 8, innerWidth - w - 8); y = clamp(y, 8, innerHeight - h - 8); e.style.left = x + 'px'; e.style.top = y + 'px';
+}
+function hideTip(){ if(tipEl){ tipEl.remove(); tipEl = null; } }
+function holdTip(el, fn, opt = {}){
+  if(el._htf){ el._htf = fn; return; } el._htf = fn; fn = () => el._htf();
+  let t = 0, held = false;
+  el.addEventListener('pointerdown', e => { held = false; clearTimeout(t); t = setTimeout(() => { held = true; el._held = Date.now(); const h = fn(); if(h) showTip(h, el); if(navigator.vibrate) try{ navigator.vibrate(12); }catch(er){} }, opt.ms || 420); });
+  const end = () => { clearTimeout(t); if(held && !opt.keep) setTimeout(hideTip, 60); };
+  el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end); el.addEventListener('pointerleave', () => { clearTimeout(t); if(!opt.keep) hideTip(); });
+  if(matchMedia('(hover:hover)').matches){ el.addEventListener('mouseenter', () => { const h = fn(); if(h) showTip(h, el); }); el.addEventListener('mouseleave', hideTip); }
+  el.addEventListener('click', e => { if(el._held && Date.now() - el._held < 900){ e.stopImmediatePropagation(); e.preventDefault(); el._held = 0; } }, true);
+  el.addEventListener('contextmenu', e => e.preventDefault());
+}
 /* ======================= THOẠI TỔ ĐỘI ======================= */
 const Voice = { on:false, mute:false, stream:null, pcs:{}, au:{}, an:{}, speak:{}, off:{}, qi:{}, vs:{}, unsub:null, ctx:null, id:0, last:'' };
 const ICE = [{ urls:['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun.cloudflare.com:3478'] }];
@@ -2544,10 +2830,15 @@ $('#bRank').onclick = () => { sfx.tap(); rankSheet(); };
 $('#bGacha').onclick = () => { sfx.tap(); gachaSheet(); };
 $('#bParty').onclick = () => { sfx.tap(); partySheet(); };
 $('#bMic').onclick = () => { voiceMuteToggle(); };
+$('#mmw').onclick = bigMap; holdTip($('#expw'), expTip);
 $('#bChat').onclick = () => { sfx.tap(); chatSheet(); };
 $('#bMenu').onclick = () => { sfx.tap(); menuSheet(); };
 $('#bAtk').onclick = attackPress; $('#bPot').onclick = drinkHp; $('#bAuto').onclick = toggleAuto; $('#bMed').onclick = toggleMed;
-document.querySelectorAll('[data-sk]').forEach(b => b.onclick = () => useSkill(b.dataset.sk));
+document.querySelectorAll('[data-sk]').forEach(b => { b.onclick = () => useSkill(b.dataset.sk); holdTip(b, () => skillTip(b.dataset.sk)); });
+holdTip($('#bAtk'), () => { const nn = nearNpc(); return nn ? `<h4>${nn.n}</h4><p>${Lx("Bấm để nói chuyện.")}</p>` : skillTip('atk'); });
+holdTip($('#bPot'), () => `<h4>${PILLS.hp.n}</h4><div class="sub2">${Lx("Còn {0} viên · phím H", P.inv.hp || 0)}</div><p>${PILLS.hp.d}</p>`);
+holdTip($('#bAuto'), () => `<h4>${Lx("Tự đánh")}</h4><div class="sub2">${Lx("Phím T")}</div><p>${Lx("Tự tìm quái gần nhất, tự dùng chiêu và uống thuốc khi máu thấp.")}</p>`);
+holdTip($('#bMed'), () => `<h4>${Lx("Tĩnh toạ")}</h4><div class="sub2">${Lx("Phím R")}</div><p>${Lx("Ngồi thiền nhận tu vi theo thời gian. Ngồi trên Đài Tu Luyện được gấp đôi.")}</p>`);
 $('#rotNo').onclick = () => { document.body.classList.add('portraitOK'); store.set('td_portrait', '1'); };
 if(store.get('td_portrait')) document.body.classList.add('portraitOK');
 
@@ -2759,14 +3050,17 @@ function morph(a, b){
 }
 const replay = (e, c) => { e.classList.remove(c); void e.offsetWidth; e.classList.add(c); };
 function sheetFs(html, opt = {}){
+  hideTip();
   const tmp = document.createElement('div'); tmp.innerHTML = html;
-  const cc = (tmp.querySelector('.fsfloor') || { style:{} }).style.getPropertyValue('--cc') || '#EAD7A8'; fsCol = cc;
+  const ff = tmp.querySelector('.fsfloor'), cc = (ff && ff.style.getPropertyValue('--cc')) || '#EAD7A8'; fsCol = cc;
   const stepOf = r => (r.querySelector('.fst .on') || {}).textContent || '';
   const selOf = r => { const o = r.querySelector('.fsl .fcard.on[data-cl],.fsl .fcard.on[data-kp],.fsl .fcard.on[data-slot]'); return o ? (o.dataset.cl || o.dataset.kp || o.dataset.slot) : ''; };
   const key = stepOf(tmp) + '|' + selOf(tmp), old = document.querySelector('.fs');
   tmp.querySelectorAll('.fsl>*').forEach((e, i) => e.style.setProperty('--i', Math.min(i, 12)));
   tmp.querySelectorAll('.fsr>*').forEach((e, i) => e.style.setProperty('--i', Math.min(i, 14)));
   tmp.querySelectorAll('.atr').forEach((e, i) => e.style.setProperty('--j', i));
+  const sig = r => [...r.children].filter(c => !c.classList.contains('fsp') && !c.classList.contains('fsweep')).map(c => c.classList[0]).join(',');
+  if(old && old.isConnected && sig(old) !== sig(tmp)){ old.parentElement.remove(); return sheetFs(html, opt); }
   if(old && old.isConnected){
     const f = old, stepCh = stepOf(f) !== stepOf(tmp), selCh = key !== fsKey; fsKey = key;
     f.classList.remove('enter'); f.style.setProperty('--cc', cc);
@@ -2778,6 +3072,7 @@ function sheetFs(html, opt = {}){
     // nhân vật: hoà tan ảnh cũ sang ảnh mới
     { const [a, b] = part('.fsc'); if(a && b){ const oi = a.querySelector('img'), ni = b.querySelector('img'), fl = a.querySelector('.fsfloor');
       if(fl) fl.style.setProperty('--cc', cc);
+      if(!oi || !ni){ if(!morph(a, b)) a.replaceWith(b); }
       if(oi && ni && oi.getAttribute('src') !== ni.getAttribute('src')){
         a.querySelectorAll('img.ghost').forEach(g => g.remove());
         oi.classList.add('ghost'); ni.classList.add('xin'); oi.after(ni); setTimeout(() => oi.remove(), 520);
@@ -2785,6 +3080,7 @@ function sheetFs(html, opt = {}){
       } } }
     // cột phải: nội dung mới mờ dần vào
     { const [a, b] = part('.fsr'); if(a && b){ if(selCh || stepCh){ a.replaceWith(b); replay(b, 'in'); } else if(!morph(a, b)) a.replaceWith(b); } }
+    { const [a, b] = part('.ivw'); if(a && b){ const sc = a.querySelector('.igrid') ? a.querySelector('.igrid').scrollTop : 0; a.replaceWith(b); const g2 = b.querySelector('.igrid'); if(g2) g2.scrollTop = sc; } }
     if(stepCh){ const sw = document.createElement('div'); sw.className = 'fsweep'; f.appendChild(sw); setTimeout(() => sw.remove(), 800); }
     return f.parentElement;
   }
@@ -2930,7 +3226,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : Lx("Không kết nối được máy chủ, bạn vẫn chơi offline được."));
 }
-window.__td = { Voice,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { Voice, treeSheet, skv, bigMap,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
