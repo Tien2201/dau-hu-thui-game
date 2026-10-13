@@ -618,7 +618,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .bcrw{display:grid;grid-template-columns:1fr 1fr;gap:5px 10px;text-align:left;margin:10px 0;padding:10px;background:rgba(242,193,78,.07);border:1px solid rgba(242,193,78,.3);border-radius:6px}.bcrw div{display:flex;align-items:center;gap:6px;font-size:12.5px;min-width:0}.bcrw span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* dung mạo & xoay */
-.fsc canvas.cpv{height:min(88%,500px);width:auto;max-width:100%;aspect-ratio:48/46;image-rendering:pixelated;position:relative;z-index:1;cursor:grab;touch-action:none;filter:drop-shadow(0 10px 20px rgba(0,0,0,.55))}
+.fsc:has(.cpv){cursor:grab;user-select:none;-webkit-user-select:none}.fsc canvas.cpv{height:min(88%,500px);width:auto;max-width:100%;aspect-ratio:48/46;image-rendering:pixelated;position:relative;z-index:1;cursor:grab;touch-action:none;pointer-events:none;filter:drop-shadow(0 10px 20px rgba(0,0,0,.55))}
 .apw{width:100%;min-width:0}@media (orientation:portrait){.fsl:has(.apw){display:block;overflow-y:auto}.aptab{flex-wrap:nowrap;overflow-x:auto}}
 .cpvc{position:absolute;left:50%;bottom:8px;translate:-50% 0;z-index:3;display:flex;align-items:center;gap:6px}
 .cpvc button{width:38px;height:38px;border-radius:50%;background:rgba(10,10,16,.6);border:1px solid rgba(233,228,216,.35);color:#F5EEDC;font-size:18px;cursor:pointer}
@@ -687,7 +687,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=21"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=22"><\/script>');
 })();
 </script>
 <script>
@@ -3877,31 +3877,40 @@ function drawDg(ctx, cx, cy){
 }
 
 /* ======================= DUNG MẠO & XOAY NHÂN VẬT ======================= */
-const CPV = { i:0, ph:0, dir:1, auto:true, t:0, L:null, cc:'#9BE0FF', raf:0 };
+const CPV = { a:0, v:0, tg:null, drag:false, auto:true, t:0, L:null, raf:0, hold:0 };
 function cpvL(o){ const C = CLASSES[o.cls || (P && P.cls) || 'kiem'] || CLASSES.kiem; return { g:o.g, hair:o.hair, robe:o.robe || C.robe, trim:TRIMS[o.ap.tc | 0], at:o.at || 1, ac:o.ac || '#9A8A7A', h:o.h || '', ap:o.ap, cc:C.c }; }
+// a: góc xoay (độ). 0 = mặt trước, 90 = nghiêng phải, 180 = sau lưng, 270 = nghiêng trái
 function cpvDraw(){
   const c = document.getElementById('cpv'); if(!c){ CPV.raf = 0; return; }
   const x = c.getContext('2d'), L = CPV.L; x.imageSmoothingEnabled = false; x.clearRect(0, 0, 48, 46);
   const gr = x.createRadialGradient(24, 40, 2, 24, 40, 22); gr.addColorStop(0, L.cc + 'AA'); gr.addColorStop(1, L.cc + '00'); x.fillStyle = gr; x.fillRect(0, 18, 48, 28);
-  x.globalAlpha = .35; x.fillStyle = '#000'; x.beginPath(); x.ellipse(24, 40, 10, 2.5, 0, 0, 7); x.fill(); x.globalAlpha = 1;
   const now = performance.now() / 1000, dt = Math.min(.05, now - (CPV.t || now)); CPV.t = now;
-  if(CPV.ph > 0){ CPV.ph += dt / .32; if(CPV.ph >= .5 && !CPV.sw){ CPV.sw = 1; CPV.i = (CPV.i + CPV.dir + 4) % 4; } if(CPV.ph >= 1){ CPV.ph = 0; CPV.sw = 0; CPV.hold = now; } }
-  else if(CPV.auto && now - (CPV.hold || 0) > 1.1){ CPV.dir = 1; CPV.ph = .001; }
-  const v = CPV.i, sp = v === 0 ? heroView(L, 0) : v === 2 ? heroView(L, 2) : v === 1 ? heroSprite(L, 0) : flip(heroSprite(L, 0));
-  const sx = CPV.ph > 0 ? Math.max(.08, Math.abs(Math.cos(Math.PI * CPV.ph))) : 1, bob = Math.round(Math.sin(now * 2.2) * .6);
+  if(!CPV.drag){
+    if(Math.abs(CPV.v) > 8){ CPV.a += CPV.v * dt; CPV.v *= Math.pow(.04, dt); CPV.hold = now; }   // quán tính sau khi thả tay
+    else if(CPV.tg !== null){ const d = CPV.tg - CPV.a; CPV.a += d * Math.min(1, dt * 9); if(Math.abs(d) < .5){ CPV.a = CPV.tg; CPV.tg = null; CPV.hold = now; } }
+    else if(CPV.auto && now - CPV.hold > .8) CPV.a += 50 * dt;
+    else if(!CPV.auto){ CPV.v = 0; const sn = Math.round(CPV.a / 90) * 90; if(Math.abs(sn - CPV.a) > .3) CPV.a += (sn - CPV.a) * Math.min(1, dt * 7); }
+  }
+  const a = ((CPV.a % 360) + 360) % 360, vi = Math.round(a / 90) % 4, off = (a - vi * 90 + 540) % 360 - 180;
+  const sp = vi === 0 ? heroView(L, 0) : vi === 2 ? heroView(L, 2) : vi === 1 ? heroSprite(L, 0) : flipCached(heroSprite(L, 0));
+  const sx = .42 + .58 * Math.abs(Math.cos(off * Math.PI / 90)), bob = Math.round(Math.sin(now * 2.2) * .6);
+  x.globalAlpha = .35; x.fillStyle = '#000'; x.beginPath(); x.ellipse(24, 40, 10 * (.7 + .3 * sx), 2.5, 0, 0, 7); x.fill(); x.globalAlpha = 1;
   x.save(); x.translate(24, 0); x.scale(sx, 1); x.drawImage(sp, -12, 7 + bob); x.restore();
   CPV.raf = requestAnimationFrame(cpvDraw);
 }
 function cpvMount(L){
   CPV.L = L; const c = document.getElementById('cpv'); if(!c) return;
   if(!CPV.raf) CPV.raf = requestAnimationFrame(cpvDraw);
-  if(c._b) return; c._b = 1;
-  let sx = null; c.addEventListener('pointerdown', e => { sx = e.clientX; CPV.auto = false; c.setPointerCapture(e.pointerId); });
-  c.addEventListener('pointermove', e => { if(sx === null) return; const d = e.clientX - sx; if(Math.abs(d) > 28 && !CPV.ph){ CPV.dir = d > 0 ? -1 : 1; CPV.ph = .001; sx = e.clientX; } });
-  const up = () => { sx = null; }; c.addEventListener('pointerup', up); c.addEventListener('pointercancel', up);
+  const z = c.closest('.fsc') || c; if(z._cpv) return; z._cpv = 1; z.style.touchAction = 'none';
+  let px = 0, pt = 0, id = null;
+  z.addEventListener('pointerdown', e => { if(e.target.closest('button')) return; id = e.pointerId; px = e.clientX; pt = performance.now(); CPV.drag = true; CPV.v = 0; CPV.tg = null; if(CPV.auto){ CPV.auto = false; const pb = document.querySelector('[data-rot="0"]'); if(pb) pb.textContent = '▶'; } try{ z.setPointerCapture(id); }catch(_){} });
+  z.addEventListener('pointermove', e => { if(!CPV.drag || e.pointerId !== id) return; const cv = document.getElementById('cpv'), k = 300 / Math.max(160, (cv ? cv.clientWidth : 300)) * 1.15;
+    const d = (e.clientX - px) * k, t = performance.now(), ms = Math.max(8, t - pt); CPV.a += d; CPV.v = CPV.v * .5 + (d / ms * 1000) * .5; px = e.clientX; pt = t; });
+  const up = e => { if(e.pointerId !== id) return; id = null; CPV.drag = false; CPV.hold = performance.now() / 1000; if(performance.now() - pt > 90) CPV.v = 0; CPV.v = clamp(CPV.v, -900, 900); };
+  z.addEventListener('pointerup', up); z.addEventListener('pointercancel', up);
 }
-const cpvHtml = cc => `<canvas id="cpv" class="cpv" width="48" height="46"></canvas><div class="cpvc"><button data-rot="-1" aria-label="${Lx("Xoay trái")}">⟲</button><button data-rot="0" aria-label="${Lx("Tự xoay")}">${CPV.auto ? '⏸' : '▶'}</button><button data-rot="1" aria-label="${Lx("Xoay phải")}">⟳</button><small>${Lx("Kéo để xoay")}</small></div><div class="fsfloor" style="--cc:${cc}"></div>`;
-function cpvBind(){ document.querySelectorAll('[data-rot]').forEach(b => b.onclick = () => { const r = +b.dataset.rot; if(!r){ CPV.auto = !CPV.auto; b.textContent = CPV.auto ? '⏸' : '▶'; CPV.hold = 0; return; } CPV.auto = false; const pb = b.parentElement.querySelector('[data-rot="0"]'); if(pb) pb.textContent = '▶'; if(!CPV.ph){ CPV.dir = r; CPV.ph = .001; } }); }
+const cpvHtml = cc => `<canvas id="cpv" class="cpv" width="48" height="46"></canvas><div class="cpvc"><button data-rot="-1" aria-label="${Lx("Xoay trái")}">⟲</button><button data-rot="0" aria-label="${Lx("Tự xoay")}">${CPV.auto ? '⏸' : '▶'}</button><button data-rot="1" aria-label="${Lx("Xoay phải")}">⟳</button><small>${Lx("Vuốt trái phải để xoay")}</small></div><div class="fsfloor" style="--cc:${cc}"></div>`;
+function cpvBind(){ document.querySelectorAll('[data-rot]').forEach(b => b.onclick = () => { const r = +b.dataset.rot; if(!r){ CPV.auto = !CPV.auto; b.textContent = CPV.auto ? '⏸' : '▶'; CPV.hold = 0; return; } CPV.v = 0; CPV.tg = Math.round(((CPV.tg !== null ? CPV.tg : CPV.a)) / 90) * 90 + r * 90; CPV.hold = performance.now() / 1000; }); }
 let apTab = 0;
 const APT = () => [Lx("Cơ bản"), Lx("Tóc"), Lx("Khuôn mặt"), Lx("Ấn ký"), Lx("Trang phục")];
 function apEditor(o, withName){
