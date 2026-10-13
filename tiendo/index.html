@@ -616,6 +616,17 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .bcj{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:8px 10px;margin:6px 0;border:1px solid #7FC8FF;border-radius:6px;background:rgba(127,200,255,.1);font-size:12.5px}.bcj .btn{width:auto;margin:0;padding:6px 14px}
 .bcwin{text-align:center}.bcwin small{letter-spacing:4px;color:#F2C14E;font-weight:800;font-size:11px}.bcwin h2{margin:4px 0}
 .bcrw{display:grid;grid-template-columns:1fr 1fr;gap:5px 10px;text-align:left;margin:10px 0;padding:10px;background:rgba(242,193,78,.07);border:1px solid rgba(242,193,78,.3);border-radius:6px}.bcrw div{display:flex;align-items:center;gap:6px;font-size:12.5px;min-width:0}.bcrw span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* dung mạo & xoay */
+.fsc canvas.cpv{height:min(88%,500px);width:auto;max-width:100%;aspect-ratio:48/46;image-rendering:pixelated;position:relative;z-index:1;cursor:grab;touch-action:none;filter:drop-shadow(0 10px 20px rgba(0,0,0,.55))}
+.apw{width:100%;min-width:0}@media (orientation:portrait){.fsl:has(.apw){display:block;overflow-y:auto}.aptab{flex-wrap:nowrap;overflow-x:auto}}
+.cpvc{position:absolute;left:50%;bottom:8px;translate:-50% 0;z-index:3;display:flex;align-items:center;gap:6px}
+.cpvc button{width:38px;height:38px;border-radius:50%;background:rgba(10,10,16,.6);border:1px solid rgba(233,228,216,.35);color:#F5EEDC;font-size:18px;cursor:pointer}
+.cpvc small{font-size:10.5px;color:var(--paper2);text-shadow:0 1px 2px #000;margin-left:4px;white-space:nowrap}
+.aptab{position:sticky;top:0;z-index:2;padding:2px 0 6px;background:#171B24;box-shadow:0 -14px 0 #171B24;display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}.aptab button{flex:1 0 auto;padding:6px 8px;font-size:12px;font-weight:700;color:var(--paper2);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:3px;cursor:pointer}
+.aptab button.on{color:#2A1A00;background:linear-gradient(180deg,#F5DFA0,#D9B04A);border-color:#F2C14E}
+.apch{display:flex;flex-wrap:wrap;gap:5px}.apch button{padding:6px 10px;font-size:12.5px;color:var(--paper);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:14px;cursor:pointer}
+.apch button.on{border-color:#F2C14E;background:rgba(242,193,78,.18);color:#FFF3C0;box-shadow:0 0 0 1px #F2C14E inset}
 /* ===== NHIỆM VỤ DỄ ĐỌC ===== */
 #track{padding:7px 12px 8px 10px!important;background:linear-gradient(90deg,rgba(8,8,12,.62),rgba(8,8,12,.38) 70%,rgba(8,8,12,0))!important;border-left:2px solid rgba(217,185,122,.7);max-width:250px!important}
 #track .qk{font-size:14px!important}#track .qk b{font-weight:700!important;color:#FFF6E0!important}
@@ -676,7 +687,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=20"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=21"><\/script>');
 })();
 </script>
 <script>
@@ -945,45 +956,91 @@ const CACHE = {};
 const cached = (k, fn) => CACHE[k] || (CACHE[k] = fn());
 
 /* ---- nhân vật (18x26, quay phải) ---- */
-const HAIRS = ['#1E1622', '#5A3A2A', '#E8E4F0', '#8A2A3A', '#2A3A6A', '#C9A04A'];
+const HAIRS = ['#1E1622', '#5A3A2A', '#E8E4F0', '#8A2A3A', '#2A3A6A', '#C9A04A', '#F08AB0', '#7FC8FF', '#E0453A', '#4A7A4A'];
+const SKINS = ['#F8DCC0', '#F2C9A0', '#E2AE84', '#C88E62', '#94643F', '#EADFF2'];
+const TRIMS = ['#F2C14E', '#E8E4F0', '#B0302A', '#2A2433', '#5EB8FF', '#7FE0A8', '#C99BFF'];
+const EYEC = ['#1E1420', '#5A3A20', '#2A5AB0', '#B0302A', '#7A4AC0', '#2E9A70', '#F2C14E'];
+const MARKC = ['#E0203A', '#F2C14E', '#5EB8FF', '#B07CFF', '#2A2433', '#7FE0A8'];
+const APO = { hs:[Lx("Búi tóc"), Lx("Tóc dài"), Lx("Đuôi ngựa"), Lx("Búi đôi"), Lx("Tóc rối"), Lx("Đầu trọc"), Lx("Tóc tết")],
+  ey:[Lx("Hiền hoà"), Lx("Sắc lạnh"), Lx("Mắt cười"), Lx("Lạnh lùng"), Lx("Linh nhãn")],
+  mk:[Lx("Không"), Lx("Hoả ấn"), Lx("Liên hoa ấn"), Lx("Thiên nhãn"), Lx("Vết sẹo"), Lx("Vằn má"), Lx("Ma văn")],
+  os:[Lx("Đạo bào"), Lx("Võ phục"), Lx("Tiên quần"), Lx("Tăng bào")],
+  ax:[Lx("Không"), Lx("Khăn che mặt"), Lx("Mặt nạ"), Lx("Băng trán"), Lx("Hoa tai")] };
+const APK = ['sk', 'hs', 'ey', 'ec', 'mk', 'mc', 'ax', 'os', 'tc'], APN = () => [SKINS.length, 7, 5, EYEC.length, 7, MARKC.length, 5, 4, TRIMS.length];
+const AP0 = g => ({ sk:1, hs:g === 'f' ? 1 : 0, ey:0, ec:0, mk:0, mc:0, ax:0, os:g === 'f' ? 2 : 0, tc:0 });
+const apStr = a => a ? APK.map(k => a[k] | 0).join('.') : '';
+const apParse = s => { const v = String(s || '').split('.'); if(v.length < 9) return null; const N = APN(), o = {}; APK.forEach((k, i) => o[k] = clamp(parseInt(v[i]) || 0, 0, N[i] - 1)); return o; };
 const ROBES = ['#E8E4F0', '#3E8EDE', '#B0302A', '#2E9A70', '#7A4AC0', '#2A2433'];
 function heroSprite(L, fr){
-  // L: {g, hair, robe, trim, skin, beard, npc, at (phẩm giáp), ac (màu giáp), h (mũ), bw (kiếm sau lưng)}
-  const key = 'h' + [L.g, L.hair, L.robe, L.trim, L.skin, L.beard, L.npc, L.at, L.ac, L.h, L.bw, L.bc].join('|') + fr;
+  // L: {g, hair, robe, trim, skin, beard, npc, at (phẩm giáp), ac (màu giáp), h (mũ), bw (kiếm sau lưng), ap (dung mạo)}
+  const A = L.ap || AP0(L.g);
+  const key = 'h' + [L.g, L.hair, L.robe, L.trim, L.skin, L.beard, L.npc, L.at, L.ac, L.h, L.bw, L.bc, apStr(A)].join('|') + fr;
   return cached(key, () => spr(24, 34, (R0, x) => {
     const R = (a, b, w, h, c) => R0(a + 3, b + 4, w, h, c), C = (a, b) => x.clearRect(a + 3, b + 4, 1, 1);
-    const sk = L.skin || '#F2C9A0', rb = L.robe || '#4A5A7A', rd = shade(rb, -.25), tr = L.trim || '#F2C14E', hr = L.hair || '#1E1622', oy = 1, at = L.at || 1, ac = L.ac || tr;
+    const sk = L.skin || SKINS[A.sk] || '#F2C9A0', rb = L.robe || '#4A5A7A', rd = shade(rb, -.25), tr = L.trim || '#F2C14E', hr = L.hair || '#1E1622', oy = 1, at = L.at || 1, ac = L.ac || tr;
+    const ec = EYEC[A.ec] || '#1E1420', mc = MARKC[A.mc] || '#E0203A', hs = L.beard ? 0 : A.hs, os = L.npc ? 0 : A.os, dk = '#1E1420';
     const leg = fr === 1 ? 1 : fr === 2 ? -1 : 0, flap = fr === 1 ? 1 : 0;
     // áo choàng sau lưng (Địa phẩm trở lên)
     if(at >= 4){ const cp = at >= 6 ? '#7A1A1A' : at === 5 ? '#4A2A7A' : shade(ac, -.35); R(1, 12 + oy, 4, 12 + flap, cp); R(0, 15 + oy, 2, 10 - flap, cp); R(1, 23 + oy + flap, 3, 1, shade(cp, -.3)); if(at >= 5) R(0, 18 + oy, 1, 4, shade(cp, .3)); }
     // kiếm đeo sau lưng
     if(L.bw && ITEMS[L.bw]){ const bc = L.bc || ITEMS[L.bw].c; for(let i = 0; i < 13; i++) R(2 + i, 6 + i + oy, 1, 2, i < 3 ? '#F2C14E' : bc); R(1, 7 + oy, 3, 1, '#C9912A'); R(0, 4 + oy, 2, 3, '#6A2A20'); if(ITEMS[L.bw].t >= 3) R(-1, 7 + oy, 1, 4, '#E0453A'); }
+    // tóc phía sau thân
+    if(hs === 1) R(3, 4 + oy, 4, 12, hr);
+    if(hs === 2){ R(3, 1 + oy, 3, 2, hr); R(2, 3 + oy, 3, 9, hr); R(2, 12 + oy + flap, 2, 3, hr); R(3, 4 + oy, 1, 6, shade(hr, .25)); }
+    if(hs === 6){ for(let i = 0; i < 6; i++) R(3, 5 + i * 2 + oy, 2, 2, i % 2 ? shade(hr, -.25) : hr); R(3, 17 + oy, 2, 1, tr); }
     // chân
-    R(6 + leg, 20 + oy, 2, 4, '#3A2A40'); R(10 - leg, 20 + oy, 2, 4, '#3A2A40');
+    const pc = os === 1 ? shade(rb, -.55) : '#3A2A40';
+    if(os === 1){ R(6 + leg, 17 + oy, 2, 7, pc); R(10 - leg, 17 + oy, 2, 7, pc); } else { R(6 + leg, 20 + oy, 2, 4, pc); R(10 - leg, 20 + oy, 2, 4, pc); }
     R(6 + leg, 23 + oy, 3, 2, at >= 4 ? shade(ac, -.4) : '#2A1A14'); R(10 - leg, 23 + oy, 3, 2, at >= 4 ? shade(ac, -.4) : '#2A1A14');
-    if(L.g === 'f') R(3, 4 + oy, 4, 12, hr);
-    // áo
-    R(4, 11 + oy, 10, 6, rb); R(3, 16 + oy, 12, 5, rb); R(3, 19 + oy, 12, 1, rd);
-    R(4, 11 + oy, 10, 1, tr); R(8, 12 + oy, 2, 8, shade(rb, .25)); R(8, 12 + oy, 1, 8, tr);
-    R(4, 15 + oy, 10, 1, at >= 4 ? '#F2C14E' : '#5A3A20'); R(9, 15 + oy, 2, 1, at >= 3 ? '#E0453A' : '#F2C14E');
+    // áo theo kiểu
+    if(os === 1){ R(4, 11 + oy, 10, 6, rb); R(4, 16 + oy, 10, 2, rd); R(4, 15 + oy, 10, 1, tr); R(4, 17 + oy, 2, 1, tr); }
+    else if(os === 2){ R(4, 11 + oy, 10, 6, rb); R(3, 16 + oy, 12, 4, rb); R(2, 19 + oy, 14, 4, rb); R(2, 20 + oy, 14, 1, shade(rb, -.12)); R(2, 22 + oy, 14, 1, tr); R(2 + flap, 21 + oy, 1, 1, shade(rb, .2)); }
+    else { R(4, 11 + oy, 10, 6, rb); R(3, 16 + oy, 12, 5, rb); R(3, 19 + oy, 12, 1, rd); }
+    if(os === 3){ R(4, 11 + oy, 10, 1, shade(rb, -.15)); for(let i = 0; i < 8; i++) R(5 + i, 11 + i + oy, 2, 1, tr); R(4, 12 + oy, 1, 7, shade(rb, -.2)); }
+    else { R(4, 11 + oy, 10, 1, tr); R(8, 12 + oy, 2, 8, shade(rb, .25)); R(8, 12 + oy, 1, 8, tr); }
+    if(os !== 1){ R(4, 15 + oy, 10, 1, at >= 4 ? '#F2C14E' : '#5A3A20'); R(9, 15 + oy, 2, 1, at >= 3 ? '#E0453A' : '#F2C14E'); }
     if(at >= 2){ for(let i = 0; i < 5; i++) R(5 + i, 11 + i + oy, 1, 1, ac); R(10, 16 + oy, 1, 3, ac); }
     if(at >= 3){ R(3, 20 + oy, 12, 1, ac); R(5, 18 + oy, 2, 1, '#F2EEF4'); R(11, 17 + oy, 2, 1, '#F2EEF4'); R(6, 10 + oy, 6, 1, '#F2EEF4'); }
     if(at === 5){ R(5, 13 + oy, 1, 1, '#E8D0FF'); R(12, 17 + oy, 1, 1, '#E8D0FF'); R(6, 18 + oy, 1, 1, '#E8D0FF'); R(4, 19 + oy, 1, 1, '#E8D0FF'); }
     if(at >= 6){ R(4, 20 + oy, 2, 1, '#FF8A2A'); R(7, 20 + oy, 1, 1, '#FFD25A'); R(10, 20 + oy, 2, 1, '#FF8A2A'); R(13, 20 + oy, 1, 1, '#FFD25A'); R(6, 12 + oy, 6, 3, shade(ac, -.2)); R(7, 13 + oy, 4, 1, '#FFB04A'); }
     // tay (áo rộng từ Huyền phẩm)
     if(at >= 3){ R(2, 12 + oy, 3, 6, rd); R(2, 17 + oy, 3, 1, tr); R(12, 12 + oy, 4, 6, rb); R(12, 17 + oy, 4, 1, tr); R(3, 18 + oy, 2, 1, sk); R(13, 18 + oy, 2, 1, sk); }
+    else if(os === 1){ R(3, 12 + oy, 2, 4, rd); R(3, 16 + oy, 2, 2, sk); R(12, 12 + oy, 3, 4, rb); R(12, 15 + oy, 3, 1, tr); R(13, 16 + oy, 2, 2, sk); }
     else { R(3, 12 + oy, 2, 5, rd); R(3, 17 + oy, 2, 1, sk); R(12, 12 + oy, 3, 5, rb); R(13, 17 + oy, 2, 1, sk); }
     // vai giáp
-    if(at >= 4){ const pc = at === 5 ? '#D8DCF0' : ac; R(2, 11 + oy, 4, 3, pc); R(12, 11 + oy, 4, 3, pc); R(2, 11 + oy, 4, 1, shade(pc, .45)); R(12, 11 + oy, 4, 1, shade(pc, .45)); R(3, 13 + oy, 2, 1, shade(pc, -.35)); R(13, 13 + oy, 2, 1, shade(pc, -.35));
+    if(at >= 4){ const pc2 = at === 5 ? '#D8DCF0' : ac; R(2, 11 + oy, 4, 3, pc2); R(12, 11 + oy, 4, 3, pc2); R(2, 11 + oy, 4, 1, shade(pc2, .45)); R(12, 11 + oy, 4, 1, shade(pc2, .45)); R(3, 13 + oy, 2, 1, shade(pc2, -.35)); R(13, 13 + oy, 2, 1, shade(pc2, -.35));
       if(at >= 6){ R(2, 9 + oy, 1, 2, '#FFD25A'); R(4, 10 + oy, 1, 1, '#FFD25A'); R(15, 9 + oy, 1, 2, '#FFD25A'); R(13, 10 + oy, 1, 1, '#FFD25A'); } }
     // đầu
     R(5, 3 + oy, 9, 9, sk); C(5, 3 + oy); C(13, 3 + oy); C(5, 11 + oy); C(13, 11 + oy);
-    R(5, 2 + oy, 9, 3, hr); R(5, 3 + oy, 3, 6, hr); R(10, 5 + oy, 4, 1, hr); R(13, 4 + oy, 1, 2, hr);
-    if(L.g === 'f'){ R(4, 3 + oy, 2, 9, hr); if(!L.h || L.h === 'h1'){ R(6, 1 + oy, 2, 1, '#FF7AB0'); R(7, 0 + oy, 1, 1, '#FF7AB0'); } }
-    else { R(7, 0 + oy, 4, 2, hr); if(!L.h) R(6, 1 + oy, 6, 1, '#F2C14E'); }
-    R(10, 7 + oy, 1, 2, '#1E1420'); R(12, 7 + oy, 1, 2, '#1E1420'); R(10, 7 + oy, 1, 1, '#4A3A6A'); R(12, 7 + oy, 1, 1, '#4A3A6A');
-    R(9, 9 + oy, 1, 1, '#F4A0A0'); R(13, 9 + oy, 1, 1, '#F4A0A0');
-    R(11, 10 + oy, 1, 1, '#B0505A');
+    // tóc theo kiểu
+    if(hs !== 5){ R(5, 2 + oy, 9, 3, hr); R(5, 3 + oy, 3, 6, hr); R(10, 5 + oy, 4, 1, hr); R(13, 4 + oy, 1, 2, hr); }
+    else { R(5, 3 + oy, 9, 2, shade(sk, -.07)); R(7, 3 + oy, 2, 1, shade(sk, .3)); R(6, 5 + oy, 2, 3, shade(sk, -.05)); }
+    if(hs === 0 || hs === 6){ R(7, 0 + oy, 4, 2, hr); if(!L.h) R(6, 1 + oy, 6, 1, L.g === 'f' ? '#FF7AB0' : '#F2C14E'); }
+    if(hs === 1){ R(4, 3 + oy, 2, 9, hr); if(L.g === 'f' && (!L.h || L.h === 'h1')){ R(6, 1 + oy, 2, 1, '#FF7AB0'); R(7, 0 + oy, 1, 1, '#FF7AB0'); } }
+    if(hs === 2){ R(5, 0 + oy, 4, 2, hr); if(!L.h) R(4, 1 + oy, 1, 2, tr); }
+    if(hs === 3){ R(4, 0 + oy, 3, 3, hr); R(10, 0 + oy, 3, 2, hr); R(5, 0 + oy, 1, 1, shade(hr, .3)); if(!L.h){ R(7, 1 + oy, 1, 1, '#FF7AB0'); R(13, 1 + oy, 1, 1, '#FF7AB0'); } }
+    if(hs === 4){ R(5, 1 + oy, 1, 1, hr); R(7, 0 + oy, 1, 2, hr); R(9, 0 + oy, 2, 2, hr); R(12, 1 + oy, 2, 1, hr); R(14, 3 + oy, 1, 2, hr); R(12, 6 + oy, 2, 1, hr); R(4, 4 + oy, 1, 3, hr); R(4, 8 + oy, 1, 1, hr); }
+    // mắt
+    const eW = A.ey === 4 ? (A.ec ? ec : '#5EB8FF') : A.ec ? ec : '#4A3A6A';
+    if(A.ey === 1){ R(10, 7 + oy, 1, 2, dk); R(12, 7 + oy, 1, 2, dk); R(10, 8 + oy, 1, 1, eW); R(12, 8 + oy, 1, 1, eW); R(9, 6 + oy, 2, 1, shade(hr, -.1)); R(12, 6 + oy, 2, 1, shade(hr, -.1)); }
+    else if(A.ey === 2){ R(10, 7 + oy, 1, 1, dk); R(12, 7 + oy, 1, 1, dk); R(9, 8 + oy, 1, 1, '#F4A0A0'); }
+    else if(A.ey === 3){ R(10, 7 + oy, 1, 1, dk); R(12, 7 + oy, 1, 1, dk); R(10, 8 + oy, 1, 1, A.ec ? ec : '#9AB8D8'); R(12, 8 + oy, 1, 1, A.ec ? ec : '#9AB8D8'); }
+    else if(A.ey === 4){ R(10, 7 + oy, 1, 2, eW); R(12, 7 + oy, 1, 2, eW); R(10, 7 + oy, 1, 1, '#FFFFFF'); R(12, 7 + oy, 1, 1, '#FFFFFF'); }
+    else { R(10, 7 + oy, 1, 2, dk); R(12, 7 + oy, 1, 2, dk); R(10, 7 + oy, 1, 1, eW); R(12, 7 + oy, 1, 1, eW); }
+    if(A.mk !== 5 && A.ax !== 1){ R(9, 9 + oy, 1, 1, '#F4A0A0'); R(13, 9 + oy, 1, 1, '#F4A0A0'); }
+    if(A.ax !== 1) R(11, 10 + oy, 1, 1, '#B0505A');
+    // ấn ký, hình xăm
+    if(A.mk === 1){ R(9, 5 + oy, 1, 2, mc); R(8, 6 + oy, 1, 1, shade(mc, .35)); }
+    if(A.mk === 2){ R(8, 6 + oy, 3, 1, mc); R(9, 5 + oy, 1, 1, mc); }
+    if(A.mk === 3){ R(8, 5 + oy, 2, 2, '#F2EEF4'); R(9, 5 + oy, 1, 2, mc); }
+    if(A.mk === 4){ R(12, 6 + oy, 1, 1, '#A85060'); R(12, 9 + oy, 1, 1, '#A85060'); R(13, 10 + oy, 1, 1, '#A85060'); }
+    if(A.mk === 5){ R(12, 9 + oy, 2, 1, mc); R(13, 10 + oy, 1, 1, mc); R(9, 9 + oy, 1, 1, mc); }
+    if(A.mk === 6){ R(10, 9 + oy, 1, 2, mc); R(12, 9 + oy, 1, 2, mc); }
+    // phụ kiện
+    if(A.ax === 1){ R(9, 9 + oy, 5, 2, '#F2EEF4'); R(10, 11 + oy, 3, 1, '#E0DCE8'); R(9, 9 + oy, 5, 1, tr); }
+    if(A.ax === 2){ R(9, 6 + oy, 5, 3, '#2A2433'); R(9, 6 + oy, 5, 1, '#F2C14E'); R(10, 7 + oy, 1, 1, A.ec ? ec : '#E0203A'); R(12, 7 + oy, 1, 1, A.ec ? ec : '#E0203A'); }
+    if(A.ax === 3 && !L.h){ R(5, 4 + oy, 9, 1, tr); R(3, 5 + oy, 2, 1, tr); R(2, 6 + oy + flap, 1, 3, tr); }
+    if(A.ax === 4){ R(8, 9 + oy, 1, 1, '#F2C14E'); R(8, 10 + oy, 1, 2, MARKC[A.mc] || '#5EB8FF'); }
     if(L.beard){ R(9, 10 + oy, 5, 5, '#F2EEF4'); R(10, 15 + oy, 3, 3, '#F2EEF4'); R(5, 2 + oy, 9, 3, '#F2EEF4'); R(5, 3 + oy, 3, 6, '#F2EEF4'); R(7, 0 + oy, 4, 2, '#F2EEF4'); R(10, 6 + oy, 3, 1, '#F2EEF4'); }
     if(L.npc === 'ren'){ R(3, 11 + oy, 12, 1, '#5A3A20'); R(12, 12 + oy, 3, 5, sk); }
     // mũ
@@ -995,7 +1052,83 @@ function heroSprite(L, fr){
     if(h === 'h5'){ R(5, -2 + oy, 9, 3, '#F2C14E'); R(6, -4 + oy, 1, 2, '#F2C14E'); R(9, -5 + oy, 1, 3, '#F2C14E'); R(12, -4 + oy, 1, 2, '#F2C14E'); R(8, -1 + oy, 3, 1, '#E0453A'); R(9, -6 + oy, 1, 1, '#4FA8FF'); R(6, -1 + oy, 1, 1, '#4FA8FF'); R(12, -1 + oy, 1, 1, '#4FA8FF'); R(4, 2 + oy, 1, 6 + flap, '#E0453A'); R(14, 2 + oy, 1, 6 - flap, '#E0453A'); R(4, 8 + oy + flap, 1, 1, '#F2C14E'); }
     if(h === 'h6'){ R(5, -2 + oy, 9, 3, '#F2C14E'); R(2, -3 + oy, 15, 1, '#1A1226'); R(3, -4 + oy, 13, 1, '#F2C14E'); R(9, -6 + oy, 1, 2, '#FF5A4A'); for(const xx of [2, 4, 14, 16]) for(let i = 0; i < 4; i++) R(xx, -2 + i * 2 + oy, 1, 1, i % 2 ? '#FF5A4A' : '#F2EEF4'); }
   }));
-}// cánh (24x22 mỗi bên), vẽ sau lưng
+}
+// nhân vật nhìn thẳng (v = 0) hoặc từ sau lưng (v = 2), dùng để xoay xem ở màn tạo nhân vật
+function heroView(L, v){
+  const A = L.ap || AP0(L.g), F = v === 0;
+  const key = 'hv' + v + [L.g, L.hair, L.robe, L.trim, L.skin, L.at, L.ac, L.h, apStr(A)].join('|');
+  return cached(key, () => spr(24, 34, (R0, x) => {
+    const R = (a, b, w, h, c) => R0(a + 3, b + 4, w, h, c), C = (a, b) => x.clearRect(a + 3, b + 4, 1, 1);
+    const sk = L.skin || SKINS[A.sk] || '#F2C9A0', rb = L.robe || '#4A5A7A', rd = shade(rb, -.25), tr = L.trim || '#F2C14E', hr = L.hair || '#1E1622', oy = 1, at = L.at || 1, ac = L.ac || tr;
+    const ec = EYEC[A.ec] || '#1E1420', mc = MARKC[A.mc] || '#E0203A', hs = A.hs, os = A.os, dk = '#1E1420';
+    if(at >= 4){ const cp = at >= 6 ? '#7A1A1A' : at === 5 ? '#4A2A7A' : shade(ac, -.35); if(F){ R(2, 12 + oy, 2, 11, cp); R(14, 12 + oy, 2, 11, cp); } else { R(3, 11 + oy, 12, 13, cp); R(3, 23 + oy, 12, 1, shade(cp, -.3)); R(8, 12 + oy, 2, 10, shade(cp, .15)); } }
+    if(F && hs === 1){ R(3, 4 + oy, 3, 12, hr); R(13, 4 + oy, 3, 12, hr); }
+    const pc = os === 1 ? shade(rb, -.55) : '#3A2A40', ft = at >= 4 ? shade(ac, -.4) : '#2A1A14';
+    if(os === 1){ R(6, 17 + oy, 2, 7, pc); R(10, 17 + oy, 2, 7, pc); } else { R(6, 20 + oy, 2, 4, pc); R(10, 20 + oy, 2, 4, pc); }
+    R(6, 23 + oy, 2, 2, ft); R(10, 23 + oy, 2, 2, ft);
+    if(os === 1){ R(4, 11 + oy, 10, 6, rb); R(4, 16 + oy, 10, 2, rd); }
+    else if(os === 2){ R(4, 11 + oy, 10, 6, rb); R(3, 16 + oy, 12, 4, rb); R(2, 19 + oy, 14, 4, rb); R(2, 20 + oy, 14, 1, shade(rb, -.12)); R(2, 22 + oy, 14, 1, tr); }
+    else { R(4, 11 + oy, 10, 6, rb); R(3, 16 + oy, 12, 5, rb); R(3, 20 + oy, 12, 1, rd); }
+    if(F){
+      if(os === 3){ for(let i = 0; i < 8; i++) R(5 + i, 11 + i + oy, 2, 1, tr); }
+      else { R(4, 11 + oy, 10, 1, tr); R(8, 11 + oy, 2, 2, sk); R(7, 11 + oy, 1, 7, tr); R(10, 11 + oy, 1, 7, tr); }
+      R(4, 15 + oy, 10, 1, os === 1 ? tr : at >= 4 ? '#F2C14E' : '#5A3A20'); R(8, 15 + oy, 2, 1, at >= 3 ? '#E0453A' : '#F2C14E');
+    } else { R(4, 11 + oy, 10, 1, tr); R(8, 12 + oy, 2, 8, shade(rb, -.12)); R(4, 15 + oy, 10, 1, os === 1 ? tr : '#5A3A20'); }
+    if(at >= 2 && F){ R(5, 12 + oy, 1, 4, ac); R(12, 12 + oy, 1, 4, ac); }
+    if(at >= 3) R(3, 20 + oy, 12, 1, ac);
+    const sl = at >= 3 ? 3 : 2;
+    R(4 - sl, 12 + oy, sl, os === 1 ? 4 : 6, rd); R(14, 12 + oy, sl, os === 1 ? 4 : 6, rd);
+    R(4 - sl, (os === 1 ? 16 : 18) + oy, sl, os === 1 ? 2 : 1, sk); R(14, (os === 1 ? 16 : 18) + oy, sl, os === 1 ? 2 : 1, sk);
+    R(4 - sl, 17 + oy, sl, 1, os === 1 ? sk : tr); R(14, 17 + oy, sl, 1, os === 1 ? sk : tr);
+    if(at >= 4){ const pc2 = at === 5 ? '#D8DCF0' : ac; R(1, 11 + oy, 4, 3, pc2); R(13, 11 + oy, 4, 3, pc2); R(1, 11 + oy, 4, 1, shade(pc2, .45)); R(13, 11 + oy, 4, 1, shade(pc2, .45)); }
+    // đầu
+    R(5, 3 + oy, 9, 9, sk); C(5, 3 + oy); C(13, 3 + oy); C(5, 11 + oy); C(13, 11 + oy);
+    if(F){
+      if(hs !== 5){ R(5, 2 + oy, 9, 3, hr); R(5, 3 + oy, 1, 6, hr); R(13, 3 + oy, 1, 6, hr); R(6, 5 + oy, 2, 1, hr); R(11, 5 + oy, 2, 1, hr); }
+      else { R(6, 3 + oy, 7, 1, shade(sk, -.07)); R(8, 3 + oy, 2, 1, shade(sk, .3)); }
+      if(hs === 0 || hs === 6){ R(7, 0 + oy, 5, 2, hr); if(!L.h) R(7, 1 + oy, 5, 1, L.g === 'f' ? '#FF7AB0' : '#F2C14E'); }
+      if(hs === 1 && L.g === 'f' && !L.h){ R(11, 1 + oy, 2, 1, '#FF7AB0'); }
+      if(hs === 2){ R(7, 0 + oy, 5, 2, hr); R(8, 0 + oy, 3, 1, tr); }
+      if(hs === 3){ R(3, 0 + oy, 3, 3, hr); R(13, 0 + oy, 3, 3, hr); if(!L.h){ R(5, 1 + oy, 1, 1, '#FF7AB0'); R(13, 1 + oy, 1, 1, '#FF7AB0'); } }
+      if(hs === 4){ R(5, 1 + oy, 1, 1, hr); R(7, 0 + oy, 1, 2, hr); R(9, 0 + oy, 1, 2, hr); R(11, 0 + oy, 1, 2, hr); R(13, 1 + oy, 1, 1, hr); R(8, 5 + oy, 1, 1, hr); R(10, 5 + oy, 1, 1, hr); R(4, 4 + oy, 1, 3, hr); R(14, 4 + oy, 1, 3, hr); }
+      if(hs === 6){ for(let i = 0; i < 5; i++) R(13, 9 + i * 2 + oy, 2, 2, i % 2 ? shade(hr, -.25) : hr); R(13, 19 + oy, 2, 1, tr); }
+      const eW = A.ey === 4 ? (A.ec ? ec : '#5EB8FF') : A.ec ? ec : '#4A3A6A';
+      for(const ex of [7, 11]){
+        if(A.ey === 1){ R(ex, 7 + oy, 1, 2, dk); R(ex, 8 + oy, 1, 1, eW); R(ex - (ex === 7 ? 1 : 0), 6 + oy, 2, 1, shade(hr, -.1)); }
+        else if(A.ey === 2){ R(ex, 7 + oy, 1, 1, dk); }
+        else if(A.ey === 3){ R(ex, 7 + oy, 1, 1, dk); R(ex, 8 + oy, 1, 1, A.ec ? ec : '#9AB8D8'); }
+        else if(A.ey === 4){ R(ex, 7 + oy, 1, 2, eW); R(ex, 7 + oy, 1, 1, '#FFFFFF'); }
+        else { R(ex, 7 + oy, 1, 2, dk); R(ex, 7 + oy, 1, 1, eW); }
+      }
+      if(A.mk !== 5 && A.ax !== 1){ R(6, 9 + oy, 1, 1, '#F4A0A0'); R(12, 9 + oy, 1, 1, '#F4A0A0'); }
+      if(A.ax !== 1) R(9, 10 + oy, 1, 1, '#B0505A');
+      if(A.mk === 1){ R(9, 5 + oy, 1, 2, mc); R(8, 6 + oy, 1, 1, shade(mc, .35)); R(10, 6 + oy, 1, 1, shade(mc, .35)); }
+      if(A.mk === 2){ R(8, 6 + oy, 3, 1, mc); R(9, 5 + oy, 1, 1, mc); }
+      if(A.mk === 3){ R(8, 5 + oy, 3, 2, '#F2EEF4'); R(9, 5 + oy, 1, 2, mc); }
+      if(A.mk === 4){ R(11, 6 + oy, 1, 1, '#A85060'); R(11, 9 + oy, 1, 1, '#A85060'); R(12, 10 + oy, 1, 1, '#A85060'); }
+      if(A.mk === 5){ R(5, 9 + oy, 2, 1, mc); R(12, 9 + oy, 2, 1, mc); R(5, 10 + oy, 1, 1, mc); R(13, 10 + oy, 1, 1, mc); }
+      if(A.mk === 6){ R(7, 9 + oy, 1, 2, mc); R(11, 9 + oy, 1, 2, mc); }
+      if(A.ax === 1){ R(6, 9 + oy, 7, 2, '#F2EEF4'); R(7, 11 + oy, 5, 1, '#E0DCE8'); R(6, 9 + oy, 7, 1, tr); }
+      if(A.ax === 2){ R(6, 6 + oy, 7, 3, '#2A2433'); R(6, 6 + oy, 7, 1, '#F2C14E'); R(7, 7 + oy, 1, 1, A.ec ? ec : '#E0203A'); R(11, 7 + oy, 1, 1, A.ec ? ec : '#E0203A'); }
+      if(A.ax === 3 && !L.h) R(5, 4 + oy, 9, 1, tr);
+      if(A.ax === 4){ R(4, 8 + oy, 1, 1, '#F2C14E'); R(4, 9 + oy, 1, 2, mc); R(14, 8 + oy, 1, 1, '#F2C14E'); R(14, 9 + oy, 1, 2, mc); }
+    } else {
+      if(hs !== 5){ R(5, 2 + oy, 9, 8, hr); R(6, 3 + oy, 2, 1, shade(hr, .25)); R(7, 10 + oy, 5, 2, sk); }
+      else { R(5, 3 + oy, 9, 8, sk); R(7, 4 + oy, 3, 1, shade(sk, .3)); R(5, 8 + oy, 9, 1, shade(sk, -.08)); }
+      if(hs === 0 || hs === 6){ R(7, 0 + oy, 5, 2, hr); if(!L.h) R(7, 1 + oy, 5, 1, L.g === 'f' ? '#FF7AB0' : '#F2C14E'); }
+      if(hs === 1){ R(4, 3 + oy, 11, 12, hr); R(5, 14 + oy, 9, 2, shade(hr, -.2)); R(8, 4 + oy, 1, 10, shade(hr, .2)); }
+      if(hs === 2){ R(7, 0 + oy, 5, 2, hr); R(8, 2 + oy, 3, 1, tr); R(8, 3 + oy, 3, 12, hr); R(9, 4 + oy, 1, 9, shade(hr, .25)); }
+      if(hs === 3){ R(3, 0 + oy, 3, 3, hr); R(13, 0 + oy, 3, 3, hr); }
+      if(hs === 4){ R(4, 2 + oy, 1, 2, hr); R(14, 2 + oy, 1, 2, hr); R(6, 1 + oy, 1, 1, hr); R(9, 0 + oy, 1, 2, hr); R(12, 1 + oy, 1, 1, hr); R(5, 10 + oy, 1, 1, hr); R(13, 10 + oy, 1, 1, hr); }
+      if(hs === 6){ for(let i = 0; i < 6; i++) R(8, 10 + i * 2 + oy, 3, 2, i % 2 ? shade(hr, -.25) : hr); R(8, 22 + oy, 3, 1, tr); }
+      if(A.ax === 3 && !L.h){ R(5, 4 + oy, 9, 1, tr); R(8, 5 + oy, 1, 3, tr); R(10, 5 + oy, 1, 2, tr); }
+    }
+    const h = L.h, HC = { h1:'#C8302A', h2:'#3E9E5A', h3:'#F2C14E', h4:'#7A4AC0', h5:'#F2C14E', h6:'#F2C14E' }[h];
+    if(h === 'h1') R(5, 4 + oy, 9, 1, HC);
+    else if(HC){ R(6, -1 + oy, 7, 3, HC); R(8, -3 + oy, 3, 2, HC); R(5, 1 + oy, 9, 1, shade(HC, -.25)); if(F) R(9, -1 + oy, 1, 1, '#E0453A'); if(h === 'h4' || h === 'h6'){ R(4, -5 + oy, 1, 4, '#E0453A'); R(14, -5 + oy, 1, 4, '#E0453A'); } }
+  }));
+}
+// cánh (24x22 mỗi bên), vẽ sau lưng
 function wingSprite(k, fr){
   // mỗi cánh vẽ theo đúng hình dạng tên gọi; (u,v) = toạ độ từ gốc cánh (u ra ngoài, v xuống dưới)
   return cached('wi' + k + fr, () => { const I = WSH[k] || ITEMS[k], [c1, c2] = I.c, W = 30, H = 34, RX = 29, RY = 13;
@@ -1543,7 +1676,7 @@ function startInv(o){ const v = { hp:5, mp:3, x2:0, pc:0, tbl:3, st0:0 }; const 
   (C.kit || []).forEach(([k, n]) => { if(k === 'st') v.st0 += n; else v[k] = (v[k] || 0) + n; });
   const K = o.keep; if(K === 'hp') v.hp += 5; if(K === 'pc') v.pc += 1; if(K === 'tbl') v.tbl += 5; if(K === 'st') v.st0 += 800; return v; }
 function newPlayer(o){
-  return { v:1, name:o.name, g:o.g, hair:o.hair, robe:o.robe, stage:0, exp:0, st:100, hp:9e9, mp:9e9, map:'thon', x:25 * TS, y:21 * TS,
+  return { v:1, name:o.name, g:o.g, hair:o.hair, robe:o.robe, ap:o.ap || AP0(o.g), stage:0, exp:0, st:100, hp:9e9, mp:9e9, map:'thon', x:25 * TS, y:21 * TS,
     cls:o.cls || 'kiem', keep:o.keep || 'none', inv:startInv(o), bag:[{ id:1, k:'w1', plus:0 }, { id:2, k:'a1', plus:0 }], eq:{ w:1, a:2, wi:0 }, nid:3,
     q:{ i:0, p:0 }, daily:{ d:'', p:0, done:0 }, buff:{ x2:0 }, t:Date.now(), auto:false, kills:0, deaths:0 };
 }
@@ -1601,7 +1734,7 @@ function look(p = P){
   const tiers = [w, a, wi, h].filter(Boolean).map(k => ITEMS[k].t), pl = Math.max(0, ...['w', 'a', 'wi', 'h'].map(sl => (it(sl) || { plus:0 }).plus));
   const W_ = p.wr || WR0, sk = CAT[W_.as] || {}, xs = CAT[W_.ws] || {}, wg = CAT[W_.wing], mt = CAT[W_.mount], ptc = CAT[W_.pet];
   const a2 = W_.at && ITEMS[W_.at] ? W_.at : a, w2 = W_.wt && ITEMS[W_.wt] ? W_.wt : w;
-  return { g:p.g, hair:p.hair, robe:sk.robe || p.robe, trim:sk.trim || (a2 ? (ITEMS[a2].t >= 3 ? ITEMS[a2].c : '#F2C14E') : '#F2C14E'), w:w2, wi:wg ? wg.wi : wi, wt:wg && wg.t ? W_.wing : '', h, at:a2 ? ITEMS[a2].t : 1, ac:sk.ac || (a2 ? ITEMS[a2].c : '#9A8A7A'), mt:mt && p.ride ? W_.mount : '', pt:ptc ? W_.pet : '', sfx:sk.fx || '', wc:xs.c || '', wfx:xs.fx || '', bw:ITEMS[w2].t >= 2 && ['kiem', 'pham', 'dao'].includes(_cl) ? w2 : '', au:Math.max(0, ...tiers), pl, st:p.stage || 0, sw:Math.min(8, 1 + Math.floor((p.stage || 0) / 4)) + (_cl === 'kiem' ? 2 : 0), cls:_cl, cos:_co };
+  return { g:p.g, hair:p.hair, robe:sk.robe || p.robe, trim:sk.trim || (a2 && ITEMS[a2].t >= 3 ? ITEMS[a2].c : TRIMS[(p.ap && p.ap.tc) | 0]), ap:p.ap || null, w:w2, wi:wg ? wg.wi : wi, wt:wg && wg.t ? W_.wing : '', h, at:a2 ? ITEMS[a2].t : 1, ac:sk.ac || (a2 ? ITEMS[a2].c : '#9A8A7A'), mt:mt && p.ride ? W_.mount : '', pt:ptc ? W_.pet : '', sfx:sk.fx || '', wc:xs.c || '', wfx:xs.fx || '', bw:ITEMS[w2].t >= 2 && ['kiem', 'pham', 'dao'].includes(_cl) ? w2 : '', au:Math.max(0, ...tiers), pl, st:p.stage || 0, sw:Math.min(8, 1 + Math.floor((p.stage || 0) / 4)) + (_cl === 'kiem' ? 2 : 0), cls:_cl, cos:_co };
 }
 
 /* ======================= TRẠNG THÁI CHẠY ======================= */
@@ -2074,7 +2207,7 @@ function drawHero(ctx, x, y, L, st){
   // vũ khí sau lưng cho môn phái không đeo kiếm
   { const f = FAM_OF[L.cls || 'kiem']; if(!L.bw && ITEMS[L.w] && ['phap', 'cung', 'y', 'ma', 'hoa'].includes(f) && !st.sit){ let wsp = weaponSprite(L.w, f, L.wc); if(st.dir < 0) wsp = flipCached(wsp); ctx.drawImage(wsp, sx - 5 - (st.dir < 0 ? -5 : 5), sy - 33 + bob); } }
   if(L.wfx && frame % 5 === 0) fx.push({ k:'p', x:x - (st.dir || 1) * rnd(2, 8), y:y - rnd(12, 30) - (L.mt ? 14 : 0), vx:rnd(-4, 4), vy:-rnd(6, 16), t:0, d:.8, c:L.wfx, glow:1 });
-  let sp = heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, beard:L.beard, npc:L.npc, skin:L.skin, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc }, st.sit ? 0 : fr);
+  let sp = heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, beard:L.beard, npc:L.npc, skin:L.skin, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, st.sit ? 0 : fr);
   if(st.dir < 0) sp = flipCached(sp);
   if(st.sit){ ctx.drawImage(sp, 0, 0, 24, 25, sx - 12, sy - 25 + bob + 2, 24, 25); ctx.fillStyle = L.robe; ctx.fillRect(sx - 8, sy - 3, 16, 3); }
   else ctx.drawImage(sp, sx - 12, sy - 32 + bob);
@@ -2429,7 +2562,7 @@ function hud(){
   $('#dtChar').classList.toggle('hidden', !((isGate(P.stage) && P.exp >= needExp(P.stage)) || skAvail() > 0));
   drawAva();
 }
-function drawAva(){ const a = $('#ava').getContext('2d'); a.clearRect(0, 0, 16, 16); a.imageSmoothingEnabled = false; const L = look(), sp = heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h }, 0); a.drawImage(sp, 4, 3, 16, 16, 0, 0, 16, 16); }
+function drawAva(){ const a = $('#ava').getContext('2d'); a.clearRect(0, 0, 16, 16); a.imageSmoothingEnabled = false; const L = look(), sp = heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, ap:L.ap }, 0); a.drawImage(sp, 4, 3, 16, 16, 0, 0, 16, 16); }
 
 /* ======================= NHIỆM VỤ ======================= */
 const today = () => new Date().toISOString().slice(0, 10);
@@ -2724,7 +2857,7 @@ function heroPreview(){
   const C = cls(), L = look(), pv = cnv(72, 60), x = pv.getContext('2d'); x.imageSmoothingEnabled = false;
   const gr = x.createRadialGradient(36, 52, 2, 36, 52, 30); gr.addColorStop(0, (L.au >= 3 ? AURA_C[L.au] : C.c) + '99'); gr.addColorStop(1, '#00000000'); x.fillStyle = gr; x.fillRect(0, 26, 72, 34);
   if(L.wi){ x.drawImage(wingImg(L.wi, 0, L.wt), 6, 2); x.drawImage(flip(wingImg(L.wi, 0, L.wt)), 36, 2); }
-  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc }, 0), 24, 19);
+  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, 0), 24, 19);
   return pv.toDataURL();
 }
 function itemTip(it){
@@ -2813,7 +2946,7 @@ function classSheet(){
   const draw = () => { const C = CLASSES[sel], L = look();
     sheetFs(`<div class="fsh"><div class="fst"><span class="on">${Lx("Đổi môn phái")}</span></div><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div>
       <div class="fsl">${Object.entries(CLASSES).map(([k, c]) => `<button class="fcard${sel === k ? ' on' : ''}" data-cl="${k}" style="--cc:${c.c}"><span class="fi">${c.ic}</span><span class="fn"><b>${c.n}</b><small>${c.role}</small></span>${(P.cls || 'kiem') === k ? `<span class="lv">${Lx("Đang theo")}</span>` : `<span class="lv">Lv ${c.lv}</span>`}</button>`).join('')}</div>
-      <div class="fsc"><img src="${classPreview(sel, P.g, P.hair, P.robe, { at:L.at, ac:L.ac, h:L.h, trim:L.trim })}" alt=""><div class="fsfloor" style="--cc:${C.c}"></div></div>
+      <div class="fsc"><img src="${classPreview(sel, P.g, P.hair, P.robe, { at:L.at, ac:L.ac, h:L.h, trim:L.trim, ap:P.ap })}" alt=""><div class="fsfloor" style="--cc:${C.c}"></div></div>
       <div class="fsr"><div class="fsname" style="color:${C.c}">${C.ic} ${C.n}</div><div class="fsrole">${C.role} · ${Lx("Độ khó")} <span style="color:var(--gold)">${stars(C.diff)}</span></div><p class="lore">“${C.lore}”</p>
         <div class="fsec">${Lx("Thuộc tính")} <span>Lv ${C.lv}</span></div>${attrRows(C)}<div class="fsec">${Lx("Chỉ số khởi điểm")}</div>${derivedRows(C)}<div class="fsec">${Lx("Đòn đánh")}</div><p class="fp">${C.att}</p><div class="fsec">${Lx("Thiên phú")}</div><p class="fp">${C.pas}</p></div>
       <div class="fsb"><button class="fbtn" id="fBack">‹ ${Lx("Quay lại")}</button><button class="fbtn gold" id="fNext" ${sel === (P.cls || 'kiem') ? 'disabled' : ''}>${price ? Lx("Đổi môn phái tốn {0} xu.", fmt(price)) : Lx("Lần đổi đầu tiên miễn phí.")}</button></div>`);
@@ -2831,7 +2964,7 @@ function charSheet(){
   if(L.wi){ x.drawImage(wingImg(L.wi, 0, L.wt), 6, 2); x.drawImage(flip(wingImg(L.wi, 0, L.wt)), 36, 2); }
   const nS = (P.cls || 'kiem') === 'kiem' ? Math.min(4, 1 + Math.floor(((L.sw || 1) - 1) / 2)) : 0, pos = [...Array(nS)].map((_, i) => { const a = .6 + i * Math.PI * 2 / nS; return [Math.round(36 + Math.cos(a) * 20 - 3), Math.round(44 + Math.sin(a) * 4 - 10), Math.sin(a)]; });
   pos.filter(p => p[2] < 0).forEach(p => x.drawImage(miniSword(L.w, L.wc), p[0], p[1]));
-  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc }, 0), 24, 19);
+  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, 0), 24, 19);
   pos.filter(p => p[2] >= 0).forEach(p => x.drawImage(miniSword(L.w, L.wc), p[0], p[1]));
   const card = sl => { const it = itemOf(P.eq[sl]), I = it && ITEMS[it.k]; return `<button class="fcard${it ? ' on' : ''}" data-slot="${sl}" style="--cc:${I ? rarC(I.t) : '#555'}">${it ? iconHtml(ik(it), 40) : `<span class="fi" style="opacity:.35">＋</span>`}<span class="fn"><b style="color:${I ? rarC(I.t) : 'var(--paper2)'}">${I ? itName(it) + (it.plus ? ' +' + it.plus : '') : SLOTN[sl]}</b><small>${I ? `${RAR[I.t][0]} · ${SLOTN[sl]}${(it.r || []).length ? ' · ' + it.r.length + '✦' : ''}` : Lx("Chưa trang bị")}</small></span></button>`; };
   let left = '';
@@ -3392,7 +3525,7 @@ function cosPreview(o, ride){
   const mt = CAT[L.mt] || {}, riding = !!L.mt, hy = riding ? (mt.fly ? (mt.f === 'rong' ? 16 : 22) : 28) : 36, cx = 40;
   if(L.wi){ const w = wingImg(L.wi, 0, L.wt); x.drawImage(w, cx - 22, hy - 3); x.drawImage(flip(w), cx + 8, hy - 3); }
   if(riding){ const ms = mountSprite(L.mt, 0); x.drawImage(ms, Math.round(cx + 12 - ms.width / 2), mt.fly ? 56 - ms.height + 4 : 50); }
-  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc }, 0), cx - 4, hy);
+  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, 0), cx - 4, hy);
   if(L.pt){ const ps = petSprite(L.pt, 0), pc = CAT[L.pt]; x.drawImage(ps, 8, 60 - (['phuong', 'long'].includes(pc.f) ? 14 : 0)); }
   if(cosTab === 'weapon'){ const f = myFam(), ws = wpnSpr(L.w, f, L.wc); x.save(); x.translate(86, 40); x.rotate(f === 'the' || f === 'cung' ? 0 : .35); x.drawImage(ws, -Math.round(ws.width / 2), -13); x.restore(); }
   return c.toDataURL();
@@ -3428,7 +3561,7 @@ function cosShop(){
   else if(on) act = `<button class="fbtn" style="width:100%" disabled>✓ ${Lx("Đang dùng")}</button>`;
   else if(sOwn) act = `<button class="fbtn gold" id="shUse" style="width:100%">${Lx("Dùng")}</button>`;
   else act = `<button class="fbtn gold" id="shBuy" style="width:100%">${Lx("Mua skin")} · 🪙 ${fmt(S.p)}</button>${Net.ok ? '' : `<p class="fp" style="color:#FF8A7A">${Lx("Cần đăng nhập tài khoản để mua đồ VIP.")}</p>`}`;
-  sheetFs(`<div class="fsh"><div class="fst">${Object.entries(CATK).map(([k, n]) => `<button data-st="${k}" class="${cosTab === k ? 'on' : ''}">${n}</button>`).join('')}</div><div style="display:flex;gap:8px;align-items:center"><span class="nlbal">${Lx("Ngân lượng")} <b>${fmt(Wallet.nl)}</b></span><button class="fbtn gold" id="shTop">＋ ${Lx("Nạp")}</button><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div></div>
+  sheetFs(`<div class="fsh"><div class="fst">${Object.entries(CATK).map(([k, n]) => `<button data-st="${k}" class="${cosTab === k ? 'on' : ''}">${n}</button>`).join('')}</div><div style="display:flex;gap:8px;align-items:center"><button class="fbtn" id="shAp" title="${Lx("Dung mạo")}" aria-label="${Lx("Dung mạo")}" style="padding:6px 10px;flex:none;white-space:nowrap">✎</button><span class="nlbal">${Lx("Ngân lượng")} <b>${fmt(Wallet.nl)}</b></span><button class="fbtn gold" id="shTop">＋ ${Lx("Nạp")}</button><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div></div>
     <div class="fsl">${tys.map(t => { const own = tyOwn(t), use = curTy(cosTab) === t, nS = TYP[t].none ? 0 : skList(t).length; return `<button class="fcard${cosTy === t ? ' on' : ''}${own ? '' : ' lk'}" data-ty="${t}" style="--cc:${own ? '#F2C14E' : '#6A6A78'}"><img src="${typIcon(t).toDataURL()}" alt=""><span class="fn"><b>${tyName(t)}</b><small>${use ? '✓ ' + Lx("Đang dùng") : own ? (nS && !TYP[t].eq && !TYP[t].it ? Lx("{0} skin", nS) : Lx("Đã có")) : '🔒 ' + tySrc(t)[0]}</small></span></button>`; }).join('')}</div>
     <div class="fsc g${g}${tOwn ? '' : ' lkd'}"><img src="${cosPreview(prev, cosTab === 'mount')}" alt=""><div class="fsfloor" style="--cc:${GRADE[g][1]}"></div></div>
     <div class="fsr"><div class="fsname">${tyName(cosTy)}</div><div class="fsrole">${CATK[cosTab]} · ${tOwn ? Lx("Đã sở hữu") : '🔒 ' + Lx("Chưa sở hữu")}${T.fly ? ' · ' + Lx("Bay") : ''}</div><p class="lore">${tyDesc(cosTy)}</p>
@@ -3441,7 +3574,7 @@ function cosShop(){
   document.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { cosTab = b.dataset.st; cosTy = null; cosSel = null; sfx.tap(); cosShop(); });
   document.querySelectorAll('[data-ty]').forEach(b => b.onclick = () => { cosTy = b.dataset.ty; cosSel = null; sfx.tap(); cosShop(); });
   document.querySelectorAll('[data-sk]').forEach(b => b.onclick = () => { cosSel = b.dataset.sk; sfx.tap(); cosShop(); });
-  $('#shTop').onclick = topupSheet;
+  $('#shTop').onclick = topupSheet; $('#shAp').onclick = () => { sfx.tap(); appearSheet(); };
   const use = () => { wearSet(W, cosTy, cosSel); if(!share && cosSel) W.mem[cosTy] = cosSel; if(cosTab === 'mount') P.ride = true; _sk = ''; _hk = ''; Net.pushLook(); saveSoon(); };
   const u = $('#shUse'); if(u) u.onclick = () => { use(); sfx.lv(); cosShop(); };
   const by = $('#shBuy'); if(by) by.onclick = async () => {
@@ -3742,6 +3875,75 @@ function drawDg(ctx, cx, cy){
     if(!c.open){ ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .25 + Math.sin(tNow * 4) * .1; ctx.fillStyle = '#F2C14E'; ctx.beginPath(); ctx.ellipse(c.x - cx, c.y - cy - 2, sp.width * .7, 5, 0, 0, 7); ctx.fill(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; if(frame % 12 === 0) fx.push({ k:'p', x:c.x + rnd(-8, 8), y:c.y - rnd(4, 12), vx:0, vy:-12, t:0, d:.8, c:'#FFE07A', glow:1 }); }
     ctx.drawImage(sp, X, Y); }
 }
+
+/* ======================= DUNG MẠO & XOAY NHÂN VẬT ======================= */
+const CPV = { i:0, ph:0, dir:1, auto:true, t:0, L:null, cc:'#9BE0FF', raf:0 };
+function cpvL(o){ const C = CLASSES[o.cls || (P && P.cls) || 'kiem'] || CLASSES.kiem; return { g:o.g, hair:o.hair, robe:o.robe || C.robe, trim:TRIMS[o.ap.tc | 0], at:o.at || 1, ac:o.ac || '#9A8A7A', h:o.h || '', ap:o.ap, cc:C.c }; }
+function cpvDraw(){
+  const c = document.getElementById('cpv'); if(!c){ CPV.raf = 0; return; }
+  const x = c.getContext('2d'), L = CPV.L; x.imageSmoothingEnabled = false; x.clearRect(0, 0, 48, 46);
+  const gr = x.createRadialGradient(24, 40, 2, 24, 40, 22); gr.addColorStop(0, L.cc + 'AA'); gr.addColorStop(1, L.cc + '00'); x.fillStyle = gr; x.fillRect(0, 18, 48, 28);
+  x.globalAlpha = .35; x.fillStyle = '#000'; x.beginPath(); x.ellipse(24, 40, 10, 2.5, 0, 0, 7); x.fill(); x.globalAlpha = 1;
+  const now = performance.now() / 1000, dt = Math.min(.05, now - (CPV.t || now)); CPV.t = now;
+  if(CPV.ph > 0){ CPV.ph += dt / .32; if(CPV.ph >= .5 && !CPV.sw){ CPV.sw = 1; CPV.i = (CPV.i + CPV.dir + 4) % 4; } if(CPV.ph >= 1){ CPV.ph = 0; CPV.sw = 0; CPV.hold = now; } }
+  else if(CPV.auto && now - (CPV.hold || 0) > 1.1){ CPV.dir = 1; CPV.ph = .001; }
+  const v = CPV.i, sp = v === 0 ? heroView(L, 0) : v === 2 ? heroView(L, 2) : v === 1 ? heroSprite(L, 0) : flip(heroSprite(L, 0));
+  const sx = CPV.ph > 0 ? Math.max(.08, Math.abs(Math.cos(Math.PI * CPV.ph))) : 1, bob = Math.round(Math.sin(now * 2.2) * .6);
+  x.save(); x.translate(24, 0); x.scale(sx, 1); x.drawImage(sp, -12, 7 + bob); x.restore();
+  CPV.raf = requestAnimationFrame(cpvDraw);
+}
+function cpvMount(L){
+  CPV.L = L; const c = document.getElementById('cpv'); if(!c) return;
+  if(!CPV.raf) CPV.raf = requestAnimationFrame(cpvDraw);
+  if(c._b) return; c._b = 1;
+  let sx = null; c.addEventListener('pointerdown', e => { sx = e.clientX; CPV.auto = false; c.setPointerCapture(e.pointerId); });
+  c.addEventListener('pointermove', e => { if(sx === null) return; const d = e.clientX - sx; if(Math.abs(d) > 28 && !CPV.ph){ CPV.dir = d > 0 ? -1 : 1; CPV.ph = .001; sx = e.clientX; } });
+  const up = () => { sx = null; }; c.addEventListener('pointerup', up); c.addEventListener('pointercancel', up);
+}
+const cpvHtml = cc => `<canvas id="cpv" class="cpv" width="48" height="46"></canvas><div class="cpvc"><button data-rot="-1" aria-label="${Lx("Xoay trái")}">⟲</button><button data-rot="0" aria-label="${Lx("Tự xoay")}">${CPV.auto ? '⏸' : '▶'}</button><button data-rot="1" aria-label="${Lx("Xoay phải")}">⟳</button><small>${Lx("Kéo để xoay")}</small></div><div class="fsfloor" style="--cc:${cc}"></div>`;
+function cpvBind(){ document.querySelectorAll('[data-rot]').forEach(b => b.onclick = () => { const r = +b.dataset.rot; if(!r){ CPV.auto = !CPV.auto; b.textContent = CPV.auto ? '⏸' : '▶'; CPV.hold = 0; return; } CPV.auto = false; const pb = b.parentElement.querySelector('[data-rot="0"]'); if(pb) pb.textContent = '▶'; if(!CPV.ph){ CPV.dir = r; CPV.ph = .001; } }); }
+let apTab = 0;
+const APT = () => [Lx("Cơ bản"), Lx("Tóc"), Lx("Khuôn mặt"), Lx("Ấn ký"), Lx("Trang phục")];
+function apEditor(o, withName){
+  const A = o.ap, chips = (k, list) => `<div class="apch">${list.map((n, i) => `<button data-ap="${k}" data-v="${i}" class="${(A[k] | 0) === i ? 'on' : ''}">${n}</button>`).join('')}</div>`;
+  const sw = (k, list, cur) => `<div class="sw2">${list.map((c, i) => `<button data-${k === 'hair' || k === 'robe' ? k : 'apc'}="${k === 'hair' || k === 'robe' ? c : i}" ${k === 'hair' || k === 'robe' ? '' : `data-k="${k}"`} class="${cur === (k === 'hair' || k === 'robe' ? c : i) ? 'on' : ''}" style="background:${c}" aria-label="${k}"></button>`).join('')}</div>`;
+  const C = CLASSES[o.cls || (P && P.cls) || 'kiem'] || CLASSES.kiem, robe = o.robe || C.robe;
+  let b = '';
+  if(apTab === 0) b = `${withName ? `<div class="fsec" style="margin-top:0">${Lx("Đạo hiệu")}</div><input class="inp" id="cn" maxlength="14" placeholder="${Lx("Đạo hiệu (vd: Lý Tiêu Dao)")}" value="${esc(o.name || '')}">` : ''}
+      <div class="fsec">${Lx("Giới tính")}</div><div class="seg"><button data-g="m" class="${o.g === 'm' ? 'on' : ''}">${Lx("Nam tu")}</button><button data-g="f" class="${o.g === 'f' ? 'on' : ''}">${Lx("Nữ tu")}</button></div>
+      <div class="fsec">${Lx("Màu da")}</div>${sw('sk', SKINS, A.sk)}`;
+  if(apTab === 1) b = `<div class="fsec" style="margin-top:0">${Lx("Kiểu tóc")}</div>${chips('hs', APO.hs)}<div class="fsec">${Lx("Màu tóc")}</div>${sw('hair', HAIRS, o.hair)}`;
+  if(apTab === 2) b = `<div class="fsec" style="margin-top:0">${Lx("Ánh mắt")}</div>${chips('ey', APO.ey)}<div class="fsec">${Lx("Màu mắt")}</div>${sw('ec', EYEC, A.ec)}`;
+  if(apTab === 3) b = `<div class="fsec" style="margin-top:0">${Lx("Ấn ký · hình xăm")}</div>${chips('mk', APO.mk)}<div class="fsec">${Lx("Màu ấn ký")}</div>${sw('mc', MARKC, A.mc)}<div class="fsec">${Lx("Phụ kiện")}</div>${chips('ax', APO.ax)}`;
+  if(apTab === 4) b = `<div class="fsec" style="margin-top:0">${Lx("Kiểu y phục")}</div>${chips('os', APO.os)}<div class="fsec">${Lx("Màu áo")}</div>${sw('robe', [C.robe, ...ROBES.filter(c => c !== C.robe)], robe)}<div class="fsec">${Lx("Màu viền")}</div>${sw('tc', TRIMS, A.tc)}`;
+  return `<div class="apw"><div class="aptab">${APT().map((t, i) => `<button data-apt="${i}" class="${apTab === i ? 'on' : ''}">${t}</button>`).join('')}</div>${b}<button class="fbtn" id="apRnd" style="width:100%;margin-top:10px">🎲 ${Lx("Ngẫu nhiên")}</button></div>`;
+}
+function apBind(o, redraw, keep){
+  const k2 = () => keep && keep();
+  document.querySelectorAll('[data-apt]').forEach(b => b.onclick = () => { k2(); apTab = +b.dataset.apt; sfx.tap(); redraw(); });
+  document.querySelectorAll('[data-ap]').forEach(b => b.onclick = () => { k2(); o.ap[b.dataset.ap] = +b.dataset.v; sfx.tap(); redraw(); });
+  document.querySelectorAll('[data-apc]').forEach(b => b.onclick = () => { k2(); o.ap[b.dataset.k] = +b.dataset.apc; sfx.tap(); redraw(); });
+  document.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { k2(); const g = b.dataset.g; if(g !== o.g){ const d0 = AP0(o.g), d1 = AP0(g); if(o.ap.hs === d0.hs) o.ap.hs = d1.hs; if(o.ap.os === d0.os) o.ap.os = d1.os; } o.g = g; redraw(); });
+  document.querySelectorAll('[data-hair]').forEach(b => b.onclick = () => { k2(); o.hair = b.dataset.hair; redraw(); });
+  document.querySelectorAll('[data-robe]').forEach(b => b.onclick = () => { k2(); o.robe = b.dataset.robe; redraw(); });
+  const rn = $('#apRnd'); if(rn) rn.onclick = () => { k2(); const N = APN(), r = n => Math.floor(Math.random() * n); APK.forEach((k, i) => o.ap[k] = r(N[i])); if(Math.random() < .5) o.ap.mk = 0; if(Math.random() < .6) o.ap.ax = 0; if(o.ap.sk === 5 && Math.random() < .6) o.ap.sk = r(5); o.hair = HAIRS[r(HAIRS.length)]; o.robe = ROBES[r(ROBES.length)]; sfx.lv(); redraw(); };
+}
+// chỉnh dung mạo khi đã vào game (miễn phí)
+function appearSheet(){
+  const o = { g:P.g, hair:P.hair, robe:P.robe, cls:P.cls, ap:Object.assign({}, P.ap || AP0(P.g)) }, L0 = look();
+  const draw = () => {
+    const L = Object.assign(cpvL(o), { at:L0.at, ac:L0.ac, h:L0.h });
+    sheetFs(`<div class="fsh"><div class="fst"><span class="on">✎ ${Lx("Dung mạo")}</span></div><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div>
+      <div class="fsl">${apEditor(o, false)}</div><div class="fsc">${cpvHtml(L.cc)}</div>
+      <div class="fsr"><div class="fsname">${esc(P.name)}</div><div class="fsrole">${cls().ic} ${cls().n}</div><p class="lore">${Lx("Đổi dung mạo miễn phí bất cứ lúc nào. Đồ ngoại trang vẫn đè lên màu áo.")}</p>
+        <p class="fp">${APO.hs[o.ap.hs]} · ${APO.ey[o.ap.ey]} · ${APO.os[o.ap.os]}${o.ap.mk ? ' · ' + APO.mk[o.ap.mk] : ''}${o.ap.ax ? ' · ' + APO.ax[o.ap.ax] : ''}</p>
+        <button class="fbtn gold" id="apSave" style="width:100%">${Lx("Lưu dung mạo")}</button></div>
+      <div class="fsb"><button class="fbtn" data-close>‹ ${Lx("Quay lại")}</button><span class="fsT">${Lx("Dung mạo")}</span></div>`);
+    cpvMount(L); cpvBind(); apBind(o, draw);
+    $('#apSave').onclick = () => { P.g = o.g; P.hair = o.hair; P.robe = o.robe; P.ap = o.ap; _hk = ''; Net.pushLook(); saveSoon(); sfx.lv(); toast(Lx("Đã lưu dung mạo")); closeSheet(); };
+  };
+  draw();
+}
 /* ======================= GIỮ ĐỂ XEM ======================= */
 let tipEl = null;
 function showTip(html, anchor){
@@ -3979,14 +4181,14 @@ const Net = {
   async loadSave(){ const s = await this.D.get(this.D.ref(this.db, 'tt_save/' + this.uid)); return s.exists() ? JSON.parse(s.val()) : null; },
   async save(json){ if(!this.ok || this.noCloud) return; try{ await this.D.set(this.D.ref(this.db, 'tt_save/' + this.uid), json); await this.D.set(this.D.ref(this.db, 'tt_rank/' + this.uid), { n:P.name, p:power(), s:P.stage, t:this.D.serverTimestamp() }); }catch(e){ console.warn(e); } },
   async rank(){ if(!this.ok) return null; try{ const s = await this.D.get(this.D.query(this.D.ref(this.db, 'tt_rank'), this.D.orderByChild('p'), this.D.limitToLast(20))); const out = []; s.forEach(c => { out.push(c.val()); }); return out.reverse(); }catch(e){ console.warn(e); return []; } },
-  me(){ const L = look(); return { n:P.name, s:P.stage, p:power(), x:Math.round(me.x), y:Math.round(me.y), d:me.dir, sit:me.sit ? 1 : 0, plat:onPlatform() ? 1 : 0, g:L.g, h:L.hair, r:L.robe, tr:L.trim, w:L.w, wi:L.wi, wt:L.wt || '', wc:L.wc || '', wx:L.wfx || '', sw:L.sw, ht:L.h, at:L.at, ac:L.ac, au:L.au, pl:L.pl, cl:L.cls, co:L.cos || '', mt:L.mt || '', pt:L.pt || '', sf:L.sfx || '', t:this.D.serverTimestamp() }; },
+  me(){ const L = look(); return { n:P.name, s:P.stage, p:power(), x:Math.round(me.x), y:Math.round(me.y), d:me.dir, sit:me.sit ? 1 : 0, plat:onPlatform() ? 1 : 0, g:L.g, h:L.hair, r:L.robe, tr:L.trim, w:L.w, wi:L.wi, wt:L.wt || '', wc:L.wc || '', wx:L.wfx || '', sw:L.sw, ht:L.h, at:L.at, ac:L.ac, au:L.au, pl:L.pl, cl:L.cls, co:L.cos || '', ap:apStr(L.ap), mt:L.mt || '', pt:L.pt || '', sf:L.sfx || '', t:this.D.serverTimestamp() }; },
   async leave(){ for(const u of this.unsubMap || []) u(); this.unsubMap = []; if(this.mapRef){ const r = this.mapRef; this.mapRef = null; try{ await this.D.onDisconnect(r).cancel(); await this.D.remove(r); }catch(e){} } },
   async changeMap(id){
     if(!this.ok) return; const D = this.D;
     await this.leave(); for(const k in others) delete others[k];
     this.mapRef = D.ref(this.db, `tt_online/${id}/${this.uid}`);
     D.onDisconnect(this.mapRef).remove(); D.set(this.mapRef, this.me());
-    const room = D.ref(this.db, 'tt_online/' + id), up = s => { if(s.key === this.uid) return; const v = s.val(); if(!v) return; let o = others[s.key]; if(!o){ o = others[s.key] = { id:s.key, x:v.x, y:v.y }; } Object.assign(o, { n:v.n, s:v.s, p:v.p, nx:v.x, ny:v.y, dir:v.d, sit:v.sit, plat:v.plat, seen:Date.now(), L:{ g:v.g, hair:v.h, robe:v.r, trim:v.tr, w:v.w, wi:ITEMS[v.wi] || WSH[v.wi] ? v.wi : '', wt:CAT[v.wt] ? v.wt : '', wc:/^#[0-9A-Fa-f]{6}$/.test(v.wc || '') ? v.wc : '', wfx:/^#[0-9A-Fa-f]{6}$/.test(v.wx || '') ? v.wx : '', sw:v.sw, h:v.ht || '', at:v.at || 1, ac:v.ac, bw:v.w && ITEMS[v.w] && ITEMS[v.w].t >= 2 ? v.w : '', au:v.au || 0, pl:v.pl || 0, st:v.s || 0, cls:v.cl || 'kiem', cos:v.co || '', mt:CAT[v.mt] ? v.mt : '', pt:CAT[v.pt] ? v.pt : '', sfx:typeof v.sf === 'string' ? v.sf.slice(0, 7) : '' } }); };
+    const room = D.ref(this.db, 'tt_online/' + id), up = s => { if(s.key === this.uid) return; const v = s.val(); if(!v) return; let o = others[s.key]; if(!o){ o = others[s.key] = { id:s.key, x:v.x, y:v.y }; } Object.assign(o, { n:v.n, s:v.s, p:v.p, nx:v.x, ny:v.y, dir:v.d, sit:v.sit, plat:v.plat, seen:Date.now(), L:{ g:v.g, hair:v.h, robe:v.r, trim:v.tr, w:v.w, wi:ITEMS[v.wi] || WSH[v.wi] ? v.wi : '', wt:CAT[v.wt] ? v.wt : '', wc:/^#[0-9A-Fa-f]{6}$/.test(v.wc || '') ? v.wc : '', wfx:/^#[0-9A-Fa-f]{6}$/.test(v.wx || '') ? v.wx : '', sw:v.sw, h:v.ht || '', at:v.at || 1, ac:v.ac, bw:v.w && ITEMS[v.w] && ITEMS[v.w].t >= 2 ? v.w : '', au:v.au || 0, pl:v.pl || 0, st:v.s || 0, cls:v.cl || 'kiem', cos:v.co || '', ap:apParse(v.ap), mt:CAT[v.mt] ? v.mt : '', pt:CAT[v.pt] ? v.pt : '', sfx:typeof v.sf === 'string' ? v.sf.slice(0, 7) : '' } }); };
     this.unsubMap = [D.onChildAdded(room, up), D.onChildChanged(room, up), D.onChildRemoved(room, s => { delete others[s.key]; })];
   },
   pushPos(force){ if(!this.ok || !this.mapRef) return; const x = Math.round(me.x), y = Math.round(me.y), k = `${x},${y},${me.dir},${me.sit}`; if(!force && k === this.lastSent) return; this.lastSent = k; this.D.update(this.mapRef, { x, y, d:me.dir, sit:me.sit ? 1 : 0, plat:onPlatform() ? 1 : 0, t:this.D.serverTimestamp() }).catch(() => {}); },
@@ -4264,7 +4466,7 @@ function derivedRows(C){ const pc = v => `${v >= 1 ? '' : ''}${Math.round(v * 10
 const stars = n => '★'.repeat(n) + '☆'.repeat(3 - n);
 function kitText(C){ const nm = { hp:Lx("Hồi Huyết Đan"), mp:Lx("Hồi Linh Đan"), x2:Lx("Tụ Khí Đan"), st:Lx("xu") }; return (C.kit || []).length ? C.kit.map(([k, n]) => `${n} ${nm[k]}`).join(' · ') : Lx("Không có gì"); }
 function createSheet(done){
-  const o = { name:'', g:'m', hair:HAIRS[0], robe:'', cls:'kiem', keep:'none' }; let step = 0;
+  const o = { name:'', g:'m', hair:HAIRS[0], robe:'', cls:'kiem', keep:'none', ap:AP0('m') }; let step = 0; apTab = 0;
   const steps = [Lx("Xuất thân"), Lx("Tín vật"), Lx("Dung mạo")];
   const draw = () => {
     const C = CLASSES[o.cls], robe = o.robe || C.robe;
@@ -4285,20 +4487,17 @@ function createSheet(done){
       right = `<div class="fsname">${K.ic} ${K.n}</div><p class="lore">${Lx("Tín vật là món đồ duy nhất bạn mang theo khi rời quê nhà. Chọn kỹ, không đổi lại được.")}</p><div class="fsec">${Lx("Hiệu quả")}</div><p class="fp">${K.d}</p>
         <div class="fsec">${Lx("Xuất thân")}</div><p class="fp" style="color:${C.c}">${C.ic} ${C.n}</p>`;
     } else {
-      left = `<div class="fsec" style="margin-top:0">${Lx("Đạo hiệu")}</div><input class="inp" id="cn" maxlength="14" placeholder="${Lx("Đạo hiệu (vd: Lý Tiêu Dao)")}" value="${esc(o.name)}">
-        <div class="fsec">${Lx("Giới tính")}</div><div class="seg"><button data-g="m" class="${o.g === 'm' ? 'on' : ''}">${Lx("Nam tu")}</button><button data-g="f" class="${o.g === 'f' ? 'on' : ''}">${Lx("Nữ tu")}</button></div>
-        <div class="fsec">${Lx("Màu tóc")}</div><div class="sw2">${HAIRS.map(c => `<button data-h="${c}" class="${o.hair === c ? 'on' : ''}" style="background:${c}" aria-label="${Lx("Tóc")}"></button>`).join('')}</div>
-        <div class="fsec">${Lx("Đạo bào")}</div><div class="sw2">${[C.robe, ...ROBES.filter(c => c !== C.robe)].map(c => `<button data-r="${c}" class="${robe === c ? 'on' : ''}" style="background:${c}" aria-label="${Lx("Áo")}"></button>`).join('')}</div>`;
-      right = `<div class="fsname" style="color:${C.c}">${esc(o.name) || '…'}</div><div class="fsrole">${C.ic} ${C.n} · ${KEEPS[o.keep].ic} ${KEEPS[o.keep].n}</div><div class="fsec">${Lx("Thuộc tính")} <span>Lv ${C.lv}</span></div>${attrRows(C)}<div class="msg" id="cm"></div>`;
+      left = apEditor(o, true);
+      right = `<div class="fsname" style="color:${C.c}">${esc(o.name) || '…'}</div><div class="fsrole">${C.ic} ${C.n} · ${KEEPS[o.keep].ic} ${KEEPS[o.keep].n}</div>
+        <p class="fp" style="margin-top:6px">${APO.hs[o.ap.hs]} · ${APO.ey[o.ap.ey]} · ${APO.os[o.ap.os]}${o.ap.mk ? ' · ' + APO.mk[o.ap.mk] : ''}${o.ap.ax ? ' · ' + APO.ax[o.ap.ax] : ''}</p>
+        <div class="fsec">${Lx("Thuộc tính")} <span>Lv ${C.lv}</span></div>${attrRows(C)}<div class="msg" id="cm"></div>`;
     }
-    sheetFs(`${head}<div class="fsl">${left}</div><div class="fsc"><img src="${classPreview(o.cls, o.g, o.hair, robe)}" alt=""><div class="fsfloor" style="--cc:${C.c}"></div></div><div class="fsr">${right}</div>
+    sheetFs(`${head}<div class="fsl">${left}</div><div class="fsc">${step === 2 ? cpvHtml(C.c) : `<img src="${classPreview(o.cls, o.g, o.hair, robe, { ap:o.ap, trim:TRIMS[o.ap.tc] })}" alt=""><div class="fsfloor" style="--cc:${C.c}"></div>`}</div><div class="fsr">${right}</div>
       <div class="fsb">${step ? `<button class="fbtn" id="fBack">‹ ${Lx("Quay lại")}</button>` : '<span></span>'}<button class="fbtn gold" id="fNext">${step < 2 ? `${Lx("Tiếp tục")} ›` : Lx("Nhập đạo")}</button></div>`, { dismiss:false });
     const keep = () => { const n = $('#cn'); if(n) o.name = n.value; };
     document.querySelectorAll('[data-cl]').forEach(b => b.onclick = () => { o.cls = b.dataset.cl; o.robe = ''; sfx.tap(); draw(); });
     document.querySelectorAll('[data-kp]').forEach(b => b.onclick = () => { o.keep = b.dataset.kp; sfx.tap(); draw(); });
-    document.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { keep(); o.g = b.dataset.g; draw(); });
-    document.querySelectorAll('[data-h]').forEach(b => b.onclick = () => { keep(); o.hair = b.dataset.h; draw(); });
-    document.querySelectorAll('[data-r]').forEach(b => b.onclick = () => { keep(); o.robe = b.dataset.r; draw(); });
+    if(step === 2){ cpvMount(Object.assign(cpvL(o), { robe })); cpvBind(); apBind(o, draw, keep); }
     const cn = $('#cn'); if(cn) cn.oninput = () => { o.name = cn.value; const f = document.querySelector('.fsr .fsname'); if(f) f.textContent = cn.value || '…'; };
     const bk = $('#fBack'); if(bk) bk.onclick = () => { keep(); step--; draw(); };
     $('#fNext').onclick = () => { keep(); if(step < 2){ step++; sfx.tap(); draw(); return; } o.name = o.name.trim(); if(o.name.length < 2) return $('#cm').textContent = Lx("Đạo hiệu ít nhất 2 ký tự"); o.robe = o.robe || C.robe; closeSheet(); const np = newPlayer(o); np.st += np.inv.st0 || 0; delete np.inv.st0; introCine(o.name, C, () => done(np)); };
@@ -4353,7 +4552,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : Lx("Không kết nối được máy chủ, bạn vẫn chơi offline được."));
 }
-window.__td = { dgDie, joinDungeon, MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { appearSheet, heroView, dgDie, joinDungeon, MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
