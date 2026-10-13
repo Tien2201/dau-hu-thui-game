@@ -522,6 +522,16 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .bmw canvas{border:1px solid var(--edge);box-shadow:0 10px 40px rgba(0,0,0,.6);image-rendering:pixelated}
 .bml{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;padding:4px 16px calc(10px + env(safe-area-inset-bottom,0px));font-size:11.5px;color:var(--paper2)}
 .bml span{display:inline-flex;align-items:center;gap:5px}.bml i{width:9px;height:9px;border-radius:50%;border:1px solid #000}.bml i.dm{border-radius:0;transform:rotate(45deg)}
+
+/* thẻ mở khoá */
+.unl{position:fixed;z-index:25;right:max(14px,env(safe-area-inset-right));top:calc(56px + env(safe-area-inset-top,0px));width:min(330px,62vw);display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:linear-gradient(135deg,rgba(28,24,14,.95),rgba(12,11,18,.95));border:1px solid rgba(242,193,78,.6);box-shadow:0 10px 30px rgba(0,0,0,.6),0 0 20px rgba(242,193,78,.2);color:var(--paper);animation:unin .45s cubic-bezier(.2,.8,.2,1)}
+.unl.out{animation:unout .3s forwards}@keyframes unin{from{opacity:0;transform:translateX(40px)}}@keyframes unout{to{opacity:0;transform:translateX(40px)}}
+.unl>i{font-style:normal;font-size:26px;line-height:1}.unl small{display:block;font-size:10px;letter-spacing:3px;color:#F2C14E;font-weight:800}.unl b{display:block;font-family:var(--serif);font-size:19px;color:#FFF3D2;line-height:1.1;margin:1px 0 3px}
+.unl p{margin:0;font-size:12px;line-height:1.4;color:#E9E4D8}.unl button{align-self:flex-end;flex:none;padding:6px 10px;font-size:12px;font-weight:700;border:1px solid #F2E2B8;background:linear-gradient(180deg,#EAD7A8,#C9A464);color:#1C1408}
+.hl{animation:hlp 1s ease-in-out infinite!important;z-index:5}
+@keyframes hlp{50%{box-shadow:0 0 0 4px rgba(242,193,78,.9),0 0 24px rgba(242,193,78,.9);filter:brightness(1.4)}}
+.sk.hl{animation:hlsk 1s ease-in-out infinite!important}@keyframes hlsk{50%{box-shadow:0 0 0 3px rgba(242,193,78,.9),0 0 24px rgba(242,193,78,.9)}}
+#mmw.hl{border-radius:50%}
 /* ===== NHIỆM VỤ DỄ ĐỌC ===== */
 #track{padding:7px 12px 8px 10px!important;background:linear-gradient(90deg,rgba(8,8,12,.62),rgba(8,8,12,.38) 70%,rgba(8,8,12,0))!important;border-left:2px solid rgba(217,185,122,.7);max-width:250px!important}
 #track .qk{font-size:14px!important}#track .qk b{font-weight:700!important;color:#FFF6E0!important}
@@ -580,7 +590,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=9"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=10"><\/script>');
 })();
 </script>
 <script>
@@ -654,6 +664,7 @@ const PILLS = {
   hp:{ n:Lx("Hồi Huyết Đan"), d:Lx("Hồi 40% sinh lực."), p:15, c:'#E0453A' },
   mp:{ n:Lx("Hồi Linh Đan"), d:Lx("Hồi 50% linh lực."), p:15, c:'#3E8EDE' },
   x2:{ n:Lx("Tụ Khí Đan"), d:Lx("Gấp đôi tu vi trong 10 phút."), p:250, c:'#B07CE0' },
+  tp:{ n:Lx("Truyền Tống Phù"), d:Lx("Dịch chuyển tức thì tới một Truyền Tống Trận đã kích hoạt."), p:60, c:'#7FC8FF' },
   pc:{ n:Lx("Phá Cảnh Đan"), d:Lx("+35% tỉ lệ đột phá đại cảnh giới."), p:400, c:'#F2C14E' },
 };
 const SKILLS = {
@@ -1291,6 +1302,7 @@ function buildMaps(){
   M.spawns.push({ m:'bocap', x:14, y:13, r:6, n:7 }, { m:'bocap', x:42, y:32, r:6, n:6 }, { m:'satrung', x:32, y:35, r:5, n:6 }, { m:'satrung', x:52, y:28, r:4, n:5 }, { m:'xacuop', x:48, y:17, r:5, n:6 }, { m:'xacuop', x:44, y:24, r:3, n:4 });
   MAPS.samac = M;
   for(const k in MAPS) bakeMap(MAPS[k]);
+  initWps();
 }
 function bakeMap(M){
   if(!WTEX){ WTEX = animTex('w'); LTEX = animTex('l'); }
@@ -1431,7 +1443,7 @@ addEventListener('keydown', e => {
   if(e.target.tagName === 'INPUT') return;
   const k = e.key.toLowerCase(); keys[k] = true; const kc = KCODE[e.code]; if(kc) keys[kc] = true;
   if(!running || document.querySelector('.sbg')) return;
-  if(kc === 'e' || k === 'e'){ const n = nearNpc(); if(n){ e.preventDefault(); npcTalk(n); } }
+  if(kc === 'e' || k === 'e'){ const n = nearNpc(); if(n){ e.preventDefault(); npcTalk(n); } else if(nearWp()){ e.preventDefault(); wpSheet(); } }
   if(k === 'j' || k === ' '){ e.preventDefault(); attackPress(); }
   if(k === '1') useSkill('van'); if(k === '2') useSkill('ho'); if(k === '3') useSkill('hoa');
   if(k === 'h') drinkHp(); if(k === 'r') toggleMed(); if(k === 't') toggleAuto();
@@ -1523,7 +1535,7 @@ function basicDone(){
   if(skv('atkA') && me.bc % 4 === 0 && t && !t.dead){ hitMob(t, 1.5, '#F2C14E'); fx.push({ k:'ring', x:t.x, y:t.y, t:0, d:.35, c:'#F2C14E' }); }
   if(skv('atkB')) me.mp = Math.min(S.mp, me.mp + S.mp * .02);
 }
-function attackPress(){ const nn = nearNpc(); if(nn && !DLG){ npcTalk(nn); return; } if(me.sit) toggleMed(); if(!me.target || me.target.dead) me.target = nearestMob(170); if(!me.target){ toast(Lx("Không có yêu ma ở gần")); return; } }
+function attackPress(){ const nn = nearNpc(); if(nn && !DLG){ npcTalk(nn); return; } if(nearWp() && !DLG){ wpSheet(); return; } if(me.sit) toggleMed(); if(!me.target || me.target.dead) me.target = nearestMob(170); if(!me.target){ toast(Lx("Không có yêu ma ở gần")); return; } }
 function dmgRoll(atk, def, mul = 1){ const S = stats(); let d = Math.max(1, atk * mul * rnd(.9, 1.1) - def * .5); let crit = Math.random() < S.crit; if(crit) d *= S.critd; return [Math.round(d), crit]; }
 function hitMob(m, mul, color){
   if(m.dead) return;
@@ -1543,6 +1555,7 @@ function killMob(m){
   gainExp(exp); texts.push({ x:m.x, y:m.y - 30, t:0, s:`+${fmt(exp)} tu vi`, c:'#C9A0FF' });
   const st = Math.round(mobStone(m.L) * rnd(.8, 1.3) * (m.D.boss ? 15 : 1) * (1 + SS.gold / 100) * diffRw()); drops.push({ x:m.x + rnd(-6, 6), y:m.y + rnd(-3, 3), k:'st', n:st, t:0 });
   m.D.drop.forEach(([k, p]) => { if(Math.random() < p * (1 + .1 * (curPN - 1)) * (1 + (cls().drop || 0))) drops.push({ x:m.x + rnd(-10, 10), y:m.y + rnd(-6, 6), k, n:1, t:0, b:!!m.D.boss }); });
+  if(Math.random() < (m.D.boss ? 1 : .035)) drops.push({ x:m.x + rnd(-8, 8), y:m.y + rnd(-5, 5), k:'tp', n:m.D.boss ? 2 : 1, t:0 });
   P.kills++; questEvent('kill', m.k); fxBurst(m.x, m.y - 8, m.D.boss ? 40 : 14, m.k === 'hoama' || m.k === 'mavuong' ? '#FF8A2A' : '#C9A0FF');
   for(let i = 0; i < (m.D.boss ? 16 : 5); i++) fx.push({ k:'soul', x:m.x + rnd(-6, 6), y:m.y - rnd(4, 14), vx:rnd(-40, 40), vy:-rnd(30, 70), t:0, d:2.5, c:'#C9A0FF' });
   if(m.D.boss){ shake(8); flash = .6; warns = []; mobs.forEach(o => { if(o.temp && !o.dead){ o.dead = true; fxBurst(o.x, o.y - 6, 10, '#C9A0FF'); } });
@@ -1870,6 +1883,7 @@ function renderW(){
   const cx = Math.floor(cam.x) + (shakeA ? Math.round(rnd(-shakeA, shakeA)) : 0), cy = Math.floor(cam.y) + (shakeA ? Math.round(rnd(-shakeA, shakeA)) : 0);
   ctx.drawImage(M.layers[0], cx, cy, gw, gh, 0, 0, gw, gh);
   if(M.hasLiq) drawLiquids(ctx, cx, cy);
+  drawWps(ctx, cx, cy);
   if(M.glow){ ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .75 + Math.sin(tNow * 2.2) * .25; ctx.drawImage(M.glow, cx, cy, gw, gh, 0, 0, gw, gh); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
   // hiệu ứng nằm trên mặt đất
   for(const f of fx){
@@ -2013,6 +2027,7 @@ function renderOverlay(){
     if(tag){ o2.font = '800 10px "Be Vietnam Pro",sans-serif'; o2.strokeText(tag, x, y - 28); o2.fillStyle = '#FF7A6A'; o2.fillText(tag, x, y - 28); }
   };
   for(const n of M.npcs){ const d = Math.hypot(n.x - me.x, n.y - me.y); if(!DLG && d < 90 && tNow > (n.bt || 0)){ n.bt = tNow + rnd(7, 12); n.say = subT(pickR(BARK[n.k])); n.sayT = tNow; } if(n.say && tNow - n.sayT < 3.2){ bubbles['npc_' + n.k] = { m:n.say, t:Date.now() - (tNow - n.sayT) * 1000 }; } else delete bubbles['npc_' + n.k]; }
+  { const nw = !DLG && !nearNpc() && nearWp(); if(nw){ const x = tx(nw.x), y = ty(nw.y + 12), t = TOUCH ? Lx("Bấm nút để truyền tống") : Lx("[E] Truyền tống"); o2.font = '600 11px "Be Vietnam Pro",sans-serif'; o2.textAlign = 'center'; const w = o2.measureText(t).width + 14; o2.fillStyle = 'rgba(10,12,16,.75)'; o2.fillRect(x - w / 2, y - 9, w, 17); o2.strokeStyle = 'rgba(127,200,255,.6)'; o2.strokeRect(x - w / 2 + .5, y - 8.5, w - 1, 16); o2.fillStyle = '#9FD8FF'; o2.fillText(t, x, y + 3); } }
   { const nn = !DLG && nearNpc(); if(nn){ const x = tx(nn.x), y = ty(nn.y + 14), t = TOUCH ? Lx("Chạm để nói chuyện") : Lx("[E] Nói chuyện"); o2.font = '600 11px "Be Vietnam Pro",sans-serif'; o2.textAlign = 'center'; const w = o2.measureText(t).width + 14; o2.fillStyle = 'rgba(10,12,16,.75)'; o2.fillRect(x - w / 2, y - 9 + Math.sin(tNow * 4), w, 17); o2.strokeStyle = 'rgba(217,185,122,.6)'; o2.strokeRect(x - w / 2 + .5, y - 8.5 + Math.sin(tNow * 4), w - 1, 16); o2.fillStyle = '#EAD7A8'; o2.fillText(t, x, y + 3 + Math.sin(tNow * 4)); } }
   for(const n of M.npcs){ const x = tx(n.x), y = ty(n.y - 34); drawBubble('npc_' + n.k, x, y - 30); nameTag(x, y, n.n, n.k === 'tong' ? Lx("Giao nhiệm vụ") : n.k === 'dan' ? Lx("Bán đan dược") : Lx("Rèn & cường hoá"), '#7FE0A8'); if(n.k === 'tong' && (questReady() || (curQuest() && curQuest().k === 'talk'))){ o2.font = '800 18px sans-serif'; o2.fillStyle = '#F2C14E'; o2.strokeText('!', x, y - 30); o2.fillText('!', x, y - 30); } }
   for(const id in others){ const o = others[id], x = tx(o.x), y = ty(o.y - 38 - (o.L.wi ? 6 : 0) - (o.L.h ? 3 : 0)); nameTag(x, y, (Party.mem && Party.mem[id] ? '🤝 ' : '') + o.n, ((CLASSES[o.L.cls] || CLASSES.kiem).ic) + ' ' + realmName(o.s || 0), majorOf(o.s || 0).c); drawBubble(id, x, y - 30); }
@@ -2041,6 +2056,7 @@ function itemIcon(k){
   let c; let fam = ''; if(k.includes('@')){ [k, fam] = [k.split('@')[0], k.split('@')[1]]; }
   if(k === 'tt') c = spr(16, 16, R => { R(7, 1, 2, 2, '#F4E8FF'); R(5, 3, 6, 4, '#C99BFF'); R(4, 7, 8, 4, '#9B6BE0'); R(6, 11, 4, 3, '#6A3AB0'); R(6, 4, 2, 5, '#F4E8FF'); R(10, 6, 1, 4, '#E0C8FF'); });
   else if(k === 'st') c = spr(16, 16, R => { R(5, 3, 6, 10, '#7FE0F0'); R(6, 2, 4, 1, '#BFF4FF'); R(6, 4, 2, 6, '#E8FFFF'); R(4, 6, 1, 4, '#4FB0D0'); R(11, 6, 1, 4, '#4FB0D0'); });
+  else if(k === 'tp') c = spr(16, 16, R => { R(4, 1, 8, 14, '#F4E2B0'); R(4, 1, 8, 1, '#C9A464'); R(4, 14, 8, 1, '#C9A464'); R(7, 3, 2, 9, '#2A6FB5'); R(5, 5, 6, 1, '#2A6FB5'); R(5, 9, 6, 1, '#2A6FB5'); R(6, 7, 4, 1, '#7FC8FF'); R(7, 12, 2, 1, '#E0453A'); });
   else if(PILLS[k]) c = spr(16, 16, R => { const col = PILLS[k].c; R(4, 5, 8, 8, col); R(5, 4, 6, 10, col); R(6, 5, 2, 2, '#FFFFFF'); R(9, 10, 2, 2, shade(col, -.3)); });
   else {
     const I = ITEMS[k]; c = cnv(28, 28); const x = c.getContext('2d'); x.imageSmoothingEnabled = false;
@@ -2097,7 +2113,7 @@ function hud(){
   setW('#mpb i', (mp / S.mp * 100).toFixed(1) + '%');
   setTx('#mmN', M.name + (curPN > 1 ? ` · ×${diffHp().toFixed(1)}` : ''));
   const need = needExp(P.stage); setW('#expI', Math.min(100, P.exp / need * 100).toFixed(2) + '%');
-  { const nn = !DLG && running && nearNpc(), ba = $('#bAtk'), want = nn ? nn.k : ''; if(ba._t !== want){ ba._t = want; ba.classList.toggle('talk', !!nn); ba.querySelector('.tk').innerHTML = nn ? Lx("Nói<br>chuyện") : ''; } }
+  { const nn = !DLG && running && nearNpc(), nw = !nn && !DLG && running && nearWp(), ba = $('#bAtk'), want = nn ? nn.k : nw ? 'wp' : ''; if(ba._t !== want){ ba._t = want; ba.classList.toggle('talk', !!(nn || nw)); ba.querySelector('.tk').innerHTML = nn ? Lx("Nói<br>chuyện") : nw ? Lx("Truyền<br>tống") : ''; } }
   const k = `${P.name}|${P.stage}|${P.inv.hp}|${P.buff.x2 > Date.now()}|${P.q.i}|${P.q.p}|${P.daily.p}`;
   ['van', 'ho', 'hoa'].forEach((s, i) => { const b = $('#bS' + (i + 1)), sk = SKILLS[s]; const lk = P.stage < sk.s; if(b._lk !== lk){ b._lk = lk; b.classList.toggle('lock', lk); } const rem = Math.max(0, cds[s] - tNow), v = (rem / (skCd(s) || sk.cd)).toFixed(2); if(b._cd !== v){ b._cd = v; b.querySelector('.cd').style.transform = `scaleY(${v})`; } });
   const bo = mobs.find(m => m.D.boss && !m.dead && (m.st === 'chase' || Math.hypot(m.x - me.x, m.y - me.y) < 200)), bb = $('#bossbar');
@@ -2153,6 +2169,7 @@ function drawMini(){
   const dot = (wx, wy, col, r) => { const [a, b] = toS(wx, wy); x.fillStyle = col; x.beginPath(); x.arc(a, b, r, 0, 7); x.fill(); };
   M.portals.forEach(pt => { const [a, b] = toS(pt.x, pt.y); x.save(); x.translate(a, b); x.rotate(Math.PI / 4); x.fillStyle = '#C9A0FF'; x.fillRect(-5, -5, 10, 10); x.restore(); });
   M.npcs.forEach(n => dot(n.x, n.y, '#EAD7A8', 5));
+  (M.wps || []).forEach(w => { const [a, b] = toS(w.x, w.y); x.save(); x.translate(a, b); x.rotate(Math.PI / 4); x.fillStyle = wpOn(w.id) ? '#7FC8FF' : '#6A6A7A'; x.fillRect(-4, -4, 8, 8); x.restore(); });
   for(const id in others){ const o = others[id]; dot(o.x, o.y, Party.mem && Party.mem[id] ? '#7FC8FF' : '#E9E4D8', Party.mem && Party.mem[id] ? 6 : 3.5); }
   mobs.forEach(m => { if(!m.dead && m.D.boss) dot(m.x, m.y, '#FF4A3A', 7); });
   x.restore();
@@ -2427,7 +2444,7 @@ function bagSheet(filter){
   $('#bulk').onclick = bulkSheet;
   const ex = $('#exp'); if(ex) ex.onclick = () => { const c = bagCost(); if(P.st < c) return toast(Lx("Không đủ linh thạch")); P.st -= c; P.bagMax = bagCap() + 10; sfx.lv(); toast(`${Lx("Túi đồ mở rộng lên {0} ô", P.bagMax)}`); saveSoon(); bagSheet(null); };
   document.querySelectorAll('[data-pill]').forEach(b => { const k = b.dataset.pill, p = PILLS[k]; holdTip(b, () => `<h4>${p.n}</h4><div class="sub2">${Lx("Còn {0}", P.inv[k] || 0)}</div><p>${p.d}</p>`);
-    b.onclick = () => { if(!P.inv[k]) return toast(Lx("Hết {0}", p.n)); if(k === 'hp') drinkHp(); else if(k === 'mp') drinkMp(); else if(k === 'x2'){ P.inv.x2--; P.buff.x2 = Math.max(Date.now(), P.buff.x2 || 0) + 600000; toast(Lx("Tụ Khí Đan: tu vi x2 trong 10 phút")); } else return toast(Lx("Tự dùng khi đột phá đại cảnh giới.")); saveSoon(); bagSheet(null); }; });
+    b.onclick = () => { if(!P.inv[k]) return toast(Lx("Hết {0}", p.n)); if(k === 'hp') drinkHp(); else if(k === 'mp') drinkMp(); else if(k === 'x2'){ P.inv.x2--; P.buff.x2 = Math.max(Date.now(), P.buff.x2 || 0) + 600000; toast(Lx("Tụ Khí Đan: tu vi x2 trong 10 phút")); } else if(k === 'tp'){ wpSheet(); return; } else return toast(Lx("Tự dùng khi đột phá đại cảnh giới.")); saveSoon(); bagSheet(null); }; });
   if(sel){ const I = ITEMS[sel.k];
     $('#ipX').onclick = () => { invSel = null; bagSheet(null); };
     const e = $('#iEq'); if(e) e.onclick = () => { if(equip(sel.id) !== false){ sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(I.t) }); saveSoon(); bagSheet(null); } };
@@ -2659,9 +2676,9 @@ function treeSheet(){
 function bigMap(){
   if(!M || !running) return; drawMini(); sfx.tap();
   const gh2 = goalHere(), q = curQuest();
-  const bg = sheet(`<div class="bmh"><div><b>${M.name}</b><small>${M.safe ? Lx("Vùng an toàn") : M.dark ? Lx("Nguy hiểm, yêu ma cấp cao") : Lx("Vùng săn yêu thú")}</small></div><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div>
+  const bg = sheet(`<div class="bmh"><div><b>${M.name}</b><small>${M.safe ? Lx("Vùng an toàn") : M.dark ? Lx("Nguy hiểm, yêu ma cấp cao") : Lx("Vùng săn yêu thú")}</small></div><div style="display:flex;gap:8px;align-items:center"><button class="fbtn gold" id="bmTp">🌀 ${Lx("Truyền tống")} · ${P.inv.tp || 0}</button><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div></div>
     <div class="bmw"><canvas id="bmc"></canvas></div>
-    <div class="bml"><span><i style="background:#fff"></i>${Lx("Bạn")}</span><span><i style="background:#EAD7A8"></i>NPC</span><span><i class="dm" style="background:#C9A0FF"></i>${Lx("Cổng")}</span><span><i style="background:#FF4A3A"></i>Boss</span><span><i style="background:#7FC8FF"></i>${Lx("Tổ đội")}</span>${gh2 ? `<span><i class="dm" style="background:#F2C14E"></i>${q ? esc(q.t) : Lx("Nhiệm vụ")}</span>` : ''}</div>`);
+    <div class="bml"><span><i style="background:#fff"></i>${Lx("Bạn")}</span><span><i style="background:#EAD7A8"></i>NPC</span><span><i class="dm" style="background:#C9A0FF"></i>${Lx("Cổng")}</span><span><i style="background:#FF4A3A"></i>Boss</span><span><i style="background:#7FC8FF"></i>${Lx("Tổ đội")}</span><span><i class="dm" style="background:#7FC8FF"></i>${Lx("Truyền Tống Trận")}</span>${gh2 ? `<span><i class="dm" style="background:#F2C14E"></i>${q ? esc(q.t) : Lx("Nhiệm vụ")}</span>` : ''}</div>`);
   bg.classList.add('fsbg'); bg.firstElementChild.className = 'bm';
   const c = $('#bmc'), wrap = c.parentElement, W = wrap.clientWidth, H = wrap.clientHeight, dpr = Math.min(2, devicePixelRatio || 1);
   const k = Math.max(2, Math.floor(Math.min(W / M.W, H / M.H))), cw = M.W * k, ch = M.H * k;
@@ -2675,11 +2692,13 @@ function bigMap(){
   const dot = (X, Y, r, col) => { x.fillStyle = col; x.strokeStyle = '#000'; x.lineWidth = 1.5; x.beginPath(); x.arc(X, Y, r, 0, 7); x.fill(); x.stroke(); };
   M.portals.forEach(pt => { const [X, Y] = P2(pt.x, pt.y); dia(X, Y, 5, '#C9A0FF'); label('→ ' + pt.label, X, Y - 10, '#D9C2FF'); });
   M.npcs.forEach(n => { const [X, Y] = P2(n.x, n.y); dot(X, Y, 4, '#EAD7A8'); label(n.n, X, Y - 9, '#EAD7A8'); });
+  (M.wps || []).forEach(w => { const [X, Y] = P2(w.x, w.y), on = wpOn(w.id); dia(X, Y, 5, on ? '#7FC8FF' : '#6A6A7A'); label(on ? '🌀 ' + w.n : '???', X, Y + 18, on ? '#9FD8FF' : '#9A9AAA'); });
   mobs.forEach(m => { if(!m.dead && m.D.boss){ const [X, Y] = P2(m.x, m.y); dot(X, Y, 6, '#FF4A3A'); label(m.D.n, X, Y - 11, '#FF8A7A'); } });
   for(const id in others){ const o = others[id], pm = Party.mem && Party.mem[id]; const [X, Y] = P2(o.x, o.y); dot(X, Y, pm ? 4.5 : 3, pm ? '#7FC8FF' : '#E9E4D8'); if(pm) label(o.n || '', X, Y - 8, '#9FD8FF'); }
   if(gh2){ const [X, Y] = P2(gh2.x, gh2.y); dia(X, Y, 7, '#F2C14E'); }
   const [X, Y] = P2(me.x, me.y); x.save(); x.translate(X, Y); x.rotate(me.dir > 0 ? Math.PI / 2 : -Math.PI / 2); x.fillStyle = '#fff'; x.strokeStyle = '#000'; x.lineWidth = 2; x.beginPath(); x.moveTo(0, -9); x.lineTo(7, 7); x.lineTo(0, 3); x.lineTo(-7, 7); x.closePath(); x.stroke(); x.fill(); x.restore();
   label(Lx("Bạn"), X, Y + 20, '#fff');
+  $('#bmTp').onclick = wpSheet;
 }
 function expTip(){
   const need = needExp(P.stage), pc = P.exp / need * 100, gate = isGate(P.stage);
@@ -2688,6 +2707,73 @@ function expTip(){
     <div class="kv"><span>${Lx("Cảnh giới kế tiếp")}</span><b>${realmName(P.stage + 1)}</b></div>
     <div class="kv"><span>${Lx("Điểm tu luyện")}</span><b class="gold">${skAvail()}</b></div>
     <p>${gate ? (P.exp >= need ? `<span class="gold">${Lx("Đủ tu vi! Mở Nhân vật để độ thiên kiếp.")}</span>` : Lx("Lên đại cảnh giới mới cần độ thiên kiếp ở màn Nhân vật.")) : Lx("Đủ tu vi sẽ tự lên tầng tiếp theo.")}</p>`;
+}
+
+/* ======================= TRUYỀN TỐNG TRẬN ======================= */
+const WPDEF = { thon:[[29, 19, Lx("Quảng Trường Thanh Vân")]], rung:[[5, 25, Lx("Bìa Rừng Hắc Mộc")], [34, 27, Lx("Cầu Gỗ Giữa Rừng")], [51, 22, Lx("Hang Lang Hoàng")]], madien:[[30, 38, Lx("Cổng Ma Điện")], [30, 24, Lx("Huyết Điện")]], samac:[[33, 7, Lx("Cửa Ải Hoàng Sa")], [40, 26, Lx("Ốc Đảo Giữa Sa Mạc")]] };
+const WPS = {};
+function initWps(){
+  for(const id in WPDEF){ const M2 = MAPS[id]; if(!M2) continue; M2.wps = WPDEF[id].map(([tx, ty, n], i) => {
+    let x = tx * TS + 8, y = ty * TS + 8;
+    outer: for(let r = 0; r < 8; r++) for(let dy = -r; dy <= r; dy++) for(let dx = -r; dx <= r; dx++){ const X = (tx + dx) * TS + 8, Y = (ty + dy) * TS + 8; if(canStand(M2, X, Y) && canStand(M2, X, Y + 10)){ x = X; y = Y; break outer; } }
+    const w = { id:id + i, map:id, x, y, n }; WPS[w.id] = w; return w; }); }
+}
+const wpOn = id => id === 'thon0' || !!(P.wp && P.wp[id]);
+function nearWp(){ if(!M || !M.wps) return null; let b = null, bd = 26; for(const w of M.wps){ const d = Math.hypot(w.x - me.x, w.y + 12 - me.y); if(d < bd){ bd = d; b = w; } } return b; }
+function wpTick(){
+  if(!M || !M.wps || me.dead) return; P.wp = P.wp || {};
+  for(const w of M.wps){ if(!wpOn(w.id) && Math.hypot(w.x - me.x, w.y - me.y) < 40){ P.wp[w.id] = 1; sfx.lv(); fx.push({ k:'pillar', x:w.x, y:w.y, t:0, d:1.2, c:'#7FC8FF' }); fx.push({ k:'ring', x:w.x, y:w.y, t:0, d:.8, c:'#7FC8FF' }); banner(Lx("Đã kích hoạt Truyền Tống Trận"), w.n); saveSoon(); } }
+}
+function wpSheet(){
+  const here = nearWp(), tk = P.inv.tp || 0;
+  sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>🌀 ${Lx("Truyền Tống Trận")}</h2>
+    <p class="sub">${here ? Lx("Đang đứng tại {0}: dịch chuyển miễn phí.", here.n) : Lx("Mỗi lần dịch chuyển tốn 1 Truyền Tống Phù. Đứng tại trận thì miễn phí.")} ${Lx("Đang có")} <b style="color:#7FC8FF">${tk}</b> ${PILLS.tp.n}.</p>
+    ${Object.keys(WPDEF).map(id => `<h3>${MAPS[id].name}${MAP_NEED[id] && P.stage < MAP_NEED[id] ? ` · 🔒 ${realmName(MAP_NEED[id])}` : ''}</h3>${MAPS[id].wps.map(w => { const on = wpOn(w.id), cur = here && here.id === w.id; return `<div class="line" style="${on ? '' : 'opacity:.5'}"><div class="g"><b>${on ? '🌀 ' + w.n : '??? ' + Lx("Chưa khám phá")}</b><small>${cur ? Lx("Bạn đang ở đây") : on ? (here ? Lx("Miễn phí") : Lx("Tốn 1 phù")) : Lx("Đi tới gần trận để kích hoạt")}</small></div>${on && !cur ? `<button class="s" data-wp="${w.id}">${Lx("Đi")}</button>` : ''}</div>`; }).join('')}`).join('')}
+    <p class="sub">${Lx("Mua Truyền Tống Phù ở Đan Sư, hoặc nhặt khi diệt yêu ma (boss rơi chắc chắn).")}</p>`);
+  document.querySelectorAll('[data-wp]').forEach(b => b.onclick = () => { const w = WPS[b.dataset.wp]; if(MAP_NEED[w.map] && P.stage < MAP_NEED[w.map]) return toast(Lx("Cần đạt {0} mới vào được {1}", realmName(MAP_NEED[w.map]), MAPS[w.map].name)); const free = !!nearWp(); if(!free){ if(!(P.inv.tp > 0)) return toast(Lx("Hết Truyền Tống Phù, mua ở Đan Sư nha")); P.inv.tp--; }
+    closeSheet(); sfx.skill(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.8, c:'#7FC8FF' }); flash = .3; fade(() => { enterMap(w.map, w.x, w.y + 22); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:'#7FC8FF' }); }); saveSoon(); });
+}
+function drawWps(ctx, cx, cy){
+  if(!M.wps) return;
+  for(const w of M.wps){ const X = Math.round(w.x - cx), Y = Math.round(w.y - cy); if(X < -30 || Y < -40 || X > gw + 30 || Y > gh + 30) continue; const on = wpOn(w.id), col = on ? '#7FC8FF' : '#8A8A9A';
+    ctx.globalAlpha = .35; ctx.fillStyle = '#000'; ctx.beginPath(); ctx.ellipse(X, Y + 3, 11, 4, 0, 0, 7); ctx.fill(); ctx.globalAlpha = 1;
+    for(let i = 0; i < 10; i++){ const a = tNow * (on ? 1.4 : .3) + i * Math.PI / 5; ctx.fillStyle = i % 2 ? col : '#F2E2B8'; ctx.globalAlpha = on ? .85 : .4; ctx.fillRect(Math.round(X + Math.cos(a) * 12) - 1, Math.round(Y + 2 + Math.sin(a) * 4), 2, 1); }
+    ctx.globalAlpha = 1; ctx.fillStyle = '#5A5A6A'; ctx.fillRect(X - 5, Y - 30, 10, 32); ctx.fillStyle = '#7A7A8A'; ctx.fillRect(X - 5, Y - 30, 3, 32); ctx.fillStyle = '#3A3A4A'; ctx.fillRect(X - 7, Y, 14, 3); ctx.fillRect(X - 7, Y - 33, 14, 3); ctx.fillRect(X - 5, Y - 35, 10, 2);
+    const gl = on ? .6 + Math.sin(tNow * 3) * .3 : .3; ctx.globalAlpha = gl; ctx.fillStyle = col; ctx.fillRect(X - 1, Y - 26, 2, 3); ctx.fillRect(X - 3, Y - 20, 6, 1); ctx.fillRect(X - 1, Y - 17, 2, 8); ctx.fillRect(X - 3, Y - 12, 6, 1);
+    if(on){ ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .25 + Math.sin(tNow * 2) * .1; const g2 = ctx.createLinearGradient(0, Y - 40, 0, Y); g2.addColorStop(0, 'rgba(127,200,255,0)'); g2.addColorStop(1, col); ctx.fillStyle = g2; ctx.fillRect(X - 6, Y - 40, 12, 40); ctx.globalCompositeOperation = 'source-over'; }
+    ctx.globalAlpha = 1; }
+}
+
+/* ======================= MỞ KHOÁ & HƯỚNG DẪN ======================= */
+const UNL = [
+  { id:'ctl', ic:'🎮', t:Lx("Điều khiển"), b:() => TOUCH ? Lx("Kéo cần gạt bên trái để đi. Nút lớn bên phải để đánh, giữ lâu một nút bất kỳ để xem thông tin.") : Lx("W A S D để đi, J hoặc Space để đánh, phím 1 2 3 dùng tuyệt kỹ. Rê chuột vào nút để xem thông tin."), el:() => TOUCH ? '#joy' : '#bAtk', c:() => true },
+  { id:'map', ic:'🧭', t:Lx("Nhiệm vụ & bản đồ"), b:() => Lx("Nhiệm vụ hiện cạnh bản đồ tròn, kèm khoảng cách. Chạm vào bản đồ tròn để mở bản đồ lớn."), el:() => '#mmw', c:() => P.tips.ctl },
+  { id:'talk', ic:'💬', t:Lx("Nói chuyện với NPC"), b:() => TOUCH ? Lx("Đứng gần NPC, nút đánh sẽ đổi thành Nói chuyện.") : Lx("Đứng gần NPC rồi bấm E (hoặc J) để nói chuyện."), el:() => '#bAtk', c:() => !!nearNpc() },
+  { id:'bag', ic:'🎒', t:Lx("Nhặt được trang bị"), b:() => Lx("Mở Túi đồ để xem, so sánh và mặc. Vũ khí phải đúng môn phái mới dùng được."), el:() => '#bBag', c:() => P.bag.length > 2 },
+  { id:'tree', ic:'🌳', t:Lx("Cây kỹ năng"), b:() => Lx("Bạn có điểm tu luyện. Vào Nhân vật → Võ học → Cây kỹ năng để nâng cấp chiêu."), el:() => '#bChar', c:() => P.stage >= 1 && skAvail() > 0 },
+  { id:'van', ic:'🗡', t:() => SKILLS.van.n, b:() => Lx("Tuyệt kỹ mới đã mở! Bấm nút này (phím 1) để dùng."), el:() => '#bS1', c:() => P.stage >= SKILLS.van.s },
+  { id:'party', ic:'👥', t:Lx("Tổ đội"), b:() => Lx("Rủ bạn bè vào cùng phòng hoặc ghép đội nhanh. Có cả voice chat."), el:() => '#bParty', c:() => P.stage >= 3 },
+  { id:'ho', ic:'🛡', t:() => SKILLS.ho.n, b:() => Lx("Tuyệt kỹ mới đã mở! Bấm nút này (phím 2) để dùng."), el:() => '#bS2', c:() => P.stage >= SKILLS.ho.s },
+  { id:'gacha', ic:'🎴', t:Lx("Tầm Bảo"), b:() => Lx("Bạn có Tầm Bảo Lệnh. Mở Tầm Bảo để quay trang bị và ngoại trang."), el:() => '#bGacha', c:() => (P.inv.tbl || 0) > 0 && P.tips.map },
+  { id:'tp', ic:'🌀', t:Lx("Truyền Tống Trận"), b:() => Lx("Đã kích hoạt trận dịch chuyển. Mở bản đồ lớn → Truyền tống để đi nhanh, tốn 1 Truyền Tống Phù."), el:() => '#mmw', c:() => Object.keys(P.wp || {}).length > 0 },
+  { id:'gate', ic:'⚡', t:Lx("Đột phá cảnh giới"), b:() => Lx("Tu vi đã đầy. Mở Nhân vật để độ thiên kiếp lên đại cảnh giới mới."), el:() => '#bChar', c:() => isGate(P.stage) && P.exp >= needExp(P.stage) },
+  { id:'hoa', ic:'🔥', t:() => SKILLS.hoa.n, b:() => Lx("Tuyệt kỹ mới đã mở! Bấm nút này (phím 3) để dùng."), el:() => '#bS3', c:() => P.stage >= SKILLS.hoa.s },
+  { id:'madien', ic:'🌋', t:() => MAPS.madien.name, b:() => Lx("Vùng đất mới đã mở. Đi qua cổng phía đông Rừng Hắc Mộc."), el:() => '#mmw', c:() => P.stage >= MAP_NEED.madien },
+  { id:'samac', ic:'🏜', t:() => MAPS.samac.name, b:() => Lx("Vùng đất mới đã mở. Đi qua cổng phía nam Rừng Hắc Mộc."), el:() => '#mmw', c:() => P.stage >= MAP_NEED.samac },
+];
+let unlT = 0, unlCur = null;
+function unlTick(dt){
+  if(!P || !me || !running || DLG || unlCur || document.querySelector('.sbg,.intro') || document.body.classList.contains('cine')) return;
+  unlT += dt; if(unlT < 1.2) return; unlT = 0; P.tips = P.tips || {};
+  const u = UNL.find(x => !P.tips[x.id] && x.c()); if(u) showUnl(u);
+}
+function showUnl(u){
+  P.tips[u.id] = 1; saveSoon(); unlCur = u; sfx.lv();
+  const tt = typeof u.t === 'function' ? u.t() : u.t, sel = u.el && u.el(), tg = sel && $(sel);
+  const e = document.createElement('div'); e.className = 'unl'; e.innerHTML = `<i>${u.ic}</i><div><small>${Lx("MỚI MỞ KHOÁ")}</small><b>${tt}</b><p>${u.b()}</p></div><button>${Lx("Đã hiểu")}</button>`;
+  document.body.appendChild(e); if(tg) tg.classList.add('hl');
+  const done = () => { if(!e.isConnected) return; e.classList.add('out'); setTimeout(() => e.remove(), 300); if(tg) tg.classList.remove('hl'); unlCur = null; };
+  e.querySelector('button').onclick = done; setTimeout(done, 9000);
 }
 /* ======================= GIỮ ĐỂ XEM ======================= */
 let tipEl = null;
@@ -2986,7 +3072,7 @@ document.addEventListener('visibilitychange', () => { if(document.hidden) saveNo
 let lastT = performance.now();
 function loop(now){
   const dt = Math.min(.05, (now - lastT) / 1000); lastT = now;
-  if(P && me){ if(running) update(dt); else { tNow += dt; } voiceTick(); render(); if(frame % 6 === 0 || running) hud(); }
+  if(P && me){ if(running){ update(dt); wpTick(); } else { tNow += dt; } voiceTick(); unlTick(dt); render(); if(frame % 6 === 0 || running) hud(); }
   requestAnimationFrame(loop);
 }
 
@@ -3241,6 +3327,8 @@ async function startGame(user){
 function begin(data, fresh){
   P = Object.assign(newPlayer({ name:data.name, g:data.g, hair:data.hair, robe:data.robe }), data);
   P.inv = Object.assign({ hp:0, mp:0, x2:0, pc:0 }, P.inv);
+  if(P.inv.tp === undefined) P.inv.tp = 3;
+  if(!P.tips){ P.tips = {}; if(!fresh){ ['ctl', 'map', 'talk', 'bag', 'van', 'party', 'ho', 'gacha', 'hoa', 'madien', 'samac'].forEach(id => { const u = UNL.find(x => x.id === id); try{ if(u.c()) P.tips[id] = 1; }catch(e){} }); P.tips.ctl = P.tips.map = P.tips.talk = 1; } }
   me = { x:P.x, y:P.y, dir:1, hp:0, mp:0, sit:false, tx:null };
   const S = stats(); me.hp = clamp(P.hp, 1, S.hp); me.mp = clamp(P.mp, 0, S.mp);
   $('#ui').classList.remove('hidden'); document.body.classList.add('ingame'); resize();
@@ -3263,7 +3351,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : Lx("Không kết nối được máy chủ, bạn vẫn chơi offline được."));
 }
-window.__td = { Voice, treeSheet, skv, bigMap,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
