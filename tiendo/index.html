@@ -448,6 +448,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .vcbox{margin:8px 0;padding:8px 10px;border:1px solid var(--edge);background:rgba(255,255,255,.03)}
 .vcbox .brow{margin:6px 0 0}.pm .vmute{margin-left:4px;padding:4px 8px;font-size:15px;background:rgba(255,255,255,.06);border:1px solid rgba(233,228,216,.2)}
 .pm .spk{color:#7FE0A8}
+.pm .pkick{flex:none;margin-left:4px;min-width:34px;height:34px;padding:0 9px;border-radius:17px;font-size:15px;font-weight:800;color:#FFB4A8;background:rgba(224,69,58,.14);border:1px solid rgba(224,69,58,.55);cursor:pointer;white-space:nowrap}.pm .pkick.ask{font-size:12.5px;color:#fff;background:#C0392B;border-color:#FF7A6A}
 @media (orientation:landscape){#bossbar{top:auto;bottom:calc(60px + env(safe-area-inset-bottom,0px));width:min(46vw,440px)}}
 #bossbar b{white-space:nowrap;font-size:18px}#bossbar small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--body);font-size:10.5px;color:var(--paper2);min-width:0}#bossbar .bbh{justify-content:space-between;margin-bottom:3px}
 /* ===== NÚT CHIÊU TO + GIỮ XEM THÔNG TIN ===== */
@@ -687,7 +688,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=22"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=23"><\/script>');
 })();
 </script>
 <script>
@@ -3057,7 +3058,7 @@ function partySheet(){
   const mem = Object.entries(Party.mem);
   sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>👥 ${Lx("Tổ đội")}</h2><p class="sub" style="text-align:center;margin:0">${Lx("Mã phòng, gửi cho bạn bè để vào cùng")}</p><div class="pcode">${Party.code}</div>
     <div class="brow"><button class="btn alt" id="pCopy">📋 ${Lx("Sao chép mã")}</button><button class="btn alt" id="pShout">📣 ${Lx("Rủ trên kênh thế giới")}</button></div>
-    ${mem.map(([id, m]) => { const on = Date.now() - (m.ct || 0) < 15000, mine = id === Net.uid, mp = MAPS[m.map]; return `<div class="pm" style="opacity:${on || mine ? 1 : .5}"><b style="font-size:20px">${(CLASSES[m.cl] || CLASSES.kiem).ic}</b><div class="g"><b>${esc(m.n)}${mine ? ` (${Lx("bạn")})` : ''}</b><small style="display:block;color:var(--ink2)">${realmName(m.s || 0)} · ${mp ? mp.name : ''}${on || mine ? '' : ' · ' + Lx("ngoại tuyến")}</small><div class="hp"><i style="width:${Math.round((m.hp || 0) * 100)}%"></i></div></div>${!mine && on && mp ? `<button class="s" data-go="${id}">${Lx("Tới chỗ")}</button>` : ''}${!mine && Voice.on && m.vc ? `<button class="vmute" data-vm="${id}" aria-label="${Lx("Tắt tiếng")}">${Voice.off[id] ? '🔇' : '🔈'}</button>` : ''}</div>`; }).join('')}
+    ${mem.map(([id, m]) => { const on = Date.now() - (m.ct || 0) < 15000, mine = id === Net.uid, mp = MAPS[m.map], lid = partyLead(), canK = !mine && (lid === Net.uid || Date.now() - (m.ct || 0) > 60000); return `<div class="pm" style="opacity:${on || mine ? 1 : .5}"><b style="font-size:20px">${(CLASSES[m.cl] || CLASSES.kiem).ic}</b><div class="g"><b>${id === lid ? '<span title="' + Lx("Trưởng đội") + '">👑</span> ' : ''}${esc(m.n)}${mine ? ` (${Lx("bạn")})` : ''}</b><small style="display:block;color:var(--ink2)">${realmName(m.s || 0)} · ${mp ? mp.name : ''}${on || mine ? '' : ' · ' + Lx("ngoại tuyến")}</small><div class="hp"><i style="width:${Math.round((m.hp || 0) * 100)}%"></i></div></div>${!mine && on && mp ? `<button class="s" data-go="${id}">${Lx("Tới chỗ")}</button>` : ''}${!mine && Voice.on && m.vc ? `<button class="vmute" data-vm="${id}" aria-label="${Lx("Tắt tiếng")}">${Voice.off[id] ? '🔇' : '🔈'}</button>` : ''}${canK ? `<button class="pkick" data-kick="${id}" aria-label="${Lx("Mời ra khỏi đội")}">✕</button>` : ''}</div>`; }).join('')}
     <div class="vcbox"><b>🎙 ${Lx("Thoại tổ đội")}</b><small style="display:block;color:var(--ink2)">${Voice.on ? (Voice.mute ? Lx("Đang tắt mic, vẫn nghe được đồng đội") : Lx("Đang bật mic, đồng đội nghe được bạn")) : Lx("Nói chuyện trực tiếp với đồng đội trong phòng. Chỉ người trong phòng nghe được.")}</small>
       <div class="brow">${Voice.on ? `<button class="btn alt" id="vMute">${Voice.mute ? '🎙 ' + Lx("Bật mic") : '🔇 ' + Lx("Tắt mic")}</button><button class="btn red" id="vLeave">${Lx("Rời kênh thoại")}</button>` : `<button class="btn gold" id="vJoin">🎙 ${Lx("Vào kênh thoại")}</button>`}</div></div>
     <button class="tgl" id="pOpen" aria-pressed="${!!Party.open}"><span class="g">${Lx("Cho người lạ ghép vào")}<small>${Lx("Tắt nếu chỉ muốn chơi với bạn bè")}</small></span><span class="swt"></span></button>
@@ -3072,6 +3073,8 @@ function partySheet(){
   const vl = $('#vLeave'); if(vl) vl.onclick = () => { voiceLeave(); partySheet(); };
   document.querySelectorAll('[data-vm]').forEach(b => b.onclick = () => { const id = b.dataset.vm; Voice.off[id] = !Voice.off[id]; if(Voice.au[id]) Voice.au[id].muted = Voice.off[id]; partySheet(); });
   document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { closeSheet(); partyGo(b.dataset.go); });
+  // bấm ✕ một lần để hỏi lại, bấm lần nữa để mời ra
+  document.querySelectorAll('[data-kick]').forEach(b => b.onclick = async () => { if(!b.classList.contains('ask')){ document.querySelectorAll('.pkick.ask').forEach(x => { x.classList.remove('ask'); x.textContent = '✕'; }); b.classList.add('ask'); b.textContent = Lx("Mời ra?"); sfx.tap(); setTimeout(() => { if(b.isConnected){ b.classList.remove('ask'); b.textContent = '✕'; } }, 3500); return; } b.disabled = true; await Net.partyKick(b.dataset.kick); partySheet(); });
 }
 
 
@@ -4164,7 +4167,10 @@ const FIREBASE_CONFIG = {
   appId: "1:960591114586:web:e9d261b3d6ee865e5d4363",
 };
 const FB_VER = '10.12.2', ACC_DOMAIN = '@dauhuthui.game';
-const Party = { code:null, mem:{}, unsub:[], bdmg:0, open:false };
+const Party = { code:null, mem:{}, unsub:[], bdmg:0, open:false, lead:null, kick:{} };
+// trưởng đội: người tạo phòng; nếu người đó rời hoặc ngoại tuyến thì người đang online có mã nhỏ nhất làm trưởng
+function partyLead(){ const on = id => Party.mem[id] && Date.now() - (Party.mem[id].ct || 0) < 60000; if(Party.lead && on(Party.lead)) return Party.lead; const ids = Object.keys(Party.mem).filter(on).sort(); return ids[0] || Party.lead; }
+function partyDropKicked(){ for(const id in Party.kick) if(id !== Net.uid) delete Party.mem[id]; }
 const Net = {
   ok:false, uid:'', acc:'', A:null, D:null, auth:null, db:null, mapRef:null, unsubs:[], sendT:0, lastSent:'', hb:0,
   async init(){
@@ -4229,15 +4235,24 @@ const Net = {
     code = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6); if(code.length < 4) return toast(Lx("Mã phòng không hợp lệ"));
     const D = this.D; await this.partyLeave(true);
     const root = D.ref(this.db, 'tt_party/' + code); let snap = await D.get(root); const v = snap.val();
-    if(open === undefined){ if(!v) return toast(Lx("Không tìm thấy phòng {0}", code)); const live = Object.values(v.m || {}).filter(x => Date.now() - (x.ct || 0) < 60000).length; if(live >= 4) return toast(Lx("Phòng đã đủ 4 người")); }
+    if(open === undefined){ if(!v) return toast(Lx("Không tìm thấy phòng {0}", code)); if(v.k && v.k[this.uid] && Date.now() - v.k[this.uid] < 30 * 60e3) return toast(Lx("Bạn đã bị mời ra khỏi phòng này")); const live = Object.values(v.m || {}).filter(x => Date.now() - (x.ct || 0) < 60000).length; if(live >= 4) return toast(Lx("Phòng đã đủ 4 người")); }
     else await D.set(root, { o:open ? 1 : 0, l:this.uid, t:D.serverTimestamp(), c:Date.now() });
     Party.code = code; P.party = code; Party.mem = {}; Party.bdmg = 0;
     const me_ = this.partyRef('m/' + this.uid); D.onDisconnect(me_).remove(); await this.partyPush(true);
-    Party.unsub.push(D.onValue(this.partyRef('m'), s => { Party.mem = s.val() || {}; if(!Party.mem[this.uid] && Party.code) this.partyPush(true); partyHud(); voiceSync(); voiceUi(); lobbyRefresh(); }));
+    Party.lead = v && v.l || (open !== undefined ? this.uid : null); Party.kick = {};
+    Party.unsub.push(D.onValue(this.partyRef('m'), s => { Party.mem = s.val() || {}; partyDropKicked(); if(!Party.mem[this.uid] && Party.code && !Party.kick[this.uid]) this.partyPush(true); partyHud(); voiceSync(); voiceUi(); lobbyRefresh(); }));
     Party.unsub.push(D.onValue(this.partyRef('o'), s => { Party.open = !!s.val(); }));
+    Party.unsub.push(D.onValue(this.partyRef('l'), s => { Party.lead = s.val() || Party.lead; }));
+    Party.unsub.push(D.onValue(this.partyRef('k'), s => { Party.kick = s.val() || {}; if(Party.kick[this.uid] && Date.now() - Party.kick[this.uid] < 30 * 60e3){ this.partyLeave(true).then(() => { toast(Lx("Bạn đã bị mời ra khỏi tổ đội")); sfx.bad(); if(document.querySelector('.sbg h2') && /👥/.test(document.querySelector('.sbg h2').textContent)) partySheet(); }); return; } partyDropKicked(); partyHud(); if(document.getElementById('pLeave')) partySheet(); }));
     Party.dgSeen = 0; Party.unsub.push(D.onValue(this.partyRef('dg'), s => dgRemote(s.val())));
     this.partyBossListen(); saveSoon(); sfx.lv();
     toast(open === undefined ? Lx("Đã vào tổ đội {0}", code) : Lx("Đã tạo phòng {0}", code));
+  },
+  async partyKick(id){
+    if(!Party.code || !this.ok || id === this.uid) return; const n = (Party.mem[id] && Party.mem[id].n) || '?';
+    try{ await this.D.update(this.partyRef(), { ['k/' + id]:Date.now() }); }catch(e){ console.warn(e); return toast(Lx("Không mời ra được, thử lại sau")); }
+    this.D.remove(this.partyRef('m/' + id)).catch(() => {});
+    delete Party.mem[id]; partyHud(); toast(Lx("Đã mời {0} ra khỏi tổ đội", n)); sfx.tap();
   },
   async partyCreate(open){ const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c = ''; for(let i = 0; i < 5; i++) c += A[Math.floor(Math.random() * A.length)]; return this.partyJoin(c, open); },
   async partyQuick(){
@@ -4253,8 +4268,9 @@ const Net = {
   async partyLeave(silent){
     voiceLeave(true);
     Party.unsub.forEach(u => { try{ u(); }catch(e){} }); Party.unsub = []; if(Party.bossUn){ try{ Party.bossUn(); }catch(e){} Party.bossUn = null; }
+    if(Party.code && this.ok && partyLead() === this.uid){ const nx = Object.keys(Party.mem).filter(id => id !== this.uid && Date.now() - (Party.mem[id].ct || 0) < 60000).sort()[0]; if(nx) try{ await this.D.update(this.partyRef(), { l:nx }); }catch(e){} }
     if(Party.code && this.ok){ const r = this.partyRef('m/' + this.uid); try{ await this.D.onDisconnect(r).cancel(); await this.D.remove(r); }catch(e){} }
-    const had = Party.code; Party.code = null; Party.mem = {}; Party.dg = null; P.party = ''; curPN = 1; partyUpdate(); partyHud(); voiceUi(); lobbyRefresh(); if(had && !silent){ toast(Lx("Đã rời tổ đội, giờ đi một mình")); saveSoon(); }
+    const had = Party.code; Party.code = null; Party.mem = {}; Party.lead = null; Party.kick = {}; Party.dg = null; P.party = ''; curPN = 1; partyUpdate(); partyHud(); voiceUi(); lobbyRefresh(); if(had && !silent){ toast(Lx("Đã rời tổ đội, giờ đi một mình")); saveSoon(); }
   },
   async partyPush(force){ if(!Party.code || !this.ok || !P || !me) return; const S = stats(); const v = { n:P.name, s:P.stage, cl:P.cls || 'kiem', map:M ? M.id : P.map, x:Math.round(me.x), y:Math.round(me.y), hp:Math.round(me.hp / S.hp * 100) / 100, ct:Date.now(), vc:Voice.on ? 1 : 0, mu:Voice.mute ? 1 : 0, vi:Voice.on ? Voice.id : 0 };
     try{ await this.D.set(this.partyRef('m/' + this.uid), v); if(force) await this.D.update(this.partyRef(), { t:this.D.serverTimestamp(), c:Date.now() }); }catch(e){ console.warn(e); } },
