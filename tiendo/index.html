@@ -440,6 +440,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 @media (hover:hover) and (pointer:fine){#joy{display:none!important}}
 #bMic .sl{display:none}#bMic.off .sl,#bMic.mute .sl{display:inline}#bMic.off{opacity:.55}
 #bMic.on svg *{stroke:#EAD7A8}#bMic.on .sl{stroke:#E0453A}#bMic.spk{filter:drop-shadow(0 0 6px #7FE0A8) drop-shadow(0 1px 2px #000)}#bMic.spk svg *{stroke:#9FF0C0}
+#track .pt .pgo{cursor:pointer;padding:2px 4px;margin:1px -4px;border-radius:4px;transition:background .15s}#track .pt .pgo:hover,#track .pt .pgo:active{background:rgba(127,200,255,.18)}#track .pt .go{font-style:normal;color:#7FC8FF;font-size:10px;margin-left:2px;animation:vsp 1s ease-in-out infinite alternate}
 #track .pt .vs{color:#7FE0A8;margin-left:3px;animation:vsp .6s ease-in-out infinite alternate}@keyframes vsp{to{opacity:.4}}
 .vcbox{margin:8px 0;padding:8px 10px;border:1px solid var(--edge);background:rgba(255,255,255,.03)}
 .vcbox .brow{margin:6px 0 0}.pm .vmute{margin-left:4px;padding:4px 8px;font-size:15px;background:rgba(255,255,255,.06);border:1px solid rgba(233,228,216,.2)}
@@ -447,14 +448,16 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 @media (orientation:landscape){#bossbar{top:auto;bottom:calc(60px + env(safe-area-inset-bottom,0px));width:min(46vw,440px)}}
 #bossbar b{white-space:nowrap;font-size:18px}#bossbar small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--body);font-size:10.5px;color:var(--paper2);min-width:0}#bossbar .bbh{justify-content:space-between;margin-bottom:3px}
 /* ===== NÚT CHIÊU TO + GIỮ XEM THÔNG TIN ===== */
-#acts{width:270px;height:240px}
-#bAtk{width:84px!important;height:84px!important;right:22px!important;bottom:18px!important}
-#bS1{right:140px!important;bottom:16px!important;width:58px!important;height:58px!important}
-#bS2{right:124px!important;bottom:100px!important;width:58px!important;height:58px!important}
-#bS3{right:42px!important;bottom:134px!important;width:58px!important;height:58px!important}
-#bPot{right:218px!important;bottom:20px!important;width:42px!important;height:42px!important}
-#bAuto{right:206px!important;bottom:100px!important;width:40px!important;height:40px!important}
-#bMed{right:128px!important;bottom:184px!important;width:40px!important;height:40px!important}
+/* cụm nút gọn vào góc: nút đánh ở góc, 3 chiêu xếp vòng cung quanh, nút phụ vòng ngoài */
+#acts{width:256px;height:256px;right:max(4px,env(safe-area-inset-right))!important;bottom:calc(4px + env(safe-area-inset-bottom,0px))!important}
+#bAtk{width:80px!important;height:80px!important;right:24px!important;bottom:24px!important}
+#bS1{right:137px!important;bottom:37px!important;width:54px!important;height:54px!important}
+#bS2{right:108px!important;bottom:108px!important;width:54px!important;height:54px!important}
+#bS3{right:37px!important;bottom:137px!important;width:54px!important;height:54px!important}
+#bPot{right:208px!important;bottom:44px!important;width:40px!important;height:40px!important}
+#bAuto{right:187px!important;bottom:127px!important;width:38px!important;height:38px!important}
+#acts #bRide{right:127px!important;bottom:187px!important;width:38px!important;height:38px!important}
+#bMed{right:44px!important;bottom:209px!important;width:38px!important;height:38px!important}
 .sk svg{width:56%;height:56%}
 #bAtk .tk{display:none;font-family:var(--serif);font-weight:700;font-size:13px;color:#2A2418;line-height:1;text-align:center}
 #bAtk.talk svg{display:none}#bAtk.talk .tk{display:block}#bAtk.talk{background:linear-gradient(135deg,#FFF3D2,#EAD7A8);border-color:#F2C14E;box-shadow:0 0 18px rgba(242,193,78,.6)}
@@ -628,7 +631,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=15"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=16"><\/script>');
 })();
 </script>
 <script>
@@ -2619,8 +2622,21 @@ const MAP_NEED = { madien:9, samac:21 };
 function partyHud(){ const el = document.getElementById('track'); if(el && P && me) el.innerHTML = trackHtml() + partyHtml(); }
 function partyHtml(){
   if(!Party.code) return '';
-  const rows = Object.entries(Party.mem).filter(([id]) => id !== Net.uid).map(([id, m]) => { const on = Date.now() - (m.ct || 0) < 15000; return `<div style="opacity:${on ? 1 : .45}">${(CLASSES[m.cl] || CLASSES.kiem).ic} ${esc(m.n)}${talking(id) ? '<span class="vs">🔊</span>' : m.vc && m.mu ? ' 🔇' : ''} <i><u style="width:${Math.round((m.hp || 0) * 100)}%"></u></i>${M && m.map === M.id ? '' : ' 🗺'}</div>`; }).join('');
+  const rows = Object.entries(Party.mem).filter(([id]) => id !== Net.uid).map(([id, m]) => { const on = Date.now() - (m.ct || 0) < 15000; return `<div style="opacity:${on ? 1 : .45}"${on ? ` data-pgo="${id}" class="pgo"` : ''}>${(CLASSES[m.cl] || CLASSES.kiem).ic} ${esc(m.n)}${talking(id) ? '<span class="vs">🔊</span>' : m.vc && m.mu ? ' 🔇' : ''} <i><u style="width:${Math.round((m.hp || 0) * 100)}%"></u></i>${M && m.map === M.id ? '' : ' 🗺'}${on ? '<em class="go">➤</em>' : ''}</div>`; }).join('');
   return `<div class="pt"><b>👥 ${Lx("Tổ đội")} ${Party.code}</b>${curPN > 1 ? ` · ${Lx("Độ khó")} x${diffHp().toFixed(1)}` : ''}${rows || `<div style="opacity:.6">${Lx("Đang chờ đồng đội…")}</div>`}</div>`;
+}
+let _pgoT = 0;
+function partyGo(id){
+  const m = Party.mem[id]; if(!m || !MAPS[m.map] || !me || me.dead) return;
+  if(Date.now() - (m.ct || 0) > 15000) return toast(Lx("Đồng đội đang ngoại tuyến"));
+  if(MAP_NEED[m.map] && P.stage < MAP_NEED[m.map]) return toast(Lx("Cần đạt {0} mới vào được {1}", realmName(MAP_NEED[m.map]), MAPS[m.map].name));
+  const o = others[id], same = M && m.map === M.id, x = same && o ? o.x : m.x, y = same && o ? o.y : m.y;
+  if(same && Math.hypot(x - me.x, y - me.y) < 40) return toast(Lx("Đang đứng cạnh {0} rồi", m.n));
+  if(Date.now() - _pgoT < 8000) return toast(Lx("Chờ {0} giây nữa mới dịch chuyển tiếp được", Math.ceil((8000 - (Date.now() - _pgoT)) / 1000)));
+  _pgoT = Date.now(); sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.8, c:'#7FC8FF' }); if(me.sit) toggleMed();
+  const land = () => { fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:'#7FC8FF' }, { k:'wave', x:me.x, y:me.y, t:0, d:.7, c:'#7FC8FF' }); toast(Lx("Đã tới chỗ {0}", m.n)); };
+  if(same){ fade(() => { me.x = x + rnd(-10, 10); me.y = y + rnd(4, 10); me.target = null; land(); }); }
+  else fade(() => { enterMap(m.map, x, y); setTimeout(land, 300); });
 }
 function partySheet(){
   if(!Net.ok){ sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>👥 ${Lx("Tổ đội")}</h2><p class="sub">${Lx("Chơi tổ đội cần đăng nhập tài khoản và có mạng. Chế độ offline luôn là đi một mình.")}</p><button class="btn gold" id="pIn">${Lx("Đăng nhập để chơi online")}</button>`); $('#pIn').onclick = async () => { await saveNow(); store.set('td_wantlogin', '1'); location.reload(); }; return; }
@@ -2652,7 +2668,7 @@ function partySheet(){
   const vm = $('#vMute'); if(vm) vm.onclick = () => { voiceMuteToggle(); partySheet(); };
   const vl = $('#vLeave'); if(vl) vl.onclick = () => { voiceLeave(); partySheet(); };
   document.querySelectorAll('[data-vm]').forEach(b => b.onclick = () => { const id = b.dataset.vm; Voice.off[id] = !Voice.off[id]; if(Voice.au[id]) Voice.au[id].muted = Voice.off[id]; partySheet(); });
-  document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { const m = Party.mem[b.dataset.go]; if(!m) return; if(MAP_NEED[m.map] && P.stage < MAP_NEED[m.map]) return toast(Lx("Cần đạt {0} mới vào được {1}", realmName(MAP_NEED[m.map]), MAPS[m.map].name)); closeSheet(); fade(() => enterMap(m.map, m.x, m.y)); });
+  document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { closeSheet(); partyGo(b.dataset.go); });
 }
 
 
@@ -3392,6 +3408,7 @@ $('#bRide').onclick = toggleRide; holdTip($('#bRide'), () => `<h4>🐎 ${Lx("Cư
 $('#mmw').onclick = bigMap; holdTip($('#expw'), expTip);
 $('#bChat').onclick = () => { sfx.tap(); chatSheet(); };
 $('#bMenu').onclick = () => { sfx.tap(); menuSheet(); };
+$('#track').addEventListener('click', e => { const r = e.target.closest('[data-pgo]'); if(r){ e.stopPropagation(); sfx.tap(); partyGo(r.dataset.pgo); } });
 $('#bAtk').onclick = attackPress; $('#bPot').onclick = drinkHp; $('#bAuto').onclick = toggleAuto; $('#bMed').onclick = toggleMed;
 document.querySelectorAll('[data-sk]').forEach(b => { b.onclick = () => useSkill(b.dataset.sk); holdTip(b, () => skillTip(b.dataset.sk)); });
 holdTip($('#bAtk'), () => { const nn = nearNpc(); return nn ? `<h4>${nn.n}</h4><p>${Lx("Bấm để nói chuyện.")}</p>` : skillTip('atk'); });
@@ -3810,7 +3827,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : Lx("Không kết nối được máy chủ, bạn vẫn chơi offline được."));
 }
-window.__td = { Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
