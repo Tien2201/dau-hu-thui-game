@@ -590,7 +590,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=10"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=11"><\/script>');
 })();
 </script>
 <script>
@@ -625,7 +625,8 @@ const MAJORS = [
 const SUBS = [Lx("Sơ Kỳ"), Lx("Trung Kỳ"), Lx("Hậu Kỳ"), Lx("Đại Viên Mãn")];
 const MAX_STAGE = 37;
 const majorOf = s => MAJORS.find(m => s >= m.from && s <= m.to);
-function realmName(s){ const m = majorOf(s); if(m.n === Lx("Luyện Khí")) return `${Lx("Luyện Khí Tầng {0}", s + 1)}`; if(m.from === m.to) return m.n; return `${m.n} ${SUBS[s - m.from]}`; }
+function realmName(s){ return `Lv ${s + 1} · ${majorOf(s).n}`; }
+function realmFull(s){ const m = majorOf(s); if(m.n === Lx("Luyện Khí")) return `${Lx("Luyện Khí Tầng {0}", s + 1)}`; if(m.from === m.to) return m.n; return `${m.n} ${SUBS[s - m.from]}`; }
 const isGate = s => s < MAX_STAGE && majorOf(s).to === s; // cuối đại cảnh giới phải đột phá
 const needExp = s => Math.round(80 * Math.pow(1.22, s) + 40 * s);
 const baseAtk = s => 12 + 6 * s + .5 * s * s;
@@ -719,7 +720,7 @@ const KEEPS = {
   hp:{ n:Lx("Túi Đan Dược"), ic:'🧪', d:Lx("5 Hồi Huyết Đan.") },
   pc:{ n:Lx("Phá Cảnh Đan"), ic:'💊', d:Lx("1 Phá Cảnh Đan cho lần đột phá đầu tiên.") },
   tbl:{ n:Lx("Tầm Bảo Lệnh"), ic:'🎫', d:Lx("5 Tầm Bảo Lệnh.") },
-  st:{ n:Lx("Túi Linh Thạch"), ic:'💎', d:Lx("800 linh thạch.") },
+  st:{ n:Lx("Túi Xu"), ic:'🪙', d:Lx("800 xu.") },
   ngoc:{ n:Lx("Ngọc Bội Tu Tâm"), ic:'🪬', d:Lx("Vĩnh viễn +5% tu vi nhận.") },
   ho:{ n:Lx("Bùa Hộ Mệnh"), ic:'🧿', d:Lx("Khi nhận đòn chí mạng, giữ lại 30% máu. Hồi lại sau 10 phút.") },
 };
@@ -1355,7 +1356,7 @@ const AFX = {
   atk:{ n:Lx("Công kích"), u:'%', v:[0, 0, 4, 6, 9, 12, 16] }, hp:{ n:Lx("Sinh lực"), u:'%', v:[0, 0, 5, 8, 11, 15, 20] }, def:{ n:Lx("Phòng ngự"), u:'%', v:[0, 0, 5, 8, 12, 16, 22] },
   crit:{ n:Lx("Bạo kích"), u:'%', v:[0, 0, 2, 3, 4, 5, 7] }, critd:{ n:Lx("Bạo thương"), u:'%', v:[0, 0, 8, 12, 18, 25, 35] }, spd:{ n:Lx("Tốc độ chạy"), u:'%', v:[0, 0, 3, 4, 6, 8, 10] },
   ls:{ n:Lx("Hút máu"), u:'%', v:[0, 0, 1, 1.5, 2, 3, 4] }, rg:{ n:Lx("Hồi sinh lực"), u:Lx("%/giây"), v:[0, 0, .2, .3, .4, .5, .7] }, exp:{ n:Lx("Tu vi nhận"), u:'%', v:[0, 0, 4, 6, 9, 12, 16] },
-  gold:{ n:Lx("Linh thạch rơi"), u:'%', v:[0, 0, 8, 12, 18, 25, 35] }, boss:{ n:Lx("Sát thương lên boss"), u:'%', v:[0, 0, 5, 8, 12, 16, 22] },
+  gold:{ n:Lx("Xu rơi"), u:'%', v:[0, 0, 8, 12, 18, 25, 35] }, boss:{ n:Lx("Sát thương lên boss"), u:'%', v:[0, 0, 5, 8, 12, 16, 22] },
 };
 const AFX_POOL = { w:['atk', 'crit', 'critd', 'ls', 'boss', 'exp'], a:['hp', 'def', 'rg', 'spd', 'gold', 'exp'], h:['hp', 'def', 'crit', 'rg', 'gold', 'exp'], wi:['atk', 'hp', 'critd', 'spd', 'ls', 'boss'] };
 const AFX_N = [0, 0, 1, 1, 2, 2, 3];
@@ -1751,7 +1752,7 @@ function update(dt){
   Net.tick(dt); Net.partyTick(dt); if(frame % 30 === 0) partyUpdate();
 }
 function pickDrop(d){
-  if(d.k === 'st'){ P.st += d.n; texts.push({ x:me.x, y:me.y - 30, t:0, s:`${Lx("+{0} linh thạch", d.n)}`, c:'#7FE0F0' }); sfx.coin(); return; }
+  if(d.k === 'st'){ P.st += d.n; texts.push({ x:me.x, y:me.y - 30, t:0, s:`${Lx("+{0} xu", d.n)}`, c:'#7FE0F0' }); sfx.coin(); return; }
   if(d.k === 'tt'){ P.inv.tt = (P.inv.tt || 0) + d.n; texts.push({ x:me.x, y:me.y - 34, t:0, s:`+${d.n} Linh Tinh`, c:'#C99BFF' }); sfx.coin(); return; }
   if(PILLS[d.k]){ P.inv[d.k] = (P.inv[d.k] || 0) + d.n; texts.push({ x:me.x, y:me.y - 34, t:0, s:`+${PILLS[d.k].n}`, c:'#FFE07A' }); sfx.coin(); return; }
   if(ITEMS[d.k]){ if(P.bag.length >= bagCap()){ if(!me._full || tNow - me._full > 4){ me._full = tNow; toast(Lx("Túi đồ đầy! Mở túi → Dọn túi nhanh")); } return; } const I = ITEMS[d.k], it = addItem(d.k, d.b ? 'boss' : 'drop'); if(!it){ saveSoon(); return; } lootBanner(I, it); sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:rarC(I.t) }); if(I.t >= 5) Net.chat(`${Lx("nhặt được {0} [{1}]!", RAR[I.t][0], I.n)}`, true); saveSoon(); }
@@ -2055,7 +2056,7 @@ function itemIcon(k){
   if(ICONS[k]) return ICONS[k];
   let c; let fam = ''; if(k.includes('@')){ [k, fam] = [k.split('@')[0], k.split('@')[1]]; }
   if(k === 'tt') c = spr(16, 16, R => { R(7, 1, 2, 2, '#F4E8FF'); R(5, 3, 6, 4, '#C99BFF'); R(4, 7, 8, 4, '#9B6BE0'); R(6, 11, 4, 3, '#6A3AB0'); R(6, 4, 2, 5, '#F4E8FF'); R(10, 6, 1, 4, '#E0C8FF'); });
-  else if(k === 'st') c = spr(16, 16, R => { R(5, 3, 6, 10, '#7FE0F0'); R(6, 2, 4, 1, '#BFF4FF'); R(6, 4, 2, 6, '#E8FFFF'); R(4, 6, 1, 4, '#4FB0D0'); R(11, 6, 1, 4, '#4FB0D0'); });
+  else if(k === 'st') c = spr(16, 16, R => { R(4, 2, 8, 12, '#C9912A'); R(2, 4, 12, 8, '#C9912A'); R(3, 3, 10, 10, '#F2C14E'); R(5, 4, 6, 8, '#FFE07A'); R(6, 6, 4, 4, '#C9912A'); R(7, 7, 2, 2, '#FFE07A'); R(4, 3, 3, 1, '#FFF3C0'); });
   else if(k === 'tp') c = spr(16, 16, R => { R(4, 1, 8, 14, '#F4E2B0'); R(4, 1, 8, 1, '#C9A464'); R(4, 14, 8, 1, '#C9A464'); R(7, 3, 2, 9, '#2A6FB5'); R(5, 5, 6, 1, '#2A6FB5'); R(5, 9, 6, 1, '#2A6FB5'); R(6, 7, 4, 1, '#7FC8FF'); R(7, 12, 2, 1, '#E0453A'); });
   else if(PILLS[k]) c = spr(16, 16, R => { const col = PILLS[k].c; R(4, 5, 8, 8, col); R(5, 4, 6, 10, col); R(6, 5, 2, 2, '#FFFFFF'); R(9, 10, 2, 2, shade(col, -.3)); });
   else {
@@ -2182,7 +2183,7 @@ function drawMini(){
 }
 function grant(rw){
   const parts = [];
-  if(rw.st){ P.st += rw.st; parts.push(`${Lx("{0} linh thạch", fmt(rw.st))}`); }
+  if(rw.st){ P.st += rw.st; parts.push(`${Lx("{0} xu", fmt(rw.st))}`); }
   ['hp', 'mp', 'x2', 'pc'].forEach(k => { if(rw[k]){ P.inv[k] = (P.inv[k] || 0) + rw[k]; parts.push(`${rw[k]} ${PILLS[k].n}`); } });
   if(rw.item){ const it2 = rollItem(rw.item, 'boss'); P.bag.push(it2); parts.push(itName(it2)); }
   if(rw.tbl){ P.inv.tbl = (P.inv.tbl || 0) + rw.tbl; parts.push(Lx('{0} Tầm Bảo Lệnh', rw.tbl)); }
@@ -2318,9 +2319,9 @@ function talkRen(){
   if(!I) lines.push(Lx("Tay không mà đòi đi trừ ma à, {tt}?"));
   else if(w.plus >= 7) lines.push(`${Lx("{0} +{1}… Hừm. Cả đời ta chưa rèn được mấy thanh như vậy.", itName(w), w.plus)}`);
   else if(w.plus < 3) lines.push(`${Lx("{0} mà mới +{1}? Còn non lắm. Để ta tôi thêm vài lửa.", itName(w), w.plus)}`);
-  else lines.push(pickR([Lx("Lại đây. Để ta xem lưỡi kiếm của ngươi mẻ chỗ nào."), Lx("Hừ, đến rồi à. Đưa đồ đây."), Lx("Thép tốt cần lửa lớn. Linh thạch mang đủ chưa?")]));
+  else lines.push(pickR([Lx("Lại đây. Để ta xem lưỡi kiếm của ngươi mẻ chỗ nào."), Lx("Hừ, đến rồi à. Đưa đồ đây."), Lx("Thép tốt cần lửa lớn. Xu mang đủ chưa?")]));
   const forge = [Lx("Rèn & cường hoá"), () => { closeDlg(true); shopSheet('forge'); }];
-  say('ren', lines, [forge, [Lx("Trò chuyện"), () => say('ren', pickR([[Lx("Cường hoá càng cao càng dễ thất bại. Đó là đạo của thép."), Lx("Muốn chắc ăn thì đừng tiếc linh thạch.")], [Lx("Hồi trẻ ta cũng từng muốn tu tiên."), Lx("Rồi ta nhận ra… cầm búa hợp với ta hơn cầm kiếm.")], [Lx("Vảy của Ma Tôn nghe nói nóng hơn cả lò của ta."), Lx("Nếu ngươi lấy được một mảnh… hừ, mang về đây xem.")]]), [forge, [Lx("Tạm biệt"), () => bye('ren')]])], [Lx("Tạm biệt"), () => bye('ren')]]);
+  say('ren', lines, [forge, [Lx("Trò chuyện"), () => say('ren', pickR([[Lx("Cường hoá càng cao càng dễ thất bại. Đó là đạo của thép."), Lx("Muốn chắc ăn thì đừng tiếc xu.")], [Lx("Hồi trẻ ta cũng từng muốn tu tiên."), Lx("Rồi ta nhận ra… cầm búa hợp với ta hơn cầm kiếm.")], [Lx("Vảy của Ma Tôn nghe nói nóng hơn cả lò của ta."), Lx("Nếu ngươi lấy được một mảnh… hừ, mang về đây xem.")]]), [forge, [Lx("Tạm biệt"), () => bye('ren')]])], [Lx("Tạm biệt"), () => bye('ren')]]);
 }
 function npcTalk(n){
   sfx.tap(); n.say = null;
@@ -2334,12 +2335,12 @@ function questSheet(atNpc){
   const ready = questReady();
   let body = '';
   if(q){
-    const rw = q.rw, rwt = [rw.st && `${Lx("{0} linh thạch", fmt(rw.st))}`, rw.hp && `${Lx("{0} Hồi Huyết Đan", rw.hp)}`, rw.mp && `${Lx("{0} Hồi Linh Đan", rw.mp)}`, rw.x2 && `${Lx("{0} Tụ Khí Đan", rw.x2)}`, rw.pc && `${Lx("{0} Phá Cảnh Đan", rw.pc)}`, rw.item && ITEMS[rw.item].n].filter(Boolean).join(', ');
+    const rw = q.rw, rwt = [rw.st && `${Lx("{0} xu", fmt(rw.st))}`, rw.hp && `${Lx("{0} Hồi Huyết Đan", rw.hp)}`, rw.mp && `${Lx("{0} Hồi Linh Đan", rw.mp)}`, rw.x2 && `${Lx("{0} Tụ Khí Đan", rw.x2)}`, rw.pc && `${Lx("{0} Phá Cảnh Đan", rw.pc)}`, rw.item && ITEMS[rw.item].n].filter(Boolean).join(', ');
     body = `<div class="line"><div class="g"><b>${esc(q.t)}</b><small>${esc(q.d)}</small><small style="color:#F2C14E">${Lx("Thưởng: {0}", rwt)}</small></div></div>
       ${ready ? (atNpc ? Lx("<button class=\"btn gold\" id=\"qDone\">Nhận thưởng</button>") : Lx("<p class=\"sub\">Đã hoàn thành, về gặp Tông Chủ ở quảng trường Thôn Thanh Vân nhận thưởng.</p>")) : `<p class="sub">${Lx("Tiến độ: {0}", q.k === 'stage' ? realmName(P.stage) + ' / ' + realmName(q.n) : q.k === 'talk' ? Lx("chưa gặp") : P.q.p + '/' + q.n)}</p>`}`;
   } else {
     if(P.daily.d !== today()) P.daily = { d:today(), p:0, done:0 };
-    body = `<p class="sub">${Lx("Con đã hoàn thành mọi thử thách của bổn môn. Mỗi ngày hãy trừ ma vệ đạo.")}</p><div class="line"><div class="g"><b>${DAILY.t}</b><small>${Lx("{0} Thưởng linh thạch, Tụ Khí Đan và Phá Cảnh Đan.", DAILY.d)}</small><small>${Lx("Tiến độ: {0}/{1}{2}", P.daily.p, DAILY.n, P.daily.done ? Lx(" · đã nhận") : '')}</small></div></div>${ready && atNpc ? Lx("<button class=\"btn gold\" id=\"qDone\">Nhận thưởng hằng ngày</button>") : ''}`;
+    body = `<p class="sub">${Lx("Con đã hoàn thành mọi thử thách của bổn môn. Mỗi ngày hãy trừ ma vệ đạo.")}</p><div class="line"><div class="g"><b>${DAILY.t}</b><small>${Lx("{0} Thưởng xu, Tụ Khí Đan và Phá Cảnh Đan.", DAILY.d)}</small><small>${Lx("Tiến độ: {0}/{1}{2}", P.daily.p, DAILY.n, P.daily.done ? Lx(" · đã nhận") : '')}</small></div></div>${ready && atNpc ? Lx("<button class=\"btn gold\" id=\"qDone\">Nhận thưởng hằng ngày</button>") : ''}`;
   }
   sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button><h2>${atNpc ? Lx("Tông Chủ Thanh Vân") : Lx("Nhiệm vụ")}</h2>${atNpc ? `<p class="sub">"${q ? Lx("Tu tiên chi lộ, gian nan vạn phần. Làm tốt việc ta giao, ắt có ban thưởng.\"") : Lx("Đạo hữu tiến bộ thần tốc!\"")}</p>` : ''}${body}`);
   const d = $('#qDone'); if(d) d.onclick = () => {
@@ -2362,12 +2363,12 @@ function shopSheet(kind, tab){
     const eqs = ['w', 'h', 'a', 'wi'].map(s => itemOf(P.eq[s])).filter(Boolean);
     body = `<p class="sub">${Lx("Có")} <span class="mat">${iconHtml('tt', 14)} ${fmt(P.inv.tt || 0)} Linh Tinh</span>${Lx(". Từ +4 trở lên cần Linh Tinh, lấy bằng cách phân giải đồ thừa.")}</p>` + (eqs.length ? eqs.map(b => { const I = ITEMS[b.k], cost = 60 * (b.plus + 1) ** 2 * I.t, ch = [1, 1, .95, .9, .8, .7, .6, .5, .4, .3][b.plus] || 0, mt = b.plus >= 3 ? (b.plus - 1) * I.t * 2 : 0; return `<div class="line">${iconHtml(ik(b))}<div class="g"><b>${I.n} +${b.plus}</b><small>${b.plus >= 10 ? Lx("Đã cường hoá tối đa") : `${Lx("Lên +{0}: tỉ lệ {1}%{2} · mỗi cấp +10% chỉ số", b.plus + 1, Math.round(ch * 100), mt ? ` ${Lx("· cần")} <span class="mat">${iconHtml('tt', 12)} ${mt}</span>` : '')}`}</small></div>${b.plus < 10 ? `<button class="s" data-up="${b.id}" data-c="${cost}" data-ch="${ch}" data-m="${mt}">${fmt(cost)}</button>` : ''}</div>`; }).join('') : Lx("<p class=\"sub\">Chưa mang trang bị nào.</p>"));
   }
-  sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button><h2>${forge ? Lx("Thợ Rèn Lão Thiết") : Lx("Đan Sư Lam Nhi")}</h2><p class="sub">${Lx("Linh thạch:")} <b style="color:#7FE0F0">${fmt(P.st)}</b></p>
+  sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button><h2>${forge ? Lx("Thợ Rèn Lão Thiết") : Lx("Đan Sư Lam Nhi")}</h2><p class="sub">${Lx("Xu:")} <b style="color:#7FE0F0">${fmt(P.st)}</b></p>
     ${forge ? `<div class="tabs"><button data-t="buy" class="${tab === 'buy' ? 'on' : ''}">${Lx("Mua trang bị")}</button><button data-t="up" class="${tab === 'up' ? 'on' : ''}">${Lx("Cường hoá")}</button></div>` : ''}${body}`);
   document.querySelectorAll('[data-t]').forEach(b => b.onclick = () => shopSheet(kind, b.dataset.t));
-  document.querySelectorAll('[data-buy]').forEach(b => b.onclick = () => { const p = +b.dataset.p; if(P.st < p) return toast(Lx("Không đủ linh thạch")); P.st -= p; P.inv[b.dataset.buy] = (P.inv[b.dataset.buy] || 0) + 1; sfx.coin(); shopSheet(kind, tab); });
-  document.querySelectorAll('[data-eqbuy]').forEach(b => b.onclick = () => { const I = ITEMS[b.dataset.eqbuy]; if(P.st < I.p) return toast(Lx("Không đủ linh thạch")); if(P.bag.length >= bagCap()) return toast(Lx("Túi đồ đầy")); P.st -= I.p; const it = rollItem(b.dataset.eqbuy, 'shop'); P.bag.push(it); equip(it.id); sfx.lv(); toast(`${Lx("Đã mua và trang bị {0}", I.n)}`); shopSheet(kind, tab); });
-  document.querySelectorAll('[data-up]').forEach(b => b.onclick = () => { const c = +b.dataset.c, mt = +b.dataset.m, it = itemOf(+b.dataset.up); if(P.st < c) return toast(Lx("Không đủ linh thạch")); if((P.inv.tt || 0) < mt) return toast(`${Lx("Thiếu Linh Tinh (cần {0}). Phân giải đồ thừa trong túi để có.", mt)}`); P.st -= c; P.inv.tt = (P.inv.tt || 0) - mt; if(Math.random() < +b.dataset.ch){ it.plus++; sfx.lv(); toast(`${Lx("Cường hoá thành công! {0} +{1}", ITEMS[it.k].n, it.plus)}`); Net.pushLook(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(ITEMS[it.k].t) }); if(it.plus >= 8) Net.chat(`${Lx("cường hoá {0} lên +{1}!", ITEMS[it.k].n, it.plus)}`, true); } else { sfx.bad(); toast(Lx("Cường hoá thất bại, linh thạch đã mất")); } shopSheet(kind, tab); });
+  document.querySelectorAll('[data-buy]').forEach(b => b.onclick = () => { const p = +b.dataset.p; if(P.st < p) return toast(Lx("Không đủ xu")); P.st -= p; P.inv[b.dataset.buy] = (P.inv[b.dataset.buy] || 0) + 1; sfx.coin(); shopSheet(kind, tab); });
+  document.querySelectorAll('[data-eqbuy]').forEach(b => b.onclick = () => { const I = ITEMS[b.dataset.eqbuy]; if(P.st < I.p) return toast(Lx("Không đủ xu")); if(P.bag.length >= bagCap()) return toast(Lx("Túi đồ đầy")); P.st -= I.p; const it = rollItem(b.dataset.eqbuy, 'shop'); P.bag.push(it); equip(it.id); sfx.lv(); toast(`${Lx("Đã mua và trang bị {0}", I.n)}`); shopSheet(kind, tab); });
+  document.querySelectorAll('[data-up]').forEach(b => b.onclick = () => { const c = +b.dataset.c, mt = +b.dataset.m, it = itemOf(+b.dataset.up); if(P.st < c) return toast(Lx("Không đủ xu")); if((P.inv.tt || 0) < mt) return toast(`${Lx("Thiếu Linh Tinh (cần {0}). Phân giải đồ thừa trong túi để có.", mt)}`); P.st -= c; P.inv.tt = (P.inv.tt || 0) - mt; if(Math.random() < +b.dataset.ch){ it.plus++; sfx.lv(); toast(`${Lx("Cường hoá thành công! {0} +{1}", ITEMS[it.k].n, it.plus)}`); Net.pushLook(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.9, c:rarC(ITEMS[it.k].t) }); if(it.plus >= 8) Net.chat(`${Lx("cường hoá {0} lên +{1}!", ITEMS[it.k].n, it.plus)}`, true); } else { sfx.bad(); toast(Lx("Cường hoá thất bại, xu đã mất")); } shopSheet(kind, tab); });
 }
 function itemDesc(I){ return I.slot === 'w' ? `${Lx("Công +{0}", I.atk)}` : (I.slot === 'a' || I.slot === 'h') ? `${Lx("Sinh lực +{0}, Phòng +{1}", I.hp, I.def)}` : `${Lx("Công & Sinh lực +{0}%", Math.round(I.pct * 100))}`; }
 function equip(id){ const it = itemOf(id); if(!it) return; const I = ITEMS[it.k]; if(!famOk(it)){ toast(Lx("Chỉ {0} dùng được", famClasses(it.wc))); return false; } if(P.stage < I.s){ toast(`${Lx("Cần {0}", realmName(I.s))}`); return false; } P.eq[I.slot] = id; const S = stats(); me.hp = Math.min(me.hp, S.hp); Net.pushLook(); _hk = ''; return true; }
@@ -2423,7 +2424,7 @@ function bagSheet(filter){
   const panel = sel ? (() => { const I = ITEMS[sel.k], on = isEq(sel), no = P.stage < I.s || !famOk(sel); return `<div class="ipanel"><button class="x" id="ipX" aria-label="${Lx("Đóng")}">×</button><div class="htip" style="position:static;width:auto;border:none;box-shadow:none;padding:0;background:none;animation:none">${itemTip(sel)}</div>
       <div class="brow">${on ? `<button class="btn alt" id="iUn">${Lx("Tháo ra")}</button>` : `<button class="btn gold" id="iEq" ${no ? 'disabled' : ''}>${!famOk(sel) ? Lx("Sai môn phái") : no ? Lx("Chưa đủ cảnh giới") : Lx("Trang bị")}</button>`}<button class="btn alt" id="iLk">${sel.lk ? Lx("🔓 Mở khoá") : Lx("🔒 Khoá")}</button></div>
       ${on || sel.lk ? '' : `<div class="brow"><button class="btn red" id="iSell">${Lx("Bán {0}", fmt(sellPrice(sel)))}</button><button class="btn" id="iSalv" style="background:#6A3AB0">${Lx("Phân giải +{0}", salvageVal(sel))}</button></div>`}</div>`; })() : '';
-  sheetFs(`<div class="fsh"><div class="fst"><span class="on">${Lx("Túi đồ")}</span><span class="ivst">💎 ${fmt(P.st)} · ${iconHtml('tt', 14)} ${fmt(P.inv.tt || 0)} · ${P.bag.length}/${bagCap()} ${Lx("ô")}</span></div><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div>
+  sheetFs(`<div class="fsh"><div class="fst"><span class="on">${Lx("Túi đồ")}</span><span class="ivst">🪙 ${fmt(P.st)} · ${iconHtml('tt', 14)} ${fmt(P.inv.tt || 0)} · ${P.bag.length}/${bagCap()} ${Lx("ô")}</span></div><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div>
     <div class="fsl ivdoll"><div class="doll2">${slot('h', 'sh')}${slot('wi', 'swi')}<img src="${heroPreview()}" alt="">${slot('w', 'sw')}${slot('a', 'sa')}</div>
       <div class="fspow" style="font-size:30px;text-align:center"><small>${Lx("CHIẾN LỰC")}</small>${fmt(power())}</div>
       <div class="drv"><span>${Lx("Công kích")}<b>${fmt(S.atk)}</b></span><span>${Lx("Sinh lực")}<b>${fmt(S.hp)}</b></span><span>${Lx("Phòng ngự")}<b>${fmt(S.def)}</b></span><span>${Lx("Bạo kích")}<b>${Math.round(S.crit * 100)}%</b></span></div></div>
@@ -2442,7 +2443,7 @@ function bagSheet(filter){
   document.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { invF = b.dataset.f; sfx.tap(); bagSheet(null); });
   $('#iSort').onclick = () => { invSort = invSort === 'tier' ? 'type' : 'tier'; bagSheet(null); };
   $('#bulk').onclick = bulkSheet;
-  const ex = $('#exp'); if(ex) ex.onclick = () => { const c = bagCost(); if(P.st < c) return toast(Lx("Không đủ linh thạch")); P.st -= c; P.bagMax = bagCap() + 10; sfx.lv(); toast(`${Lx("Túi đồ mở rộng lên {0} ô", P.bagMax)}`); saveSoon(); bagSheet(null); };
+  const ex = $('#exp'); if(ex) ex.onclick = () => { const c = bagCost(); if(P.st < c) return toast(Lx("Không đủ xu")); P.st -= c; P.bagMax = bagCap() + 10; sfx.lv(); toast(`${Lx("Túi đồ mở rộng lên {0} ô", P.bagMax)}`); saveSoon(); bagSheet(null); };
   document.querySelectorAll('[data-pill]').forEach(b => { const k = b.dataset.pill, p = PILLS[k]; holdTip(b, () => `<h4>${p.n}</h4><div class="sub2">${Lx("Còn {0}", P.inv[k] || 0)}</div><p>${p.d}</p>`);
     b.onclick = () => { if(!P.inv[k]) return toast(Lx("Hết {0}", p.n)); if(k === 'hp') drinkHp(); else if(k === 'mp') drinkMp(); else if(k === 'x2'){ P.inv.x2--; P.buff.x2 = Math.max(Date.now(), P.buff.x2 || 0) + 600000; toast(Lx("Tụ Khí Đan: tu vi x2 trong 10 phút")); } else if(k === 'tp'){ wpSheet(); return; } else return toast(Lx("Tự dùng khi đột phá đại cảnh giới.")); saveSoon(); bagSheet(null); }; });
   if(sel){ const I = ITEMS[sel.k];
@@ -2462,13 +2463,13 @@ function salvage(it){ const n = salvageVal(it); P.inv.tt = (P.inv.tt || 0) + n; 
 function addItem(k, src){ const I = ITEMS[k], it = rollItem(k, src); if(P.autoJunk && I.t <= P.autoJunk && !perfect(it)){ P.bag.push(it); const n = salvage(it); texts.push({ x:me.x, y:me.y - 34, t:0, s:`${Lx("Phân giải {0} +{1} Linh Tinh", itName(it), n)}`, c:'#C99BFF' }); sfx.coin(); return null; } P.bag.push(it); return it; }
 function bulkSheet(){
   invSel = null; const pick = t => P.bag.filter(b => !isEq(b) && !b.lk && ITEMS[b.k].t <= t);
-  const row = (t, lbl) => { const L = pick(t), g = L.reduce((a, b) => a + sellPrice(b), 0), m = L.reduce((a, b) => a + salvageVal(b), 0); return `<div class="line"><div class="g"><b style="color:${rarC(t)}">${lbl}</b><small>${Lx("{0} món · bán {1} linh thạch hoặc phân giải {2} Linh Tinh", L.length, fmt(g), fmt(m))}</small></div><button class="s" data-bs="${t}" ${L.length ? '' : 'disabled'}>${Lx("Bán")}</button><button class="s" data-bg="${t}" ${L.length ? '' : 'disabled'} style="background:#6A3AB0">${Lx("Phân giải")}</button></div>`; };
+  const row = (t, lbl) => { const L = pick(t), g = L.reduce((a, b) => a + sellPrice(b), 0), m = L.reduce((a, b) => a + salvageVal(b), 0); return `<div class="line"><div class="g"><b style="color:${rarC(t)}">${lbl}</b><small>${Lx("{0} món · bán {1} xu hoặc phân giải {2} Linh Tinh", L.length, fmt(g), fmt(m))}</small></div><button class="s" data-bs="${t}" ${L.length ? '' : 'disabled'}>${Lx("Bán")}</button><button class="s" data-bg="${t}" ${L.length ? '' : 'disabled'} style="background:#6A3AB0">${Lx("Phân giải")}</button></div>`; };
   sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">${Lx("×")}</button><h2>${Lx("Dọn túi nhanh")}</h2><p class="sub">${Lx("Không đụng tới đồ đang mặc và đồ đã khoá 🔒.")}</p>
     ${row(1, Lx("Phàm phẩm"))}${row(2, Lx("Từ Linh phẩm trở xuống"))}${row(3, Lx("Từ Huyền phẩm trở xuống"))}${row(4, Lx("Từ Địa phẩm trở xuống"))}
     <h3>${Lx("Tự phân giải khi nhặt")}</h3><p class="sub">${Lx("Đồ có dòng phụ Hoàn mỹ ✦ luôn được giữ lại.")}</p><div class="tabs">${[Lx("Tắt"), Lx("Phàm"), '≤ Linh', Lx("≤ Huyền")].map((l, i) => `<button data-aj="${i}" class="${(P.autoJunk || 0) === i ? 'on' : ''}">${l}</button>`).join('')}</div>
     <button class="btn alt" id="back">${Lx("Quay lại túi")}</button>`);
   $('#back').onclick = () => bagSheet();
-  document.querySelectorAll('[data-bs]').forEach(b => b.onclick = () => { const L = pick(+b.dataset.bs), g = L.reduce((a, x) => a + sellPrice(x), 0); P.st += g; P.bag = P.bag.filter(x => !L.includes(x)); sfx.coin(); toast(`${Lx("Đã bán {0} món, +{1} linh thạch", L.length, fmt(g))}`); saveSoon(); bulkSheet(); });
+  document.querySelectorAll('[data-bs]').forEach(b => b.onclick = () => { const L = pick(+b.dataset.bs), g = L.reduce((a, x) => a + sellPrice(x), 0); P.st += g; P.bag = P.bag.filter(x => !L.includes(x)); sfx.coin(); toast(`${Lx("Đã bán {0} món, +{1} xu", L.length, fmt(g))}`); saveSoon(); bulkSheet(); });
   document.querySelectorAll('[data-bg]').forEach(b => b.onclick = () => { const L = pick(+b.dataset.bg); let m = 0; L.forEach(x => m += salvage(x)); sfx.lv(); toast(`${Lx("Phân giải {0} món, +{1} Linh Tinh", L.length, fmt(m))}`); saveSoon(); bulkSheet(); });
   document.querySelectorAll('[data-aj]').forEach(b => b.onclick = () => { P.autoJunk = +b.dataset.aj; saveSoon(); bulkSheet(); });
 }
@@ -2481,10 +2482,10 @@ function classSheet(){
       <div class="fsc"><img src="${classPreview(sel, P.g, P.hair, P.robe, { at:L.at, ac:L.ac, h:L.h, trim:L.trim })}" alt=""><div class="fsfloor" style="--cc:${C.c}"></div></div>
       <div class="fsr"><div class="fsname" style="color:${C.c}">${C.ic} ${C.n}</div><div class="fsrole">${C.role} · ${Lx("Độ khó")} <span style="color:var(--gold)">${stars(C.diff)}</span></div><p class="lore">“${C.lore}”</p>
         <div class="fsec">${Lx("Thuộc tính")} <span>Lv ${C.lv}</span></div>${attrRows(C)}<div class="fsec">${Lx("Chỉ số khởi điểm")}</div>${derivedRows(C)}<div class="fsec">${Lx("Đòn đánh")}</div><p class="fp">${C.att}</p><div class="fsec">${Lx("Thiên phú")}</div><p class="fp">${C.pas}</p></div>
-      <div class="fsb"><button class="fbtn" id="fBack">‹ ${Lx("Quay lại")}</button><button class="fbtn gold" id="fNext" ${sel === (P.cls || 'kiem') ? 'disabled' : ''}>${price ? Lx("Đổi môn phái tốn {0} linh thạch.", fmt(price)) : Lx("Lần đổi đầu tiên miễn phí.")}</button></div>`);
+      <div class="fsb"><button class="fbtn" id="fBack">‹ ${Lx("Quay lại")}</button><button class="fbtn gold" id="fNext" ${sel === (P.cls || 'kiem') ? 'disabled' : ''}>${price ? Lx("Đổi môn phái tốn {0} xu.", fmt(price)) : Lx("Lần đổi đầu tiên miễn phí.")}</button></div>`);
     document.querySelectorAll('[data-cl]').forEach(b => b.onclick = () => { sel = b.dataset.cl; sfx.tap(); draw(); });
     $('#fBack').onclick = charSheet;
-    $('#fNext').onclick = () => { if(P.st < price) return toast(Lx("Không đủ linh thạch")); P.st -= price; P.cls = sel; P.clsChg = (P.clsChg || 0) + 1; { const cw = itemOf(P.eq.w); if(cw && !famOk(cw)){ P.eq.w = null; toast(Lx("Vũ khí cũ không hợp môn phái mới, đã tháo ra")); } } _sk = ''; const S = stats(); me.hp = Math.min(me.hp, S.hp); Net.pushLook(); sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:cls().c }); toast(Lx("Đã chuyển sang {0}", cls().n)); saveSoon(); charSheet(); };
+    $('#fNext').onclick = () => { if(P.st < price) return toast(Lx("Không đủ xu")); P.st -= price; P.cls = sel; P.clsChg = (P.clsChg || 0) + 1; { const cw = itemOf(P.eq.w); if(cw && !famOk(cw)){ P.eq.w = null; toast(Lx("Vũ khí cũ không hợp môn phái mới, đã tháo ra")); } } _sk = ''; const S = stats(); me.hp = Math.min(me.hp, S.hp); Net.pushLook(); sfx.lv(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:cls().c }); toast(Lx("Đã chuyển sang {0}", cls().n)); saveSoon(); charSheet(); };
   };
   draw();
 }
@@ -2501,7 +2502,7 @@ function charSheet(){
   const card = sl => { const it = itemOf(P.eq[sl]), I = it && ITEMS[it.k]; return `<button class="fcard${it ? ' on' : ''}" data-slot="${sl}" style="--cc:${I ? rarC(I.t) : '#555'}">${it ? iconHtml(ik(it), 40) : `<span class="fi" style="opacity:.35">＋</span>`}<span class="fn"><b style="color:${I ? rarC(I.t) : 'var(--paper2)'}">${I ? itName(it) + (it.plus ? ' +' + it.plus : '') : SLOTN[sl]}</b><small>${I ? `${RAR[I.t][0]} · ${SLOTN[sl]}${(it.r || []).length ? ' · ' + it.r.length + '✦' : ''}` : Lx("Chưa trang bị")}</small></span></button>`; };
   let left = '';
   if(charTab === 'eq') left = `<div class="fsec" style="margin-top:2px">${Lx("Trang bị")}</div>${card('w')}${card('a')}${card('h')}${card('wi')}<button class="fbtn" id="cBag" style="width:100%;margin-top:4px">${Lx("Túi đồ")}</button>${S.sets.map(([t, n]) => `<div class="fsec">${Lx("Bộ {0} ({1}/4)", SETS[t].n, n)}</div><p class="fp" style="color:${SETS[t].c}">${SETS[t].d.filter((_, i) => n >= SETS[t].b[i][0]).join('<br>')}</p>`).join('')}`;
-  else if(charTab === 'at') left = `<div class="fsec" style="margin-top:2px">${Lx("Thuộc tính")} <span>${C.ic} ${C.n}</span></div>${attrRows(C)}<div class="fsec">${Lx("Chỉ số")}</div><div class="drv"><span>${Lx("Công kích")}<b>${fmt(S.atk)}</b></span><span>${Lx("Sinh lực")}<b>${fmt(S.hp)}</b></span><span>${Lx("Phòng ngự")}<b>${fmt(S.def)}</b></span><span>${Lx("Linh lực")}<b>${fmt(S.mp)}</b></span><span>${Lx("Bạo kích")}<b>${Math.round(S.crit * 100)}%</b></span><span>${Lx("Bạo thương")}<b>${Math.round(S.critd * 100)}%</b></span>${[['spd', Lx("Tốc độ")], ['ls', Lx("Hút máu")], ['rg', Lx("Hồi máu/giây")], ['boss', Lx("ST lên boss")], ['exp', Lx("Tu vi nhận")], ['gold', Lx("Linh thạch rơi")]].filter(([k]) => S[k]).map(([k, n]) => `<span>${n}<b>+${Math.round(S[k] * 10) / 10}%</b></span>`).join('')}<span>${Lx("Đã diệt")}<b>${fmt(P.kills)}</b></span></div>`;
+  else if(charTab === 'at') left = `<div class="fsec" style="margin-top:2px">${Lx("Thuộc tính")} <span>${C.ic} ${C.n}</span></div>${attrRows(C)}<div class="fsec">${Lx("Chỉ số")}</div><div class="drv"><span>${Lx("Công kích")}<b>${fmt(S.atk)}</b></span><span>${Lx("Sinh lực")}<b>${fmt(S.hp)}</b></span><span>${Lx("Phòng ngự")}<b>${fmt(S.def)}</b></span><span>${Lx("Linh lực")}<b>${fmt(S.mp)}</b></span><span>${Lx("Bạo kích")}<b>${Math.round(S.crit * 100)}%</b></span><span>${Lx("Bạo thương")}<b>${Math.round(S.critd * 100)}%</b></span>${[['spd', Lx("Tốc độ")], ['ls', Lx("Hút máu")], ['rg', Lx("Hồi máu/giây")], ['boss', Lx("ST lên boss")], ['exp', Lx("Tu vi nhận")], ['gold', Lx("Xu rơi")]].filter(([k]) => S[k]).map(([k, n]) => `<span>${n}<b>+${Math.round(S[k] * 10) / 10}%</b></span>`).join('')}<span>${Lx("Đã diệt")}<b>${fmt(P.kills)}</b></span></div>`;
   else left = `<button class="fbtn gold" id="cTree" style="width:100%;margin-bottom:6px">🌳 ${Lx("Cây kỹ năng")}${skAvail() ? ` · ${Lx("{0} điểm", skAvail())}` : ''}</button><div class="fsec" style="margin-top:2px">${Lx("Đòn đánh")}</div><p class="fp">${C.att}</p><div class="fsec">${Lx("Thiên phú")}</div><p class="fp">${C.pas}</p><div class="fsec">${Lx("Tuyệt kỹ")}</div>${Object.values(SKILLS).map(k => `<div class="fcard${s >= k.s ? ' on' : ''}" style="--cc:#D9B97A;${s < k.s ? 'opacity:.5' : ''}"><span class="fn"><b>${k.n}</b><small>${Lx("{0} Tốn {1} linh lực, hồi {2}s.{3}", skDesc(Object.keys(SKILLS).find(q => SKILLS[q] === k)), skMp(Object.keys(SKILLS).find(q => SKILLS[q] === k)), Math.round(skCd(Object.keys(SKILLS).find(q => SKILLS[q] === k)) * 10) / 10, s < k.s ? ` ${Lx("Lĩnh ngộ ở {0}.", realmName(k.s))}` : '')}</small></span></div>`).join('')}${P.keep && P.keep !== 'none' ? `<div class="fsec">${Lx("Tín vật")}</div><p class="fp">${KEEPS[P.keep].ic} ${KEEPS[P.keep].n}: ${KEEPS[P.keep].d}</p>` : ''}`;
   const right = `<div class="fspow"><small>${Lx("CHIẾN LỰC")}</small>⫽ ${fmt(power())}</div>
     <div class="fsname" style="color:${majorOf(s).c};font-size:24px;margin-top:8px">${realmName(s)}</div>
@@ -2663,14 +2664,14 @@ function treeSheet(){
     <div class="fsl"><div class="fsec" style="margin-top:0">${Lx("Điểm tu luyện")}</div><div class="fspow" style="font-size:44px">${skAvail()}<small>${Lx("còn lại · tổng {0}", skPts())}</small></div>
       <p class="fp" style="color:var(--paper2)">${Lx("Mỗi tầng cảnh giới được 1 điểm. Bậc 2 cần 3 điểm trong nhánh, bậc 3 cần 6 điểm và chỉ được chọn 1 biến chiêu.")}</p>
       ${Object.entries(SKT).map(([k, t]) => `<button class="fcard${treeTab === k ? ' on' : ''}" data-tt="${k}" style="--cc:#D9B97A"><span class="fi">${t.ic}</span><span class="fn"><b>${t.n}</b><small>${Lx("Đã dùng {0} điểm", treeSpent(k))}</small></span></button>`).join('')}
-      <button class="fbtn" id="tReset" style="width:100%;margin-top:6px" ${skSpent() ? '' : 'disabled'}>${Lx("Tẩy điểm ({0} linh thạch)", fmt(200 * skPts()))}</button></div>
+      <button class="fbtn" id="tReset" style="width:100%;margin-top:6px" ${skSpent() ? '' : 'disabled'}>${Lx("Tẩy điểm ({0} xu)", fmt(200 * skPts()))}</button></div>
     <div class="fsc tree${lk ? ' tlk' : ''}"><div class="trow tr3"><span class="tl">${Lx("Bậc 3 · Biến chiêu")}</span>${tier(3).map(nd).join('<em>/</em>')}</div><div class="trow tr2"><span class="tl">${Lx("Bậc 2")}</span>${tier(2).map(nd).join('')}</div><div class="trow tr1"><span class="tl">${Lx("Bậc 1")}</span>${tier(1).map(nd).join('')}</div>${lk ? `<div class="tlkm">🔒 ${Lx("Lĩnh ngộ ở {0}", realmName(SKILLS[T.sk].s))}</div>` : ''}</div>
     <div class="fsr">${right}</div>
     <div class="fsb"><button class="fbtn" data-close>‹ ${Lx("Quay lại")}</button><span class="fsT">${Lx("Cây kỹ năng")}</span></div>`);
   document.querySelectorAll('[data-tt]').forEach(b => b.onclick = () => { treeTab = b.dataset.tt; treeSel = null; sfx.tap(); treeSheet(); });
   document.querySelectorAll('[data-nd]').forEach(b => b.onclick = () => { treeSel = b.dataset.nd; sfx.tap(); treeSheet(); });
   $('#tUp').onclick = () => { const [ok2] = skCan(treeSel); if(!ok2) return; P.skt[treeSel] = skv(treeSel) + 1; _sk = ''; sfx.lv(); fx.push({ k:'ring', x:me.x, y:me.y, t:0, d:.6, c:'#F2C14E' }); saveSoon(); _hk = ''; treeSheet(); };
-  $('#tReset').onclick = () => { const c = 200 * skPts(); if(P.st < c) return toast(Lx("Không đủ linh thạch")); P.st -= c; P.skt = {}; _sk = ''; sfx.coin(); toast(Lx("Đã tẩy điểm, điểm tu luyện được hoàn lại")); saveSoon(); _hk = ''; treeSheet(); };
+  $('#tReset').onclick = () => { const c = 200 * skPts(); if(P.st < c) return toast(Lx("Không đủ xu")); P.st -= c; P.skt = {}; _sk = ''; sfx.coin(); toast(Lx("Đã tẩy điểm, điểm tu luyện được hoàn lại")); saveSoon(); _hk = ''; treeSheet(); };
 }
 
 function bigMap(){
@@ -2883,7 +2884,7 @@ function gachaRoll(){
   if(P.gp50 >= 50) tier = 6; if(P.gp10 >= 10 && tier < 3) tier = 3;
   if(tier >= 3) P.gp10 = 0; if(tier >= 6) P.gp50 = 0;
   if(!tier){ const s = P.stage, opts = [() => ({ k:'hp', n:3 }), () => ({ k:'mp', n:3 }), () => ({ k:'x2', n:1 }), () => ({ k:'tt', n:12 + s }), () => ({ k:'st', n:200 + s * 80 }), () => ({ k:'pc', n:1 })]; const o = (Math.random() < .08 ? opts[5] : opts[Math.floor(Math.random() * 5)])();
-    if(o.k === 'st') P.st += o.n; else P.inv[o.k] = (P.inv[o.k] || 0) + o.n; return { t:o.k === 'pc' ? 2 : 1, txt:`${o.k === 'st' ? Lx("{0} linh thạch", fmt(o.n)) : o.k === 'tt' ? `${o.n} Linh Tinh` : `${o.n} ${PILLS[o.k].n}`}`, ic:o.k }; }
+    if(o.k === 'st') P.st += o.n; else P.inv[o.k] = (P.inv[o.k] || 0) + o.n; return { t:o.k === 'pc' ? 2 : 1, txt:`${o.k === 'st' ? Lx("{0} xu", fmt(o.n)) : o.k === 'tt' ? `${o.n} Linh Tinh` : `${o.n} ${PILLS[o.k].n}`}`, ic:o.k }; }
   const owned = P.cos || [];
   if(tier === 6 && Math.random() < .5 && owned.length < Object.keys(COS).length){ const k = Object.keys(COS).filter(x => !owned.includes(x))[Math.floor(Math.random() * (Object.keys(COS).length - owned.length))]; P.cos = [...owned, k]; return { t:6, txt:COS[k].n, cos:k }; }
   const keys = Object.keys(ITEMS).filter(k => ITEMS[k].t === tier); const k = keys[Math.floor(Math.random() * keys.length)];
@@ -2893,18 +2894,18 @@ function gachaRoll(){
 function gachaSheet(res){
   const n = P.inv.tbl || 0, owned = P.cos || [];
   sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>🎁 ${Lx("Tầm Bảo Các")}</h2>
-    <p class="sub">${Lx("Dùng Tầm Bảo Lệnh để tầm bảo. Lệnh có từ nhiệm vụ, boss, quà đăng nhập mỗi ngày, hoặc đổi bằng linh thạch. Không dùng tiền thật.")}</p>
-    <div class="line"><div class="g"><b>🎫 ${Lx("Tầm Bảo Lệnh")}: ${n}</b><small>${Lx("Linh thạch")}: ${fmt(P.st)}</small></div><button class="s" id="gBuy">${Lx("Đổi 1 lệnh")} · ${fmt(tblPrice())}</button></div>
+    <p class="sub">${Lx("Dùng Tầm Bảo Lệnh để tầm bảo. Lệnh có từ nhiệm vụ, boss, quà đăng nhập mỗi ngày, hoặc đổi bằng xu. Không dùng tiền thật.")}</p>
+    <div class="line"><div class="g"><b>🎫 ${Lx("Tầm Bảo Lệnh")}: ${n}</b><small>${Lx("Xu")}: ${fmt(P.st)}</small></div><button class="s" id="gBuy">${Lx("Đổi 1 lệnh")} · ${fmt(tblPrice())}</button></div>
     ${res ? `<div class="gcards">${res.map((r, i) => `<div class="gc r${r.t}" style="border-color:${r.cos ? COS[r.cos].c : rarC(r.t)}">${r.cos ? '<b style="font-size:26px">✨</b>' : r.ic === 'st' ? '<b style="font-size:24px">💎</b>' : iconHtml(r.ic, 34)}<span style="color:${r.cos ? COS[r.cos].c : rarC(r.t)}">${esc(r.txt)}${r.pf ? ' ✦' : ''}</span></div>`).join('')}</div>` : ''}
     <div class="brow"><button class="btn gold" id="g1" ${n < 1 ? 'disabled' : ''}>${Lx("Tầm bảo x1")}</button><button class="btn gold" id="g10" ${n < 10 ? 'disabled' : ''}>${Lx("Tầm bảo x10")}</button></div>
     <p class="sub" style="margin:6px 0 2px">${Lx("Bảo đảm Huyền phẩm sau {0} lượt", 10 - (P.gp10 || 0))} · ${Lx("Bảo đảm Tiên phẩm sau {0} lượt", 50 - (P.gp50 || 0))}</p><div class="gbar"><i style="width:${(P.gp50 || 0) * 2}%"></i></div>
-    <h3>${Lx("Tỉ lệ")}</h3><p class="sub">${RAR[6][0]} / ${Lx("Ngoại hình hiếm")} 1.5% · ${RAR[5][0]} 5% · ${RAR[4][0]} 13.5% · ${RAR[3][0]} 25% · ${Lx("Đan dược, Linh Tinh, linh thạch")} 55%</p>
+    <h3>${Lx("Tỉ lệ")}</h3><p class="sub">${RAR[6][0]} / ${Lx("Ngoại hình hiếm")} 1.5% · ${RAR[5][0]} 5% · ${RAR[4][0]} 13.5% · ${RAR[3][0]} 25% · ${Lx("Đan dược, Linh Tinh, xu")} 55%</p>
     <h3>${Lx("Ngoại hình")}</h3>${Object.entries(COS).map(([k, c]) => `<div class="line"><div class="g"><b style="color:${c.c}">✨ ${c.n}</b><small>${c.d}</small></div>${owned.includes(k) ? `<button class="s" data-cos="${k}">${P.cosOn === k ? Lx("Gỡ") : Lx("Dùng")}</button>` : `<span class="sub" style="margin:0">🔒</span>`}</div>`).join('')}`);
   const roll = cnt => { if((P.inv.tbl || 0) < cnt) return; P.inv.tbl -= cnt; const out = []; for(let i = 0; i < cnt; i++) out.push(gachaRoll()); const best = Math.max(...out.map(r => r.t)); saveSoon(); _hk = '';
     gachaSheet(out); const cards = document.querySelectorAll('.gc'); cards.forEach((c, i) => setTimeout(() => { c.classList.add('on'); const r = out[i]; if(r.t >= 5){ sfx.lv(); shake(r.t >= 6 ? 6 : 3); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1.2, c:r.cos ? COS[r.cos].c : rarC(r.t) }); } else beep(500 + r.t * 120, .06, 'triangle', .04); }, 160 + i * (cnt > 1 ? 170 : 0)));
     if(best >= 6){ const r = out.find(x => x.t >= 6); Net.chat(Lx("tầm bảo được {0} [{1}]!", RAR[6][0], r.txt), true); } };
   $('#g1').onclick = () => roll(1); $('#g10').onclick = () => roll(10);
-  $('#gBuy').onclick = () => { const c = tblPrice(); if(P.st < c) return toast(Lx("Không đủ linh thạch")); P.st -= c; P.inv.tbl = (P.inv.tbl || 0) + 1; sfx.coin(); saveSoon(); gachaSheet(res); };
+  $('#gBuy').onclick = () => { const c = tblPrice(); if(P.st < c) return toast(Lx("Không đủ xu")); P.st -= c; P.inv.tbl = (P.inv.tbl || 0) + 1; sfx.coin(); saveSoon(); gachaSheet(res); };
   document.querySelectorAll('[data-cos]').forEach(b => b.onclick = () => { P.cosOn = P.cosOn === b.dataset.cos ? '' : b.dataset.cos; Net.pushLook(); saveSoon(); gachaSheet(res); });
 }
 function dailyGift(){ const d = today(); if(P.lgd === d) return; P.lgd = d; P.inv.tbl = (P.inv.tbl || 0) + 2; setTimeout(() => toast(Lx("Quà đăng nhập hôm nay: +2 Tầm Bảo Lệnh 🎫")), 2500); saveSoon(); }
@@ -3264,7 +3265,7 @@ function attrRows(C){ return ATTRS.map(([k, n, d]) => `<div class="atr"><span ti
 function derivedRows(C){ const pc = v => `${v >= 1 ? '' : ''}${Math.round(v * 100)}%`;
   return `<div class="drv"><span>${Lx("Sinh lực")}<b>${pc(C.hp)}</b></span><span>${Lx("Công kích")}<b>${pc(C.atk)}</b></span><span>${Lx("Phòng ngự")}<b>${pc(C.def)}</b></span><span>${Lx("Bạo kích")}<b>+${Math.round(C.crit * 1000) / 10}%</b></span><span>${Lx("Tốc độ")}<b>${C.spd >= 0 ? '+' : ''}${Math.round(C.spd)}%</b></span><span>${Lx("Tầm đánh")}<b>${C.rng >= 80 ? Lx("Xa") : Lx("Gần")}</b></span></div>`; }
 const stars = n => '★'.repeat(n) + '☆'.repeat(3 - n);
-function kitText(C){ const nm = { hp:Lx("Hồi Huyết Đan"), mp:Lx("Hồi Linh Đan"), x2:Lx("Tụ Khí Đan"), st:Lx("linh thạch") }; return (C.kit || []).length ? C.kit.map(([k, n]) => `${n} ${nm[k]}`).join(' · ') : Lx("Không có gì"); }
+function kitText(C){ const nm = { hp:Lx("Hồi Huyết Đan"), mp:Lx("Hồi Linh Đan"), x2:Lx("Tụ Khí Đan"), st:Lx("xu") }; return (C.kit || []).length ? C.kit.map(([k, n]) => `${n} ${nm[k]}`).join(' · ') : Lx("Không có gì"); }
 function createSheet(done){
   const o = { name:'', g:'m', hair:HAIRS[0], robe:'', cls:'kiem', keep:'none' }; let step = 0;
   const steps = [Lx("Xuất thân"), Lx("Tín vật"), Lx("Dung mạo")];
