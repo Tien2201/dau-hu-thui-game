@@ -492,6 +492,25 @@ body:not(.inhub) #hub{display:none!important}
 .qty button{width:34px;height:34px;border-radius:10px;border:none;font-size:18px;font-weight:900;background:#3a2414;color:#F5E9D0}
 .qty button.p{background:linear-gradient(#C62D2D,var(--red2));color:#fff}
 .qty span{min-width:42px;text-align:center;font-weight:900;font-size:14px;background:#fff;border-radius:8px;padding:6px 2px;border:1px solid #CDB27A}
+
+/* kho thông minh */
+.kplan{background:#2a1d16;color:#F5E9D0;border-radius:16px;padding:12px 14px;border:1.5px solid rgba(212,168,75,.55);margin-bottom:8px}
+.kplan.done{background:linear-gradient(135deg,#1E5A3E,#14402C);border-color:#5ED38A}
+.kph{display:flex;justify-content:space-between;align-items:baseline;gap:8px}.kph b{font-size:16px}.kph span{font-size:12.5px;color:#F1D58A;font-weight:700}
+.kpbar{height:8px;border-radius:6px;background:rgba(255,255,255,.12);margin:8px 0 6px;overflow:hidden}.kpbar i{display:block;height:100%;background:linear-gradient(90deg,#F2C14E,#5ED38A);border-radius:6px}
+.kpt{font-size:13px}
+.kgo{width:100%;margin-top:10px;padding:12px;border:none;border-radius:12px;font-weight:900;font-size:16px;color:#2a1600;background:linear-gradient(#FFE08A,#E8B23A);box-shadow:0 3px 0 #9A6A10}.kgo span{font-weight:700;opacity:.8;margin-left:4px}
+.kmiss{margin-top:8px;font-size:12px;color:#FFB4A8;font-weight:700}
+.hag2{display:flex;align-items:center;gap:8px;background:#fff6e2;border:1px solid #CDB27A;border-radius:12px;padding:6px 8px;font-size:12.5px;margin-bottom:8px}.hag2>span{font-size:22px}.hag2 div{flex:1}
+.hag2 button{border:none;border-radius:10px;padding:7px 12px;font-weight:800;color:#fff;background:linear-gradient(#C62D2D,var(--red2))}.hag2 button:disabled{background:#9A8A6A}
+.kfil{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 2px}.kfil button{border:1px solid #CDB27A;background:#fff;border-radius:20px;padding:6px 12px;font-weight:800;font-size:12.5px;color:#5a3a1a}.kfil button.on{background:#3a2414;color:#F5E9D0;border-color:#3a2414}.kfil .clr{margin-left:auto;color:#B22222}
+h3 small{font-size:12px;color:#8a6a3a;font-weight:600}
+.krow.klack .kinfo b{color:#8A1E1E}
+.kst{float:right;font-style:normal;font-size:11px;font-weight:900;padding:2px 7px;border-radius:10px;margin-left:6px}.kst.lack{background:#FDE3E0;color:#B22222}.kst.ok{background:#DDF5E4;color:#1E7A45}
+.kbar{height:5px;border-radius:4px;background:#EADBB8;margin:4px 0 3px;overflow:hidden}.kbar i{display:block;height:100%;background:#2E9A60}.krow.klack .kbar i{background:#D9822B}
+.kin{color:#1E7A45;font-weight:900}.kexp{color:#B22222;font-weight:800}
+.qty .fill{width:auto;padding:0 9px;background:linear-gradient(#FFE08A,#E8B23A);color:#3a2000;font-size:13px}
+.qty button:disabled{opacity:.35}
 .hag{display:flex;gap:10px;align-items:center;background:#2a1d16;color:#F5E9D0;border-radius:14px;padding:10px;border:1.5px solid rgba(212,168,75,.5)}
 .hag .hf{font-size:38px}
 .hag div{flex:1;line-height:1.35;font-size:12.5px}
@@ -3721,7 +3740,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.11-07h50';
+const GAME_VER = '2026.10.19-11h45';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -4107,46 +4126,56 @@ function hubPanel(){
   return nbTabHtml();
 }
 function lifeTxt(k){ const l = lifeOf(k); return l === 0 ? 'Không hết hạn' : l === 1 ? 'Dùng trong ngày' : `Để được ${l} ngày`; }
+// nhu cầu dự kiến hôm nay cho từng nguyên liệu (dùng chung cho gợi ý và nút nhập đủ)
+function expectToday(){ return Math.round(16 + S.level * 4 + (S.upg.tables || 0) * 4 + (S.staff.length ? 6 : 0) + (onlineOpen() ? onlineCap() * 2 : 0)); }
+function needMap(){
+  const rs = unlocked(), ex = expectToday(), occ = {}, out = {};
+  rs.forEach(r => r.items.forEach(k => occ[k] = (occ[k] || 0) + 1));
+  for(const k in occ) out[k] = Math.ceil(ex * occ[k] / Math.max(1, rs.length) * 1.1);
+  out.hop = Math.ceil(ex * 1.1); return out;
+}
+// số cần nhập thêm (làm tròn theo lô)
+function lackOf(k, nd){ const need = Math.max(0, (nd[k] || 0) - invOf(k) - (cart[k] || 0)); if(!need) return 0; const p = packOf(k); return Math.ceil(need / p) * p; }
 function khoHtml(){
-  const u = usedSet();
+  const u = usedSet(), nd = needMap(), ex = expectToday();
   const hg = S.haggle && S.haggle.day === S.day;
   const miss = unlocked().filter(r => !canMake(r));
   const groups = [
-    ['soup', '♨️ Nước lèo (nấu dùng trong ngày)', k => CFG.soups.includes(k)],
-    ['chien', '🍳 Đồ chiên & đạm (hàng sống)', k => catOf(CFG.ingredients[k]) === 'chien'],
-    ['rau', '🥬 Rau & topping', k => catOf(CFG.ingredients[k]) === 'rau'],
-    ['sot', '🥫 Sốt & dầu', k => catOf(CFG.ingredients[k]) === 'sot' && !CFG.soups.includes(k)],
+    ['soup', '♨️ Nước lèo', 'nấu dùng trong ngày', k => CFG.soups.includes(k)],
+    ['chien', '🍳 Đồ chiên & đạm', 'hàng sống', k => catOf(CFG.ingredients[k]) === 'chien'],
+    ['rau', '🥬 Rau & topping', '', k => catOf(CFG.ingredients[k]) === 'rau'],
+    ['sot', '🥫 Sốt & dầu', '', k => catOf(CFG.ingredients[k]) === 'sot' && !CFG.soups.includes(k)],
+    ['hop', '🥡 Hộp & đũa', '', k => k === 'hop'],
   ];
+  const all = [...Object.keys(CFG.ingredients).filter(k => u.has(k) && k !== 'hop'), 'hop'], tracked = all.filter(k => nd[k]);
+  const lacks = tracked.filter(k => lackOf(k, nd) > 0), okN = tracked.length - lacks.length;
+  const fillCost = Math.round(lacks.reduce((a, k) => a + lackOf(k, nd) * costOf(k), 0) * (1 - discToday() / 100));
+  const pct = tracked.length ? Math.round(okN / tracked.length * 100) : 100;
   const row = k => {
-    const v = itemDef(k), q = invOf(k), ex = expTonight(k), cq = cart[k] || 0;
-    return `<div class="krow"><span class="ki">${ico(k)}</span><div class="kinfo"><b>${esc(k === 'tofu' || k === 'ky' || k === 'raoque' ? v.n + ' (sống)' : v.n)}</b>
-      <small>${lifeTxt(k)} · ${fmtK(costOf(k))}/phần</small>
-      <small>Còn <b>${q}</b>${ex > 0 && lifeOf(k) !== 0 ? ` · <em>${ex} hết hạn tối nay</em>` : ''}</small></div>
-      <div class="qty"><button data-dec="${k}">−</button><span>${cq ? '+' + cq : 0}</span><button class="p" data-inc="${k}">+</button></div></div>`;
+    const v = itemDef(k), q = invOf(k), exn = expTonight(k), cq = cart[k] || 0, need = nd[k] || 0, lk = lackOf(k, nd), have = q + cq;
+    const st = !need ? '' : lk > 0 ? `<em class="kst lack">Thiếu ${lk}</em>` : `<em class="kst ok">Đủ ✓</em>`;
+    return `<div class="krow${lk > 0 ? ' klack' : ''}"><span class="ki">${ico(k)}</span><div class="kinfo"><b>${esc(k === 'tofu' || k === 'ky' || k === 'raoque' ? v.n + ' (sống)' : v.n)}</b>${st}
+      <div class="kbar"><i style="width:${need ? Math.min(100, Math.round(have / need * 100)) : 100}%"></i></div>
+      <small>Có <b>${q}</b>${cq ? ` <span class="kin">+${cq}</span>` : ''}${need ? ` / cần ~${need}` : ''} · ${fmtK(costOf(k))}/phần${exn > 0 && lifeOf(k) !== 0 ? ` · <span class="kexp">⏳ ${exn} hết hạn tối nay</span>` : ''}</small></div>
+      <div class="qty">${lk > 0 ? `<button class="fill" data-fill="${k}">+${lk}</button>` : ''}<button data-dec="${k}" ${cq ? '' : 'disabled'}>−</button><button class="p" data-inc="${k}">+</button></div></div>`;
   };
   const lockedN = Object.keys(CFG.ingredients).filter(k => !u.has(k)).length;
-  return `<div class="hag"><span class="hf">👵</span><div><b>Đi chợ trả giá</b><br>${hg ? `Hôm nay cô Hai bớt cho <b>${S.haggle.disc}%</b> tiền nhập hàng.` : 'Trả giá với cô Hai bán hàng, bớt được tới 15% tiền nhập hôm nay.'}</div>
-      <button id="hagBtn" ${hg ? 'disabled' : ''}>${hg ? 'Đã trả giá' : 'Trả giá'}</button></div>
-    ${miss.length ? `<div class="warn">⚠️ Thiếu hàng, chưa làm được: ${miss.map(r => esc(r.n)).join(', ')}</div>` : ''}
-    <div class="kbtns"><button class="p" id="autoBtn">⚡ Nhập đủ dùng cho hôm nay</button>${Object.keys(cart).length ? '<button id="clearCart2">Bỏ chọn</button>' : ''}</div>
-    ${groups.map(([id, label, f]) => { const ks = Object.keys(CFG.ingredients).filter(k => u.has(k) && f(k)); return ks.length ? `<h3>${label}</h3>` + ks.map(row).join('') : ''; }).join('')}
-    <h3>🥡 Hộp & đũa</h3>${row('hop')}
-    ${lockedN ? `<p class="note">🔒 Còn ${lockedN} nguyên liệu khác sẽ có khi quán lên cấp và mở món mới.</p>` : ''}`;
+  const plan = `<div class="kplan ${lacks.length ? '' : 'done'}"><div class="kph"><b>📋 Kế hoạch hôm nay</b><span>Dự kiến ~${ex} khách</span></div>
+      <div class="kpbar"><i style="width:${pct}%"></i></div>
+      <div class="kpt">${lacks.length ? `<b>${okN}/${tracked.length}</b> món đủ hàng · thiếu <b>${lacks.length}</b> món` : '✅ Kho đã đủ hàng cho hôm nay, mở cửa thôi!'}</div>
+      ${lacks.length ? `<button class="kgo" id="autoBtn">⚡ Nhập đủ tất cả <span>≈ ${fmtK(fillCost)}</span></button>` : ''}
+      ${miss.length ? `<div class="kmiss">⚠️ Chưa làm được: ${miss.map(r => esc(r.n)).join(', ')}</div>` : ''}</div>`;
+  const hag = `<div class="hag2"><span>👵</span><div>${hg ? `Cô Hai đã bớt <b>${S.haggle.disc}%</b> tiền nhập hôm nay` : 'Trả giá với cô Hai, bớt tới <b>15%</b> tiền nhập'}</div><button id="hagBtn" ${hg ? 'disabled' : ''}>${hg ? 'Đã trả giá' : 'Trả giá'}</button></div>`;
+  const tabs = `<div class="kfil"><button data-kf="" class="${khoF ? '' : 'on'}">Tất cả</button><button data-kf="lack" class="${khoF === 'lack' ? 'on' : ''}">Đang thiếu${lacks.length ? ` (${lacks.length})` : ''}</button>${Object.keys(cart).length ? '<button id="clearCart2" class="clr">Bỏ chọn giỏ</button>' : ''}</div>`;
+  return plan + hag + tabs + groups.map(([id, label, sub, f]) => { let ks = all.filter(k => id === 'hop' ? k === 'hop' : k !== 'hop' && CFG.ingredients[k] && f(k)); if(khoF === 'lack') ks = ks.filter(k => lackOf(k, nd) > 0); ks.sort((a, b) => (lackOf(b, nd) > 0) - (lackOf(a, nd) > 0)); return ks.length ? `<h3>${label}${sub ? ` <small>· ${sub}</small>` : ''}</h3>` + ks.map(row).join('') : ''; }).join('')
+    + (khoF === 'lack' && !lacks.length ? '<p class="note">Không thiếu món nào 👍</p>' : '')
+    + (lockedN ? `<p class="note">🔒 Còn ${lockedN} nguyên liệu khác sẽ có khi quán lên cấp và mở món mới.</p>` : '');
 }
+let khoF = '';
 function autoFill(){
-  const rs = unlocked();
-  const expect = Math.round(16 + S.level * 4 + (S.upg.tables || 0) * 4 + (S.staff.length ? 6 : 0) + (onlineOpen() ? onlineCap() * 2 : 0));
-  const occ = {};
-  rs.forEach(r => r.items.forEach(k => occ[k] = (occ[k] || 0) + 1));
-  cart = {};
-  const want = (k, tgt) => {
-    const have = invOf(k) - (lifeOf(k) === 1 ? 0 : expTonight(k) * 0);
-    let need = Math.max(0, Math.ceil(tgt) - have);
-    if(need > 0){ const p = packOf(k); need = Math.ceil(need / p) * p; cart[k] = need; }
-  };
-  for(const k in occ) want(k, expect * occ[k] / rs.length * 1.1);
-  want('hop', expect * 1.1);
-  if(!Object.keys(cart).length) toast('Kho đã đủ hàng cho hôm nay 👍');
+  const nd = needMap(); let n = 0;
+  for(const k in nd){ const lk = lackOf(k, nd); if(lk > 0){ cart[k] = (cart[k] || 0) + lk; n++; } }
+  if(!n) toast('Kho đã đủ hàng cho hôm nay 👍'); else toast(`Đã bỏ ${n} món vào giỏ, bấm Nhập hàng ở dưới ⬇️`);
 }
 function haggleModal(){
   const st = { disc:0, rounds:3, fails:0 };
@@ -4279,6 +4308,8 @@ function hubClick(e){
     return;
   }
   if(d.inc){ cart[d.inc] = (cart[d.inc] || 0) + packOf(d.inc); return re(); }
+  if(d.fill){ const lk = lackOf(d.fill, needMap()); if(lk > 0) cart[d.fill] = (cart[d.fill] || 0) + lk; return re(); }
+  if(d.kf !== undefined){ khoF = d.kf; return re(); }
   if(d.dec){ cart[d.dec] = Math.max(0, (cart[d.dec] || 0) - packOf(d.dec)); if(!cart[d.dec]) delete cart[d.dec]; return re(); }
   if(d.pi || d.pd){
     const r = getR(d.pi || d.pd), p = priceOf(r) + (d.pi ? 1000 : -1000);
