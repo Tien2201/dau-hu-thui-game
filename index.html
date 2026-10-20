@@ -511,6 +511,11 @@ h3 small{font-size:12px;color:#8a6a3a;font-weight:600}
 .kin{color:#1E7A45;font-weight:900}.kexp{color:#B22222;font-weight:800}
 .qty .fill{width:auto;padding:0 9px;background:linear-gradient(#FFE08A,#E8B23A);color:#3a2000;font-size:13px}
 .qty button:disabled{opacity:.35}
+
+.stg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 10px}.stg div{background:#2a1d16;color:#F5E9D0;border-radius:12px;padding:10px;text-align:center}.stg small{display:block;font-size:12px;color:#F1D58A}.stg b{display:block;font-size:26px}.stg span{font-size:12px;opacity:.85}
+.sth{display:flex;align-items:flex-end;gap:2px;height:80px;background:#fff6e2;border-radius:10px;padding:6px}.sth i{flex:1;background:#C62D2D;border-radius:2px 2px 0 0;min-height:1px}
+.sthl{display:flex;justify-content:space-between;font-size:10.5px;color:#8a6a3a;padding:2px 6px 8px}
+.std div{display:grid;grid-template-columns:44px 1fr 38px 62px;gap:6px;align-items:center;font-size:12.5px;padding:3px 0}.std i{height:10px;background:#EADBB8;border-radius:6px;overflow:hidden}.std u{display:block;height:100%;background:#2E9A60}.std b{text-align:right}.std small{color:#8a6a3a}
 .hag{display:flex;gap:10px;align-items:center;background:#2a1d16;color:#F5E9D0;border-radius:14px;padding:10px;border:1.5px solid rgba(212,168,75,.5)}
 .hag .hf{font-size:38px}
 .hag div{flex:1;line-height:1.35;font-size:12.5px}
@@ -3740,7 +3745,7 @@ function renderInc(){
 }
 
 
-const GAME_VER = '2026.10.19-11h45';
+const GAME_VER = '2026.10.20-21h55';
 /* ========================= ỦNG HỘ NGƯỜI LÀM GAME / DONATE ========================= */
 const DONATE = {
   momo: { tab:'💜 MoMo', bank:'Ví MoMo', code:'971025', acc:'PSP2604315400000669', name:'NGUYEN TRUNG TIEN', img:'momoqr', copy:false },
@@ -4475,7 +4480,7 @@ function settingsModal(){
     ${FIREBASE_CONFIG ? '<div id="ubox"></div><button class="big alt" id="setRank">🏆 Bảng xếp hạng</button>' : ''}
     <button class="big alt" id="guideSet">📖 Cách chơi</button>
     <button class="big alt" id="donSet">☕ Ủng hộ người làm game</button>
-    ${isAdmin ? '<button class="big alt" id="mgBtn">🛠️ Quản lý menu</button>' : ''}
+    ${isAdmin ? '<button class="big alt" id="mgBtn">🛠️ Quản lý menu</button><button class="big alt" id="stBtn">📊 Thống kê truy cập</button>' : ''}
     <button class="big alt" id="resetBtn">🔄 Chơi lại từ đầu</button>
     <button class="big" id="setClose">Đóng</button>
     <p class="note" style="text-align:center;margin-top:8px">Phiên bản ${GAME_VER}<br><small style="opacity:.6">${innerWidth}×${innerHeight} · ${document.documentElement.clientHeight} · ${$('#app').offsetHeight} · ${screen.height}${isStandalone() ? ' · app' : ''}</small></p>`);
@@ -4483,6 +4488,7 @@ function settingsModal(){
   bindSoundRows();
   const rk = $('#setRank'); if(rk) rk.onclick = () => rankModal(settingsModal);
   const mg = $('#mgBtn'); if(mg) mg.onclick = () => { mgTab = 'dish'; menuModal(); };
+  const stb = $('#stBtn'); if(stb) stb.onclick = statsModal;
   $('#resetBtn').onclick = () => {
     if(!confirm('Xoá toàn bộ tiến trình và chơi lại từ đầu?')) return;
     { const ps = S.playSec || 0, sp = S.submittedPlay, su = S.submittedUid; wipe(); S = newGame(); S.playSec = ps; S.submittedPlay = sp; S.submittedUid = su; } cart = {}; hubTab = 'kho'; save(); hideModal(); openHub(); renameModal(true);
@@ -5472,6 +5478,36 @@ const FB = { ready:false, failed:false, user:null, auth:null, db:null, m:{} };
 const IN_APP = /FBAN|FBAV|Instagram|Barcelona|Line\/|Zalo|TikTok|musical_ly|BytedanceWebview/i.test(navigator.userAgent);
 const GSVG = '<svg width="18" height="18" viewBox="0 0 48 48" style="vertical-align:-3px;margin-right:6px"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>';
 
+
+/* ========================= THỐNG KÊ TRUY CẬP ========================= */
+// mỗi lần mở game: +1 lượt; máy chưa vào hôm nay: +1 người; kèm số lượt theo giờ (giờ Việt Nam)
+const vnDay = (d = new Date()) => d.toLocaleDateString('sv-SE', { timeZone:'Asia/Ho_Chi_Minh' });
+const vnHour = () => String(new Date().toLocaleString('en-GB', { timeZone:'Asia/Ho_Chi_Minh', hour:'2-digit', hour12:false })).padStart(2, '0');
+function trackVisit(){
+  if(!FB.ready || isAdmin || location.protocol === 'file:') return;
+  try{
+    const day = vnDay(), k = 'dht_seen_day', first = localStorage.getItem(k) !== day; if(first) localStorage.setItem(k, day);
+    const inc = FB.m.increment(1), data = { visits:inc, ['h' + vnHour()]:inc }; if(first) data.uniq = inc;
+    FB.m.setDoc(FB.m.doc(FB.db, 'dht_stats', day), data, { merge:true }).catch(e => console.warn('Không ghi được thống kê', e && e.code));
+  }catch(e){}
+}
+async function statsModal(){
+  showModal(`<h2>📊 Thống kê truy cập</h2><p class="note">Đang tải…</p><button class="big" id="stClose">Đóng</button>`); $('#stClose').onclick = hideModal;
+  if(!FB.ready) { showModal(`<h2>📊 Thống kê truy cập</h2><p class="note">Chưa kết nối được máy chủ.</p><button class="big" id="stClose">Đóng</button>`); $('#stClose').onclick = hideModal; return; }
+  const days = []; for(let i = 0; i < 30; i++) days.push(vnDay(new Date(Date.now() - i * 864e5)));
+  let rows; try{ rows = await Promise.all(days.map(d => FB.m.getDoc(FB.m.doc(FB.db, 'dht_stats', d)).then(x => [d, x.exists() ? x.data() : {}]))); }
+  catch(e){ showModal(`<h2>📊 Thống kê truy cập</h2><p class="note">Không đọc được thống kê (${esc(e.code || e.message)}). Kiểm tra lại luật Firestore cho <b>dht_stats</b>.</p><button class="big" id="stClose">Đóng</button>`); $('#stClose').onclick = hideModal; return; }
+  const sum = (n, f) => rows.slice(0, n).reduce((a, [, v]) => a + (v[f] || 0), 0), T = rows[0][1], mx = Math.max(1, ...rows.slice(0, 14).map(([, v]) => v.visits || 0));
+  const hrs = Array.from({ length:24 }, (_, h) => T['h' + String(h).padStart(2, '0')] || 0), hm = Math.max(1, ...hrs);
+  showModal(`<h2>📊 Thống kê truy cập</h2>
+    <div class="stg"><div><small>Hôm nay</small><b>${T.visits || 0}</b><span>${T.uniq || 0} người</span></div><div><small>7 ngày</small><b>${sum(7, 'visits')}</b><span>${sum(7, 'uniq')} người</span></div><div><small>30 ngày</small><b>${sum(30, 'visits')}</b><span>${sum(30, 'uniq')} người</span></div></div>
+    <h3>Theo giờ hôm nay</h3><div class="sth">${hrs.map((v, h) => `<i title="${h}h: ${v}" style="height:${Math.round(v / hm * 100)}%"></i>`).join('')}</div><div class="sthl"><span>0h</span><span>6h</span><span>12h</span><span>18h</span><span>23h</span></div>
+    <h3>14 ngày gần nhất</h3><div class="std">${rows.slice(0, 14).map(([d, v]) => `<div><span>${d.slice(8)}/${d.slice(5, 7)}</span><i><u style="width:${Math.round((v.visits || 0) / mx * 100)}%"></u></i><b>${v.visits || 0}</b><small>${v.uniq || 0} người</small></div>`).join('')}</div>
+    <p class="note">"Lượt" là số lần mở game, "người" là số máy khác nhau trong ngày. Lượt mở bằng link <b>?admin</b> không được tính.</p>
+    <button class="big" id="stClose">Đóng</button>`);
+  $('#stClose').onclick = hideModal;
+}
+
 async function initFirebase(){
   if(!FIREBASE_CONFIG) return;
   try{
@@ -5484,6 +5520,7 @@ async function initFirebase(){
     FB.db = fs.getFirestore(a);
     FB.m = { ...auth, ...fs };
     FB.ready = true;
+    trackVisit();
     auth.onAuthStateChanged(FB.auth, async u => {
       FB.user = u;
       if(!u){ hideModal(); showGate(); return; }
